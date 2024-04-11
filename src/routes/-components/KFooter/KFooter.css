@@ -1,0 +1,43 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 3.25rem 0;
+
+  background-color: var(--secondary);
+  font-weight: 500;
+
+  .address {
+    a {
+      color: inherit;
+    }
+  }
+
+  .address > * {
+    margin-bottom: 0.25rem;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
+
+  .row > * {
+    margin-left: 0.5rem;
+  }
+}
+
+
+.stamp {
+  display: flex;
+  justify-content: center;
+
+  padding: 1rem 0;
+
+  background-color: var(--primary);
+
+  color: var(--white);
+  font-weight: 600;
+}
+
