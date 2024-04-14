@@ -3,9 +3,20 @@ import logo from '../../../assets/logo.png';
 import './KHeader.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChevronDown,
-  faChevronRight,
+  faBookOpen,
+  faBullseye,
+  faCaretDown,
+  faCaretRight,
+  faComments,
+  faDiagramProject,
+  faEllipsis,
+  faGraduationCap,
+  faNewspaper,
+  faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
+import { faDiscourse } from '@fortawesome/free-brands-svg-icons';
+import roSvg from '../../../assets/ro.svg';
+import frSvg from '../../../assets/fr.svg';
 
 export const KHeader = () => {
   return (
@@ -18,221 +29,336 @@ export const KHeader = () => {
           <ul>
             <li className="topmenu">
               <a>
-                Despre noi <FontAwesomeIcon icon={faChevronDown} />
+                Despre noi <FontAwesomeIcon icon={faCaretDown} />
               </a>
               <ul className="submenu">
                 <li>
-                  <a>Istoric</a>
+                  <Link to="/about/history">
+                    <FontAwesomeIcon icon={faBookOpen} width="1rem" />
+                    <span>Istoric</span>
+                  </Link>
                 </li>
                 <li>
-                  <a>Descriere si obiective</a>
+                  <Link to="/about/description-and-objectives">
+                    <FontAwesomeIcon icon={faBullseye} width="1rem" />
+                    <span>Descriere și obiective</span>
+                  </Link>
                 </li>
                 <li>
-                  <a>Membri</a>
+                  <Link to="/about/members">
+                    <FontAwesomeIcon icon={faUserGroup} width="1rem" />
+                    <span>Membri</span>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="topmenu">
               <a>
-                Evenimente <FontAwesomeIcon icon={faChevronDown} />
+                Evenimente <FontAwesomeIcon icon={faCaretDown} />
               </a>
               <ul className="submenu">
                 <li>
                   <a>
-                    Colocvii <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faComments} width="1rem" />
+                    <span>Colocvii</span>
+                    <FontAwesomeIcon icon={faCaretRight} className="to-right" />
                   </a>
                   <ul className="submenu">
                     <li>
                       <a>
-                        CIEFT <FontAwesomeIcon icon={faChevronRight} />
+                        CIEFT{' '}
+                        <FontAwesomeIcon
+                          icon={faCaretRight}
+                          className="to-right"
+                        />
                       </a>
                       <ul className="submenu">
                         <li>
                           <a>
-                            CIEFT 2025 <FontAwesomeIcon icon={faChevronRight} />
+                            CIEFT 2025{' '}
+                            <FontAwesomeIcon
+                              icon={faCaretRight}
+                              className="to-right"
+                            />
                           </a>
                           <ul className="submenu">
                             <li>
-                              <a>Apel la comunicari</a>
+                              <Link to="/events/conferences/cieft/current-year/calls">
+                                Apel la comunicări
+                              </Link>
                             </li>
                             <li>
-                              <a>Fisa de inscriere</a>
+                              <Link to="/events/conferences/cieft/current-year/registration">
+                                Fișa de înscriere
+                              </Link>
                             </li>
                             <li>
-                              <a>Organizatori si parteneri</a>
+                              <Link to="/events/conferences/cieft/current-year/organizers-and-partners">
+                                Organizatori și parteneri
+                              </Link>
                             </li>
                             <li>
-                              <a>Comitet stiintific</a>
+                              <Link to="/events/conferences/cieft/current-year/scientific-committee">
+                                Comitet științific
+                              </Link>
                             </li>
                             <li>
-                              <a>Informatii utile</a>
+                              <Link to="/events/conferences/cieft/current-year/info">
+                                Informații utile
+                              </Link>
                             </li>
                           </ul>
                         </li>
                         <li>
-                          <a>Editii anterioare</a>
+                          <Link to="/events/conferences/cieft/previous-editions">
+                            Ediții anterioare
+                          </Link>
                         </li>
                       </ul>
                     </li>
                     <li>
-                      <a>Colocviile francoromane de lingvistica</a>
+                      <Link to="/events/conferences/lingvistic-francophones">
+                        Colocviile franco-române de lingvistică
+                      </Link>
                     </li>
                     <li>
                       <a>
-                        Colocviul studentesc de studii francofone{' '}
-                        <FontAwesomeIcon icon={faChevronRight} />
+                        Colocviul studențesc de studii francofone{' '}
+                        <FontAwesomeIcon
+                          icon={faCaretRight}
+                          className="to-right"
+                        />
                       </a>
                       <ul className="submenu">
                         <li>
                           <a>
-                            2025 <FontAwesomeIcon icon={faChevronRight} />
+                            2025{' '}
+                            <FontAwesomeIcon
+                              icon={faCaretRight}
+                              className="to-right"
+                            />
                           </a>
                           <ul className="submenu">
                             <li>
-                              <a>Apel la comunicari</a>
+                              <Link to="/events/conferences/francophones-studies/current-year/calls">
+                                Apel la comunicări
+                              </Link>
                             </li>
                             <li>
-                              <a>Fisa de inscriere</a>
+                              <Link to="/events/conferences/francophones-studies/current-year/registration">
+                                Fișa de înscriere
+                              </Link>
                             </li>
                             <li>
-                              <a>Organizatori si parteneri</a>
+                              <Link to="/events/conferences/francophones-studies/current-year/organizers-and-partners">
+                                Organizatori și parteneri
+                              </Link>
                             </li>
                             <li>
-                              <a>Comitet stiintific</a>
+                              <Link to="/events/conferences/francophones-studies/current-year/scientific-committee">
+                                Comitet științific
+                              </Link>
                             </li>
                             <li>
-                              <a>Informatii utile</a>
+                              <Link to="/events/conferences/francophones-studies/current-year/info">
+                                Informații utile
+                              </Link>
                             </li>
                           </ul>
                         </li>
                         <li>
-                          <a>Editii anterioare</a>
+                          <Link to="/events/conferences/francophones-studies/previous-editions">
+                            Ediții anterioare
+                          </Link>
                         </li>
                       </ul>
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <a>Mese rotunde</a>
+                  <Link to="/events/round-tables">
+                    <FontAwesomeIcon icon={faDiscourse} width="1rem" />
+                    <span>Mese rotunde</span>
+                  </Link>
                 </li>
                 <li>
-                  <a>Sustineri de teze doctorale</a>
+                  <Link to="/events/phd-theses">
+                    <FontAwesomeIcon icon={faGraduationCap} width="1rem" />
+                    <span>Susțineri de teze doctorale</span>
+                  </Link>
                 </li>
                 <li>
-                  <a>Alte evenimente</a>
+                  <Link to="/events/other-events">
+                    <FontAwesomeIcon icon={faEllipsis} width="1rem" />
+                    <span>Alte evenimente</span>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="topmenu">
               <a>
-                Cercetare <FontAwesomeIcon icon={faChevronDown} />
+                Cercetare <FontAwesomeIcon icon={faCaretDown} />
               </a>
               <ul className="submenu">
                 <li>
                   <a>
-                    Publicatii <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faNewspaper} width="1rem" />
+                    <span>Publicații</span>
+                    <FontAwesomeIcon icon={faCaretRight} className="to-right" />
                   </a>
                   <ul className="submenu">
                     <li>
                       <a>
                         Dialogues Francophones{' '}
-                        <FontAwesomeIcon icon={faChevronRight} />
+                        <FontAwesomeIcon
+                          icon={faCaretRight}
+                          className="to-right"
+                        />
                       </a>
                       <ul className="submenu">
                         <li>
-                          <a>Despre noi</a>
+                          <Link to="/research/publications/dialogue-francophones/about">
+                            Despre noi
+                          </Link>
                         </li>
                         <li>
-                          <a>Comitete</a>
+                          <Link to="/research/publications/dialogue-francophones/committees">
+                            Comitete
+                          </Link>
                         </li>
                         <li>
-                          <a>Politica editoriala</a>
+                          <Link to="/research/publications/dialogue-francophones/editorial-policy">
+                            Politica editorială
+                          </Link>
                         </li>
                         <li>
                           <a>
-                            Apel la contributii{' '}
-                            <FontAwesomeIcon icon={faChevronRight} />
+                            Apel la contribuții{' '}
+                            <FontAwesomeIcon
+                              icon={faCaretRight}
+                              className="to-right"
+                            />
                           </a>
                           <ul className="submenu">
                             <li>
-                              <a>Apeluri viitoare</a>
+                              <Link to="/research/publications/dialogue-francophones/calls/future">
+                                Apeluri viitoare
+                              </Link>
                             </li>
                             <li>
-                              <a>Apeluri trecute</a>
+                              <Link to="/research/publications/dialogue-francophones/calls/past">
+                                Apeluri trecute
+                              </Link>
                             </li>
                           </ul>
                         </li>
                         <li>
-                          <a>Volume</a>
+                          <Link to="/research/publications/dialogue-francophones/volumes">
+                            Volume
+                          </Link>
                         </li>
                         <li>
-                          <a>Indexare</a>
+                          <Link to="/research/publications/dialogue-francophones/indexing">
+                            Indexare
+                          </Link>
                         </li>
                       </ul>
                     </li>
                     <li>
                       <a>
                         Agapes Francophones{' '}
-                        <FontAwesomeIcon icon={faChevronRight} />
+                        <FontAwesomeIcon
+                          icon={faCaretRight}
+                          className="to-right"
+                        />
                       </a>
                       <ul className="submenu">
                         <li>
-                          <a>Despre noi</a>
+                          <Link to="/research/publications/agapes-francophones/about">
+                            Despre noi
+                          </Link>
                         </li>
                         <li>
-                          <a>Comitete</a>
+                          <Link to="/research/publications/agapes-francophones/committees">
+                            Comitete
+                          </Link>
                         </li>
                         <li>
-                          <a>Politica editoriala</a>
+                          <Link to="/research/publications/agapes-francophones/editorial-policy">
+                            Politica editorială
+                          </Link>
                         </li>
                         <li>
                           <a>
-                            Apel la contributii{' '}
-                            <FontAwesomeIcon icon={faChevronRight} />
+                            Apel la contribuții{' '}
+                            <FontAwesomeIcon
+                              icon={faCaretRight}
+                              className="to-right"
+                            />
                           </a>
                           <ul className="submenu">
                             <li>
-                              <a>Apeluri viitoare</a>
+                              <Link to="/research/publications/agapes-francophones/calls/future">
+                                Apeluri viitoare
+                              </Link>
                             </li>
                             <li>
-                              <a>Apeluri trecute</a>
+                              <Link to="/research/publications/agapes-francophones/calls/past">
+                                Apeluri trecute
+                              </Link>
                             </li>
                           </ul>
                         </li>
                         <li>
-                          <a>Volume</a>
+                          <Link to="/research/publications/agapes-francophones/volumes">
+                            Volume
+                          </Link>
                         </li>
                         <li>
-                          <a>Indexare</a>
+                          <Link to="/research/publications/agapes-francophones/indexing">
+                            Indexare
+                          </Link>
                         </li>
                       </ul>
                     </li>
                     <li>
-                      <a>Actele colocviilor franco-romane de lingvistica</a>
+                      <Link to="/research/publications/lingvistic-conferences">
+                        Actele colocviilor franco-române de lingvistică
+                      </Link>
                     </li>
                     <li>
-                      <a>Publicatiile membrilor</a>
+                      <Link to="/research/publications/members-publications">
+                        Publicațiile membrilor
+                      </Link>
                     </li>
                     <li>
-                      <a>Traduceri</a>
+                      <Link to="/research/publications/translations">
+                        Traduceri
+                      </Link>
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <a>Proiecte</a>
+                  <Link to="/research/projects">
+                    <FontAwesomeIcon icon={faDiagramProject} width="1rem" />
+                    <span>Proiecte</span>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="topmenu">
-              <a>International</a>
+              <Link to="/international">Internațional</Link>
             </li>
             <li className="topmenu">
-              <a>Contact</a>
+              <Link to="/contact">Contact</Link>
             </li>
           </ul>
         </div>
       </div>
-      <div>RO / FR</div>
+      <div className="center-row">
+        <img src={roSvg} alt="Romanian flag" className="lang" /> RO /{' '}
+        <img src={frSvg} alt="French flag" className="lang" /> FR
+      </div>
       {/*<li className="divider"></li>*/}
     </div>
   );
