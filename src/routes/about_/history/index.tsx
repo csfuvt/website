@@ -1,20 +1,21 @@
+// HistoryPage.tsx
 import { createFileRoute } from '@tanstack/react-router';
-import './index.css';
+import styles from './HistoryPage.module.css'; // Ensure the filename is correct
 
 const HistoryPage = () => {
   return (
-    <div className="page-container">
+    <div className={styles.pageContainer}>
       {/* First Section */}
-      <div className="section-container">
+      <div className={styles.sectionContainer}>
         <img
           src="/path/to/image1.jpg"
           alt="Description of image"
-          className="image-box"
+          className={styles.imageBox}
         />
-        <div className="text-container">
-          <div className="title">Istoric</div>
-          <div className="paragraph">
-            <div className="line">
+        <div className={styles.textContainer}>
+          <div className={styles.title}>Istoric</div>
+          <div className={styles.paragraph}>
+            <div className={styles.line}>
               <p>
                 Centrul de Studii Francofone, având drept obiect cercetarea în
                 domeniul francofoniei, a fost creat în 1994 la iniţiativa Prof.
@@ -24,7 +25,7 @@ const HistoryPage = () => {
                 Timişoara.
               </p>
             </div>
-            <div className="line">
+            <div className={styles.line}>
               <p>
                 Domeniul francofoniei este înţeles în sens larg prin explorarea
                 literaturilor din arii geografice diverse (Canada, Maghreb,
@@ -42,11 +43,11 @@ const HistoryPage = () => {
       </div>
 
       {/* Second Section */}
-      <div className="blue-background-wrapper">
-        <div className="section-container-blue">
-          <div className="text-container">
-            <div className="paragraph">
-              <div className="line_blue">
+      <div className={styles.blueBackgroundWrapper}>
+        <div className={styles.sectionContainerBlue}>
+          <div className={styles.textContainer}>
+            <div className={styles.paragraph}>
+              <div className={styles.lineBlue}>
                 <p>
                   Centrul a avut şi are un rol federator, propunând teme de
                   investigaţie şi puncte de joncţiune pentru cercetări diverse,
@@ -54,7 +55,7 @@ const HistoryPage = () => {
                   metodologice variate.
                 </p>
               </div>
-              <div className="line_blue">
+              <div className={styles.lineBlue}>
                 <p>
                   Centrul contribuie substanţial la configurarea şi derularea
                   programelor de studiu ale Catedrei de Limbi Romanice prin
@@ -67,28 +68,28 @@ const HistoryPage = () => {
           <img
             src="/path/to/image2.jpg"
             alt="Description of image"
-            className="image-box"
+            className={styles.imageBox}
           />
         </div>
       </div>
 
       {/* Third Section */}
-      <div className="section-container">
+      <div className={styles.sectionContainer}>
         <img
           src="/path/to/image3.jpg"
           alt="Description of image"
-          className="image-box"
+          className={styles.imageBox}
         />
-        <div className="text-container">
-          <div className="paragraph">
-            <div className="line">
+        <div className={styles.textContainer}>
+          <div className={styles.paragraph}>
+            <div className={styles.line}>
               <p>
                 Din 1995, Centrul publică revista de literatură francofonă
                 contemporană Dialogues francophones. Începând cu anul 2009,
                 numerele au devenit tematice.
               </p>
             </div>
-            <div className="line">
+            <div className={styles.line}>
               <p>
                 Din 2004, Centrul organizează anual un colocviu de studii
                 francofone, intitulat iniţial Contributions roumaines à la
@@ -97,7 +98,7 @@ const HistoryPage = () => {
                 volume intitulate Agapes francophones.
               </p>
             </div>
-            <div className="line">
+            <div className={styles.line}>
               <p>
                 Centrul a iniţiat o serie de proiecte, în domenii variate:
                 studii literare, traducere, lingvistică, didactica limbii
