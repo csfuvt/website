@@ -1,0 +1,23 @@
+.gradientSection {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    height: 250px; 
+    width: 100%; 
+    box-sizing: border-box;
+    margin: 0 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(255, 7, 7, 0.14) 100%), #606060;
+    background-blend-mode: overlay;
+    padding: 0;
+}
+
+  .gradientSection h2 {
+  color: white;
+  font-size: 36px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  position: relative;
+  text-align: center; 
+  margin-bottom: 20px; 
+  }

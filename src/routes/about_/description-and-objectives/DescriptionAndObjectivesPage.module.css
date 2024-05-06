@@ -1,15 +1,13 @@
-/* DescriptionAndObjectivesPage.module.css */
 .pageContainer {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: white;
+    background-color:white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    gap: 40px;
+    margin: 0;
+    padding: 0;
   }
   
   .slider {

@@ -1,7 +1,7 @@
-// DescriptionAndObjectivesPage.tsx
 import { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import styles from './DescriptionAndObjectivesPage.module.css';
+import { KBanner } from '../../-components/KBanner/KBanner';
 
 const DescriptionAndObjectivesPage = () => {
   const slides = [
@@ -27,36 +27,39 @@ const DescriptionAndObjectivesPage = () => {
   };
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.slider}>
-        <div className={styles.sectionContainer}>
-          <div className={styles.textContainer}>
-            <div className={styles.title}>{slides[currentSlide].title}</div>
-            <div className={styles.paragraph}>
-              {slides[currentSlide].paragraphs.map((line, index) => (
-                <div key={index} className={styles.line}>
-                  <p className={styles.lineP}>{line}</p>
-                </div>
-              ))}
+    <div>
+      <KBanner label="DESCRIERE ȘI OBIECTIVE" />
+      <div className={styles.pageContainer}>
+        <div className={styles.slider}>
+          <div className={styles.sectionContainer}>
+            <div className={styles.textContainer}>
+              <div className={styles.title}>{slides[currentSlide].title}</div>
+              <div className={styles.paragraph}>
+                {slides[currentSlide].paragraphs.map((line, index) => (
+                  <div key={index} className={styles.line}>
+                    <p className={styles.lineP}>{line}</p>
+                  </div>
+                ))}
+              </div>
+              <div className={styles.sliderIndicators}>
+                {slides.map((_, index) => (
+                  <span
+                    key={index}
+                    className={`${styles.indicator} ${index === currentSlide ? styles.indicatorActive : ''}`}
+                    onClick={() => setCurrentSlide(index)}></span>
+                ))}
+              </div>
             </div>
-            <div className={styles.sliderIndicators}>
-              {slides.map((_, index) => (
-                <span
-                  key={index}
-                  className={`${styles.indicator} ${index === currentSlide ? styles.indicatorActive : ''}`}
-                  onClick={() => setCurrentSlide(index)}></span>
-              ))}
-            </div>
+            <img
+              src="/path/to/image.jpg"
+              alt="Description of image"
+              className={styles.imageBox}
+            />
           </div>
-          <img
-            src="/path/to/image.jpg"
-            alt="Description of image"
-            className={styles.imageBox}
-          />
+          <button onClick={nextSlide} className={styles.sliderBtn}>
+            {'>'}
+          </button>
         </div>
-        <button onClick={nextSlide} className={styles.sliderBtn}>
-          {'>'}
-        </button>
       </div>
     </div>
   );

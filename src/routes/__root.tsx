@@ -7,7 +7,7 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <KHeader />
-      <hr />
+      {/* <hr /> */}
       <Outlet />
       <KFooter />
       <TanStackRouterDevtools />
