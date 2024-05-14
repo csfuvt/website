@@ -8,8 +8,6 @@ import {
   faCaretDown,
   faCaretRight,
   faComments,
-  faDiagramProject,
-  faEllipsis,
   faGraduationCap,
   faNewspaper,
   faUserGroup,
@@ -75,7 +73,7 @@ export const KHeader = () => {
                       <ul className="submenu">
                         <li>
                           <a>
-                            CIEFT 2025{' '}
+                            CIEFT 2024{' '}
                             <FontAwesomeIcon
                               icon={faCaretRight}
                               className="to-right"
@@ -116,11 +114,11 @@ export const KHeader = () => {
                         </li>
                       </ul>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="/events/conferences/lingvistic-francophones">
                         Colocviile franco-române de lingvistică
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
                       <a>
                         Colocviul studențesc de studii francofone{' '}
@@ -132,7 +130,7 @@ export const KHeader = () => {
                       <ul className="submenu">
                         <li>
                           <a>
-                            2025{' '}
+                            2024{' '}
                             <FontAwesomeIcon
                               icon={faCaretRight}
                               className="to-right"
@@ -187,12 +185,12 @@ export const KHeader = () => {
                     <span>Susțineri de teze doctorale</span>
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/events/other-events">
                     <FontAwesomeIcon icon={faEllipsis} width="1rem" />
                     <span>Alte evenimente</span>
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </li>
             <li className="topmenu">
@@ -242,7 +240,7 @@ export const KHeader = () => {
                           <ul className="submenu">
                             <li>
                               <Link to="/research/publications/dialogue-francophones/calls/future">
-                                Apeluri viitoare
+                                2024
                               </Link>
                             </li>
                             <li>
@@ -264,7 +262,7 @@ export const KHeader = () => {
                         </li>
                       </ul>
                     </li>
-                    <li>
+                    {/* <li>
                       <a>
                         Agapes Francophones{' '}
                         <FontAwesomeIcon
@@ -320,7 +318,7 @@ export const KHeader = () => {
                           </Link>
                         </li>
                       </ul>
-                    </li>
+                    </li> */}
                     <li>
                       <Link to="/research/publications/lingvistic-conferences">
                         Actele colocviilor franco-române de lingvistică
@@ -338,17 +336,17 @@ export const KHeader = () => {
                     </li>
                   </ul>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/research/projects">
                     <FontAwesomeIcon icon={faDiagramProject} width="1rem" />
                     <span>Proiecte</span>
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </li>
-            <li className="topmenu">
+            {/* <li className="topmenu">
               <Link to="/international">Internațional</Link>
-            </li>
+            </li> */}
             <li className="topmenu">
               <Link to="/contact">Contact</Link>
             </li>
