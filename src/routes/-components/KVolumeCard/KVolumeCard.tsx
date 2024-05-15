@@ -2,11 +2,11 @@ import styles from './KVolumeCard.module.css';
 import volumeImage from '../../../../public/copertavolum.png';
 
 export const KVolumeCard = ({
-  title,
+  //title,
   issueNumber,
   buttonText,
 }: {
-  title: string;
+  //title: string;
   issueNumber: string;
   buttonText: string;
 }) => {
@@ -15,7 +15,7 @@ export const KVolumeCard = ({
       <div
         className={styles.backgroundImage}
         style={{ backgroundImage: `url(${volumeImage})` }}>
-        <h3 className={styles.title}>{title}</h3> {}
+        {/* <h3 className={styles.title}>{title}</h3> {} */}
       </div>
       <div className={styles.content}>
         <p className={styles.issueNumber}>{issueNumber}</p>
