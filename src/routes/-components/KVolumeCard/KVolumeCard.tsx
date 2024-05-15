@@ -2,11 +2,9 @@ import styles from './KVolumeCard.module.css';
 import volumeImage from '../../../../public/copertavolum.png';
 
 export const KVolumeCard = ({
-  //title,
   issueNumber,
   buttonText,
 }: {
-  //title: string;
   issueNumber: string;
   buttonText: string;
 }) => {
