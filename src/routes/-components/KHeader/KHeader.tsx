@@ -14,7 +14,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faDiscourse } from '@fortawesome/free-brands-svg-icons';
 import roSvg from '../../../assets/ro.svg';
-import frSvg from '../../../assets/fr.svg';
+//import frSvg from '../../../assets/fr.svg';
 
 export const KHeader = () => {
   return (
@@ -324,11 +324,11 @@ export const KHeader = () => {
                         Actele colocviilor franco-române de lingvistică
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="/research/publications/members-publications">
                         Publicațiile membrilor
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
                       <Link to="/research/publications/translations">
                         Traduceri
@@ -354,8 +354,8 @@ export const KHeader = () => {
         </div>
       </div>
       <div className="center-row">
-        <img src={roSvg} alt="Romanian flag" className="lang" /> RO /{' '}
-        <img src={frSvg} alt="French flag" className="lang" /> FR
+        <img src={roSvg} alt="Romanian flag" className="lang" /> RO{' '}
+        {/* <img src={frSvg} alt="French flag" className="lang" /> FR */}
       </div>
       {/*<li className="divider"></li>*/}
     </div>
