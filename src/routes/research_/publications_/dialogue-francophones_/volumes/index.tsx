@@ -12,7 +12,7 @@ const VolumePage = () => {
         {Array.from({ length: 8 }).map((_, index) => (
           <KVolumeCard
             key={index}
-            title="De la phrase / énoncé au texte / discours."
+            //title="De la phrase / énoncé au texte / discours."
             issueNumber="NO 26-67/2022-2023"
             buttonText="Deschide >"
           />

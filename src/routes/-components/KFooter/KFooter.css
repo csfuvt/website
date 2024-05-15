@@ -1,12 +1,12 @@
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 3.25rem 0;
-
-  background-color: var(--secondary);
-  font-weight: 500;
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 3.25rem 0;
+    background-color: var(--secondary);
+    font-weight: 500;
+  
 
   .address {
     a {
@@ -39,5 +39,35 @@
 
   color: var(--white);
   font-weight: 600;
+}
+
+.stamp {
+  display: flex;
+  justify-content: center;
+  position: relative; 
+  padding: 1rem 0;
+  background-color: var(--primary);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.loginButton {
+  position: absolute;
+  right: 20px; 
+  bottom: 10px; 
+  padding: 8px 16px;
+  background-color: #0056b3;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.loginButton:hover {
+  background-color: #003d82;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 

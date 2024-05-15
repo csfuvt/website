@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login/route'
 import { Route as InternationalRouteImport } from './routes/international/route'
 import { Route as ContactRouteImport } from './routes/contact/route'
 import { Route as IndexRouteImport } from './routes/index/route'
@@ -55,6 +56,11 @@ import { Route as ResearchPublicationsAgapesFrancophonesCallsPastIndexImport } f
 import { Route as ResearchPublicationsAgapesFrancophonesCallsFutureIndexImport } from './routes/research_/publications_/agapes-francophones_/calls_/future/index'
 
 // Create/Update Routes
+
+const LoginRouteRoute = LoginRouteImport.update({
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const InternationalRouteRoute = InternationalRouteImport.update({
   path: '/international',
@@ -319,6 +325,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InternationalRouteImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/about/description-and-objectives/': {
       preLoaderRoute: typeof AboutDescriptionAndObjectivesIndexImport
       parentRoute: typeof rootRoute
@@ -484,6 +494,7 @@ export const routeTree = rootRoute.addChildren([
   IndexRouteRoute,
   ContactRouteRoute,
   InternationalRouteRoute,
+  LoginRouteRoute,
   AboutDescriptionAndObjectivesIndexRoute,
   AboutHistoryIndexRoute,
   AboutMembersIndexRoute,

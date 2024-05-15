@@ -1,0 +1,78 @@
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff; 
+}
+
+.loginForm {
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    width: 400px;
+}
+
+.loginForm h1 {
+    text-align: center;
+    color: #004992; 
+}
+
+.loginForm form {
+    display: flex;
+    flex-direction: column;
+}
+
+.loginForm input[type="email"],
+.loginForm input[type="password"] {
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #003d82; 
+    border-radius: 16px;
+    font-size: 1rem;
+    color: #003d82  ; 
+}
+
+.forgotPassword {
+    text-align: right;
+    display: block;
+    margin-bottom: 20px;
+    color: #004992; 
+    text-decoration: none;
+}
+
+.forgotPassword:hover {
+    text-decoration: underline;
+}
+
+.loginForm button {
+    padding: 12px 24px; 
+    background-color: #004992; 
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold;
+    border: none; 
+    border-radius: 20px; 
+    cursor: pointer; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s, box-shadow 0.3s; 
+}
+
+.loginForm button:hover {
+    background-color: #002f6c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.signupLink {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signupLink a {
+    color: #004892; 
+    text-decoration: none;
+}
+
+.signupLink a:hover {
+    text-decoration: underline;
+}
