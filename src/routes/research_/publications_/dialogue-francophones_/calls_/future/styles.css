@@ -1,0 +1,12 @@
+.calls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+
+  width: 100%;
+  padding: 64px 128px;
+  gap: 16px;
+
+  background-color:var(--white);
+}
