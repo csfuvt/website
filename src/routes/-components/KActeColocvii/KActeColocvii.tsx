@@ -1,12 +1,14 @@
+import React from 'react';
 import styles from './KActeColocvii.module.css';
-import bookImage from '../../../../public/ActeColocviiPics/copertavolum.png';
 
 export const KActeColocvii = ({
   summaryText,
   link,
+  bookImage,
 }: {
   summaryText: string;
   link: string;
+  bookImage: string;
 }) => {
   return (
     <div className={styles.card}>
