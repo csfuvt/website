@@ -1,22 +1,35 @@
+import React from 'react';
 import styles from './KMemberCard.module.css';
-import profileImage from '../../../../public/profile.png';
+import Tooltip from '../KHoverTip/KHoverTip';
 
-export const KMemberCard = ({
-  label_name,
-  label_title,
-}: {
+interface KMemberCardProps {
   label_name: string;
   label_title: string;
+  profileImage: string;
+  cvLink: string;
+  description: string;
+}
+
+export const KMemberCard: React.FC<KMemberCardProps> = ({
+  label_name,
+  label_title,
+  profileImage,
+  cvLink,
+  description,
 }) => {
   return (
     <div className={styles.card}>
       <div className={styles.blueSection}>
-        <div
-          className={styles.profileImage}
-          style={{ backgroundImage: `url(${profileImage})` }}></div>
+        <a href={cvLink} target="_blank" rel="noopener noreferrer">
+          <div
+            className={styles.profileImage}
+            style={{ backgroundImage: `url(${profileImage})` }}></div>
+        </a>
       </div>
       <div className={styles.textSection}>
-        <div className={styles.name}>{label_name}</div>
+        <Tooltip description={description}>
+          <div className={styles.name}>{label_name}</div>
+        </Tooltip>
         <div className={styles.title}>{label_title}</div>
       </div>
     </div>

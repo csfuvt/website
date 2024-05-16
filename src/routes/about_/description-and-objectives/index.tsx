@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import styles from './DescriptionAndObjectivesPage.module.css';
 import { KBanner } from '../../-components/KBanner/KBanner';
+import descriere from '../../../../public/Despre_noi/descriere.jpg';
 
 const DescriptionAndObjectivesPage = () => {
   const slides = [
@@ -51,7 +52,7 @@ const DescriptionAndObjectivesPage = () => {
               </div>
             </div>
             <img
-              src="/path/to/image.jpg"
+              src={descriere}
               alt="Description of image"
               className={styles.imageBox}
             />
