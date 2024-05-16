@@ -43,7 +43,7 @@ const RoundTablesPage = () => {
             label_text="Richard Sîrbu, Mihai Radan, Simona Constantinovici, Raluca Radac Baciu, Ileana Neli Eiben, Bianca Constantinescu, Lucia Udrescu, Diana Moțoc, Mihaela Visky, Georgiana Lungu-Badea"
           />
           <a href="https://shorturl.at/fADPR" className={styles.logo}>
-            <img src={facebook} />
+            <img className={styles.logo} src={facebook} />
           </a>
         </div>
 
@@ -58,7 +58,7 @@ const RoundTablesPage = () => {
             label_text="Bianca Constantinescu, Simona Constantinovici, Mirela Pop, Luminița Vleja, Georgiana Lungu-Badea, Iulia Cosma, Diana Moțoc. Andreea Gheorghiu, Simona Constantinovici"
           />
           <a href="https://shorturl.at/deqwR" className={styles.logo}>
-            <img src={facebook} />
+            <img className={styles.logo} src={facebook} />
           </a>
         </div>
 
@@ -97,7 +97,7 @@ const RoundTablesPage = () => {
             label_text="Maria Andrei, Simona Constantinovici, Georgiana Lungu- Badea, Mirela Pop, Mihai Radan, Richard Sârbu, Luminița Cleja, Iulia Cosma, Daniela Gheltofan, Ileana Neli Eiben, Diana Moțoc, Georgeta Rus, Raluca Radac-Baciu"
           />
           <a href="https://shorturl.at/wHJRW" className={styles.logo}>
-            <img src={facebook} />
+            <img className={styles.logo} src={facebook} />
           </a>
         </div>
 
@@ -111,17 +111,17 @@ const RoundTablesPage = () => {
           />
           <div className={styles.logo_section}>
             <a href="https://shorturl.at/wHJRW" className={styles.logo}>
-              <img src={facebook} />
+              <img className={styles.logo} src={facebook} />
             </a>
             <a
               href="https://www.facebook.com/IsttraromTranslationes/photos/a.703647252983967/863698936978797"
               className={styles.logo}>
-              <img src={camera} />
+              <img className={styles.logo} src={camera} />
             </a>
             <a
               href="https://www.facebook.com/IsttraromTranslationes/photos/a.703647252983967/863701693645188"
               className={styles.logo}>
-              <img src={camera} />
+              <img className={styles.logo} src={camera} />
             </a>
           </div>
         </div>
