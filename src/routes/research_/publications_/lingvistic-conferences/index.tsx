@@ -5,7 +5,11 @@ import styles from './LingvisticConfPage.module.css';
 
 const LingvisticConfPage = () => {
   const items = [
-    { summary: 'Sumar', link: '/details/1' },
+    {
+      summary:
+        'De la phrase / énoncé au texte / discours. Perspectives linguistiques et didactiques',
+      link: 'https://csf.uvt.ro/pdfs/cfrl/11_CFRL_sommaire.pdf',
+    },
     { summary: 'Sumar', link: '/details/2' },
     { summary: 'Sumar', link: '/details/3' },
     { summary: 'Sumar', link: '/details/4' },

@@ -1,5 +1,5 @@
 import styles from './KActeColocvii.module.css';
-import bookImage from '../../../../public/copertavolum.png';
+import bookImage from '../../../../public/ActeColocviiPics/copertavolum.png';
 
 export const KActeColocvii = ({
   summaryText,
