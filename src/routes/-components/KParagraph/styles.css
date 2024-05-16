@@ -1,0 +1,15 @@
+.line {
+  padding-left: 8px;
+  border-left: 1px solid #e11e24;
+}
+
+.lineP {
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  line-height: 17.07px;
+}
+
+ul {
+  margin: 0;
+}

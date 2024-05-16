@@ -7,13 +7,12 @@
     width: 100%; 
     box-sizing: border-box;
     margin: 0 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(255, 7, 7, 0.14) 100%), #606060;
-    background-blend-mode: overlay;
-    padding: 0;
+    background:  var(--secondary);
+    padding: 0 64px;
 }
 
   .gradientSection h2 {
-  color: white;
+  color: var(--primary);
   font-size: 36px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
