@@ -7,7 +7,6 @@ const VolumePage = () => {
   return (
     <div>
       <KBanner label="Dialogues Francophones - VOLUME" />
-
       <div className={styles.cardsContainer}>
         {Array.from({ length: 8 }).map((_, index) => (
           <KVolumeCard
