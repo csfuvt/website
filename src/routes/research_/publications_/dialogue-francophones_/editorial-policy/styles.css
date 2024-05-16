@@ -1,0 +1,6 @@
+.content-policy {
+  display: flex;
+  flex-direction:column ;
+  gap: 16px;
+  padding: 64px 128px;
+}

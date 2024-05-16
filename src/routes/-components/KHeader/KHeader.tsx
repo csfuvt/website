@@ -27,7 +27,9 @@ export const KHeader = () => {
           <ul>
             <li className="topmenu">
               <a>
-                Despre noi <FontAwesomeIcon icon={faCaretDown} />
+                <div>
+                  Despre noi <FontAwesomeIcon icon={faCaretDown} />
+                </div>
               </a>
               <ul className="submenu">
                 <li>
@@ -52,32 +54,43 @@ export const KHeader = () => {
             </li>
             <li className="topmenu">
               <a>
-                Evenimente <FontAwesomeIcon icon={faCaretDown} />
+                <div>
+                  Evenimente <FontAwesomeIcon icon={faCaretDown} />
+                </div>
               </a>
               <ul className="submenu">
                 <li>
                   <a>
-                    <FontAwesomeIcon icon={faComments} width="1rem" />
-                    <span>Colocvii</span>
-                    <FontAwesomeIcon icon={faCaretRight} className="to-right" />
+                    <div>
+                      <FontAwesomeIcon icon={faComments} width="1rem" />
+                      <span>Colocvii</span>
+                      <FontAwesomeIcon
+                        icon={faCaretRight}
+                        className="to-right"
+                      />
+                    </div>
                   </a>
                   <ul className="submenu">
                     <li>
                       <a>
-                        CIEFT{' '}
-                        <FontAwesomeIcon
-                          icon={faCaretRight}
-                          className="to-right"
-                        />
+                        <div>
+                          CIEFT{' '}
+                          <FontAwesomeIcon
+                            icon={faCaretRight}
+                            className="to-right"
+                          />
+                        </div>
                       </a>
                       <ul className="submenu">
                         <li>
                           <a>
-                            CIEFT 2024{' '}
-                            <FontAwesomeIcon
-                              icon={faCaretRight}
-                              className="to-right"
-                            />
+                            <div>
+                              CIEFT 2024{' '}
+                              <FontAwesomeIcon
+                                icon={faCaretRight}
+                                className="to-right"
+                              />
+                            </div>
                           </a>
                           <ul className="submenu">
                             <li>
@@ -121,20 +134,24 @@ export const KHeader = () => {
                     </li> */}
                     <li>
                       <a>
-                        Colocviul studențesc de studii francofone{' '}
-                        <FontAwesomeIcon
-                          icon={faCaretRight}
-                          className="to-right"
-                        />
+                        <div>
+                          Colocviul studențesc de studii francofone{' '}
+                          <FontAwesomeIcon
+                            icon={faCaretRight}
+                            className="to-right"
+                          />
+                        </div>
                       </a>
                       <ul className="submenu">
                         <li>
                           <a>
-                            2024{' '}
-                            <FontAwesomeIcon
-                              icon={faCaretRight}
-                              className="to-right"
-                            />
+                            <div>
+                              2024{' '}
+                              <FontAwesomeIcon
+                                icon={faCaretRight}
+                                className="to-right"
+                              />
+                            </div>
                           </a>
                           <ul className="submenu">
                             <li>
@@ -195,23 +212,32 @@ export const KHeader = () => {
             </li>
             <li className="topmenu">
               <a>
-                Cercetare <FontAwesomeIcon icon={faCaretDown} />
+                <div>
+                  Cercetare <FontAwesomeIcon icon={faCaretDown} />
+                </div>
               </a>
               <ul className="submenu">
                 <li>
                   <a>
-                    <FontAwesomeIcon icon={faNewspaper} width="1rem" />
-                    <span>Publicații</span>
-                    <FontAwesomeIcon icon={faCaretRight} className="to-right" />
+                    <div>
+                      <FontAwesomeIcon icon={faNewspaper} width="1rem" />
+                      <span>Publicații</span>
+                      <FontAwesomeIcon
+                        icon={faCaretRight}
+                        className="to-right"
+                      />
+                    </div>
                   </a>
                   <ul className="submenu">
                     <li>
                       <a>
-                        Dialogues Francophones{' '}
-                        <FontAwesomeIcon
-                          icon={faCaretRight}
-                          className="to-right"
-                        />
+                        <div>
+                          Dialogues Francophones{' '}
+                          <FontAwesomeIcon
+                            icon={faCaretRight}
+                            className="to-right"
+                          />
+                        </div>
                       </a>
                       <ul className="submenu">
                         <li>
@@ -231,11 +257,13 @@ export const KHeader = () => {
                         </li>
                         <li>
                           <a>
-                            Apel la contribuții{' '}
-                            <FontAwesomeIcon
-                              icon={faCaretRight}
-                              className="to-right"
-                            />
+                            <div>
+                              Apel la contribuții{' '}
+                              <FontAwesomeIcon
+                                icon={faCaretRight}
+                                className="to-right"
+                              />
+                            </div>
                           </a>
                           <ul className="submenu">
                             <li>
@@ -264,11 +292,13 @@ export const KHeader = () => {
                     </li>
                     {/* <li>
                       <a>
+                      <div>
                         Agapes Francophones{' '}
                         <FontAwesomeIcon
                           icon={faCaretRight}
                           className="to-right"
                         />
+                        </div>
                       </a>
                       <ul className="submenu">
                         <li>
@@ -288,11 +318,13 @@ export const KHeader = () => {
                         </li>
                         <li>
                           <a>
+                          <div>
                             Apel la contribuții{' '}
                             <FontAwesomeIcon
                               icon={faCaretRight}
                               className="to-right"
                             />
+                            </div>
                           </a>
                           <ul className="submenu">
                             <li>
