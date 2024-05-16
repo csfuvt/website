@@ -1,0 +1,13 @@
+.iframe {
+
+  width: 70%;
+  height: 1000px;
+}
+
+.iframeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  align-items: center;
+  padding: 64px 128px;
+}
