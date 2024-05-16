@@ -1,0 +1,5 @@
+.blue-band {
+  height: 56px;
+  width: 100%;
+  background-color: var(--primary);
+}
