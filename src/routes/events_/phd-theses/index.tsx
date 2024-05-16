@@ -52,10 +52,10 @@ const phdThesesPage = () => {
           />
           <div className={styles.logo_section}>
             <a href="https://shorturl.at/hnRS5" className={styles.logo}>
-              <img src={facebook} />
+              <img className={styles.logo} src={facebook} />
             </a>
             <a href="https://shorturl.at/ipyHL" className={styles.logo}>
-              <img src={book} />
+              <img className={styles.logo} src={book} />
             </a>
           </div>
         </div>
@@ -97,7 +97,7 @@ const phdThesesPage = () => {
             label_text="prof. univ. dr. Margareta Gyurcsik (UVT), prof. univ. dr. Mariana Ionescu (Huron University College at Western, Canada), prof. univ. dr. Anda Rădulescu (Universitatea din Craiova), conf. univ.dr. Valy Ceia"
           />
           <a href="https://rb.gy/gixuf5" className={styles.logo}>
-            <img src={facebook} />
+            <img className={styles.logo} src={facebook} />
           </a>
         </div>
 
@@ -124,7 +124,7 @@ const phdThesesPage = () => {
             label_text="Prof. univ. dr. Lăcrămioara Petrescu (UAIC), prof. univ. dr. Cecilia Condei (Craiova), conf. univ. dr. Vasile Popovici (UVT), prof. univ.dr. Otilia Hedeșan (UVT), prof. univ. dr. Hortensia Pârlog (UVT)"
           />
           <a href="https://rb.gy/dy2fyz" className={styles.logo}>
-            <img src={book} />
+            <img className={styles.logo} src={book} />
           </a>
         </div>
 
@@ -148,7 +148,7 @@ const phdThesesPage = () => {
             label_text="prof. univ. dr. Margareta Gyurcsik (UVT), prof. univ. dr. Mariana Ionescu (Huron University College at Western, Canada), prof. univ. dr. Anda Rădulescu (Universitatea din Craiova), conf. univ.dr. Valy Ceia"
           />
           <a href="https://rb.gy/gixuf5" className={styles.logo}>
-            <img src={facebook} />
+            <img className={styles.logo} src={facebook} />
           </a>
         </div>
 
