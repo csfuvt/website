@@ -20,7 +20,12 @@ const IndexingPage = () => {
         <div className={styles.imgsection}>
           <div className={styles.imgcontainer}>
             <img src={fabula} alt="Fabula" />
-            <div>Fabula</div>
+            <a
+              href="https://www.fabula.org/actualites/96533/dialogues-francophones.html"
+              target="_blank"
+              rel="noopener noreferrer">
+              <div>Fabula</div>
+            </a>
           </div>
           <div className={styles.imgcontainer}>
             <img src={erihPlus} alt="ERIH PLUS" />
@@ -36,7 +41,12 @@ const IndexingPage = () => {
           </div>
           <div className={styles.imgcontainer}>
             <img src={worldCat} alt="WorldCat" />
-            <div>WorldCat</div>
+            <a
+              href="https://search.worldcat.org/title/935487095"
+              target="_blank"
+              rel="noopener noreferrer">
+              <div>WorldCat</div>
+            </a>
           </div>
         </div>
       </div>

@@ -1,6 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 import styles from './HistoryPage.module.css';
 import { KBanner } from '../../-components/KBanner/KBanner';
+import istoric1 from '../../../../public/Despre_noi/istoric1.jpg';
+import istoric2 from '../../../../public/Despre_noi/istoric2.jpg';
+import istoric3 from '../../../../public/Despre_noi/istoric3.jpg';
 
 const HistoryPage = () => {
   return (
@@ -9,7 +12,7 @@ const HistoryPage = () => {
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <img
-            src="/path/to/image1.jpg"
+            src={istoric1}
             alt="Description of image"
             className={styles.imageBox}
           />
@@ -66,7 +69,7 @@ const HistoryPage = () => {
             </div>
           </div>
           <img
-            src="/path/to/image2.jpg"
+            src={istoric3}
             alt="Description of image"
             className={styles.imageBox}
           />
@@ -74,7 +77,7 @@ const HistoryPage = () => {
 
         <div className={styles.sectionContainer}>
           <img
-            src="/path/to/image3.jpg"
+            src={istoric2}
             alt="Description of image"
             className={styles.imageBox}
           />

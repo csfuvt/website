@@ -160,7 +160,7 @@ export const Route = createFileRoute(
 )({
   component: () => (
     <div>
-      <KBanner label="Dialogues Francophones - Comitete" />
+      <KBanner label="Dialogues Francophones - COMITETE" />
       <div className="committees">
         <div className="committee">
           <KTitle label="Comitet onorific" />
