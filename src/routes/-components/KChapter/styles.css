@@ -1,0 +1,44 @@
+.pages {
+  font-family: "Montserrat", sans-serif;
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 700;
+  width: 20%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.title {
+  text-decoration: none;
+  font-family: "Montserrat", sans-serif;
+  color: var(--tertiary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.desc {
+  font-family: "Montserrat", sans-serif;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 80%;
+}
+
+.chapterContainer {
+  display:flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 12px;
+
+}
+
+.chapterContainer:hover {
+  background-color: #f6f6f6;
+  border-radius: 12px;
+}

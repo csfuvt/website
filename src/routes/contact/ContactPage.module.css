@@ -41,9 +41,13 @@
 
 .text {
     display: flex;
-    flex-direction: column;
     gap: 16px;
-    justify-content: center;
+    justify-content: flex-start;
+}
+
+.text > a {
+    text-decoration: underline;
+    color: var(--primary);
 }
 
 .line,
