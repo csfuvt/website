@@ -1,23 +1,30 @@
 import styles from './KVolumeCard.module.css';
-import volumeImage from '../../../../public/copertavolum.png';
+import { Link } from '@tanstack/react-router';
 
 export const KVolumeCard = ({
   issueNumber,
   buttonText,
+  url,
+  volumeImageUrl,
 }: {
   issueNumber: string;
   buttonText: string;
+  url: string;
+  volumeImageUrl: string;
 }) => {
   return (
     <div className={styles.card}>
-      <div
+      <img
+        src={volumeImageUrl}
+        alt={'cover'}
         className={styles.backgroundImage}
-        style={{ backgroundImage: `url(${volumeImage})` }}>
-        {/* <h3 className={styles.title}>{title}</h3> {} */}
-      </div>
-      <div className={styles.content}>
-        <p className={styles.issueNumber}>{issueNumber}</p>
-        <button className={styles.button}>{buttonText}</button>
+      />
+      <div className={styles.center}>
+        <span className={styles.issueNumber}>{issueNumber}</span>
+
+        <Link to={url}>
+          <button className={styles.button}>{buttonText}</button>
+        </Link>
       </div>
     </div>
   );

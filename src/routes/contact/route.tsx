@@ -22,11 +22,10 @@ const ContactPage: React.FC = () => {
           <br></br>
           <div className={styles.line}>
             <div className={styles.text}>
-              Bulevardul Vasile Pârvan nr. 4,
-              <br></br>
-              Timișoara
+              Bulevardul Vasile Pârvan nr. 4<br></br>
+              300223 Timișoara
               <br></br> Timiș
-              <br></br>România 300223
+              <br></br>România
             </div>
           </div>
           <br></br>
@@ -37,10 +36,16 @@ const ContactPage: React.FC = () => {
           <br></br>
           <div className={styles.line}>
             <div className={styles.text}>
-              Dialogues francophones: dialogues.francophones@e-uvt.ro
+              <span>Dialogues francophones:</span>
+              <a href="mailto:dialogues.francophones@e-uvt.ro">
+                dialogues.francophones@e-uvt.ro
+              </a>
             </div>
             <div className={styles.text}>
-              Agapes francophones: gapes.francophones@e-uvt.ro
+              <span>Agapes francophones:</span>
+              <a href="mailto:agapes.francophones@e-uvt.ro">
+                agapes.francophones@e-uvt.ro
+              </a>
             </div>
           </div>
         </div>

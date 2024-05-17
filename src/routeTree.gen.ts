@@ -38,6 +38,7 @@ import { Route as ResearchPublicationsAgapesFrancophonesCommitteesIndexImport } 
 import { Route as ResearchPublicationsAgapesFrancophonesAboutIndexImport } from './routes/research_/publications_/agapes-francophones_/about/index';
 import { Route as EventsConferencesFrancophonesStudiesPreviousEditionsIndexImport } from './routes/events_/conferences_/francophones-studies_/previous-editions_/index';
 import { Route as EventsConferencesCieftPreviousEditionsIndexImport } from './routes/events_/conferences_/cieft_/previous-editions_/index';
+import { Route as ResearchPublicationsDialogueFrancophonesVolumesVolumeIdImport } from './routes/research_/publications_/dialogue-francophones_/volumes/$volumeId';
 import { Route as ResearchPublicationsDialogueFrancophonesCallsCallIdImport } from './routes/research_/publications_/dialogue-francophones_/calls_/$callId';
 import { Route as EventsConferencesFrancophonesStudiesPreviousEditionsYearImport } from './routes/events_/conferences_/francophones-studies_/previous-editions_/$year';
 import { Route as EventsConferencesFrancophonesStudiesCurrentYearScientificCommitteeImport } from './routes/events_/conferences_/francophones-studies_/current-year_/scientific-committee';
@@ -207,6 +208,12 @@ const EventsConferencesFrancophonesStudiesPreviousEditionsIndexRoute =
 const EventsConferencesCieftPreviousEditionsIndexRoute =
   EventsConferencesCieftPreviousEditionsIndexImport.update({
     path: '/events/conferences/cieft/previous-editions/',
+    getParentRoute: () => rootRoute,
+  } as any);
+
+const ResearchPublicationsDialogueFrancophonesVolumesVolumeIdRoute =
+  ResearchPublicationsDialogueFrancophonesVolumesVolumeIdImport.update({
+    path: '/research/publications/dialogue-francophones/volumes/$volumeId',
     getParentRoute: () => rootRoute,
   } as any);
 
@@ -432,6 +439,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResearchPublicationsDialogueFrancophonesCallsCallIdImport;
       parentRoute: typeof rootRoute;
     };
+    '/research/publications/dialogue-francophones/volumes/$volumeId': {
+      preLoaderRoute: typeof ResearchPublicationsDialogueFrancophonesVolumesVolumeIdImport;
+      parentRoute: typeof rootRoute;
+    };
     '/events/conferences/cieft/previous-editions/': {
       preLoaderRoute: typeof EventsConferencesCieftPreviousEditionsIndexImport;
       parentRoute: typeof rootRoute;
@@ -530,6 +541,7 @@ export const routeTree = rootRoute.addChildren([
   EventsConferencesFrancophonesStudiesCurrentYearScientificCommitteeRoute,
   EventsConferencesFrancophonesStudiesPreviousEditionsYearRoute,
   ResearchPublicationsDialogueFrancophonesCallsCallIdRoute,
+  ResearchPublicationsDialogueFrancophonesVolumesVolumeIdRoute,
   EventsConferencesCieftPreviousEditionsIndexRoute,
   EventsConferencesFrancophonesStudiesPreviousEditionsIndexRoute,
   ResearchPublicationsAgapesFrancophonesAboutIndexRoute,

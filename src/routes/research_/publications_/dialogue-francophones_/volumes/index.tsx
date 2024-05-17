@@ -2,18 +2,19 @@ import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../../-components/KBanner/KBanner';
 import { KVolumeCard } from '../../../../-components/KVolumeCard/KVolumeCard';
 import styles from './VolumePage.module.css';
+import { volumes } from '../../../../-constants/mock.data.ts';
 
 const VolumePage = () => {
   return (
     <div>
       <KBanner label="Dialogues Francophones - VOLUME" />
       <div className={styles.cardsContainer}>
-        {Array.from({ length: 8 }).map((_, index) => (
+        {volumes.reverse().map(volume => (
           <KVolumeCard
-            key={index}
-            //title="De la phrase / énoncé au texte / discours."
-            issueNumber="NO 26-67/2022-2023"
+            issueNumber={volume.issueNumber}
             buttonText="Deschide >"
+            url={`/research/publications/dialogue-francophones/volumes/${volume.id}`}
+            volumeImageUrl={volume.coverUrl}
           />
         ))}
       </div>
