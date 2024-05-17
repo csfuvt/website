@@ -103,7 +103,7 @@ export const KHeader = () => {
                                 Fișa de înscriere
                               </Link>
                             </li>
-                            <li>
+                            {/* <li>
                               <Link to="/events/conferences/cieft/current-year/organizers-and-partners">
                                 Organizatori și parteneri
                               </Link>
@@ -112,12 +112,12 @@ export const KHeader = () => {
                               <Link to="/events/conferences/cieft/current-year/scientific-committee">
                                 Comitet științific
                               </Link>
-                            </li>
-                            <li>
+                            </li> */}
+                            {/* <li>
                               <Link to="/events/conferences/cieft/current-year/info">
                                 Informații utile
                               </Link>
-                            </li>
+                            </li> */}
                           </ul>
                         </li>
                         <li>
@@ -387,7 +387,7 @@ export const KHeader = () => {
       </div>
       <div className="center-row">
         <img src={roSvg} alt="Romanian flag" className="lang" /> RO{' '}
-        {/* <img src={frSvg} alt="French flag" className="lang" /> FR */}
+        {/* <img src={frSvg} alt="French flag" className="lang" /> FR  */}
       </div>
       {/*<li className="divider"></li>*/}
     </div>
