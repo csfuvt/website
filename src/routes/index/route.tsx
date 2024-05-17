@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import styles from './styles.module.css';
 import { KBanner } from '../-components/KBanner/KBanner';
 import home1 from '../../../public/home1.jpg';
@@ -50,24 +50,24 @@ const HomePage = () => {
               <div className={styles.textContainer}>
                 <div className={styles.section}>
                   <h2 className={styles.blueTextBold}>Evenimente</h2>
-                  <a
-                    href="/events/conferences/cieft/current-year/calls"
+                  <Link
+                    to="/events/conferences/cieft/current-year/calls"
                     className={styles.blueText}>
                     CIEFT
-                  </a>
-                  <a
-                    href="/events/conferences/francophones-studies/current-year/calls"
+                  </Link>
+                  <Link
+                    to="/events/conferences/francophones-studies/current-year/calls"
                     className={styles.blueText}>
                     Colocviul studențesc de studii francofone
-                  </a>
+                  </Link>
                 </div>
                 <div className={styles.section}>
                   <h2 className={styles.blueTextBold}>Publicații</h2>
-                  <a
-                    href="/research/publications/dialogue-francophones/about"
+                  <Link
+                    to="/research/publications/dialogue-francophones/about"
                     className={styles.blueText}>
                     Dialogues Francophones
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

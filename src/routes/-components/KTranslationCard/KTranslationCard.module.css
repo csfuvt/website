@@ -47,19 +47,19 @@
   }
   
   .content {
-    display: none; /* Ascunde conținutul inițial */
+    display: none; 
   }
   
   .card:hover .content {
-    display: flex; /* Afișează conținutul la hover */
+    display: flex;
     flex-direction: column;
     align-items: center;
   }
   
   .summaryText {
     color: #004992;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 300;
     text-align: center;
     transition: color 0.3s;
     text-decoration: none;

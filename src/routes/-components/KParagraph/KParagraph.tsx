@@ -1,5 +1,6 @@
 import './styles.css';
 import { KSubtitle } from '../KSubtitle/KSubtitle.tsx';
+
 export const KParagraph = ({
   text,
   list,

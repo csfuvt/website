@@ -6,3 +6,5 @@ export const Route = createFileRoute(
 )({
   component: () => <DialoguesFrancophonesAboutPage />,
 });
+
+export default DialoguesFrancophonesAboutPage;
