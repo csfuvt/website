@@ -1,6 +1,4 @@
-import React from 'react';
-import styles from './KActeColocvii.module.css';
-
+import './styles.css';
 export const KActeColocvii = ({
   summaryText,
   link,
@@ -11,16 +9,14 @@ export const KActeColocvii = ({
   bookImage: string;
 }) => {
   return (
-    <div className={styles.card}>
-      <div
-        className={styles.backgroundImage}
-        style={{ backgroundImage: `url(${bookImage})` }}></div>
-      <div className={styles.content}>
-        <a href={link} className={styles.summaryText}>
-          {summaryText}
-        </a>
+    <a href={link} className="cardContainer">
+      <div className="card">
+        <div
+          className="backgroundImage"
+          style={{ backgroundImage: `url(${bookImage})` }}></div>
+        <div>{summaryText}</div>
       </div>
-    </div>
+    </a>
   );
 };
 
