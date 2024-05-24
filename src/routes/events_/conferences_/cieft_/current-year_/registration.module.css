@@ -1,65 +1,62 @@
 .pageContainer {
-    padding: 20px;
-  }
-  
-  .sectionContainer {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formGroup {
-    margin-bottom: 20px;
-  }
-  
-  .formGroup label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
-  
-  .formGroup input,
-  .formGroup select,
-  .formGroup textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 2px solid #003d82;
-    border-radius: 16px;
-    font-size: 1rem;
-    color: #003d82;
-    box-sizing: border-box; 
-  }
-  
-  .radioGroup {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .radioGroup label {
-    display: flex;
-    align-items: center;
-  }
-  
-  .submitButton {
-    padding: 12px 24px;
-    background-color: #004992;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .submitButton:hover {
-    background-color: #002f6c;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
-  
+  padding: 64px 128px;
+}
+
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--primary);
+  border-radius: 16px;
+  font-size: 1rem;
+  color: var(--primary);
+  box-sizing: border-box;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.radioGroup label {
+  display: flex;
+  align-items: center;
+}
+
+.submitButton {
+  padding: 12px 24px;
+  background-color: var(--primary);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.submitButton:hover {
+  background-color: #002f6c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}

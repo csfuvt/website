@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../-components/KBanner/KBanner';
 import { KTranslationCard } from '../../../-components/KTranslationCard/KTranslationCard';
-import styles from './TranslationPage.module.css';
+import './styles.css';
 
 const TranslationPage = () => {
   const items = [
@@ -63,9 +63,9 @@ const TranslationPage = () => {
   ];
 
   return (
-    <div className={styles.container}>
+    <div>
       <KBanner label="TRADUCERI" />
-      <div className={styles.grid}>
+      <div className="flex">
         {items.map((item, index) => (
           <KTranslationCard
             key={index}

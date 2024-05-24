@@ -1,41 +1,22 @@
 .pageContainer {
- width: 1440px;
-  height: 1162px;
-  padding-left: 128px;
-  padding-right: 128px;
-  padding-top: 64px;
-  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 64px 128px;
   background: white;
-  justify-content: center;
   align-items: flex-start;
-  gap: 40px;
-  display: inline-flex; 
+}
 
-  }
+.line {
+  padding-left: 8px;
+  border-left: 1px solid #e11e24;
+}
 
-.sectionContainer {
-  margin-bottom: 20px;
-  }
-
-
-  .paragraph {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    justify-content: flex-start;
-    height: 12px;
-  }
-
-    .line {
-    padding-left: 8px;
-    border-left: 1px solid #e11e24;
-  }
-  
-  .lineP {
-    font-size: 14px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    line-height: 17.07px;
-    margin: 0;
-    max-width: 100%;
-  }
+.lineP {
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  line-height: 17.07px;
+  margin: 0;
+  max-width: 100%;
+}
