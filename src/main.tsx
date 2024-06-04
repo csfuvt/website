@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { routeTree } from './routeTree.gen';
+import './i18n';
+//import { Suspense } from 'react';
+//import { useTransition } from 'react';
+
 import {
   // createMemoryHistory,
   createRouter,
@@ -23,6 +27,8 @@ declare module '@tanstack/react-router' {
 
 ReactDOM.createRoot(document.getElementById('app')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <RouterProvider router={router} />
+    </Suspense>
   </React.StrictMode>
 );
