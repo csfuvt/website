@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from '@tanstack/react-router';
 import logo from '../../../assets/logo.png';
 import './KHeader.css';
@@ -14,9 +15,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faDiscourse } from '@fortawesome/free-brands-svg-icons';
 import roSvg from '../../../assets/ro.svg';
-//import frSvg from '../../../assets/fr.svg';
+import frSvg from '../../../assets/fr.svg';
+import { useTranslation } from 'react-i18next';
 
 export const KHeader = () => {
+  const { t, i18n } = useTranslation();
+
+  const handleLanguageChange = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
+
   return (
     <div className="header">
       <div className="nav">
@@ -28,26 +36,26 @@ export const KHeader = () => {
             <li className="topmenu">
               <a>
                 <div>
-                  Despre noi <FontAwesomeIcon icon={faCaretDown} />
+                  {t('Despre noi')} <FontAwesomeIcon icon={faCaretDown} />
                 </div>
               </a>
               <ul className="submenu">
                 <li>
                   <Link to="/about/history">
                     <FontAwesomeIcon icon={faBookOpen} width="1rem" />
-                    <span>Istoric</span>
+                    <span>{t('Istoric')}</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/about/description-and-objectives">
                     <FontAwesomeIcon icon={faBullseye} width="1rem" />
-                    <span>Descriere și obiective</span>
+                    <span>{t('Descriere și obiective')}</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/about/members">
                     <FontAwesomeIcon icon={faUserGroup} width="1rem" />
-                    <span>Membri</span>
+                    <span>{t('Membri')}</span>
                   </Link>
                 </li>
               </ul>
@@ -55,7 +63,7 @@ export const KHeader = () => {
             <li className="topmenu">
               <a>
                 <div>
-                  Evenimente <FontAwesomeIcon icon={faCaretDown} />
+                  {t('Evenimente')} <FontAwesomeIcon icon={faCaretDown} />
                 </div>
               </a>
               <ul className="submenu">
@@ -63,7 +71,7 @@ export const KHeader = () => {
                   <a>
                     <div>
                       <FontAwesomeIcon icon={faComments} width="1rem" />
-                      <span>Colocvii</span>
+                      <span>{t('Colocvii')}</span>
                       <FontAwesomeIcon
                         icon={faCaretRight}
                         className="to-right"
@@ -95,12 +103,12 @@ export const KHeader = () => {
                           <ul className="submenu">
                             <li>
                               <Link to="/events/conferences/cieft/current-year/calls">
-                                Apel la comunicări
+                                {t('Apel la comunicări')}
                               </Link>
                             </li>
                             <li>
                               <Link to="/events/conferences/cieft/current-year/registration">
-                                Fișa de înscriere
+                                {t('Fișa de înscriere')}
                               </Link>
                             </li>
                             {/* <li>
@@ -122,7 +130,7 @@ export const KHeader = () => {
                         </li>
                         <li>
                           <Link to="/events/conferences/cieft/previous-editions">
-                            Ediții anterioare
+                            {t('Ediții anterioare')}
                           </Link>
                         </li>
                       </ul>
@@ -135,7 +143,7 @@ export const KHeader = () => {
                     <li>
                       <a>
                         <div>
-                          Colocviul studențesc de studii francofone{' '}
+                          {t('Colocviul studențesc de studii francofone')}
                           <FontAwesomeIcon
                             icon={faCaretRight}
                             className="to-right"
@@ -156,34 +164,34 @@ export const KHeader = () => {
                           <ul className="submenu">
                             <li>
                               <Link to="/events/conferences/francophones-studies/current-year/calls">
-                                Apel la comunicări
+                                {t('Apel la comunicări')}
                               </Link>
                             </li>
                             <li>
                               <Link to="/events/conferences/francophones-studies/current-year/registration">
-                                Fișa de înscriere
+                                {t('Fișa de înscriere')}
                               </Link>
                             </li>
                             <li>
                               <Link to="/events/conferences/francophones-studies/current-year/organizers-and-partners">
-                                Organizatori și parteneri
+                                {t('Organizatori și parteneri')}
                               </Link>
                             </li>
                             <li>
                               <Link to="/events/conferences/francophones-studies/current-year/scientific-committee">
-                                Comitet științific
+                                {t('Comitet științific')}
                               </Link>
                             </li>
                             <li>
                               <Link to="/events/conferences/francophones-studies/current-year/info">
-                                Informații utile
+                                {t('Informații utile')}
                               </Link>
                             </li>
                           </ul>
                         </li>
                         <li>
                           <Link to="/events/conferences/francophones-studies/previous-editions">
-                            Ediții anterioare
+                            {t('Ediții anterioare')}
                           </Link>
                         </li>
                       </ul>
@@ -193,13 +201,13 @@ export const KHeader = () => {
                 <li>
                   <Link to="/events/round-tables">
                     <FontAwesomeIcon icon={faDiscourse} width="1rem" />
-                    <span>Mese rotunde</span>
+                    <span>{t('Mese rotunde')}</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/events/phd-theses">
                     <FontAwesomeIcon icon={faGraduationCap} width="1rem" />
-                    <span>Susțineri de teze doctorale</span>
+                    <span>{t('Susțineri de teze doctorale')}</span>
                   </Link>
                 </li>
                 {/* <li>
@@ -213,7 +221,7 @@ export const KHeader = () => {
             <li className="topmenu">
               <a>
                 <div>
-                  Cercetare <FontAwesomeIcon icon={faCaretDown} />
+                  {t('Cercetare')} <FontAwesomeIcon icon={faCaretDown} />
                 </div>
               </a>
               <ul className="submenu">
@@ -221,7 +229,7 @@ export const KHeader = () => {
                   <a>
                     <div>
                       <FontAwesomeIcon icon={faNewspaper} width="1rem" />
-                      <span>Publicații</span>
+                      <span>{t('Publicații')}</span>
                       <FontAwesomeIcon
                         icon={faCaretRight}
                         className="to-right"
@@ -242,23 +250,23 @@ export const KHeader = () => {
                       <ul className="submenu">
                         <li>
                           <Link to="/research/publications/dialogue-francophones/about">
-                            Despre noi
+                            {t('Despre noi')}
                           </Link>
                         </li>
                         <li>
                           <Link to="/research/publications/dialogue-francophones/committees">
-                            Comitete
+                            {t('Comitete')}
                           </Link>
                         </li>
                         <li>
                           <Link to="/research/publications/dialogue-francophones/editorial-policy">
-                            Politica editorială
+                            {t('Politica editorială')}
                           </Link>
                         </li>
                         <li>
                           <a>
                             <div>
-                              Apel la contribuții{' '}
+                              {t('Apel la contribuții')}
                               <FontAwesomeIcon
                                 icon={faCaretRight}
                                 className="to-right"
@@ -273,19 +281,19 @@ export const KHeader = () => {
                             </li>
                             <li>
                               <Link to="/research/publications/dialogue-francophones/calls/past">
-                                Apeluri trecute
+                                {t('Apeluri trecute')}
                               </Link>
                             </li>
                           </ul>
                         </li>
                         <li>
                           <Link to="/research/publications/dialogue-francophones/volumes">
-                            Volume
+                            {t('Volume')}
                           </Link>
                         </li>
                         <li>
                           <Link to="/research/publications/dialogue-francophones/indexing">
-                            Indexare
+                            {t('Indexare')}
                           </Link>
                         </li>
                       </ul>
@@ -353,7 +361,7 @@ export const KHeader = () => {
                     </li> */}
                     <li>
                       <Link to="/research/publications/lingvistic-conferences">
-                        Actele colocviilor franco-române de lingvistică
+                        {t('Actele colocviilor franco-române de lingvistică')}
                       </Link>
                     </li>
                     {/* <li>
@@ -363,7 +371,7 @@ export const KHeader = () => {
                     </li> */}
                     <li>
                       <Link to="/research/publications/translations">
-                        Traduceri
+                        {t('Traduceri')}
                       </Link>
                     </li>
                   </ul>
@@ -380,16 +388,22 @@ export const KHeader = () => {
               <Link to="/international">Internațional</Link>
             </li> */}
             <li className="topmenu">
-              <Link to="/contact">Contact</Link>
+              <Link to="/contact">{t('Contact')}</Link>
             </li>
           </ul>
         </div>
       </div>
       <div className="center-row">
-        <img src={roSvg} alt="Romanian flag" className="lang" /> RO{' '}
-        {/* <img src={frSvg} alt="French flag" className="lang" /> FR  */}
+        <button className="lang" onClick={() => handleLanguageChange('ro')}>
+          <img src={roSvg} alt="Romanian flag" />
+        </button>
+        {/*{' RO / '}*/}
+        <button className="lang" onClick={() => handleLanguageChange('fr')}>
+          <img src={frSvg} alt="French flag" />
+        </button>
+        {/*{' FR'}*/}
       </div>
-      {/*<li className="divider"></li>*/}
+      {/* <li className="divider"></li> */}
     </div>
   );
 };
