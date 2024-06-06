@@ -1,13 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
 import styles from './ContactPage.module.css';
 import { KBanner } from '../-components/KBanner/KBanner';
-import { useTranslation } from 'react-i18next';
 
 const ContactPage: React.FC = () => {
-  const { t } = useTranslation();
   return (
     <div>
-      <KBanner label={t('CONTACT')} />
+      <KBanner label="CONTACT" />
       <div className={styles.container}>
         <div className={styles.mapSection}>
           <iframe
@@ -20,23 +18,21 @@ const ContactPage: React.FC = () => {
           />
         </div>
         <div className={styles.contactInfo}>
-          <div className={styles.title}>{t('Adresa')}</div>
+          <div className={styles.title}>Adresa</div>
           <br></br>
           <div className={styles.line}>
             <div className={styles.text}>
-              {t('Bulevardul Vasile Pârvan nr. 4')}
-              <br></br>
-              {t(' 300223 Timișoara')}
-              <br></br> {t('Timiș')}
-              <br></br>
-              {t('România')}
+              Bulevardul Vasile Pârvan nr. 4<br></br>
+              300223 Timișoara
+              <br></br> Timiș
+              <br></br>România
             </div>
           </div>
           <br></br>
           <br></br>
           <br></br>
 
-          <div className={styles.title}>{t('E-Mail')}</div>
+          <div className={styles.title}>E-Mail</div>
           <br></br>
           <div className={styles.line}>
             <div className={styles.text}>
