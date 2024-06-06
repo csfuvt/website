@@ -1,0 +1,13 @@
+.cover-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 16rem;
+  width: 10rem;
+  padding: 2.5rem;
+  border: none;
+  border-radius: 16px;
+  background-color: grey;
+  opacity: 1;
+  transition: 0.3s;
+}
