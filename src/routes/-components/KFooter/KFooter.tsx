@@ -4,9 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { useAuth } from '../../../hooks/useAuth.ts';
 //import LogInPage from '../../login/route';
+import { useTranslation } from 'react-i18next';
 
 export const KFooter = () => {
+
+  const { t } = useTranslation();
+
   const { isLoggedIn, signOut } = useAuth();
+
 
   return (
     <>
@@ -28,15 +33,20 @@ export const KFooter = () => {
           <div className="row">
             <FontAwesomeIcon icon={faCompass} />
             <div>
-              <div>Vasile Pârvan blvd. no. 4</div>
-              <div>Timişoara Timiş</div>
-              <div>România 300223</div>
+              <div>{t('Vasile Pârvan blvd. no. 4')}</div>
+              <div>{t('Timişoara Timiş')}</div>
+              <div>{t('România 300223')}</div>
             </div>
           </div>
         </div>
       </div>
       <div className="stamp">
-        Jurnal francofon de literatură contemporană
+
+        {t('Jurnal francofon de literatură contemporană')}
+        <a href="/login" className="loginButton">
+          Log In
+        </a>{' '}
+
         {!isLoggedIn ? (
           <a href="/login" className="loginButton">
             Log In
@@ -46,6 +56,7 @@ export const KFooter = () => {
             Log out
           </span>
         )}
+
       </div>
     </>
   );
