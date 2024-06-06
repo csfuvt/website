@@ -5,9 +5,12 @@ import './styles.css';
 import { KAddButton } from '../../../-components/KAddButton/KAddButton.tsx';
 import { KAddTranslationModal } from '../../../-components/KAddTranslationModal/KAddTranslationModal.tsx';
 import { useState } from 'react';
+import { useAuth } from '../../../../hooks/useAuth.ts';
 
 const TranslationPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { isLoggedIn } = useAuth();
 
   const items = [
     {
@@ -70,7 +73,12 @@ const TranslationPage = () => {
   return (
     <div>
       <KBanner label="TRADUCERI" />
-      <KAddButton className={'position'} onClick={() => setIsModalOpen(true)} />
+      {isLoggedIn && (
+        <KAddButton
+          className={'position'}
+          onClick={() => setIsModalOpen(true)}
+        />
+      )}
       {isModalOpen && <KAddTranslationModal setIsOpen={setIsModalOpen} />}
 
       <div className="flex">

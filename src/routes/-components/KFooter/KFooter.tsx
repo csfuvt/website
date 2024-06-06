@@ -2,9 +2,12 @@ import './KFooter.css';
 import logo from '../../../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { useAuth } from '../../../hooks/useAuth.ts';
 //import LogInPage from '../../login/route';
 
 export const KFooter = () => {
+  const { isLoggedIn, signOut } = useAuth();
+
   return (
     <>
       <div className="footer">
@@ -34,10 +37,15 @@ export const KFooter = () => {
       </div>
       <div className="stamp">
         Jurnal francofon de literatură contemporană
-        <a href="/login" className="loginButton">
-          Log In
-        </a>{' '}
-        {}
+        {!isLoggedIn ? (
+          <a href="/login" className="loginButton">
+            Log In
+          </a>
+        ) : (
+          <span onClick={signOut} className="loginButton">
+            Log out
+          </span>
+        )}
       </div>
     </>
   );

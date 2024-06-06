@@ -1,34 +1,26 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { routeTree } from './routeTree.gen';
 import './i18n';
-//import { Suspense } from 'react';
-//import { useTransition } from 'react';
+import axios from 'axios';
+import { AuthContextProvider } from './auth.context.tsx';
+import { InnerApp } from './router.tsx';
 
-import {
-  // createMemoryHistory,
-  createRouter,
-  RouterProvider,
-} from '@tanstack/react-router';
+axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.headers.common.Accept = 'application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-// const memoryHistory = createMemoryHistory({
-//   initialEntries: ['/'],
-// });
-
-const router = createRouter({ routeTree });
-// const router = createRouter({ routeTree, history: memoryHistory });
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router;
-  }
+const localStorageJwt = localStorage.getItem('jwt');
+if (localStorageJwt) {
+  axios.defaults.headers.common.Authorization = `Bearer ${localStorageJwt}`;
 }
 
 ReactDOM.createRoot(document.getElementById('app')!).render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
-      <RouterProvider router={router} />
+      <AuthContextProvider>
+        <InnerApp />
+      </AuthContextProvider>
     </Suspense>
   </React.StrictMode>
 );
