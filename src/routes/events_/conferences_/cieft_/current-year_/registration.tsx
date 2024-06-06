@@ -4,15 +4,43 @@ import { KTitle } from '../../../../-components/KTitle/KTitle';
 import styles from './registration.module.css';
 
 export const RegistrationPage = () => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formProps = Object.fromEntries(formData);
+
+    console.log('Form data being sent:', JSON.stringify(formProps));
+    try {
+      const response = await fetch('http://localhost:3000/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formProps),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error submitting form:', errorData);
+        alert(`Failed to send email: ${errorData.message}`);
+      } else {
+        alert('Email sent successfully!');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to send email');
+    }
+  };
+
   return (
     <div>
-      <KBanner label="CIEFT 2025 - Fișa de înscriere" />
+      <KBanner label="CIEFT 2024 - Fișa de înscriere" />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <KTitle label="Fișa de înscriere" />
           <br />
 
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
               <label htmlFor="nume">Nume*</label>
               <input
@@ -68,7 +96,7 @@ export const RegistrationPage = () => {
             <div className={styles.formGroup}>
               <label htmlFor="sectiune">Secțiunea*</label>
               <select id="sectiune" name="sectiune" required>
-                <option value="">Selectează</option>
+                <option value="Selecteaza">Selectează</option>
               </select>
             </div>
             <div className={styles.formGroup}>
