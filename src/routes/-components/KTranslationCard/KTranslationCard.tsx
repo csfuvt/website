@@ -2,11 +2,11 @@ import styles from './KTranslationCard.module.css';
 
 export const KTranslationCard = ({
   summaryText,
-  // link,
+  link,
   translationImage,
 }: {
   summaryText: string;
-  // link: string;
+  link?: string;
   translationImage: string;
 }) => {
   return (
@@ -16,9 +16,9 @@ export const KTranslationCard = ({
         style={{ backgroundImage: `url(${translationImage})` }}></div>
       <div className={styles.detailsOverlay}>
         <div className={styles.content}>
-          {/* <a href={link} className={styles.summaryText}> */}
-          {summaryText}
-          {/* </a> */}
+          <a href={link} className={styles.summaryText}>
+            {summaryText}
+          </a>
         </div>
       </div>
     </div>
