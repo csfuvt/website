@@ -1,6 +1,4 @@
 import './styles.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export const KAddCover = ({
   onClick,
@@ -10,8 +8,11 @@ export const KAddCover = ({
   className?: string;
 }) => {
   return (
-    <button className={`cover-button ${className}`} onClick={onClick}>
-      <FontAwesomeIcon icon={faPlus} color="white" />
-    </button>
+    <input
+      type="file"
+      className={`cover-button ${className}`}
+      onClick={onClick}>
+      {/*<FontAwesomeIcon icon={faPlus} color="white" />*/}
+    </input>
   );
 };
