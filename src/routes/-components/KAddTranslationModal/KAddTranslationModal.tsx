@@ -30,7 +30,6 @@ const addTranslation = ({
   if (link) {
     formData.append('link', link);
   }
-  console.log(formData.get('cover'));
   return axios
     .post<Translation>(`/translations`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },

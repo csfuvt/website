@@ -53,6 +53,7 @@ const TranslationPage = () => {
           translations?.map((item, index) => (
             <KTranslationCard
               key={index}
+              id={item.id}
               summaryText={item.description}
               link={item.links[0]?.url}
               translationImage={
