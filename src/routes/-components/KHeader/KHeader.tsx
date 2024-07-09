@@ -11,6 +11,8 @@ import {
   faGraduationCap,
   faNewspaper,
   faUserGroup,
+  faEllipsis,
+  faDiagramProject,
 } from '@fortawesome/free-solid-svg-icons';
 import { faDiscourse } from '@fortawesome/free-brands-svg-icons';
 import roSvg from '../../../assets/ro.svg';
@@ -110,21 +112,21 @@ export const KHeader = () => {
                                 {t('Fișa de înscriere')}
                               </Link>
                             </li>
-                            {/* <li>
+                            <li>
                               <Link to="/events/conferences/cieft/current-year/organizers-and-partners">
-                                Organizatori și parteneri
+                                {t('Organizatori și parteneri')}
                               </Link>
                             </li>
                             <li>
                               <Link to="/events/conferences/cieft/current-year/scientific-committee">
-                                Comitet științific
+                                {t('Comitet științific')}
                               </Link>
-                            </li> */}
-                            {/* <li>
+                            </li>
+                            <li>
                               <Link to="/events/conferences/cieft/current-year/info">
-                                Informații utile
+                                {t('Informații utile')}
                               </Link>
-                            </li> */}
+                            </li>
                           </ul>
                         </li>
                         <li>
@@ -134,11 +136,11 @@ export const KHeader = () => {
                         </li>
                       </ul>
                     </li>
-                    {/* <li>
+                    <li>
                       <Link to="/events/conferences/lingvistic-francophones">
-                        Colocviile franco-române de lingvistică
+                        {t('Colocviile franco-române de lingvistică')}
                       </Link>
-                    </li> */}
+                    </li>
                     <li>
                       <a>
                         <div>
@@ -209,12 +211,12 @@ export const KHeader = () => {
                     <span>{t('Susțineri de teze doctorale')}</span>
                   </Link>
                 </li>
-                {/* <li>
+                <li>
                   <Link to="/events/other-events">
                     <FontAwesomeIcon icon={faEllipsis} width="1rem" />
-                    <span>Alte evenimente</span>
+                    <span>{t('Alte evenimente')}</span>
                   </Link>
-                </li> */}
+                </li>
               </ul>
             </li>
             <li className="topmenu">
@@ -297,77 +299,77 @@ export const KHeader = () => {
                         </li>
                       </ul>
                     </li>
-                    {/* <li>
+                    <li>
                       <a>
-                      <div>
-                        Agapes Francophones{' '}
-                        <FontAwesomeIcon
-                          icon={faCaretRight}
-                          className="to-right"
-                        />
+                        <div>
+                          Agapes Francophones{' '}
+                          <FontAwesomeIcon
+                            icon={faCaretRight}
+                            className="to-right"
+                          />
                         </div>
                       </a>
                       <ul className="submenu">
                         <li>
                           <Link to="/research/publications/agapes-francophones/about">
-                            Despre noi
+                            {t('Despre noi')}
                           </Link>
                         </li>
                         <li>
                           <Link to="/research/publications/agapes-francophones/committees">
-                            Comitete
+                            {t('Comitete')}
                           </Link>
                         </li>
                         <li>
                           <Link to="/research/publications/agapes-francophones/editorial-policy">
-                            Politica editorială
+                            {t('Politica editorială')}
                           </Link>
                         </li>
                         <li>
                           <a>
-                          <div>
-                            Apel la contribuții{' '}
-                            <FontAwesomeIcon
-                              icon={faCaretRight}
-                              className="to-right"
-                            />
+                            <div>
+                              {t('Apel la contribuții')}
+                              <FontAwesomeIcon
+                                icon={faCaretRight}
+                                className="to-right"
+                              />
                             </div>
                           </a>
                           <ul className="submenu">
                             <li>
                               <Link to="/research/publications/agapes-francophones/calls/future">
-                                Apeluri viitoare
+                                {t('Apeluri viitoare')}
                               </Link>
                             </li>
                             <li>
                               <Link to="/research/publications/agapes-francophones/calls/past">
-                                Apeluri trecute
+                                {t('Apeluri trecute')}
                               </Link>
                             </li>
                           </ul>
                         </li>
                         <li>
                           <Link to="/research/publications/agapes-francophones/volumes">
-                            Volume
+                            {t('Volume')}
                           </Link>
                         </li>
                         <li>
                           <Link to="/research/publications/agapes-francophones/indexing">
-                            Indexare
+                            {t('Indexare')}
                           </Link>
                         </li>
                       </ul>
-                    </li> */}
+                    </li>
                     <li>
                       <Link to="/research/publications/lingvistic-conferences">
                         {t('Actele colocviilor franco-române de lingvistică')}
                       </Link>
                     </li>
-                    {/* <li>
+                    <li>
                       <Link to="/research/publications/members-publications">
-                        Publicațiile membrilor
+                        {t('Publicațiile membrilor')}
                       </Link>
-                    </li> */}
+                    </li>
                     <li>
                       <Link to="/research/publications/translations">
                         {t('Traduceri')}
@@ -375,17 +377,17 @@ export const KHeader = () => {
                     </li>
                   </ul>
                 </li>
-                {/* <li>
+                <li>
                   <Link to="/research/projects">
                     <FontAwesomeIcon icon={faDiagramProject} width="1rem" />
-                    <span>Proiecte</span>
+                    <span>{t('Proiecte')}</span>
                   </Link>
-                </li> */}
+                </li>
               </ul>
             </li>
-            {/* <li className="topmenu">
-              <Link to="/international">Internațional</Link>
-            </li> */}
+            <li className="topmenu">
+              <Link to="/international">{t('Internațional')}</Link>
+            </li>
             <li className="topmenu">
               <Link to="/contact">{t('Contact')}</Link>
             </li>
@@ -396,13 +398,10 @@ export const KHeader = () => {
         <button className="lang" onClick={() => handleLanguageChange('ro')}>
           <img src={roSvg} alt="Romanian flag" />
         </button>
-        {/*{' RO / '}*/}
         <button className="lang" onClick={() => handleLanguageChange('fr')}>
           <img src={frSvg} alt="French flag" />
         </button>
-        {/*{' FR'}*/}
       </div>
-      {/* <li className="divider"></li> */}
     </div>
   );
 };

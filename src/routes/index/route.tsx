@@ -5,11 +5,13 @@ import { KBanner } from '../-components/KBanner/KBanner';
 import home1 from '../../../public/home1.jpg';
 import home2 from '../../../public/home2.jpg';
 import home0 from '../../../public/home0.png';
+import { useTranslation } from 'react-i18next';
 
 const images = [home0, home2, home1];
 
 const HomePage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { t } = useTranslation();
 
   const handlePrev = () => {
     setCurrentIndex(prevIndex =>
@@ -25,7 +27,7 @@ const HomePage = () => {
 
   return (
     <>
-      <KBanner label="CENTRUL DE STUDII FRANCOFONE" />
+      <KBanner label={t('CENTRUL DE STUDII FRANCOFONE')} />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <div className={styles.boxContainer}>
@@ -46,10 +48,10 @@ const HomePage = () => {
 
           <div className={styles.boxContainer}>
             <div className={styles.callToContributeContainer}>
-              <h1 className={styles.title}>Apeluri la contribuții</h1>
+              <h1 className={styles.title}>{t('Apeluri la contribuții')}</h1>
               <div className={styles.textContainer}>
                 <div className={styles.section}>
-                  <h2 className={styles.blueTextBold}>Evenimente</h2>
+                  <h2 className={styles.blueTextBold}>{t('Evenimente')}</h2>
                   <Link
                     to="/events/conferences/cieft/current-year/calls"
                     className={styles.blueText}>
@@ -58,11 +60,11 @@ const HomePage = () => {
                   <Link
                     to="/events/conferences/francophones-studies/current-year/calls"
                     className={styles.blueText}>
-                    Colocviul studențesc de studii francofone
+                    {t('Colocviul studențesc de studii francofone')}
                   </Link>
                 </div>
                 <div className={styles.section}>
-                  <h2 className={styles.blueTextBold}>Publicații</h2>
+                  <h2 className={styles.blueTextBold}>{t('Publicații')}</h2>
                   <Link
                     to="/research/publications/dialogue-francophones/about"
                     className={styles.blueText}>
