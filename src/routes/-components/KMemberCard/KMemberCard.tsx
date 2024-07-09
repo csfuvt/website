@@ -8,6 +8,8 @@ interface KMemberCardProps {
   profileImage: string;
   cvLink: string;
   description: string;
+  isOpen: boolean;
+  toggleDescription: () => void;
 }
 
 export const KMemberCard: React.FC<KMemberCardProps> = ({
@@ -16,15 +18,18 @@ export const KMemberCard: React.FC<KMemberCardProps> = ({
   profileImage,
   cvLink,
   description,
+  isOpen,
+  toggleDescription,
 }) => {
   return (
     <div className={styles.card}>
-      <div className={styles.blueSection}>
-        <a href={cvLink} target="_blank" rel="noopener noreferrer">
-          <div
-            className={styles.profileImage}
-            style={{ backgroundImage: `url(${profileImage})` }}></div>
-        </a>
+      {isOpen && (
+        <div className={styles.overlay} onClick={toggleDescription}></div>
+      )}
+      <div className={styles.blueSection} onClick={toggleDescription}>
+        <div
+          className={styles.profileImage}
+          style={{ backgroundImage: `url(${profileImage})` }}></div>
       </div>
       <div className={styles.textSection}>
         <Tooltip description={description}>
@@ -32,6 +37,22 @@ export const KMemberCard: React.FC<KMemberCardProps> = ({
         </Tooltip>
         <div className={styles.title}>{label_title}</div>
       </div>
+      {isOpen && (
+        <div className={styles.descriptionContainer}>
+          <button className={styles.closeButton} onClick={toggleDescription}>
+            X
+          </button>
+          <h3 className={styles.descriptionName}>{label_name}</h3>
+          <p>{description}</p>
+          <a
+            href={cvLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.cvButton}>
+            CV
+          </a>
+        </div>
+      )}
     </div>
   );
 };

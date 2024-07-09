@@ -1,0 +1,13 @@
+.plus-button {
+  display: flex;
+  padding: 2.5rem;
+  border-radius: 9999px;
+  border: none;
+  background-color: var(--primary);
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.plus-button:hover {
+  opacity: 0.6;
+}
