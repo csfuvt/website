@@ -2,12 +2,12 @@ import styles from './KVolumeCard.module.css';
 import { Link } from '@tanstack/react-router';
 
 export const KVolumeCard = ({
-  issueNumber,
+  title,
   buttonText,
   url,
   volumeImageUrl,
 }: {
-  issueNumber: string;
+  title: string;
   buttonText: string;
   url: string;
   volumeImageUrl: string;
@@ -20,7 +20,7 @@ export const KVolumeCard = ({
         className={styles.backgroundImage}
       />
       <div className={styles.center}>
-        <span className={styles.issueNumber}>{issueNumber}</span>
+        <span className={styles.issueNumber}>{title}</span>
 
         <Link to={url}>
           <button className={styles.button}>{buttonText}</button>

@@ -1,22 +1,53 @@
-import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../../-components/KBanner/KBanner';
 import { KVolumeCard } from '../../../../-components/KVolumeCard/KVolumeCard';
 import styles from './VolumePage.module.css';
-import { volumes } from '../../../../-constants/mock.data.ts';
+import axios from 'axios';
+import { Volume } from './-volumes.model.ts';
+import { useQuery } from '@tanstack/react-query';
+import { Spin } from 'antd';
+import { isEmpty } from 'lodash-es';
+import { createFileRoute } from '@tanstack/react-router';
 
-const VolumePage = () => {
+const getVolumes = () =>
+  axios
+    .get<Volume[]>('/volumes/type/DIALOGUES_FRANCOPHONE')
+    .then(res => res.data.reverse());
+
+const VolumesPage = () => {
+  const {
+    data: volumes,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['volumes'],
+    queryFn: getVolumes,
+  });
+
   return (
     <div>
       <KBanner label="Dialogues Francophones - VOLUME" />
       <div className={styles.cardsContainer}>
-        {volumes.reverse().map(volume => (
-          <KVolumeCard
-            issueNumber={volume.issueNumber}
-            buttonText="Deschide >"
-            url={`/research/publications/dialogue-francophones/volumes/${volume.id}`}
-            volumeImageUrl={volume.coverUrl}
-          />
-        ))}
+        <div className="flex">
+          {isLoading ? (
+            <Spin />
+          ) : isError ? (
+            <span>
+              Volumele nu pot fi afișate momentan. Reveniți mai târziu!
+            </span>
+          ) : isEmpty(volumes) ? (
+            <span>Nu există volume momentan.</span>
+          ) : (
+            volumes?.map((volume, index) => (
+              <KVolumeCard
+                key={index}
+                title={volume.title}
+                buttonText="Deschide >"
+                url={`/research/publications/dialogue-francophones/volumes/${volume.id}`}
+                volumeImageUrl={volume.cover}
+              />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
@@ -25,7 +56,7 @@ const VolumePage = () => {
 export const Route = createFileRoute(
   '/research/publications/dialogue-francophones/volumes/'
 )({
-  component: VolumePage,
+  component: VolumesPage,
 });
 
-export default VolumePage;
+export default VolumesPage;
