@@ -3,22 +3,24 @@ export const KChapter = ({
   title,
   url,
   description,
-  pages,
+  pageStart,
+  pageEnd,
 }: {
   title: string;
   url: string;
   description: string;
-  pages: string;
+  pageStart: number;
+  pageEnd: number;
 }) => {
   return (
-    <div className="chapterContainer">
+    <a href={url} className="chapterContainer">
       <div className="details">
-        <a href={url} className="title">
-          {title}
-        </a>
+        <span className="title">{title}</span>
         <span className="desc">{description}</span>
       </div>
-      <span className="pages">p. {pages}</span>
-    </div>
+      <span className="pages">
+        pag. {pageStart} - {pageEnd}
+      </span>
+    </a>
   );
 };
