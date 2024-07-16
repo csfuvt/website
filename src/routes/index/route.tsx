@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import styles from './styles.module.css';
-import { KBanner } from '../-components/KBanner/KBanner';
-import home1 from '../../../public/home1.jpg';
+import { KMovingBanner } from '../-components/KMovingBanner/KMovingBanner';
 import home2 from '../../../public/home2.jpg';
 import home0 from '../../../public/home0.png';
 import { useTranslation } from 'react-i18next';
 
-const images = [home0, home2, home1];
+const images = [home0, home2];
 
 const HomePage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -27,7 +26,7 @@ const HomePage = () => {
 
   return (
     <>
-      <KBanner label={t('CENTRUL DE STUDII FRANCOFONE')} />
+      <KMovingBanner />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <div className={styles.boxContainer}>
