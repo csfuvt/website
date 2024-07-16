@@ -3,3 +3,9 @@
   width: 100%;
   background-color: var(--primary);
 }
+
+@media (min-width: 768px) {
+  .blue-band {
+    height: 100px;
+  }
+}
