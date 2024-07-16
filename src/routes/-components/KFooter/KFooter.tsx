@@ -1,11 +1,11 @@
+import React from 'react';
 import './KFooter.css';
 import logo from '../../../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { useAuth } from '../../../hooks/useAuth.ts';
-//import LogInPage from '../../login/route';
 
-export const KFooter = () => {
+export const KFooter: React.FC = () => {
   const { isLoggedIn, signOut } = useAuth();
 
   return (

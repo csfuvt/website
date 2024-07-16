@@ -1,57 +1,96 @@
 .container {
     display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 1500px;
-    padding: 80px;
+    padding: 20px;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
     box-sizing: border-box;
     background: rgb(255, 255, 255);
-    margin: 40px auto; 
-}
-
-.mapSection {
+    margin: 40px auto;
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      flex-direction: row;
+      padding: 80px;
+      align-items: flex-start;
+    }
+  }
+  
+  .mapSection {
     width: 100%;
-    height: 400px; 
+    height: 300px;
     box-sizing: border-box;
-    padding-top: 0; 
-    padding-right: 20px; 
-}
-
-.contactInfo {
-    flex: 0 0 40%;
-    width: 30%;
-    background: #fff; 
+    padding: 0;
+  }
+  
+  @media (min-width: 768px) {
+    .mapSection {
+      height: 400px;
+      padding-right: 20px;
+    }
+  }
+  
+  .contactInfo {
+    flex: 1;
+    width: 100%;
+    background: #fff;
     padding: 20px;
-    box-shadow: #ffff; 
+    box-shadow: #ffff;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
-}
-
-.title {
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  
+  @media (min-width: 768px) {
+    .contactInfo {
+      flex: 0 0 40%;
+      width: auto;
+    }
+  }
+  
+  .title {
     color: #004992;
-    font-size: 36px;
+    font-size: 24px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     text-transform: capitalize;
-    margin: 0;
-}
-
-.text {
+    margin: 0 0 20px 0;
+  }
+  
+  @media (min-width: 768px) {
+    .title {
+      font-size: 36px;
+      margin: 0;
+    }
+  }
+  
+  .text {
     display: flex;
-    gap: 16px;
+    flex-direction: column;
+    gap: 8px;
     justify-content: flex-start;
-}
-
-.text > a {
+  }
+  
+  @media (min-width: 768px) {
+    .text {
+      flex-direction: row;
+      gap: 16px;
+    }
+  }
+  
+  .text > a {
     text-decoration: underline;
     color: var(--primary);
-}
-
-.line,
-.lineBlue {
-  padding-left: 8px;
-  border-left: 1px solid #e11e24;
-}
+  }
+  
+  .line,
+  .lineBlue {
+    padding-left: 8px;
+    border-left: 1px solid #e11e24;
+  }
+  

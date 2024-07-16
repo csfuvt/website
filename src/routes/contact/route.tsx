@@ -21,23 +21,23 @@ const ContactPage: React.FC = () => {
         </div>
         <div className={styles.contactInfo}>
           <div className={styles.title}>{t('Adresa')}</div>
-          <br></br>
+          <br />
           <div className={styles.line}>
             <div className={styles.text}>
               {t('Bulevardul Vasile Pârvan nr. 4')}
-              <br></br>
+              <br />
               {t(' 300223 Timișoara')}
-              <br></br> {t('Timiș')}
-              <br></br>
+              <br /> {t('Timiș')}
+              <br />
               {t('România')}
             </div>
           </div>
-          <br></br>
-          <br></br>
-          <br></br>
+          <br />
+          <br />
+          <br />
 
           <div className={styles.title}>{t('E-Mail')}</div>
-          <br></br>
+          <br />
           <div className={styles.line}>
             <div className={styles.text}>
               <span>Dialogues francophones:</span>
