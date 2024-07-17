@@ -4,4 +4,7 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   margin: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }

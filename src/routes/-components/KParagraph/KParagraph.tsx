@@ -1,5 +1,5 @@
 import './styles.css';
-import { KSubtitle } from '../KSubtitle/KSubtitle.tsx';
+import { KArticle } from '../KArticle/KArticle.tsx';
 
 export const KParagraph = ({
   text,
@@ -16,7 +16,7 @@ export const KParagraph = ({
 }) => {
   return (
     <div className="line">
-      {title && <KSubtitle label={titleLabel} />}
+      {title && <KArticle label={titleLabel} />}
       <span className="lineP">{text}</span>
       {list && (
         <ul>
