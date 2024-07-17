@@ -149,7 +149,9 @@ const VolumePage = () => {
               />
               <div className="volumeUrl">
                 <span className="label">Volum</span>
-                <a href={BASE_URL + `/files/volumes/${volume.pdf}`}>
+                <a
+                  href={BASE_URL + `/files/volumes/${volume.pdf}`}
+                  className="url">
                   {volume.title}
                 </a>
               </div>
