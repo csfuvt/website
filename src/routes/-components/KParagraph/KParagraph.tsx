@@ -1,5 +1,4 @@
 import './styles.css';
-import { KArticle } from '../KArticle/KArticle.tsx';
 
 export const KParagraph = ({
   text,
@@ -16,7 +15,7 @@ export const KParagraph = ({
 }) => {
   return (
     <div className="line">
-      {title && <KArticle label={titleLabel} />}
+      {title && <div>{titleLabel}</div>}
       <span className="lineP">{text}</span>
       {list && (
         <ul>

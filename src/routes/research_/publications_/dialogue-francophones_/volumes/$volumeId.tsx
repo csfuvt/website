@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 const getVolumeById = (id: string) =>
   axios.get<Volume>(`/volumes/${id}`).then(res => res.data);
 
-interface ArticleForm {
+export interface ArticleForm {
   title: string;
 }
 
@@ -41,42 +41,49 @@ const VolumePage = () => {
     queryFn: () => getVolumeById(volumeId),
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddArticleModalOpen, setIsAddArticleModalOpen] = useState(false);
 
-  const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
-    mutationFn: addArticle,
-    onError: () => toast.error('Nu s-a putut adăuga articolul!'),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [`volume/${volumeId}`] });
-      setIsModalOpen(false);
-      toast.success('Articolul a fost adăugat cu succes.');
-    },
-  });
-
-  const showModal = () => {
-    setIsModalOpen(true);
+  const showArticleModal = () => {
+    setIsAddArticleModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
+  const handleOkForAddArticle = () => {
+    setIsAddArticleModalOpen(false);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const handleCancelForAddArticle = () => {
+    setIsAddArticleModalOpen(false);
+    resetArticleForm();
   };
 
   const {
-    handleSubmit,
-    formState: { errors, isValid },
-    control,
+    handleSubmit: handleArticleSubmit,
+    reset: resetArticleForm,
+    formState: { errors: articleErrors, isValid: isArticleValid },
+    control: articleControl,
   } = useForm<ArticleForm>({
     defaultValues: {
       title: '',
     },
   });
+
+  const queryClient = useQueryClient();
+  const { mutate: addArticleMutation, isPending: isArticlePending } =
+    useMutation({
+      mutationFn: addArticle,
+      onError: () => toast.error('Nu s-a putut adăuga articolul!'),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [`volume/${volumeId}`],
+        });
+        setIsAddArticleModalOpen(false);
+        resetArticleForm();
+        toast.success('Articolul a fost adăugat cu succes.');
+      },
+    });
+
   const onSubmit: SubmitHandler<ArticleForm> = data => {
-    mutate({ ...data, id: parseInt(volumeId) });
+    addArticleMutation({ ...data, id: parseInt(volumeId) });
   };
 
   return (
@@ -96,48 +103,44 @@ const VolumePage = () => {
       ) : (
         <div>
           <KBanner label={`Dialogues Francophones - NO ${volume.title}`} />
-          {isModalOpen && (
-            <form>
-              <Modal
-                title="Adaugă un articol"
-                open={isModalOpen}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                footer={[
-                  <Button key="back" onClick={handleCancel}>
-                    Renunță
-                  </Button>,
-                  <Button
-                    key="submit"
-                    type="primary"
-                    loading={isPending}
-                    disabled={!isValid}
-                    onClick={handleSubmit(onSubmit)}>
-                    Salvează
-                  </Button>,
-                ]}>
-                <Controller
-                  name="title"
-                  defaultValue=""
-                  control={control}
-                  rules={{
-                    required: 'Titlul articolului este un câmp obligatoriu',
-                  }}
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      status={errors.title ? 'error' : ''}
-                      placeholder={
-                        errors.title?.message ?? 'Titlul articolului'
-                      }
-                      value={value}
-                      onChange={onChange}
-                      allowClear
-                    />
-                  )}
+          <Modal
+            title="Adaugă un articol"
+            open={isAddArticleModalOpen}
+            onOk={handleOkForAddArticle}
+            onCancel={handleCancelForAddArticle}
+            footer={[
+              <Button key="back" onClick={handleCancelForAddArticle}>
+                Renunță
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                loading={isArticlePending}
+                disabled={!isArticleValid}
+                onClick={handleArticleSubmit(onSubmit)}>
+                Salvează
+              </Button>,
+            ]}>
+            <Controller
+              name="title"
+              defaultValue=""
+              control={articleControl}
+              rules={{
+                required: 'Titlul articolului este un câmp obligatoriu',
+              }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  status={articleErrors.title ? 'error' : ''}
+                  placeholder={
+                    articleErrors.title?.message ?? 'Titlul articolului'
+                  }
+                  value={value}
+                  onChange={onChange}
+                  allowClear
                 />
-              </Modal>
-            </form>
-          )}
+              )}
+            />
+          </Modal>
           <div className="volumeContainer">
             <div className="left">
               <img
@@ -158,18 +161,19 @@ const VolumePage = () => {
             </div>
             <div className="right">
               {isLoggedIn && (
-                <Button type="primary" size="large" onClick={showModal}>
+                <Button type="primary" size="large" onClick={showArticleModal}>
                   Adaugă un articol
                 </Button>
               )}
               {volume.articles.map(article => (
                 <div className="space-20">
-                  <KArticle label={article.title} />
+                  <KArticle label={article.title} articleId={article.id} />
                   {article.chapters.map(chapter => (
                     <KChapter
+                      chapterId={chapter.id}
                       title={chapter.title}
-                      url={chapter.pdf}
-                      description={chapter.description}
+                      url={BASE_URL + `/files/chapters/${chapter.pdf}`}
+                      authors={chapter.authors}
                       pageStart={chapter.pageStart}
                       pageEnd={chapter.pageEnd}
                     />

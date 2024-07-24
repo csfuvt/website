@@ -4,17 +4,7 @@ import styles from './VolumePage.module.css';
 import axios from 'axios';
 import { Volume } from './-volumes.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  Button,
-  GetProp,
-  Input,
-  Modal,
-  Space,
-  Spin,
-  Upload,
-  UploadFile,
-  UploadProps,
-} from 'antd';
+import { Button, Input, Modal, Space, Spin, Upload, UploadFile } from 'antd';
 import { isEmpty } from 'lodash-es';
 import { createFileRoute } from '@tanstack/react-router';
 import { KAddButton } from '../../../../-components/KAddButton/KAddButton.tsx';
@@ -24,12 +14,15 @@ import { UploadOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
 import { BASE_URL } from '../../../../../constants.ts';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  AntDFileType,
+  FileType,
+  useFileUpload,
+} from '../../../../../hooks/useFileUpload.ts';
 
 interface VolumeForm {
   title: string;
 }
-
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const addVolume = ({
   title,
@@ -37,8 +30,8 @@ const addVolume = ({
   pdf,
 }: VolumeForm & { cover: UploadFile; pdf: UploadFile }) => {
   const formData = new FormData();
-  formData.append('cover', cover as FileType);
-  formData.append('pdf', pdf as FileType);
+  formData.append('cover', cover as AntDFileType);
+  formData.append('pdf', pdf as AntDFileType);
   formData.append('title', title);
   return axios
     .post<Volume>(`/volumes`, formData, {
@@ -55,28 +48,6 @@ const getVolumes = () =>
 const VolumesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
-    mutationFn: addVolume,
-    onError: () => toast.error('Nu s-a putut adăuga volumul!'),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['volumes'] });
-      setIsModalOpen(false);
-      toast.success('Volumul a fost adăugat cu succes.');
-    },
-  });
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
   const { isLoggedIn } = useAuth();
 
   const {
@@ -88,66 +59,57 @@ const VolumesPage = () => {
     queryFn: getVolumes,
   });
 
-  const [coverList, setCoverList] = useState<UploadFile[]>([]);
-
-  const uploadCoverProps: UploadProps = {
-    onRemove: file => {
-      const index = coverList.indexOf(file);
-      const newFileList = coverList.slice();
-      newFileList.splice(index, 1);
-      setCoverList(newFileList);
-    },
-    beforeUpload: file => {
-      const isJpgOrPng =
-        file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        toast.error('Se pot adăuga doar fișiere JPG / PNG!');
-        return false;
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        toast.error('Se pot adăuga doar fișiere până în 2MB');
-        return false;
-      }
-      setCoverList([file]);
-      return false;
-    },
-    fileList: coverList,
-  };
-
-  const [pdfList, setPdfList] = useState<UploadFile[]>([]);
-
-  const uploadPdfProps: UploadProps = {
-    onRemove: file => {
-      const index = pdfList.indexOf(file);
-      const newFileList = pdfList.slice();
-      newFileList.splice(index, 1);
-      setPdfList(newFileList);
-    },
-    beforeUpload: file => {
-      const isPdf = file.type === 'application/pdf';
-      if (!isPdf) {
-        toast.error('Se pot adăuga doar fișiere PDF!');
-        return false;
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        toast.error('Se pot adăuga doar fișiere până în 2MB');
-        return false;
-      }
-      setPdfList([file]);
-      return false;
-    },
+  const {
     fileList: pdfList,
-  };
+    resetFileList: resetPdfList,
+    uploadFileProps: uploadPdfProps,
+  } = useFileUpload(FileType.PDF);
+
+  const {
+    fileList: coverList,
+    resetFileList: resetCoverList,
+    uploadFileProps: uploadCoverProps,
+  } = useFileUpload(FileType.IMAGE);
 
   const {
     handleSubmit,
     formState: { errors, isValid },
     control,
+    reset,
   } = useForm<VolumeForm>({
     defaultValues: {
       title: '',
+    },
+  });
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    resetAllForm();
+  };
+
+  const resetAllForm = () => {
+    reset();
+    resetPdfList();
+    resetCoverList();
+  };
+
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: addVolume,
+    onError: () => toast.error('Nu s-a putut adăuga volumul!'),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['volumes'] });
+      setIsModalOpen(false);
+      resetAllForm();
+      toast.success('Volumul a fost adăugat cu succes.');
     },
   });
 
@@ -163,57 +125,55 @@ const VolumesPage = () => {
           <KAddButton className={'position'} onClick={showModal} />
         )}
         {isModalOpen && (
-          <form>
-            <Modal
-              title="Creează un volum"
-              open={isModalOpen}
-              onOk={handleOk}
-              onCancel={handleCancel}
-              footer={[
-                <Button key="back" onClick={handleCancel}>
-                  Renunță
-                </Button>,
-                <Button
-                  key="submit"
-                  type="primary"
-                  loading={isPending}
-                  disabled={isEmpty(coverList) || isEmpty(pdfList) || !isValid}
-                  onClick={handleSubmit(onSubmit)}>
-                  Salvează
-                </Button>,
-              ]}>
-              <Space
-                direction="vertical"
-                size="middle"
-                style={{ display: 'flex' }}>
-                <Controller
-                  name="title"
-                  defaultValue=""
-                  control={control}
-                  rules={{
-                    required: 'Nr. și anul volumului este un câmp obligatoriu',
-                  }}
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      status={errors.title ? 'error' : ''}
-                      placeholder={
-                        errors.title?.message ?? 'Număr volum / Anul volumului'
-                      }
-                      value={value}
-                      onChange={onChange}
-                      allowClear
-                    />
-                  )}
-                />
-                <Upload {...uploadCoverProps}>
-                  <Button icon={<UploadOutlined />}>Selectează coperta</Button>
-                </Upload>
-                <Upload {...uploadPdfProps}>
-                  <Button icon={<UploadOutlined />}>Selectează pdf</Button>
-                </Upload>
-              </Space>
-            </Modal>
-          </form>
+          <Modal
+            title="Creează un volum"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[
+              <Button key="back" onClick={handleCancel}>
+                Renunță
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                loading={isPending}
+                disabled={isEmpty(coverList) || isEmpty(pdfList) || !isValid}
+                onClick={handleSubmit(onSubmit)}>
+                Salvează
+              </Button>,
+            ]}>
+            <Space
+              direction="vertical"
+              size="middle"
+              style={{ display: 'flex' }}>
+              <Controller
+                name="title"
+                defaultValue=""
+                control={control}
+                rules={{
+                  required: 'Nr. și anul volumului este un câmp obligatoriu',
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.title ? 'error' : ''}
+                    placeholder={
+                      errors.title?.message ?? 'Număr volum / Anul volumului'
+                    }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Upload {...uploadCoverProps}>
+                <Button icon={<UploadOutlined />}>Selectează coperta</Button>
+              </Upload>
+              <Upload {...uploadPdfProps}>
+                <Button icon={<UploadOutlined />}>Selectează pdf</Button>
+              </Upload>
+            </Space>
+          </Modal>
         )}
         <div className="flex">
           {isLoading ? (
@@ -230,6 +190,7 @@ const VolumesPage = () => {
             volumes?.map((volume, index) => (
               <KVolumeCard
                 key={index}
+                id={volume.id}
                 title={volume.title}
                 buttonText="Deschide >"
                 url={`/research/publications/dialogue-francophones/volumes/${volume.id}`}

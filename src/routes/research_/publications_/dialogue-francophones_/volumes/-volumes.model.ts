@@ -7,13 +7,15 @@ export interface Volume {
 }
 
 export interface Article {
+  id: number;
   title: string;
   chapters: Chapter[];
 }
 
 export interface Chapter {
+  id: number;
   title: string;
-  description: string;
+  authors: string;
   pageStart: number;
   pageEnd: number;
   pdf: string;

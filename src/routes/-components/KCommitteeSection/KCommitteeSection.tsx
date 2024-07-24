@@ -1,5 +1,5 @@
-import { KArticle } from '../KArticle/KArticle.tsx';
 import './styles.css';
+
 export const KCommitteeSection = ({
   title,
   isTitle,
@@ -11,7 +11,7 @@ export const KCommitteeSection = ({
 }) => {
   return (
     <div className="line">
-      {isTitle && <KArticle label={title} />}
+      {isTitle && <div>{title}</div>}
       <ul>
         {list?.map(element => (
           <li className="lineP">
