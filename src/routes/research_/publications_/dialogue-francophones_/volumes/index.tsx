@@ -20,7 +20,7 @@ import {
   useFileUpload,
 } from '../../../../../hooks/useFileUpload.ts';
 
-interface VolumeForm {
+export interface VolumeForm {
   title: string;
 }
 
@@ -86,10 +86,6 @@ const VolumesPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
     resetAllForm();
@@ -128,7 +124,6 @@ const VolumesPage = () => {
           <Modal
             title="Creează un volum"
             open={isModalOpen}
-            onOk={handleOk}
             onCancel={handleCancel}
             footer={[
               <Button key="back" onClick={handleCancel}>
@@ -187,9 +182,9 @@ const VolumesPage = () => {
               <span>Nu există volume momentan.</span>
             </div>
           ) : (
-            volumes?.map((volume, index) => (
+            volumes?.map(volume => (
               <KVolumeCard
-                key={index}
+                key={volume.id}
                 id={volume.id}
                 title={volume.title}
                 buttonText="Deschide >"

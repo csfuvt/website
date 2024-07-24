@@ -47,10 +47,6 @@ const VolumePage = () => {
     setIsAddArticleModalOpen(true);
   };
 
-  const handleOkForAddArticle = () => {
-    setIsAddArticleModalOpen(false);
-  };
-
   const handleCancelForAddArticle = () => {
     setIsAddArticleModalOpen(false);
     resetArticleForm();
@@ -106,7 +102,6 @@ const VolumePage = () => {
           <Modal
             title="Adaugă un articol"
             open={isAddArticleModalOpen}
-            onOk={handleOkForAddArticle}
             onCancel={handleCancelForAddArticle}
             footer={[
               <Button key="back" onClick={handleCancelForAddArticle}>

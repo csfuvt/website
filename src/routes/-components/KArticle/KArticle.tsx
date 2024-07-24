@@ -28,8 +28,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import axios from 'axios';
-import { Chapter } from '../../research_/publications_/dialogue-francophones_/volumes/-volumes.model.ts';
-import { Route } from '../../research_/publications_/dialogue-francophones_/volumes/$volumeId.tsx';
+import {
+  Article,
+  Chapter,
+} from '../../research_/publications_/dialogue-francophones_/volumes/-volumes.model.ts';
+import {
+  ArticleForm,
+  Route,
+} from '../../research_/publications_/dialogue-francophones_/volumes/$volumeId.tsx';
 import { isEmpty } from 'lodash-es';
 import { ActionableButton } from '../KChapter/KChapter.tsx';
 
@@ -63,6 +69,10 @@ const addChapter = async ({
 const deleteArticle = (id: number) =>
   axios.delete(`/articles/${id}`).then(res => res.data);
 
+const editArticle = async ({ title, id }: ArticleForm & { id: number }) => {
+  const res = await axios.post<Article>(`/articles/${id}`, { title });
+  return res.data;
+};
 export const KArticle = ({
   label,
   articleId,
@@ -119,20 +129,54 @@ export const KArticle = ({
 
   const [isAddChapterModalOpen, setIsAddChapterModalOpen] = useState(false);
 
-  const handleOkForAddChapter = () => {
-    setIsAddChapterModalOpen(false);
-  };
-
   const handleCancelForAddChapter = () => {
     setIsAddChapterModalOpen(false);
     resetAllForm();
+  };
+
+  const [isEditArticleModalOpen, setIsEditArticleModalOpen] = useState(false);
+  const showEditArticleModal = () => {
+    setIsEditArticleModalOpen(true);
+  };
+
+  const handleCancelForEditArticle = () => {
+    setIsEditArticleModalOpen(false);
+    resetArticleForm();
+  };
+
+  const {
+    handleSubmit: handleArticleSubmit,
+    reset: resetArticleForm,
+    formState: { errors: articleErrors, isValid: isArticleValid },
+    control: articleControl,
+  } = useForm<ArticleForm>({
+    defaultValues: {
+      title: label,
+    },
+  });
+
+  const { mutate: editArticleMutation, isPending: isEditArticlePending } =
+    useMutation({
+      mutationFn: editArticle,
+      onSuccess: async data => {
+        await queryClient.invalidateQueries({
+          queryKey: [`volume/${volumeId}`],
+        });
+        toast.success('Articolul a fost editat cu succes');
+        resetArticleForm({ title: data.title });
+        handleCancelForEditArticle();
+      },
+      onError: () => toast.error('A apărut o eroare în momentul editării'),
+    });
+
+  const onSubmit: SubmitHandler<ArticleForm> = data => {
+    editArticleMutation({ ...data, id: articleId });
   };
 
   const { mutate: deleteArticleMutation, isPending: isDeleteArticlePending } =
     useMutation({
       mutationFn: deleteArticle,
       onSuccess: async () => {
-        `volume/${volumeId}`;
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
@@ -158,6 +202,8 @@ export const KArticle = ({
   const handleMenuClick: MenuProps['onClick'] = e => {
     if (e.key === ActionableButton.DELETE) {
       showPropsConfirm();
+    } else if (e.key === ActionableButton.EDIT) {
+      showEditArticleModal();
     }
   };
 
@@ -200,7 +246,6 @@ export const KArticle = ({
       <Modal
         title="Adaugă un capitol"
         open={isAddChapterModalOpen}
-        onOk={handleOkForAddChapter}
         onCancel={handleCancelForAddChapter}
         footer={[
           <Button key="back" onClick={handleCancelForAddChapter}>
@@ -299,6 +344,41 @@ export const KArticle = ({
             <Button icon={<UploadOutlined />}>Selectează pdf</Button>
           </Upload>
         </Space>
+      </Modal>
+      <Modal
+        title="Editează articolul"
+        open={isEditArticleModalOpen}
+        onCancel={handleCancelForEditArticle}
+        footer={[
+          <Button key="back" onClick={handleCancelForEditArticle}>
+            Renunță
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={isEditArticlePending}
+            disabled={!isArticleValid}
+            onClick={handleArticleSubmit(onSubmit)}>
+            Salvează
+          </Button>,
+        ]}>
+        <Controller
+          name="title"
+          defaultValue=""
+          control={articleControl}
+          rules={{
+            required: 'Titlul articolului este un câmp obligatoriu',
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              status={articleErrors.title ? 'error' : ''}
+              placeholder={articleErrors.title?.message ?? 'Titlul articolului'}
+              value={value}
+              onChange={onChange}
+              allowClear
+            />
+          )}
+        />
       </Modal>
     </div>
   );
