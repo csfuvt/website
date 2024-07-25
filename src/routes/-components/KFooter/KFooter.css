@@ -28,33 +28,16 @@
   }
 }
 
-
 .stamp {
   display: flex;
-  justify-content: center;
-
-  padding: 1rem 0;
-
-  background-color: var(--primary);
-
-  color: var(--white);
-  font-weight: 600;
-}
-
-.stamp {
-  display: flex;
-  justify-content: center;
-  position: relative; 
-  padding: 1rem 0;
+  justify-content: flex-end;
+  padding: 1rem 2rem;
   background-color: var(--primary);
   color: var(--white);
   font-weight: 600;
 }
 
 .loginButton {
-  position: absolute;
-  right: 20px; 
-  bottom: 10px; 
   padding: 8px 16px;
   background-color: #0056b3;
   color: white;

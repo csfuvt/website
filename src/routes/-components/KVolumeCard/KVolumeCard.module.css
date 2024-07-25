@@ -1,25 +1,18 @@
 .card {
-
   border: 1px solid #ffffff;
   border-radius: 24px;
-  overflow: hidden;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 36px;
+  padding: 36px 36px;
+  position: relative;
 }
 
 .backgroundImage {
+  border-radius: 8px;
   width: 200px;
   height: 300px;
   background-size: cover;
   background-position: center;
-  position: relative; 
   margin-bottom: 20px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-radius: 8px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 }
 
 .title {
@@ -60,4 +53,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.deleteVolume {
+  position: absolute;
+  right: 3rem;
+  top: 3rem;
 }

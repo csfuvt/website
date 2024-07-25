@@ -4,7 +4,6 @@
   width: 100%;
   justify-content: space-between;
   padding: 12px;
-  font-family: "Montserrat", sans-serif;
   color: var(--primary);
 }
 
@@ -13,10 +12,11 @@
   border-radius: 12px;
 }
 
-.title {
+.chapterTitle {
   color: var(--tertiary);
+  font-family: "Montserrat", sans-serif;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .details {
@@ -24,15 +24,17 @@
   flex-direction: column;
   gap: 8px;
   flex-basis: 80%;
+  cursor: pointer;
 }
 
 .pages {
   font-size: 1rem;
   font-weight: 700;
-  flex-basis: 20%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  padding-right: 16px;
+  gap: 16px;
 }
 
 
