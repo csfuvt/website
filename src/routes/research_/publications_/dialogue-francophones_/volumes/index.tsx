@@ -120,56 +120,51 @@ const VolumesPage = () => {
         {isLoggedIn && (
           <KAddButton className={'position'} onClick={showModal} />
         )}
-        {isModalOpen && (
-          <Modal
-            title="Creează un volum"
-            open={isModalOpen}
-            onCancel={handleCancel}
-            footer={[
-              <Button key="back" onClick={handleCancel}>
-                Renunță
-              </Button>,
-              <Button
-                key="submit"
-                type="primary"
-                loading={isPending}
-                disabled={isEmpty(coverList) || isEmpty(pdfList) || !isValid}
-                onClick={handleSubmit(onSubmit)}>
-                Salvează
-              </Button>,
-            ]}>
-            <Space
-              direction="vertical"
-              size="middle"
-              style={{ display: 'flex' }}>
-              <Controller
-                name="title"
-                defaultValue=""
-                control={control}
-                rules={{
-                  required: 'Nr. și anul volumului este un câmp obligatoriu',
-                }}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.title ? 'error' : ''}
-                    placeholder={
-                      errors.title?.message ?? 'Număr volum / Anul volumului'
-                    }
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Upload {...uploadCoverProps}>
-                <Button icon={<UploadOutlined />}>Selectează coperta</Button>
-              </Upload>
-              <Upload {...uploadPdfProps}>
-                <Button icon={<UploadOutlined />}>Selectează pdf</Button>
-              </Upload>
-            </Space>
-          </Modal>
-        )}
+        <Modal
+          title="Creează un volum"
+          open={isModalOpen}
+          onCancel={handleCancel}
+          footer={[
+            <Button key="back" onClick={handleCancel}>
+              Renunță
+            </Button>,
+            <Button
+              key="submit"
+              type="primary"
+              loading={isPending}
+              disabled={isEmpty(coverList) || isEmpty(pdfList) || !isValid}
+              onClick={handleSubmit(onSubmit)}>
+              Salvează
+            </Button>,
+          ]}>
+          <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+            <Controller
+              name="title"
+              defaultValue=""
+              control={control}
+              rules={{
+                required: 'Nr. și anul volumului este un câmp obligatoriu',
+              }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  status={errors.title ? 'error' : ''}
+                  placeholder={
+                    errors.title?.message ?? 'Număr volum / Anul volumului'
+                  }
+                  value={value}
+                  onChange={onChange}
+                  allowClear
+                />
+              )}
+            />
+            <Upload {...uploadCoverProps}>
+              <Button icon={<UploadOutlined />}>Selectează coperta</Button>
+            </Upload>
+            <Upload {...uploadPdfProps}>
+              <Button icon={<UploadOutlined />}>Selectează pdf</Button>
+            </Upload>
+          </Space>
+        </Modal>
         <div className="flex">
           {isLoading ? (
             <Spin />

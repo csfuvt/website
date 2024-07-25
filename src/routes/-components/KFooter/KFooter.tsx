@@ -36,7 +36,6 @@ export const KFooter = () => {
         </div>
       </div>
       <div className="stamp">
-        Jurnal francofon de literatură contemporană
         {!isLoggedIn ? (
           <a href="/login" className="loginButton">
             Log In

@@ -39,7 +39,7 @@ import {
 import { isEmpty } from 'lodash-es';
 import { ActionableButton } from '../KChapter/KChapter.tsx';
 
-interface ChapterForm {
+export interface ChapterForm {
   title: string;
   authors: string;
   pageStart: string;

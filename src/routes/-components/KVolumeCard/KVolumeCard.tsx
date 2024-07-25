@@ -14,11 +14,10 @@ import axios from 'axios';
 import { ActionableButton } from '../KChapter/KChapter.tsx';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { ArticleForm } from '../../research_/publications_/dialogue-francophones_/volumes/$volumeId.tsx';
 import { VolumeForm } from '../../research_/publications_/dialogue-francophones_/volumes';
 import { Volume } from '../../research_/publications_/dialogue-francophones_/volumes/-volumes.model.ts';
 
-const editVolume = async ({ title, id }: ArticleForm & { id: number }) => {
+const editVolume = async ({ title, id }: VolumeForm & { id: number }) => {
   const res = await axios.post<Volume>(`/volumes/${id}`, { title });
   return res.data;
 };
