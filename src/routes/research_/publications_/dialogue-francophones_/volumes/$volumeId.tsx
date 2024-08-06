@@ -20,6 +20,7 @@ import {
   useFileUpload,
 } from '../../../../../hooks/useFileUpload.ts';
 import { VolumeForm } from './index.tsx';
+import _ from 'lodash';
 
 const getVolumeById = (id: string) =>
   axios.get<Volume>(`/volumes/${id}`).then(res => res.data);
@@ -339,16 +340,19 @@ const VolumePage = () => {
               {volume.articles.map(article => (
                 <div className="space-20">
                   <KArticle label={article.title} articleId={article.id} />
-                  {article.chapters.map(chapter => (
-                    <KChapter
-                      chapterId={chapter.id}
-                      title={chapter.title}
-                      url={BASE_URL + `/files/chapters/${chapter.pdf}`}
-                      authors={chapter.authors}
-                      pageStart={chapter.pageStart}
-                      pageEnd={chapter.pageEnd}
-                    />
-                  ))}
+                  {_.sortBy(article.chapters, [a => a.pageStart]).map(
+                    chapter => (
+                      <KChapter
+                        key={chapter.id}
+                        chapterId={chapter.id}
+                        title={chapter.title}
+                        url={BASE_URL + `/files/chapters/${chapter.pdf}`}
+                        authors={chapter.authors}
+                        pageStart={chapter.pageStart}
+                        pageEnd={chapter.pageEnd}
+                      />
+                    )
+                  )}
                 </div>
               ))}
             </div>

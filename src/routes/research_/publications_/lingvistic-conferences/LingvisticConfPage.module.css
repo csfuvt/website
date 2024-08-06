@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
   }
   
   .grid {
@@ -12,4 +11,12 @@
     margin-top: 20px;
     padding: 64px 128px;
   }
-  
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 64px 128px;
+  gap: 20px;
+  position: relative;
+}

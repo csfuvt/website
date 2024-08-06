@@ -12,9 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login/route'
-import { Route as InternationalRouteImport } from './routes/international/route'
 import { Route as ContactRouteImport } from './routes/contact/route'
 import { Route as IndexRouteImport } from './routes/index/route'
+import { Route as AboutPartnersRouteImport } from './routes/about_/partners/route'
 import { Route as ResearchProjectsIndexImport } from './routes/research_/projects/index'
 import { Route as EventsRoundTablesIndexImport } from './routes/events_/round-tables/index'
 import { Route as EventsPhdThesesIndexImport } from './routes/events_/phd-theses/index'
@@ -64,11 +64,6 @@ const LoginRouteRoute = LoginRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const InternationalRouteRoute = InternationalRouteImport.update({
-  path: '/international',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const ContactRouteRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRoute,
@@ -76,6 +71,11 @@ const ContactRouteRoute = ContactRouteImport.update({
 
 const IndexRouteRoute = IndexRouteImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AboutPartnersRouteRoute = AboutPartnersRouteImport.update({
+  path: '/about/partners',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -335,12 +335,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRoute
     }
-    '/international': {
-      preLoaderRoute: typeof InternationalRouteImport
-      parentRoute: typeof rootRoute
-    }
     '/login': {
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/about/partners': {
+      preLoaderRoute: typeof AboutPartnersRouteImport
       parentRoute: typeof rootRoute
     }
     '/about/description-and-objectives/': {
@@ -515,8 +515,8 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRouteRoute,
   ContactRouteRoute,
-  InternationalRouteRoute,
   LoginRouteRoute,
+  AboutPartnersRouteRoute,
   AboutDescriptionAndObjectivesIndexRoute,
   AboutHistoryIndexRoute,
   AboutMembersIndexRoute,

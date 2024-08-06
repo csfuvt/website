@@ -38,12 +38,14 @@ import {
 } from '../../research_/publications_/dialogue-francophones_/volumes/$volumeId.tsx';
 import { isEmpty } from 'lodash-es';
 import { ActionableButton } from '../KChapter/KChapter.tsx';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export interface ChapterForm {
   title: string;
   authors: string;
-  pageStart: string;
-  pageEnd: string;
+  pageStart: number;
+  pageEnd: number;
 }
 
 const addChapter = async ({
@@ -58,8 +60,8 @@ const addChapter = async ({
   formData.append('pdf', pdf as AntDFileType);
   formData.append('title', title);
   formData.append('authors', authors);
-  formData.append('pageStart', pageStart);
-  formData.append('pageEnd', pageEnd);
+  formData.append('pageStart', pageStart.toString());
+  formData.append('pageEnd', pageEnd.toString());
   const res = await axios.post<Chapter>(`/articles/${id}/chapter`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
@@ -88,17 +90,25 @@ export const KArticle = ({
     uploadFileProps: uploadPdfProps,
   } = useFileUpload(FileType.PDF);
 
+  const schema = yup.object().shape({
+    title: yup.string().required(),
+    authors: yup.string().required(),
+    pageStart: yup.number().positive().required(),
+    pageEnd: yup.number().positive().min(yup.ref('pageStart')).required(),
+  });
+
   const {
     handleSubmit: handleChapterSubmit,
     formState: { errors: chapterErrors, isValid: isChapterValid },
     control: chapterControl,
     reset,
   } = useForm<ChapterForm>({
+    resolver: yupResolver(schema),
     defaultValues: {
       title: '',
       authors: '',
-      pageStart: '',
-      pageEnd: '',
+      pageStart: undefined,
+      pageEnd: undefined,
     },
   });
 
@@ -301,7 +311,6 @@ export const KArticle = ({
           />
           <Controller
             name="pageStart"
-            defaultValue=""
             control={chapterControl}
             rules={{
               required:
@@ -322,7 +331,6 @@ export const KArticle = ({
           />
           <Controller
             name="pageEnd"
-            defaultValue=""
             control={chapterControl}
             rules={{
               required:
