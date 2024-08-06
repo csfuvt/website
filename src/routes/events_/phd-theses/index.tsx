@@ -19,7 +19,7 @@ const phdThesesPage = () => {
           />
           <KTextField
             label_title="Conducător:"
-            label_text="Prof.univ.dr. Georgiana Lungu-Badea"
+            label_text="Prof. univ. dr. Georgiana Lungu-Badea"
           />
           <KTextField
             label_title="Organizatori:"
@@ -48,7 +48,7 @@ const phdThesesPage = () => {
           />
           <KTextField
             label_title="Membri comisiei:"
-            label_text="prof. univ. dr. Alexandru Gafton, prof.univ.dr. Richard Sîrbu, prof. univ. dr. Ludmila Zbanț, conf,univ.dr. Valy Ceia, prof. univ. dr. Mihai Radan, conf.univ.dr. Simona Constantinovici, Daniela Gheltofan, Ileana Neli Eiben, Gina Rus, Bianca Constantinescu, Lucia Udrescu."
+            label_text="Prof. univ. dr. Alexandru Gafton, Prof. univ. dr. Richard Sîrbu, Prof. univ. dr. Ludmila Zbanț, Conf. univ. dr. Valy Ceia, Prof. univ. dr. Mihai Radan, Conf. univ. dr. Simona Constantinovici, Daniela Gheltofan, Ileana Neli Eiben, Gina Rus, Bianca Constantinescu, Lucia Udrescu."
           />
           <div className={styles.logo_section}>
             <a href="https://shorturl.at/hnRS5" className={styles.logo}>
@@ -65,7 +65,7 @@ const phdThesesPage = () => {
           <KTextField label_title="Doctorand:" label_text="Eiben Ileana Neli" />
           <KTextField
             label_title="Conducător:"
-            label_text="Prof.univ.dr. Georgiana Lungu-Badea"
+            label_text="Prof. univ. dr. Georgiana Lungu-Badea"
           />
           <KTextField
             label_title="Organizatori:"
@@ -94,7 +94,7 @@ const phdThesesPage = () => {
           />
           <KTextField
             label_title="Membri comisiei:"
-            label_text="prof. univ. dr. Margareta Gyurcsik (UVT), prof. univ. dr. Mariana Ionescu (Huron University College at Western, Canada), prof. univ. dr. Anda Rădulescu (Universitatea din Craiova), conf. univ.dr. Valy Ceia"
+            label_text="Prof. univ. dr. Margareta Gyurcsik (UVT), Prof. univ. dr. Mariana Ionescu (Huron University College at Western, Canada), Prof. univ. dr. Anda Rădulescu (Universitatea din Craiova), Conf. univ. dr. Valy Ceia"
           />
           <a href="https://rb.gy/gixuf5" className={styles.logo}>
             <img className={styles.logo} src={facebook} />
@@ -102,14 +102,14 @@ const phdThesesPage = () => {
         </div>
 
         <div className={styles.section}>
-          <KRedTitle label_title="Sur une visibilité de l’autotraducteur : Dumitru Tsepeneag et Felicia Mihali" />
+          <KRedTitle label_title="Parodie et roman chez Diderot. Lectures critiques et lectures d'écrivains" />
           <KTextField
             label_title="Doctorand:"
             label_text="Andreea Monca Gheorghiu"
           />
           <KTextField
             label_title="Conducător:"
-            label_text="Prof.univ.dr. Georgiana Lungu-Badea"
+            label_text="Prof. univ. dr. Georgiana Lungu-Badea"
           />
           <KTextField
             label_title="Organizatori:"
@@ -121,7 +121,7 @@ const phdThesesPage = () => {
           />
           <KTextField
             label_title="Membri comisiei:"
-            label_text="Prof. univ. dr. Lăcrămioara Petrescu (UAIC), prof. univ. dr. Cecilia Condei (Craiova), conf. univ. dr. Vasile Popovici (UVT), prof. univ.dr. Otilia Hedeșan (UVT), prof. univ. dr. Hortensia Pârlog (UVT)"
+            label_text="Prof. univ. dr. Lăcrămioara Petrescu (UAIC), Prof. univ. dr. Cecilia Condei (Craiova), Conf. univ. dr. Vasile Popovici (UVT), Prof. univ. dr. Otilia Hedeșan (UVT), Prof. univ. dr. Hortensia Pârlog (UVT)"
           />
           <a href="https://rb.gy/dy2fyz" className={styles.logo}>
             <img className={styles.logo} src={book} />
@@ -129,11 +129,11 @@ const phdThesesPage = () => {
         </div>
 
         <div className={styles.section}>
-          <KRedTitle label_title="Sur une visibilité de l’autotraducteur : Dumitru Tsepeneag et Felicia Mihali" />
+          <KRedTitle label_title="Structures de l’imaginaire dans l’œuvre de Michel Tournier" />
           <KTextField label_title="Doctorand:" label_text="Eiben Ileana Neli" />
           <KTextField
             label_title="Conducător:"
-            label_text="Prof.univ.dr. Georgiana Lungu-Badea"
+            label_text="Prof. univ. dr. Georgiana Lungu-Badea"
           />
           <KTextField
             label_title="Organizatori:"
@@ -145,7 +145,7 @@ const phdThesesPage = () => {
           />
           <KTextField
             label_title="Membri comisiei:"
-            label_text="prof. univ. dr. Margareta Gyurcsik (UVT), prof. univ. dr. Mariana Ionescu (Huron University College at Western, Canada), prof. univ. dr. Anda Rădulescu (Universitatea din Craiova), conf. univ.dr. Valy Ceia"
+            label_text="Prof. univ. dr. Margareta Gyurcsik (UVT), Prof. univ. dr. Mariana Ionescu (Huron University College at Western, Canada), Prof. univ. dr. Anda Rădulescu (Universitatea din Craiova), Conf. univ. dr. Valy Ceia"
           />
           <a href="https://rb.gy/gixuf5" className={styles.logo}>
             <img className={styles.logo} src={facebook} />
@@ -153,14 +153,14 @@ const phdThesesPage = () => {
         </div>
 
         <div className={styles.section}>
-          <KRedTitle label_title="Structures de l’imaginaire dans l’œuvre de Michel Tournier" />
+          <KRedTitle label_title="L'Image recurrente de la route chez trois écrivains roumains d'expression française: Tristan Tzara, Benjamin Fondane et Ilarie Voronca" />
           <KTextField
             label_title="Doctorand:"
             label_text="Luciana Penteliuc-Cotoşman"
           />
           <KTextField
             label_title="Conducător:"
-            label_text="Prof.univ.dr. Livius CIOCÂRLIE"
+            label_text="Prof. univ. dr. Livius CIOCÂRLIE"
           />
           <KTextField label_title="Data susținerii:" label_text="2005" />
         </div>
@@ -170,8 +170,7 @@ const phdThesesPage = () => {
           <KTextField label_title="Doctorand:" label_text="Ecaterina Grün" />
           <KTextField
             label_title="Conducători:"
-            label_text="prof. univ. dr. Livius Ciocârlie, UVT
-       prof. univ.dr. Alain Vuillemin Universitatea d’Artois, Arras, Franța"
+            label_text="Prof. univ. dr. Livius Ciocârlie (UVT), Prof. univ. dr. Alain Vuillemin (Universitatea d’Artois, Arras, Franța)"
           />
           <KTextField label_title="Data susținerii:" label_text="2002" />
         </div>

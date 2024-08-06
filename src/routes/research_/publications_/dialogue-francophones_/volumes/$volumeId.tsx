@@ -99,14 +99,14 @@ const VolumePage = () => {
   const { mutate: addArticleMutation, isPending: isArticlePending } =
     useMutation({
       mutationFn: addArticle,
-      onError: () => toast.error('Nu s-a putut adăuga articolul!'),
+      onError: () => toast.error('Nu s-a putut adăuga secțiunea!'),
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
         setIsAddArticleModalOpen(false);
         resetArticleForm();
-        toast.success('Articolul a fost adăugat cu succes.');
+        toast.success('Secțiunea a fost adăugată cu succes.');
       },
     });
 
@@ -205,7 +205,7 @@ const VolumePage = () => {
         <div>
           <KBanner label={`Dialogues Francophones - NO ${volume.title}`} />
           <Modal
-            title="Adaugă un articol"
+            title="Adaugă o secțiune"
             open={isAddArticleModalOpen}
             onCancel={handleCancelForAddArticle}
             footer={[
@@ -226,13 +226,13 @@ const VolumePage = () => {
               defaultValue=""
               control={articleControl}
               rules={{
-                required: 'Titlul articolului este un câmp obligatoriu',
+                required: 'Titlul secțiunii este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   status={articleErrors.title ? 'error' : ''}
                   placeholder={
-                    articleErrors.title?.message ?? 'Titlul articolului'
+                    articleErrors.title?.message ?? 'Titlul secțiunii'
                   }
                   value={value}
                   onChange={onChange}
@@ -314,7 +314,7 @@ const VolumePage = () => {
                 )}
               </div>
               <div className="volumeUrl">
-                <span className="label">Volum</span>
+                <span className="label">Sumar</span>
                 <a
                   href={BASE_URL + `/files/volumes/${volume.pdf}`}
                   className="url">
@@ -334,7 +334,7 @@ const VolumePage = () => {
             <div className="right">
               {isLoggedIn && (
                 <Button type="primary" size="large" onClick={showArticleModal}>
-                  Adaugă un articol
+                  Adaugă o secțiune
                 </Button>
               )}
               {volume.articles.map(article => (

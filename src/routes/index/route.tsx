@@ -47,29 +47,23 @@ const HomePage = () => {
 
           <div className={styles.boxContainer}>
             <div className={styles.callToContributeContainer}>
-              <h1 className={styles.title}>{t('Apeluri la contribuții')}</h1>
+              <h1 className={styles.title}>{t('Anunțuri')}</h1>
               <div className={styles.textContainer}>
-                <div className={styles.section}>
-                  <h2 className={styles.blueTextBold}>{t('Evenimente')}</h2>
-                  <Link
-                    to="/events/conferences/cieft/current-year/calls"
-                    className={styles.blueText}>
-                    CIEFT
-                  </Link>
-                  <Link
-                    to="/events/conferences/francophones-studies/current-year/calls"
-                    className={styles.blueText}>
-                    {t('Colocviul studențesc de studii francofone')}
-                  </Link>
-                </div>
-                <div className={styles.section}>
-                  <h2 className={styles.blueTextBold}>{t('Publicații')}</h2>
-                  <Link
-                    to="/research/publications/dialogue-francophones/about"
-                    className={styles.blueText}>
-                    Dialogues Francophones
-                  </Link>
-                </div>
+                <Link
+                  to="/events/conferences/cieft/current-year/calls"
+                  className={styles.blueText}>
+                  CIEFT
+                </Link>
+                <Link
+                  to="/events/conferences/francophones-studies/current-year/calls"
+                  className={styles.blueText}>
+                  {t('Colocviul studențesc de studii francofone')}
+                </Link>
+                <Link
+                  to="/research/publications/dialogue-francophones/about"
+                  className={styles.blueText}>
+                  Dialogues Francophones
+                </Link>
               </div>
             </div>
           </div>
