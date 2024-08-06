@@ -117,6 +117,9 @@ export const KVolumeCard = ({
         await queryClient.invalidateQueries({
           queryKey: [`volumes`],
         });
+        await queryClient.invalidateQueries({
+          queryKey: [`volume/${id}`],
+        });
         toast.success('Volumul a fost editat cu succes');
         resetVolumeForm({ title: data.title });
         handleCancelForEditVolume();

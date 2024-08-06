@@ -22,7 +22,7 @@ import {
   ExclamationCircleFilled,
   UploadOutlined,
 } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { ChapterForm } from '../KArticle/KArticle.tsx';
 import { Chapter } from '../../research_/publications_/dialogue-francophones_/volumes/-volumes.model.ts';
@@ -33,6 +33,8 @@ import {
 } from '../../../hooks/useFileUpload.ts';
 import { isEmpty } from 'lodash-es';
 import { VolumeForm } from '../../research_/publications_/dialogue-francophones_/volumes';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 const updateChapter = async ({
   id,
@@ -46,8 +48,8 @@ const updateChapter = async ({
   const res = await axios.post<Chapter>(`/chapters/${id}`, {
     title,
     authors,
-    pageStart,
-    pageEnd,
+    pageStart: pageStart.toString(),
+    pageEnd: pageEnd.toString(),
   });
   return res.data;
 };
@@ -116,17 +118,25 @@ export const KChapter = ({
     });
   };
 
+  const schema = yup.object().shape({
+    title: yup.string().required(),
+    authors: yup.string().required(),
+    pageStart: yup.number().positive().required(),
+    pageEnd: yup.number().positive().min(yup.ref('pageStart')).required(),
+  });
+
   const {
     handleSubmit: handleEditChapterSubmit,
     reset: resetEditChapterForm,
     formState: { errors: editChapterErrors, isValid: isEditChapterValid },
     control: editChapterControl,
   } = useForm<ChapterForm>({
+    resolver: yupResolver(schema),
     defaultValues: {
       title: title,
       authors: authors,
-      pageStart: `${pageStart}`,
-      pageEnd: `${pageEnd}`,
+      pageStart: pageStart,
+      pageEnd: pageEnd,
     },
   });
 
@@ -231,6 +241,11 @@ export const KChapter = ({
   const onSubmit: SubmitHandler<ChapterForm> = data => {
     editChapterMutation({ ...data, id: chapterId });
   };
+
+  useEffect(() => {
+    resetEditChapterForm({ title, authors, pageStart, pageEnd });
+  }, [title, authors, pageStart, pageEnd, resetEditChapterForm]);
+
   return (
     <div className="chapterContainer">
       <div className="details" onClick={handleContainerClick}>
@@ -242,7 +257,7 @@ export const KChapter = ({
           pag. {pageStart} - {pageEnd}
         </span>
         <Modal
-          title="Adaugă un capitol"
+          title="Editează capitolul"
           open={isEditChapterModalOpen}
           onCancel={handleCancelForEditChapter}
           footer={[
@@ -299,7 +314,6 @@ export const KChapter = ({
             />
             <Controller
               name="pageStart"
-              defaultValue=""
               control={editChapterControl}
               rules={{
                 required:
@@ -320,7 +334,6 @@ export const KChapter = ({
             />
             <Controller
               name="pageEnd"
-              defaultValue=""
               control={editChapterControl}
               rules={{
                 required:
