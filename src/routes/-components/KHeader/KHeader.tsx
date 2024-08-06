@@ -15,16 +15,14 @@ import {
   faDiagramProject,
 } from '@fortawesome/free-solid-svg-icons';
 import { faDiscourse } from '@fortawesome/free-brands-svg-icons';
-import roSvg from '../../../assets/ro.svg';
-import frSvg from '../../../assets/fr.svg';
 import { useTranslation } from 'react-i18next';
 
 export const KHeader = () => {
-  const { t, i18n } = useTranslation();
+  const { t /*, i18n*/ } = useTranslation();
 
-  const handleLanguageChange = (lang: string) => {
-    i18n.changeLanguage(lang);
-  };
+  // const handleLanguageChange = (lang: string) => {
+  //   i18n.changeLanguage(lang);
+  // };
 
   return (
     <div className="header">
@@ -394,6 +392,7 @@ export const KHeader = () => {
           </ul>
         </div>
       </div>
+      {/*
       <div className="center-row">
         <button className="lang" onClick={() => handleLanguageChange('ro')}>
           <img src={roSvg} alt="Romanian flag" />
@@ -401,7 +400,7 @@ export const KHeader = () => {
         <button className="lang" onClick={() => handleLanguageChange('fr')}>
           <img src={frSvg} alt="French flag" />
         </button>
-      </div>
+      </div>*/}
     </div>
   );
 };

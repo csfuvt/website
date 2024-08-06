@@ -112,14 +112,14 @@ export const KArticle = ({
   const { mutate: addChapterMutation, isPending: isChapterPending } =
     useMutation({
       mutationFn: addChapter,
-      onError: () => toast.error('Nu s-a putut adăuga capitolul!'),
+      onError: () => toast.error('Nu s-a putut adăuga articolul!'),
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
         setIsAddChapterModalOpen(false);
         resetAllForm();
-        toast.success('Capitolul a fost adăugat cu succes.');
+        toast.success('Articolul a fost adăugat cu succes.');
       },
     });
 
@@ -162,7 +162,7 @@ export const KArticle = ({
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
-        toast.success('Articolul a fost editat cu succes');
+        toast.success('Secțiunea a fost editată cu succes');
         resetArticleForm({ title: data.title });
         handleCancelForEditArticle();
       },
@@ -180,7 +180,7 @@ export const KArticle = ({
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
-        toast.success('Articolul a fost șters cu succes');
+        toast.success('Secțiunea a fost ștearsă cu succes');
       },
       onError: () => toast.error('A apărut o eroare în momentul ștergerii'),
     });
@@ -188,9 +188,9 @@ export const KArticle = ({
   const { confirm } = Modal;
   const showPropsConfirm = () => {
     confirm({
-      title: 'Ștergere articol',
+      title: 'Ștergere secțiune',
       icon: <ExclamationCircleFilled />,
-      content: 'Sigur doriți să ștergeți articolul?',
+      content: 'Sigur doriți să ștergeți secțiunea?',
       okText: 'Șterge',
       okType: 'danger',
       cancelText: 'Renunță',
@@ -209,12 +209,12 @@ export const KArticle = ({
 
   const items: MenuProps['items'] = [
     {
-      label: 'Editează articolul',
+      label: 'Editează secțiunea',
       key: ActionableButton.EDIT,
       icon: <EditOutlined />,
     },
     {
-      label: 'Șterge articolul',
+      label: 'Șterge secțiunea',
       key: ActionableButton.DELETE,
       icon: <DeleteOutlined />,
       danger: true,
@@ -239,12 +239,12 @@ export const KArticle = ({
             onClick={() => setIsAddChapterModalOpen(true)}
             trigger={['click']}>
             <FontAwesomeIcon icon={faPlus} />
-            Adaugă un capitol
+            Adaugă un articol
           </Dropdown.Button>
         </Space>
       )}
       <Modal
-        title="Adaugă un capitol"
+        title="Adaugă un articol"
         open={isAddChapterModalOpen}
         onCancel={handleCancelForAddChapter}
         footer={[
@@ -266,13 +266,13 @@ export const KArticle = ({
             defaultValue=""
             control={chapterControl}
             rules={{
-              required: 'Titlul capitolului este un câmp obligatoriu',
+              required: 'Titlul articolului este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={chapterErrors.title ? 'error' : ''}
                 placeholder={
-                  chapterErrors.title?.message ?? 'Titlul capitolului'
+                  chapterErrors.title?.message ?? 'Titlul articolului'
                 }
                 value={value}
                 onChange={onChange}
@@ -285,13 +285,13 @@ export const KArticle = ({
             defaultValue=""
             control={chapterControl}
             rules={{
-              required: 'Autorii capitolului este un câmp obligatoriu',
+              required: 'Autorii articolului este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={chapterErrors.title ? 'error' : ''}
                 placeholder={
-                  chapterErrors.title?.message ?? 'Autorii capitolului'
+                  chapterErrors.title?.message ?? 'Autorii articolului'
                 }
                 value={value}
                 onChange={onChange}
@@ -305,14 +305,14 @@ export const KArticle = ({
             control={chapterControl}
             rules={{
               required:
-                'Pagina de start a capitolului este un câmp obligatoriu',
+                'Pagina de start a articolului este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={chapterErrors.title ? 'error' : ''}
                 placeholder={
                   chapterErrors.title?.message ??
-                  'Pagina de start a capitolului'
+                  'Pagina de start a articolului'
                 }
                 value={value}
                 onChange={onChange}
@@ -326,14 +326,14 @@ export const KArticle = ({
             control={chapterControl}
             rules={{
               required:
-                'Pagina de sfârșit a capitolului este un câmp obligatoriu',
+                'Pagina de sfârșit a articolului este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={chapterErrors.title ? 'error' : ''}
                 placeholder={
                   chapterErrors.title?.message ??
-                  'Pagina de sfârșit a capitolului'
+                  'Pagina de sfârșit a articolului'
                 }
                 value={value}
                 onChange={onChange}
@@ -346,7 +346,7 @@ export const KArticle = ({
         </Space>
       </Modal>
       <Modal
-        title="Editează articolul"
+        title="Editează secțiunea"
         open={isEditArticleModalOpen}
         onCancel={handleCancelForEditArticle}
         footer={[
@@ -367,12 +367,12 @@ export const KArticle = ({
           defaultValue=""
           control={articleControl}
           rules={{
-            required: 'Titlul articolului este un câmp obligatoriu',
+            required: 'Titlul secțiunii este un câmp obligatoriu',
           }}
           render={({ field: { onChange, value } }) => (
             <Input
               status={articleErrors.title ? 'error' : ''}
-              placeholder={articleErrors.title?.message ?? 'Titlul articolului'}
+              placeholder={articleErrors.title?.message ?? 'Titlul secțiunii'}
               value={value}
               onChange={onChange}
               allowClear

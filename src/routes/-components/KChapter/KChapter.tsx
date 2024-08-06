@@ -22,7 +22,7 @@ import {
   ExclamationCircleFilled,
   UploadOutlined,
 } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { ChapterForm } from '../KArticle/KArticle.tsx';
 import { Chapter } from '../../research_/publications_/dialogue-francophones_/volumes/-volumes.model.ts';
@@ -33,6 +33,8 @@ import {
 } from '../../../hooks/useFileUpload.ts';
 import { isEmpty } from 'lodash-es';
 import { VolumeForm } from '../../research_/publications_/dialogue-francophones_/volumes';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 const updateChapter = async ({
   id,
@@ -46,8 +48,8 @@ const updateChapter = async ({
   const res = await axios.post<Chapter>(`/chapters/${id}`, {
     title,
     authors,
-    pageStart,
-    pageEnd,
+    pageStart: pageStart.toString(),
+    pageEnd: pageEnd.toString(),
   });
   return res.data;
 };
@@ -96,7 +98,7 @@ export const KChapter = ({
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
-        toast.success('Capitolul a fost șters cu succes');
+        toast.success('Articolul a fost șters cu succes');
       },
       onError: () => toast.error('A apărut o eroare în momentul ștergerii'),
     });
@@ -104,9 +106,9 @@ export const KChapter = ({
   const { confirm } = Modal;
   const showPropsConfirm = () => {
     confirm({
-      title: 'Ștergere capitol',
+      title: 'Ștergere articol',
       icon: <ExclamationCircleFilled />,
-      content: 'Sigur doriți să ștergeți capitolul?',
+      content: 'Sigur doriți să ștergeți articolul?',
       okText: 'Șterge',
       okType: 'danger',
       cancelText: 'Renunță',
@@ -116,17 +118,25 @@ export const KChapter = ({
     });
   };
 
+  const schema = yup.object().shape({
+    title: yup.string().required(),
+    authors: yup.string().required(),
+    pageStart: yup.number().positive().required(),
+    pageEnd: yup.number().positive().min(yup.ref('pageStart')).required(),
+  });
+
   const {
     handleSubmit: handleEditChapterSubmit,
     reset: resetEditChapterForm,
     formState: { errors: editChapterErrors, isValid: isEditChapterValid },
     control: editChapterControl,
   } = useForm<ChapterForm>({
+    resolver: yupResolver(schema),
     defaultValues: {
       title: title,
       authors: authors,
-      pageStart: `${pageStart}`,
-      pageEnd: `${pageEnd}`,
+      pageStart: pageStart,
+      pageEnd: pageEnd,
     },
   });
 
@@ -187,7 +197,7 @@ export const KChapter = ({
   const items: MenuProps['items'] = [
     {
       key: ActionableButton.EDIT,
-      label: 'Editează capitolul',
+      label: 'Editează articolul',
       icon: <EditOutlined />,
     },
     {
@@ -198,7 +208,7 @@ export const KChapter = ({
     {
       key: ActionableButton.DELETE,
       danger: true,
-      label: 'Șterge capitolul',
+      label: 'Șterge articolul',
       icon: <DeleteOutlined />,
     },
   ];
@@ -221,7 +231,7 @@ export const KChapter = ({
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
-        toast.success('Capitolul a fost editat cu succes');
+        toast.success('Articolul a fost editat cu succes');
         resetEditChapterForm();
         handleCancelForEditChapter();
       },
@@ -231,6 +241,11 @@ export const KChapter = ({
   const onSubmit: SubmitHandler<ChapterForm> = data => {
     editChapterMutation({ ...data, id: chapterId });
   };
+
+  useEffect(() => {
+    resetEditChapterForm({ title, authors, pageStart, pageEnd });
+  }, [title, authors, pageStart, pageEnd, resetEditChapterForm]);
+
   return (
     <div className="chapterContainer">
       <div className="details" onClick={handleContainerClick}>
@@ -239,10 +254,10 @@ export const KChapter = ({
       </div>
       <div className="pages">
         <span>
-          pag. {pageStart} - {pageEnd}
+          pag. {pageStart === pageEnd ? pageStart : `${pageStart} - ${pageEnd}`}
         </span>
         <Modal
-          title="Adaugă un capitol"
+          title="Editează articolul"
           open={isEditChapterModalOpen}
           onCancel={handleCancelForEditChapter}
           footer={[
@@ -264,13 +279,13 @@ export const KChapter = ({
               defaultValue=""
               control={editChapterControl}
               rules={{
-                required: 'Titlul capitolului este un câmp obligatoriu',
+                required: 'Titlul articolului este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   status={editChapterErrors.title ? 'error' : ''}
                   placeholder={
-                    editChapterErrors.title?.message ?? 'Titlul capitolului'
+                    editChapterErrors.title?.message ?? 'Titlul articolului'
                   }
                   value={value}
                   onChange={onChange}
@@ -283,13 +298,13 @@ export const KChapter = ({
               defaultValue=""
               control={editChapterControl}
               rules={{
-                required: 'Autorii capitolului este un câmp obligatoriu',
+                required: 'Autorii articolului este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   status={editChapterErrors.title ? 'error' : ''}
                   placeholder={
-                    editChapterErrors.title?.message ?? 'Autorii capitolului'
+                    editChapterErrors.title?.message ?? 'Autorii articolului'
                   }
                   value={value}
                   onChange={onChange}
@@ -299,18 +314,17 @@ export const KChapter = ({
             />
             <Controller
               name="pageStart"
-              defaultValue=""
               control={editChapterControl}
               rules={{
                 required:
-                  'Pagina de start a capitolului este un câmp obligatoriu',
+                  'Pagina de start a articolului este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   status={editChapterErrors.title ? 'error' : ''}
                   placeholder={
                     editChapterErrors.title?.message ??
-                    'Pagina de start a capitolului'
+                    'Pagina de start a articolului'
                   }
                   value={value}
                   onChange={onChange}
@@ -320,18 +334,17 @@ export const KChapter = ({
             />
             <Controller
               name="pageEnd"
-              defaultValue=""
               control={editChapterControl}
               rules={{
                 required:
-                  'Pagina de sfârșit a capitolului este un câmp obligatoriu',
+                  'Pagina de sfârșit a articolului este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   status={editChapterErrors.title ? 'error' : ''}
                   placeholder={
                     editChapterErrors.title?.message ??
-                    'Pagina de sfârșit a capitolului'
+                    'Pagina de sfârșit a articolului'
                   }
                   value={value}
                   onChange={onChange}
@@ -342,7 +355,7 @@ export const KChapter = ({
         </Modal>
 
         <Modal
-          title="Schimbă pdf-ul capitolului"
+          title="Schimbă pdf-ul articolului"
           open={isChangePdfModalOpen}
           onCancel={handleCancelForEditPdf}
           footer={[

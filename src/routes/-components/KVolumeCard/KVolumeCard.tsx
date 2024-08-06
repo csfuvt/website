@@ -173,12 +173,12 @@ export const KVolumeCard = ({
           defaultValue=""
           control={volumeControl}
           rules={{
-            required: 'Titlul articolului este un câmp obligatoriu',
+            required: 'Titlul secțiunii este un câmp obligatoriu',
           }}
           render={({ field: { onChange, value } }) => (
             <Input
               status={volumeErrors.title ? 'error' : ''}
-              placeholder={volumeErrors.title?.message ?? 'Titlul articolului'}
+              placeholder={volumeErrors.title?.message ?? 'Titlul secțiunii'}
               value={value}
               onChange={onChange}
               allowClear

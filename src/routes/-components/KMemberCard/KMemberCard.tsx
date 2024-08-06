@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './KMemberCard.module.css';
 import Tooltip from '../KHoverTip/KHoverTip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 interface KMemberCardProps {
   label_name: string;
@@ -40,17 +42,19 @@ export const KMemberCard: React.FC<KMemberCardProps> = ({
       {isOpen && (
         <div className={styles.descriptionContainer}>
           <button className={styles.closeButton} onClick={toggleDescription}>
-            X
+            <FontAwesomeIcon icon={faX} />
           </button>
           <h3 className={styles.descriptionName}>{label_name}</h3>
           <p>{description}</p>
-          <a
-            href={cvLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.cvButton}>
-            CV
-          </a>
+          {cvLink && (
+            <a
+              href={cvLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.cvButton}>
+              CV
+            </a>
+          )}
         </div>
       )}
     </div>

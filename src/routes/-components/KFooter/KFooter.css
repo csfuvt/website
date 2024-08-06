@@ -120,18 +120,16 @@
 
 .stamp {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: var(--primary);
   color: var(--white);
   font-weight: 600;
-  position: relative;
 }
 
 .loginButton {
-  margin-top: 1rem;
   padding: 8px 16px;
   background-color: #0056b3;
   color: white;
@@ -146,12 +144,4 @@
 .loginButton:hover {
   background-color: #003d82;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-@media (min-width: 768px) {
-  .loginButton {
-    position: absolute;
-    right: 20px;
-    bottom: 10px;
-  }
 }
