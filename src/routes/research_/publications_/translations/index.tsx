@@ -50,9 +50,9 @@ const TranslationPage = () => {
         ) : isEmpty(translations) ? (
           <span>Nu există traduceri momentan.</span>
         ) : (
-          translations?.map((item, index) => (
+          translations?.map(item => (
             <KTranslationCard
-              key={index}
+              key={item.id}
               id={item.id}
               summaryText={item.description}
               link={item.links[0]?.url}
