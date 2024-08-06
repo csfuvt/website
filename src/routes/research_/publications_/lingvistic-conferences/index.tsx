@@ -69,19 +69,21 @@ const LingvisticConfPage = () => {
   ];
 
   return (
-    <div className={styles.container}>
+    <>
       <KBanner label="ACTELE COLOCVIILOR FRANCO-ROMANE DE LINGVISTICA" />
-      <div className={styles.grid}>
-        {items.map((item, index) => (
-          <KActeColocvii
-            key={index}
-            summaryText={item.summary}
-            link={item.link}
-            bookImage={item.bookImage}
-          />
-        ))}
+      <div className={styles.container}>
+        <div className={styles.grid}>
+          {items.map((item, index) => (
+            <KActeColocvii
+              key={index}
+              summaryText={item.summary}
+              link={item.link}
+              bookImage={item.bookImage}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

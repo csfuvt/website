@@ -8,11 +8,12 @@ import {
   faCaretDown,
   faCaretRight,
   faComments,
+  faDiagramProject,
+  faEllipsis,
   faGraduationCap,
+  faHandshake,
   faNewspaper,
   faUserGroup,
-  faEllipsis,
-  faDiagramProject,
 } from '@fortawesome/free-solid-svg-icons';
 import { faDiscourse } from '@fortawesome/free-brands-svg-icons';
 import roSvg from '../../../assets/ro.svg';
@@ -57,6 +58,12 @@ export const KHeader = () => {
                   <Link to="/about/members">
                     <FontAwesomeIcon icon={faUserGroup} width="1rem" />
                     <span>{t('Membri')}</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/about/partners">
+                    <FontAwesomeIcon icon={faHandshake} width="1rem" />
+                    <span>{t('Parteneri')}</span>
                   </Link>
                 </li>
               </ul>
@@ -384,9 +391,6 @@ export const KHeader = () => {
                   </Link>
                 </li>
               </ul>
-            </li>
-            <li className="topmenu">
-              <Link to="/international">{t('Internațional')}</Link>
             </li>
             <li className="topmenu">
               <Link to="/contact">{t('Contact')}</Link>
