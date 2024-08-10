@@ -69,7 +69,7 @@ export const RegistrationPage = () => {
                 type="text"
                 id="titlu-academic"
                 name="titlu-academic"
-                placeholder="ex. profesor, cercetător, doctorand"
+                placeholder="ex. cadru didactic, cercetător, doctorand"
                 required
               />
             </div>
@@ -97,32 +97,76 @@ export const RegistrationPage = () => {
               <label htmlFor="sectiune">Secțiunea*</label>
               <select id="sectiune" name="sectiune" required>
                 <option value="Selecteaza">Selectează</option>
+
+                <option value="Literatura franceza si francofona">
+                  Literatură franceză şi francofonă
+                </option>
+                <option value="Lingvistica">Lingvistică</option>
+                <option value="Didactica">Didactică</option>
+                <option value="Traductologie">Traductologie</option>
               </select>
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="titlu-comunicare">Titlul comunicării*</label>
+              <label htmlFor="titlu-comunicare">
+                Titlul lucrării (în limba franceză)*
+              </label>
               <textarea
                 id="titlu-comunicare"
                 name="titlu-comunicare"
-                placeholder="(în limba comunicării și în limba engleză)"
+                placeholder="(Introduceți titlul lucrării...)"
                 required></textarea>
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="rezumat">Rezumat*</label>
+              <label htmlFor="titlu-comunicare">
+                Titlul lucrării (în limba engleză)*
+              </label>
+              <textarea
+                id="titlu-comunicare"
+                name="titlu-comunicare"
+                placeholder="(Introduceți titlul lucrării...)"
+                required></textarea>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="rezumat">Rezumat (în limba franceză)*</label>
               <textarea
                 id="rezumat"
                 name="rezumat"
-                placeholder="(în limba comunicării și în limba engleză)"
+                placeholder="(Introduceți rezumatul...)"
                 required></textarea>
             </div>
+
             <div className={styles.formGroup}>
-              <label htmlFor="cuvinte-cheie">5 cuvinte-cheie*</label>
+              <label htmlFor="rezumat">Rezumat (în limba engleză)*</label>
+              <textarea
+                id="rezumat"
+                name="rezumat"
+                placeholder="(Introduceți rezumatul...)"
+                required></textarea>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="cuvinte-cheie">
+                5 cuvinte-cheie (în limba franceză)*
+              </label>
               <textarea
                 id="cuvinte-cheie"
                 name="cuvinte-cheie"
-                placeholder="(în limba comunicării și în limba engleză)"
+                placeholder="(Introduceți cuvintele-cheie)"
                 required></textarea>
             </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="cuvinte-cheie">
+                5 cuvinte-cheie (în limba engleză)*
+              </label>
+              <textarea
+                id="cuvinte-cheie"
+                name="cuvinte-cheie"
+                placeholder="(Introduceți cuvintele-cheie...)"
+                required></textarea>
+            </div>
+
             <div className={styles.formGroup}>
               <label>Prezentare cu video-proiector*</label>
               <div className={styles.radioGroup}>
