@@ -52,14 +52,14 @@ const DescriptionAndObjectivesPage = () => {
                   </div>
                 ))}
               </div>
-              <div className={styles.sliderIndicators}>
+              {/* <div className={styles.sliderIndicators}>
                 {slides.map((_, index) => (
-                  <span
+               <span
                     key={index}
                     className={`${styles.indicator} ${index === currentSlide ? styles.indicatorActive : ''}`}
                     onClick={() => setCurrentSlide(index)}></span>
                 ))}
-              </div>
+              </div>*/}
             </div>
             <img
               src={descriere}

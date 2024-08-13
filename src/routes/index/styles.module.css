@@ -1,20 +1,24 @@
 .pageContainer {
     display: flex;
-    padding: 64px 128px;
+    flex-direction: column; 
+    padding: 32px 16px;
     justify-content: space-between;
     align-items: flex-start;
-    align-self: stretch;
-}
-
-.sectionContainer {
+    width: 100%; 
+    box-sizing: border-box;
+  }
+  
+  .sectionContainer {
     display: flex;
-    align-items: flex-start;
-    gap: 56px;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px; 
     flex: 1 0 0;
-    
-}
-
-.boxContainer {
+    width: 100%; 
+    box-sizing: border-box;
+  }
+  
+  .boxContainer {
     display: flex;
     padding: 64px 24px;
     align-items: center;
@@ -22,54 +26,54 @@
     flex: 1 0 0;
     align-self: stretch;
     border-radius: 32px;
-    background: #FFF;
+    background: #fff;
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
-}
-
-.callToContributeContainer {
+  }
+  
+  .callToContributeContainer {
     display: flex;
     padding: 128px 0;
     flex-direction: column;
     align-items: center;
     flex: 1 0 0;
     align-self: stretch;
-}
-
-.title {
-    color: #E11E24;
+  }
+  
+  .title {
+    color: #e11e24;
     text-align: center;
     font-family: Montserrat, serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-}
-
-.textContainer {
+  }
+  
+  .textContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 56px;
     flex: 1 0 0;
-}
-
-.section {
+  }
+  
+  .section {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.blueTextBold {
+  }
+  
+  .blueTextBold {
     color: #004992;
     font-family: Montserrat;
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-}
-
-.blueText {
+  }
+  
+  .blueText {
     color: #004992;
     font-family: Montserrat;
     font-size: 16px;
@@ -77,31 +81,61 @@
     font-weight: 400;
     line-height: normal;
     text-decoration-line: underline;
-}
-
-.imageSliderContainer {
+  }
+  
+  .imageSliderContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 406px;
-    height: 665px;
-    position: center;
-    gap: 25px;
-}
-
-.arrowButton {
-    width: 24px;
-    height: 24px;
+    width: 100%;
+    height: auto;
+    gap: 16px;
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  .arrowButton {
+    width: 32px;
+    height: 32px;
     background-color: transparent;
     border: none;
-    font-size: 24px;
+    font-size: 32px;
     cursor: pointer;
+    color: #c4c4c4;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 1;
-    color: #C4C4C4;
-}
-
-.image {
-    width: 406px;
-    height: 665px;
-    position: center;
-}
+  }
+  
+  .arrowButton:first-of-type {
+    left: 8px;
+  }
+  
+  .arrowButton:last-of-type {
+    right: 8px;
+  }
+  
+  .image {
+    width: 100%;
+    height: auto;
+    max-width: 406px;
+    max-height: 665px;
+    object-fit: cover;
+    box-sizing: border-box;
+  }
+  
+  @media (min-width: 768px) {
+    .imageSliderContainer {
+      flex-direction: row;
+      gap: 25px;
+      width: 406px;
+      height: 665px;
+    }
+  
+    .arrowButton {
+      position: static;
+      transform: none;
+    }
+  }
+  

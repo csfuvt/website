@@ -16,47 +16,21 @@ export const KMovingBanner: React.FC = () => {
       theme={{
         components: {
           Carousel: {
-            arrowSize: 30
-          }
-        }
-      }}
-    >
-    <Carousel autoplay arrows infinite={true}>
-        <div>
-          <div
-            className={styles.carouselItem}
-            style={{ backgroundImage: `url(${image1})` }} />
-        </div>
-        <div>
-          <div
-            className={styles.carouselItem}
-            style={{ backgroundImage: `url(${image2})` }} />
-        </div>
-        <div>
-          <div
-            className={styles.carouselItem}
-            style={{ backgroundImage: `url(${image3})` }} />
-        </div>
-        <div>
-          <div
-            className={styles.carouselItem}
-            style={{ backgroundImage: `url(${image4})` }} />
-        </div>
-        <div>
-          <div
-            className={styles.carouselItem}
-            style={{ backgroundImage: `url(${image5})` }} />
-        </div>
-        <div>
-          <div
-            className={styles.carouselItem}
-            style={{ backgroundImage: `url(${image6})` }} />
-        </div>
-        <div>
-          <div
-            className={styles.carouselItem}
-            style={{ backgroundImage: `url(${image7})` }} />
-        </div>
+            arrowSize: 30,
+          },
+        },
+      }}>
+      <Carousel autoplay arrows infinite>
+        {[image1, image2, image3, image4, image5, image6, image7].map(
+          (image, index) => (
+            <div key={index}>
+              <div
+                className={styles.carouselItem}
+                style={{ backgroundImage: `url(${image})` }}
+              />
+            </div>
+          )
+        )}
       </Carousel>
     </ConfigProvider>
   );
