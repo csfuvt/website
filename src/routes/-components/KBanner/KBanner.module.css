@@ -11,22 +11,3 @@
   padding: 0 16px;
 }
 
-.gradientSection h2 {
-  color: var(--primary);
-  font-size: 24px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  position: relative;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-@media (min-width: 768px) {
-  .gradientSection {
-    padding: 0 64px;
-  }
-
-  .gradientSection h2 {
-    font-size: 36px;
-  }
-}
