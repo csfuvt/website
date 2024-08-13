@@ -6,27 +6,4 @@
   align-content: flex-start;
   gap: 36px;
   flex-wrap: wrap;
-}
-
-@media (max-width: 1024px) {
-  .cardsContainer {
-    padding: 48px 80px;
-    gap: 28px;
   }
-}
-
-@media (max-width: 768px) {
-  .cardsContainer {
-    padding: 32px 40px;
-    gap: 20px;
-    justify-content: space-around; 
-  }
-}
-
-@media (max-width: 480px) {
-  .cardsContainer {
-    padding: 16px 10px;
-    gap: 16px;
-    justify-content: center; 
-  }
-}
