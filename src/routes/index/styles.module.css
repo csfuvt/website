@@ -105,7 +105,7 @@
   height: 665px;
   position: center;
 }
-/* Stiluri responsive pentru mobile */
+
 @media only screen and (max-width: 768px) {
   .pageContainer {
       flex-direction: column;
@@ -116,11 +116,6 @@
   .sectionContainer {
       flex-direction: column;
       gap: 32px;
-  }
-
-  .boxContainer {
-      
-      width: 100%;
   }
 
   .textContainer {
