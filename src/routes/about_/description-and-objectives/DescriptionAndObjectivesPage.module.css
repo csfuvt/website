@@ -10,7 +10,6 @@
   padding: 0;
 }
 
-
 .slider {
   width: 100%;
   display: flex;
@@ -25,7 +24,6 @@
   cursor: pointer;
   padding: 0 20px;
 }
-
 
 .sliderIndicators {
   margin-top: 20px;
@@ -61,17 +59,12 @@
   box-sizing: border-box;
   background: white;
   margin: 0 auto;
-  height: auto; 
-  flex-wrap: wrap; 
 }
 
 .imageBox {
-  width: 100%;
-  max-width: 527px;
-  height: auto;
+  width: 527px;
   background-color: #d9d9d9;
   object-fit: cover;
-  margin-bottom: 20px;
 }
 
 .textContainer {
@@ -81,7 +74,7 @@
   justify-content: center;
   align-items: flex-start;
   gap: 16px;
-  max-width: 100%;
+  max-width: 600px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   color: #004992;
@@ -94,7 +87,6 @@
   text-transform: capitalize;
   margin: 0;
   position: relative;
-  top: -20px;
 }
 
 .paragraph {
@@ -119,29 +111,19 @@
 }
 
 .objectivesSection {
-  display: flex;
   width: 100%;
-  padding: 80px 60px; 
-  justify-content: center;
-  align-items: flex-start;
-  gap: 64px;
+  padding: 80px 160px;
   box-sizing: border-box;
-  background: #004992;
-  margin: 0 auto;
-  height: auto; 
-  flex-wrap: wrap; 
+  background: white;
 }
 
 .textContainerObjectives {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
   gap: 16px;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  color: white;
+  color: #004992;
 }
 
 @media (max-width: 768px) {
@@ -152,28 +134,26 @@
     gap: 20px;
   }
 
-  .sliderBtn {
-    font-size: 1.2rem;
-    padding: 0 15px;
-  }
-
   .textContainer {
     max-width: 100%;
     align-items: center;
     text-align: center;
   }
-
+  
   .imageBox {
     width: 100%;
     max-width: 100%;
     height: auto;
   }
 
+  .textContainerObjectives {
+    text-align: center;
+  }
+
   .sliderIndicators {
     top: 100px; 
   }
 }
-
 
 @media (max-width: 480px) {
   .sliderBtn {

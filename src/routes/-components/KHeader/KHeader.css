@@ -114,6 +114,11 @@
     display: flex;
     align-items: center;
   }
+
+  .submenu li a {
+    display: block;
+  }
+
 }
 
 .lang {
