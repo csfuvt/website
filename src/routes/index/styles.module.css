@@ -1,154 +1,163 @@
 .pageContainer {
-    display: flex;
-    flex-direction: column; 
-    padding: 32px 16px;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%; 
-    box-sizing: border-box;
-  }
+  display: flex;
+  padding: 64px 128px;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+.sectionContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 56px;
+  flex: 1 0 0;
   
-  .sectionContainer {
-    display: flex;
-    /*flex-direction: column;*/
-    align-items: center;
-    gap: 24px; 
-    flex: 1 0 0;
-    width: 100%; 
-    box-sizing: border-box;
-  }
-  
-  /* Smartphones (portrait) ----------- */
-  @media only screen and (max-width: 768px) {
-    .sectionContainer {
+}
+
+.boxContainer {
+  display: flex;
+  padding: 64px 24px;
+  align-items: center;
+  justify-content: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 32px;
+  background: #FFF;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
+}
+
+.callToContributeContainer {
+  display: flex;
+  padding: 128px 0;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+.title {
+  color: #E11E24;
+  text-align: center;
+  font-family: Montserrat, serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 56px;
+  flex: 1 0 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blueTextBold {
+  color: #004992;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.blueText {
+  color: #004992;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: underline;
+}
+
+.imageSliderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 406px;
+  height: 665px;
+  position: center;
+  gap: 25px;
+}
+
+.arrowButton {
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1;
+  color: #C4C4C4;
+}
+
+.image {
+  width: 406px;
+  height: 665px;
+  position: center;
+}
+/* Stiluri responsive pentru mobile */
+@media only screen and (max-width: 768px) {
+  .pageContainer {
       flex-direction: column;
-      display: flex;
+      padding: 32px 16px;
       align-items: center;
-      gap: 24px; 
-      flex: 1 0 0;
-      width: 100%; 
-      box-sizing: border-box;
-    }
   }
-  
+
+  .sectionContainer {
+      flex-direction: column;
+      gap: 32px;
+  }
+
   .boxContainer {
-    display: flex;
-    padding: 64px 24px;
-    align-items: center;
-    justify-content: center;
-    flex: 1 0 0;
-    align-self: stretch;
-    border-radius: 32px;
-    background: #fff;
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
+      
+      width: 100%;
   }
-  
-  .callToContributeContainer {
-    display: flex;
-    padding: 128px 0;
-    flex-direction: column;
-    align-items: center;
-    flex: 1 0 0;
-    align-self: stretch;
-  }
-  
-  .title {
-    color: #e11e24;
-    text-align: center;
-    font-family: Montserrat, serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-  }
-  
+
   .textContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 56px;
-    flex: 1 0 0;
+      gap: 32px;
   }
-  
-  .section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .blueTextBold {
-    color: #004992;
-    font-family: Montserrat;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  }
-  
-  .blueText {
-    color: #004992;
-    font-family: Montserrat;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    text-decoration-line: underline;
-  }
-  
+
   .imageSliderContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: auto;
-    gap: 16px;
-    position: relative;
-    box-sizing: border-box;
+      width: 90%;
+      height: auto;
+      gap: 15px;
   }
-  
+
   .arrowButton {
-    width: 32px;
-    height: 32px;
-    background-color: transparent;
-    border: none;
-    font-size: 32px;
-    cursor: pointer;
-    color: #c4c4c4;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
   }
-  
-  .arrowButton:first-of-type {
-    left: 8px;
-  }
-  
-  .arrowButton:last-of-type {
-    right: 8px;
-  }
-  
+
   .image {
-    width: 100%;
-    height: auto;
-    max-width: 406px;
-    max-height: 665px;
-    object-fit: cover;
-    box-sizing: border-box;
+      width: 100%;
+      height: auto;
+      max-height: 400px;
   }
-  
-  @media (min-width: 768px) {
-    .imageSliderContainer {
-      flex-direction: row;
-      gap: 25px;
-      width: 406px;
-      height: 665px;
-    }
-  
-    .arrowButton {
-      position: static;
-      transform: none;
-    }
+
+  .callToContributeContainer {
+      padding: 64px 0;
   }
-  
+
+  .title {
+      font-size: 20px;
+  }
+
+  .blueTextBold {
+      font-size: 16px;
+  }
+
+  .blueText {
+      font-size: 14px;
+  }
+}
