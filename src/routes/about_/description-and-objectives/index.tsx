@@ -1,9 +1,10 @@
-import { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import styles from './DescriptionAndObjectivesPage.module.css';
 import { KBanner } from '../../-components/KBanner/KBanner';
 import descriere from '../../../../public/Despre_noi/descriere.jpg';
 import { useTranslation } from 'react-i18next';
+import { KSlider } from '../../-components/KSlider/KSlider';
+
 
 const DescriptionAndObjectivesPage = () => {
   const { t } = useTranslation();
@@ -31,47 +32,14 @@ const DescriptionAndObjectivesPage = () => {
       ],
     },
   ];
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentSlide(prev => (prev + 1) % slides.length);
-  };
 
   return (
     <div>
       <KBanner label={t('DESCRIERE ȘI OBIECTIVE')} />
-      <div className={styles.pageContainer}>
-        <div className={styles.slider}>
-          <div className={styles.sectionContainer}>
-            <div className={styles.textContainer}>
-              <div className={styles.title}>{slides[currentSlide].title}</div>
-              <div className={styles.paragraph}>
-                {slides[currentSlide].paragraphs.map((line, index) => (
-                  <div key={index} className={styles.line}>
-                    <p className={styles.lineP}>{line}</p>
-                  </div>
-                ))}
-              </div>
-              {/* <div className={styles.sliderIndicators}>
-                {slides.map((_, index) => (
-               <span
-                    key={index}
-                    className={`${styles.indicator} ${index === currentSlide ? styles.indicatorActive : ''}`}
-                    onClick={() => setCurrentSlide(index)}></span>
-                ))}
-              </div>*/}
-            </div>
-            <img
-              src={descriere}
-              alt="Description of image"
-              className={styles.imageBox}
-            />
-          </div>
-          <button onClick={nextSlide} className={styles.sliderBtn}>
-            {'>'}
-          </button>
-        </div>
+      <div className="content">
+        <KSlider slides={slides} image imageUrl={descriere} />
       </div>
+
 
       <div className={styles.objectivesSection}>
         <div className={styles.textContainerObjectives}>
