@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { KRedTitle } from '../../-components/KRedTitle/KRedTitle';
 import { KTextField } from '../../-components/KTextField/KTextField';
-import styles from '../round-tables/RoundTables.module.css';
+import styles from './PhD-Theses.module.css';
 import facebook from '../../../../public/logo-facebook.png';
 import book from '../../../../public/book.png';
 import { KBanner } from '../../-components/KBanner/KBanner';
