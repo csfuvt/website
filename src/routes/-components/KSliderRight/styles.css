@@ -1,0 +1,134 @@
+.sliderRight {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .sliderIndicatorsRight {
+    align-self: center;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .indicatorRight {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: gray;
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .indicatorActiveRight {
+    background-color: #004992;
+  }
+  
+  .sectionContainerRight {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column; 
+    align-items: center;
+    gap: 64px;
+    padding: 36px;
+  }
+  
+  .textContainerRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 600px;
+    min-height: 300px;
+    order: 1;
+  }
+  
+  .text-contentRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 300px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    color: #004992;
+    gap:16px;
+  }
+  
+  .titleRight {
+    font-size: 36px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: capitalize;
+  }
+  
+  .paragraphRight {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .lineRight {
+    padding-left: 8px;
+    border-left: 1px solid #e11e24;
+  }
+  
+  .linePRight {
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    line-height: 17.07px;
+    margin: 0;
+    max-width: 100%;
+  }
+  
+  .imageBoxRight {
+    background-color: #d9d9d9;
+    object-fit: cover;
+    width: 100%; 
+    max-width: 527px; 
+    height: auto; 
+    max-height: 300px;
+  }
+  
+  
+
+@media (min-width: 768px) {
+    .sectionContainerRight {
+      flex-direction: row;
+      gap: 64px;
+      padding: 36px;
+    }
+  
+    .textContainerRight {
+      max-width: 600px;
+      min-height: 300px;
+    }
+  
+    .titleRight {
+      font-size: 36px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .sectionContainerRight {
+      gap: 64px;
+    }
+  
+    .imageBoxRight {
+      width: 527px;
+      height: 300px;
+    }
+  }
+
+@media (min-width: 768px) and (max-width: 1048px) {
+    .sectionContainerRight {
+        flex-direction: column;
+        gap: 64px;
+        padding: 36px;
+    }
+}

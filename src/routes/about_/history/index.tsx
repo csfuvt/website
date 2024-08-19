@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import styles from './HistoryPage.module.css';
 import { KBanner } from '../../-components/KBanner/KBanner';
-import istoric1 from '../../../../public/Despre_noi/istoric1.jpg';
 import { useTranslation } from 'react-i18next';
+import { KSliderRight } from '../../-components/KSliderRight/KSliderRight';
+
+import istoric1 from '../../../../public/Despre_noi/istoric1.jpg';
 
 const HistoryPage = () => {
   const { t } = useTranslation();
@@ -45,48 +45,12 @@ const HistoryPage = () => {
       ],
     },
   ];
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentSlide(prev => (prev + 1) % slides.length);
-  };
 
   return (
     <div>
       <KBanner label={t('ISTORIC')} />
-      <div className={styles.pageContainer}>
-        <div className={styles.slider}>
-          <div className={styles.sectionContainer}>
-            <img
-              src={istoric1}
-              alt="Description of image"
-              className={styles.imageBox}
-            />
-            <div className={styles.textContainer}>
-              <div className={styles.title}>{slides[currentSlide].title}</div>
-              <div className={styles.paragraph}>
-                {slides[currentSlide].paragraphs.map((line, index) => (
-                  <div key={index} className={styles.line}>
-                    <p className={styles.lineP}>{line}</p>
-                  </div>
-                ))}
-              </div>
-              <div className={styles.sliderIndicators}>
-                {slides.map((_, index) => (
-                  <span
-                    key={index}
-                    className={`${styles.indicator} ${
-                      index === currentSlide ? styles.indicatorActive : ''
-                    }`}
-                    onClick={() => setCurrentSlide(index)}></span>
-                ))}
-              </div>
-            </div>
-          </div>
-          <button onClick={nextSlide} className={styles.sliderBtn}>
-            {'>'}
-          </button>
-        </div>
+      <div className="content">
+        <KSliderRight slides={slides} image imageUrl={istoric1} />
       </div>
     </div>
   );
