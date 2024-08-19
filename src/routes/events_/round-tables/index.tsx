@@ -1,144 +1,238 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { KRedTitle } from '../../-components/KRedTitle/KRedTitle';
-import { KTextField } from '../../-components/KTextField/KTextField';
-import styles from './RoundTables.module.css';
-import facebook from '../../../../public/logo-facebook.png';
-import camera from '../../../../public/camera.png';
 import { KBanner } from '../../-components/KBanner/KBanner';
+import styles from './RoundTablesPage.module.css';
+import axios from 'axios';
+import { EventRoundTable } from './-round-tables.model.ts';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Button, Input, Modal, Space, Spin } from 'antd';
+import { isEmpty } from 'lodash-es';
+import { createFileRoute } from '@tanstack/react-router';
+import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
+import { useState } from 'react';
+import { useAuth } from '../../../hooks/useAuth.ts';
+import { toast } from 'react-toastify';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import KRoundTablesCard from '../../-components/KRoundTablesCard/KRoundTablesCard.tsx';
+
+export interface RoundTableForm {
+  title: string;
+  organizers: string;
+  meetingDate: string;
+  members: string;
+  links: string;
+}
+
+const addRoundTable = ({
+  title,
+  organizers,
+  meetingDate,
+  members,
+  links,
+}: RoundTableForm) => {
+  return axios
+    .post<EventRoundTable>(`/round-tables`, {
+      title,
+      organizers,
+      meetingDate,
+      members,
+      links,
+    })
+    .then(res => res.data);
+};
+
+const getRoundTables = () =>
+  axios
+    .get<EventRoundTable[]>('/round-tables')
+    .then(res => res.data.reverse());
 
 const RoundTablesPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { isLoggedIn } = useAuth();
+
+  const {
+    data: roundTables,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['roundTables'],
+    queryFn: getRoundTables,
+  });
+
+  const {
+    handleSubmit,
+    formState: { errors, isValid },
+    control,
+    reset,
+  } = useForm<RoundTableForm>({
+    defaultValues: {
+      title: '',
+      organizers: '',
+      meetingDate: '',
+      members: '',
+      links: '',
+    },
+  });
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    reset();
+  };
+
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: addRoundTable,
+    onError: () => toast.error('Nu s-a putut adăuga masa rotundă!'),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['roundTables'] });
+      setIsModalOpen(false);
+      resetForm();
+      toast.success('Masa rotundă a fost adăugată cu succes.');
+    },
+  });
+
+  const onSubmit: SubmitHandler<RoundTableForm> = data => {
+    mutate(data);
+  };
+
   return (
-    <div>
+    <div className={styles.page}>
       <KBanner label="MESE ROTUNDE" />
-      <div className={styles.page}>
-        <div className={styles.section}>
-          <KRedTitle label_title="Contactele româno-franceze livrești și non-livrești în Principatele Române" />
-          <KTextField
-            label_title="Organizatori:"
-            label_text={
-              <>
-                <a
-                  href="https://www.facebook.com/Isttrarom-Translationes/"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  Centre d'études ISTTRAROM-Translatoiones
-                </a>
-                , Centrul de studii francofone,
-                <a
-                  href="https://www.facebook.com/uvtromania/"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  {' '}
-                  Universitatea de Vest din Timișoara
-                </a>
-              </>
-            }
-          />
-          <KTextField
-            label_title="Data susținerii:"
-            label_text="29 septembrie 2015, 10:00"
-          />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Richard Sîrbu, Mihai Radan, Simona Constantinovici, Raluca Radac Baciu, Ileana Neli Eiben, Bianca Constantinescu, Lucia Udrescu, Diana Moțoc, Mihaela Visky, Georgiana Lungu-Badea"
-          />
-          <a href="https://shorturl.at/fADPR" className={styles.logo}>
-            <img className={styles.logo} src={facebook} />
-          </a>
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="Traducerea titlurilor. Efecte perlocuționare (in)eficiente" />
-          <KTextField
-            label_title="Data susținerii:"
-            label_text="18 martie 2015"
-          />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Bianca Constantinescu, Simona Constantinovici, Mirela Pop, Luminița Vleja, Georgiana Lungu-Badea, Iulia Cosma, Diana Moțoc. Andreea Gheorghiu, Simona Constantinovici"
-          />
-          <a href="https://shorturl.at/deqwR" className={styles.logo}>
-            <img className={styles.logo} src={facebook} />
-          </a>
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="L’Ecriture migrante au Québec. Enjeux identitaires" />
-          <KTextField
-            label_title="Data susținerii:"
-            label_text="13 Octombrie 2014"
-          />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Simona Constantinovici, Iulia Cosma, Neli Ileana Eiben, Valentina Shiryaeva, Georgiana Lungu-Badea, Mirela Pop, Mața Andrei, Lucia Udrescu, Bianca Constantinescu, Daniela Gheltofan"
-          />
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="Ziua internațională a traducătorului. Autotraducerea (scriitori români de expresie franceză) și terminologia traductologică" />
-          <KTextField
-            label_title="Data susținerii:"
-            label_text="30 Septembrie 2014"
-          />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Simona Constantinovici, Iulia Cosma, Neli Ileana Eiben, Valentina Shiryaeva, Georgiana Lungu-Badea, Mirela Pop, Mața Andrei, Lucia Udrescu, Bianca Constantinescu, Daniela Gheltofan"
-          />
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="Traducere, autotraducere, retraducere. De la o limbă la alta, de la o mentalitate la alta, de la o cultură la alta" />
-          <KTextField
-            label_title="Data susținerii:"
-            label_text="28 Iunie 2014"
-          />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Maria Andrei, Simona Constantinovici, Georgiana Lungu- Badea, Mirela Pop, Mihai Radan, Richard Sârbu, Luminița Cleja, Iulia Cosma, Daniela Gheltofan, Ileana Neli Eiben, Diana Moțoc, Georgeta Rus, Raluca Radac-Baciu"
-          />
-          <a href="https://shorturl.at/wHJRW" className={styles.logo}>
-            <img className={styles.logo} src={facebook} />
-          </a>
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="La dimension culturelle de certaines fonctions de la traduction" />
-          <KTextField label_title="Data susținerii:" label_text="24 Mai 2014" />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Jean Delisle (Universite d’Ottawa),
-      Natalya Gavrilenko, Viviana Augustini Ouafi, Michel Politis, Liliana Foșalău, Thomas Lenz, Laura Folica, Rosa Agost, Monique Nicolas, Eliza Hatzdikis, Andreea Gheorghiu, Iulia Bobăilă, Mihaela Visky, Adina Popa, Luminița Vleja, Ileana Eiben Neli, Adina Tihu, Bianca Constantinescu, Lucia Udrescu, Gina Rus, Alina Pelea, Maria Țenchea, Victor Ivanovici, Diana Moțoc, Cristina Panta, Corina Călinescu, Adelina Stoian"
-          />
-          <div className={styles.logo_section}>
-            <a href="https://shorturl.at/wHJRW" className={styles.logo}>
-              <img className={styles.logo} src={facebook} />
-            </a>
-            <a
-              href="https://www.facebook.com/IsttraromTranslationes/photos/a.703647252983967/863698936978797"
-              className={styles.logo}>
-              <img className={styles.logo} src={camera} />
-            </a>
-            <a
-              href="https://www.facebook.com/IsttraromTranslationes/photos/a.703647252983967/863701693645188"
-              className={styles.logo}>
-              <img className={styles.logo} src={camera} />
-            </a>
+      <div className={styles.section}>
+        <div className={styles.cardsContainer}>
+          {isLoggedIn && (
+            <KAddButton className={'position'} onClick={showModal} />
+          )}
+          <Modal
+            title="Creează o masă rotundă"
+            open={isModalOpen}
+            onCancel={handleCancel}
+            footer={[
+              <Button key="back" onClick={handleCancel}>
+                Renunță
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                loading={isPending}
+                disabled={!isValid}
+                onClick={handleSubmit(onSubmit)}>
+                Salvează
+              </Button>,
+            ]}>
+            <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+              <Controller
+                name="title"
+                control={control}
+                rules={{
+                  required: 'Titlul este un câmp obligatoriu',
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.title ? 'error' : ''}
+                    placeholder={errors.title?.message ?? 'Titlul mesei rotunde'}
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="organizers"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.organizers ? 'error' : ''}
+                    placeholder={errors.organizers?.message ?? 'Organizatori (opțional)'}
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="meetingDate"
+                control={control}
+                rules={{
+                  required: 'Data întâlnirii este un câmp obligatoriu',
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    type="date"
+                    status={errors.meetingDate ? 'error' : ''}
+                    placeholder={errors.meetingDate?.message ?? 'Data întâlnirii'}
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="members"
+                control={control}
+                rules={{
+                  required: 'Membrii sunt un câmp obligatoriu',
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.members ? 'error' : ''}
+                    placeholder={errors.members?.message ?? 'Membri'}
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="links"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.links ? 'error' : ''}
+                    placeholder={errors.links?.message ?? 'Linkuri (opțional)'}
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+            </Space>
+          </Modal>
+          <div className="flex">
+            {isLoading ? (
+              <Spin />
+            ) : isError ? (
+              <span>
+                Mesele rotunde nu pot fi afișate momentan. Reveniți mai târziu!
+              </span>
+            ) : isEmpty(roundTables) ? (
+              <div className="flex">
+                <span>Nu există mese rotunde momentan.</span>
+              </div>
+            ) : (
+              roundTables?.map(eventRoundTable => {
+                const meetingDate = new Date(eventRoundTable.meetingDate);
+                return (
+                  <KRoundTablesCard
+                    key={eventRoundTable.id}
+                    id={eventRoundTable.id}
+                    title={eventRoundTable.title}
+                    organizers={eventRoundTable.organizers}
+                    meetingDate={meetingDate.toISOString()}
+                    members={eventRoundTable.members}
+                    links={eventRoundTable.links}
+                  />
+                );
+              })
+            )}
           </div>
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="Dumitru Tsepeneag. Les Métamorphoses d’un créateur : écrivain, théoricien, traducteur, cu participarea scriitorului" />
-          <KTextField label_title="Data susținerii:" label_text="2006" />
-          <KTextField
-            label_title="Masă rotundă:"
-            label_text="Dumitru ȚEPENEAG, Nicolae BÂRNA, Jenö FARKAS, Marian Victor BUCIU, Margareta GYURCSIK, Georgiana LUNGU BADEA, Laura PAVEL, Ioan SIMUȚ"
-          />
-          <KTextField
-            label_title="Atelier de traducere:"
-            label_text="Participă: Dumitru Țepeneag, Jenö Farkas, Margareta Gyurcsik, Nicolae Barna, Marian Buciu, Laura Pavel, Calin Teutisan, Elena Ghita, Andreea Gheorghiu, Georgeta Ciobanu, Mihaela Visky, Neli Eibel, Ilona Balasz, Ilie Minescu, Corina Braga, Carmen Pădure-Blaga.
-      Studenți: Andreea Sisak, Raluca Madaras, Moira Tomescu, Flavia Pal, Carmen Sarbescu, Adela Vladu, Ioana Giurginca et Adina Popa.
-      Moderator: Georgiana Lungu Badea."
-          />
         </div>
       </div>
     </div>
