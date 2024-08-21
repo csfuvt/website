@@ -292,6 +292,13 @@ export const KHeader = () => {
                             </li>
                           </ul>
                         </li>
+
+                        <li>
+                          <Link to="/research/publications/dialogue-francophones/registration/registration">
+                            {t('Fișa de înscriere')}
+                          </Link>
+                        </li>
+
                         <li>
                           <Link to="/research/publications/dialogue-francophones/volumes">
                             {t('Volume')}
