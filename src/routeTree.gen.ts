@@ -39,6 +39,7 @@ import { Route as ResearchPublicationsAgapesFrancophonesAboutIndexImport } from 
 import { Route as EventsConferencesFrancophonesStudiesPreviousEditionsIndexImport } from './routes/events_/conferences_/francophones-studies_/previous-editions_/index'
 import { Route as EventsConferencesCieftPreviousEditionsIndexImport } from './routes/events_/conferences_/cieft_/previous-editions_/index'
 import { Route as ResearchPublicationsDialogueFrancophonesVolumesVolumeIdImport } from './routes/research_/publications_/dialogue-francophones_/volumes/$volumeId'
+import { Route as ResearchPublicationsDialogueFrancophonesRegistrationRegistrationImport } from './routes/research_/publications_/dialogue-francophones_/registration/registration'
 import { Route as ResearchPublicationsDialogueFrancophonesCallsCallIdImport } from './routes/research_/publications_/dialogue-francophones_/calls_/$callId'
 import { Route as EventsConferencesFrancophonesStudiesPreviousEditionsYearImport } from './routes/events_/conferences_/francophones-studies_/previous-editions_/$year'
 import { Route as EventsConferencesFrancophonesStudiesCurrentYearScientificCommitteeImport } from './routes/events_/conferences_/francophones-studies_/current-year_/scientific-committee'
@@ -216,6 +217,14 @@ const ResearchPublicationsDialogueFrancophonesVolumesVolumeIdRoute =
     path: '/research/publications/dialogue-francophones/volumes/$volumeId',
     getParentRoute: () => rootRoute,
   } as any)
+
+const ResearchPublicationsDialogueFrancophonesRegistrationRegistrationRoute =
+  ResearchPublicationsDialogueFrancophonesRegistrationRegistrationImport.update(
+    {
+      path: '/research/publications/dialogue-francophones/registration/registration',
+      getParentRoute: () => rootRoute,
+    } as any,
+  )
 
 const ResearchPublicationsDialogueFrancophonesCallsCallIdRoute =
   ResearchPublicationsDialogueFrancophonesCallsCallIdImport.update({
@@ -439,6 +448,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResearchPublicationsDialogueFrancophonesCallsCallIdImport
       parentRoute: typeof rootRoute
     }
+    '/research/publications/dialogue-francophones/registration/registration': {
+      preLoaderRoute: typeof ResearchPublicationsDialogueFrancophonesRegistrationRegistrationImport
+      parentRoute: typeof rootRoute
+    }
     '/research/publications/dialogue-francophones/volumes/$volumeId': {
       preLoaderRoute: typeof ResearchPublicationsDialogueFrancophonesVolumesVolumeIdImport
       parentRoute: typeof rootRoute
@@ -541,6 +554,7 @@ export const routeTree = rootRoute.addChildren([
   EventsConferencesFrancophonesStudiesCurrentYearScientificCommitteeRoute,
   EventsConferencesFrancophonesStudiesPreviousEditionsYearRoute,
   ResearchPublicationsDialogueFrancophonesCallsCallIdRoute,
+  ResearchPublicationsDialogueFrancophonesRegistrationRegistrationRoute,
   ResearchPublicationsDialogueFrancophonesVolumesVolumeIdRoute,
   EventsConferencesCieftPreviousEditionsIndexRoute,
   EventsConferencesFrancophonesStudiesPreviousEditionsIndexRoute,
