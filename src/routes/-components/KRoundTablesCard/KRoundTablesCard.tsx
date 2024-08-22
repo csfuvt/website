@@ -62,7 +62,7 @@ export const KRoundTablesCard = ({
     mutationFn: deleteEventRoundTable,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['round-tables'] });
-      toast.success('Evenimentul a fost șters cu succes');
+      toast.success('Masa rotundă a fost ștearsă cu succes!');
     },
     onError: () => toast.error('A apărut o eroare în momentul ștergerii'),
   });
@@ -72,7 +72,7 @@ export const KRoundTablesCard = ({
     confirm({
       title: 'Ștergere eveniment',
       icon: <ExclamationCircleFilled />,
-      content: 'Sigur doriți să ștergeți acest eveniment?',
+      content: 'Sigur doriți să ștergeți această masă rotundă?',
       okText: 'Șterge',
       okType: 'danger',
       cancelText: 'Renunță',
@@ -138,7 +138,7 @@ export const KRoundTablesCard = ({
     mutationFn: editEventRoundTable,
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ['round-tables'] });
-      toast.success('Evenimentul a fost editat cu succes');
+      toast.success('Masa rotundă a fost editată cu succes');
       const formattedData = {
         ...data,
         meetingDate: new Date(data.meetingDate).toISOString(),
@@ -192,7 +192,7 @@ export const KRoundTablesCard = ({
         </div>
       )}
       <Modal
-        title="Editează evenimentul"
+        title="Editează masa rotundă"
         open={isEditModalOpen}
         onCancel={handleCancelForEdit}
         footer={[
