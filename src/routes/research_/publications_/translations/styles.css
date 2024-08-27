@@ -6,3 +6,14 @@
   gap: 20px;
   position: relative;
 }
+
+@media only screen and (max-width: 768px) {
+  .flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 64px 85px;
+    gap: 20px;
+    position: relative;
+  }
+}
