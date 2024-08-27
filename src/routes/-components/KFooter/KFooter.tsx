@@ -10,41 +10,43 @@ export const KFooter: React.FC = () => {
 
   return (
     <>
-      <div className="footer">
-        <img src={logo} className="logo" alt="Logo" />
-        <div className="address">
-          <div className="row">
-            <FontAwesomeIcon icon={faEnvelope} />
-            <a href="mailto:dialogues.francophones@e-uvt.ro">
-              dialogues.francophones@e-uvt.ro
-            </a>
-          </div>
-          <div className="row">
-            <FontAwesomeIcon icon={faEnvelope} />
-            <a href="mailto:agapes.francophones@e-uvt.ro">
-              agapes.francophones@e-uvt.ro
-            </a>
-          </div>
-          <div className="row">
-            <FontAwesomeIcon icon={faCompass} />
-            <div>
-              <div>Vasile Pârvan blvd. no. 4</div>
-              <div>Timişoara Timiş</div>
-              <div>România 300223</div>
+      <div className="app-wrapper">
+        <div className="footer">
+          <img src={logo} className="logo" alt="Logo" />
+          <div className="address">
+            <div className="row">
+              <FontAwesomeIcon icon={faEnvelope} />
+              <a href="mailto:dialogues.francophones@e-uvt.ro">
+                dialogues.francophones@e-uvt.ro
+              </a>
+            </div>
+            <div className="row">
+              <FontAwesomeIcon icon={faEnvelope} />
+              <a href="mailto:agapes.francophones@e-uvt.ro">
+                agapes.francophones@e-uvt.ro
+              </a>
+            </div>
+            <div className="row">
+              <FontAwesomeIcon icon={faCompass} />
+              <div>
+                <div>Vasile Pârvan blvd. no. 4</div>
+                <div>Timişoara Timiş</div>
+                <div>România 300223</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="stamp">
-        {!isLoggedIn ? (
-          <a href="/login" className="loginButton">
-            Log In
-          </a>
-        ) : (
-          <span onClick={signOut} className="loginButton">
-            Log out
-          </span>
-        )}
+        <div className="stamp">
+          {!isLoggedIn ? (
+            <a href="/login" className="loginButton">
+              Log In
+            </a>
+          ) : (
+            <span onClick={signOut} className="loginButton">
+              Log out
+            </span>
+          )}
+        </div>
       </div>
     </>
   );
