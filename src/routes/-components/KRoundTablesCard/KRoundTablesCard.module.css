@@ -12,22 +12,22 @@
     position: relative;
   }
   
-  .title {
+.title {
     align-self: stretch;
     color: #E11E24;
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-  }
+}
   
-  .actions {
+.actions {
     position: absolute;
     bottom: 16px;
     right: 16px;
-  }
+}
   
-  .button {
+.button {
     padding: 12px 24px;
     background-color: #0056b3;
     color: white;
@@ -38,26 +38,55 @@
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .button:hover {
+}
+
+.button:hover {
     background-color: #003d82;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
+}
 
-  .linkContainer {
+.linkContainer {
     display: flex;
     justify-content: center;
     margin-top: 16px;
-  }
+}
   
-  .logo {
+.logo {
     display: inline-block;
-  }
+}
   
-  .logoImage {
+.logoImage {
     max-width: 100%;
     border-radius: 8px;
     width: 70px;
     height: 70px;
-  }
+}
+
+@media only screen and (max-width: 768px) {
+    .card {
+        width: 100%;
+        padding: 40px;
+        gap: 16px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .actions {
+        position: static;
+        margin-top: 16px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .logoImage {
+        width: 50px;
+        height: 50px;
+    }
+}
