@@ -1,178 +1,302 @@
+import { KBanner } from '../../-components/KBanner/KBanner.tsx';
+import styles from './PhdThesisPage.module.css';
+import axios from 'axios';
+import { PhdThesis } from './-phd-thesis.model.ts';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Button, Input, Modal, Space, Spin } from 'antd';
+import { isEmpty } from 'lodash-es';
 import { createFileRoute } from '@tanstack/react-router';
-import { KRedTitle } from '../../-components/KRedTitle/KRedTitle';
-import { KTextField } from '../../-components/KTextField/KTextField';
-import styles from './PhD-Theses.module.css';
-import facebook from '../../../../public/logo-facebook.png';
-import book from '../../../../public/book.png';
-import { KBanner } from '../../-components/KBanner/KBanner';
+import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
+import { useState } from 'react';
+import { useAuth } from '../../../hooks/useAuth.ts';
+import { toast } from 'react-toastify';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import KPhdThesisCard from '../../-components/KPhdThesisCard/KPhdThesisCard.tsx';
 
-const phdThesesPage = () => {
+export interface PhdThesisForm {
+  title: string;
+  candidate: string;
+  leader: string;
+  organizers: string;
+  meetingDate: string;
+  councilMembers: string;
+  thesisSummary: string;
+  links: string;
+}
+
+const addPhdThesis = ({
+  title,
+  candidate,
+  leader,
+  organizers,
+  meetingDate,
+  councilMembers,
+  thesisSummary,
+  links,
+}: PhdThesisForm) => {
+  return axios
+    .post<PhdThesis>(`/phd-thesis`, {
+      title,
+      candidate,
+      leader,
+      organizers,
+      meetingDate,
+      councilMembers,
+      thesisSummary,
+      links,
+    })
+    .then(res => res.data);
+};
+
+const getPhdThesis = () =>
+  axios.get<PhdThesis[]>('/phd-thesis').then(res => res.data.reverse());
+
+const PhdThesisPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { isLoggedIn } = useAuth();
+
+  const {
+    data: phdThesis,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['phd-thesis'],
+    queryFn: getPhdThesis,
+  });
+
+  const {
+    handleSubmit,
+    formState: { errors, isValid },
+    control,
+    reset,
+  } = useForm<PhdThesisForm>({
+    defaultValues: {
+      title: '',
+      candidate: '',
+      leader: '',
+      organizers: '',
+      meetingDate: '',
+      councilMembers: '',
+      thesisSummary: '',
+      links: '',
+    },
+  });
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    reset();
+  };
+
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: addPhdThesis,
+    onError: () => toast.error('Nu s-a putut adăuga teza de doctorat!'),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['phd-thesis'] });
+      setIsModalOpen(false);
+      resetForm();
+      toast.success('Teza de doctorat a fost adăugată cu succes.');
+    },
+  });
+
+  const onSubmit: SubmitHandler<PhdThesisForm> = data => {
+    mutate(data);
+  };
+
   return (
-    <div>
+    <div className={styles.page}>
       <KBanner label="SUSȚINERI DE TEZE DOCTORALE" />
-      <div className={styles.page}>
-        <div className={styles.section}>
-          <KRedTitle label_title="Traduceri, traducători, mentalități: contribuții la studiul relațiilor româno-franceze în secolele al XVIII-lea-al XIX-lea" />
-          <KTextField
-            label_title="Doctorand:"
-            label_text="Raluca Corina Radac (Baciu)"
-          />
-          <KTextField
-            label_title="Conducător:"
-            label_text="Prof. univ. dr. Georgiana Lungu-Badea"
-          />
-          <KTextField
-            label_title="Organizatori:"
-            label_text={
-              <>
-                <a
-                  href="https://www.facebook.com/Isttrarom-Translationes/"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  Centre d'études ISTTRAROM-Translatoiones
-                </a>
-                , Centrul de studii francofone,
-                <a
-                  href="https://www.facebook.com/uvtromania/"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  {' '}
-                  Universitatea de Vest din Timișoara
-                </a>
-              </>
-            }
-          />
-          <KTextField
-            label_title="Data susținerii:"
-            label_text="29 septembrie 2015, 10:00"
-          />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Prof. univ. dr. Alexandru Gafton, Prof. univ. dr. Richard Sîrbu, Prof. univ. dr. Ludmila Zbanț, Conf. univ. dr. Valy Ceia, Prof. univ. dr. Mihai Radan, Conf. univ. dr. Simona Constantinovici, Daniela Gheltofan, Ileana Neli Eiben, Gina Rus, Bianca Constantinescu, Lucia Udrescu."
-          />
-          <div className={styles.logo_section}>
-            <a href="https://shorturl.at/hnRS5" className={styles.logo}>
-              <img className={styles.logo} src={facebook} />
-            </a>
-            <a href="https://shorturl.at/ipyHL" className={styles.logo}>
-              <img className={styles.logo} src={book} />
-            </a>
+      <div className={styles.section}>
+        <div className={styles.cardsContainer}>
+          {isLoggedIn && (
+            <KAddButton className={'position'} onClick={showModal} />
+          )}
+          <Modal
+            title="Creează o teză de doctorat"
+            open={isModalOpen}
+            onCancel={handleCancel}
+            footer={[
+              <Button key="back" onClick={handleCancel}>
+                Renunță
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                loading={isPending}
+                disabled={!isValid}
+                onClick={handleSubmit(onSubmit)}>
+                Salvează
+              </Button>,
+            ]}>
+            <Space
+              direction="vertical"
+              size="middle"
+              style={{ display: 'flex' }}>
+              <Controller
+                name="title"
+                control={control}
+                rules={{
+                  required: 'Titlul tezei de doctorat este un câmp obligatoriu',
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.title ? 'error' : ''}
+                    placeholder={
+                      errors.title?.message ?? 'Titlul tezei de doctorat'
+                    }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="candidate"
+                control={control}
+                rules={{
+                  required: 'Doctorandul tezei este un câmp obligatoriu',
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.candidate ? 'error' : ''}
+                    placeholder={
+                      errors.candidate?.message ?? 'Doctorandul tezei'
+                    }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="leader"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.leader ? 'error' : ''}
+                    placeholder={
+                      errors.leader?.message ?? 'Coordonatorul tezei'
+                    }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="organizers"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.organizers ? 'error' : ''}
+                    placeholder={errors.organizers?.message ?? 'Organizatori'}
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="meetingDate"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.meetingDate ? 'error' : ''}
+                    placeholder={
+                      errors.meetingDate?.message ?? 'Data susținerii'
+                    }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="councilMembers"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.councilMembers ? 'error' : ''}
+                    placeholder={
+                      errors.councilMembers?.message ?? 'Membri comisiei'
+                    }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="thesisSummary"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.thesisSummary ? 'error' : ''}
+                    placeholder={
+                      errors.thesisSummary?.message ??
+                      'Rezumatul tezei de doctorat'
+                    }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="links"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input.TextArea
+                    status={errors.links ? 'error' : ''}
+                    placeholder={errors.links?.message ?? 'Link-uri'}
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+            </Space>
+          </Modal>
+          <div className="flex">
+            {isLoading ? (
+              <Spin />
+            ) : isError ? (
+              <span>
+                Tezele de doctorat nu pot fi afișate momentan. Reveniți mai
+                târziu!
+              </span>
+            ) : isEmpty(phdThesis) ? (
+              <div className="flex">
+                <span>Nu există teze de doctorat momentan.</span>
+              </div>
+            ) : (
+              phdThesis?.map(PhdThesis => {
+                return (
+                  <KPhdThesisCard
+                    key={PhdThesis.id}
+                    id={PhdThesis.id}
+                    title={PhdThesis.title}
+                    candidate={PhdThesis.candidate}
+                    leader={PhdThesis.leader}
+                    organizers={PhdThesis.organizers}
+                    meetingDate={PhdThesis.meetingDate}
+                    councilMembers={PhdThesis.councilMembers}
+                    thesisSummary={PhdThesis.thesisSummary}
+                    links={PhdThesis.links}
+                  />
+                );
+              })
+            )}
           </div>
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="Sur une visibilité de l’autotraducteur : Dumitru Tsepeneag et Felicia Mihali" />
-          <KTextField label_title="Doctorand:" label_text="Eiben Ileana Neli" />
-          <KTextField
-            label_title="Conducător:"
-            label_text="Prof. univ. dr. Georgiana Lungu-Badea"
-          />
-          <KTextField
-            label_title="Organizatori:"
-            label_text={
-              <>
-                <a
-                  href="https://www.facebook.com/Isttrarom-Translationes/"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  Centre d'études ISTTRAROM-Translatoiones
-                </a>
-                , Centrul de studii francofone,
-                <a
-                  href="https://www.facebook.com/uvtromania/"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  {' '}
-                  Universitatea de Vest din Timișoara
-                </a>
-              </>
-            }
-          />
-          <KTextField
-            label_title="Data susținerii:"
-            label_text="18 decembrie 2014, 14:00"
-          />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Prof. univ. dr. Margareta Gyurcsik (UVT), Prof. univ. dr. Mariana Ionescu (Huron University College at Western, Canada), Prof. univ. dr. Anda Rădulescu (Universitatea din Craiova), Conf. univ. dr. Valy Ceia"
-          />
-          <a href="https://rb.gy/gixuf5" className={styles.logo}>
-            <img className={styles.logo} src={facebook} />
-          </a>
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="Parodie et roman chez Diderot. Lectures critiques et lectures d'écrivains" />
-          <KTextField
-            label_title="Doctorand:"
-            label_text="Andreea Monca Gheorghiu"
-          />
-          <KTextField
-            label_title="Conducător:"
-            label_text="Prof. univ. dr. Georgiana Lungu-Badea"
-          />
-          <KTextField
-            label_title="Organizatori:"
-            label_text="Centrul de studii francofone – DF"
-          />
-          <KTextField
-            label_title="Data susținerii:"
-            label_text="29 noiembrie 2014"
-          />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Prof. univ. dr. Lăcrămioara Petrescu (UAIC), Prof. univ. dr. Cecilia Condei (Craiova), Conf. univ. dr. Vasile Popovici (UVT), Prof. univ. dr. Otilia Hedeșan (UVT), Prof. univ. dr. Hortensia Pârlog (UVT)"
-          />
-          <a href="https://rb.gy/dy2fyz" className={styles.logo}>
-            <img className={styles.logo} src={book} />
-          </a>
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="Structures de l’imaginaire dans l’œuvre de Michel Tournier" />
-          <KTextField label_title="Doctorand:" label_text="Eiben Ileana Neli" />
-          <KTextField
-            label_title="Conducător:"
-            label_text="Prof. univ. dr. Georgiana Lungu-Badea"
-          />
-          <KTextField
-            label_title="Organizatori:"
-            label_text="Centre d'études ISTTRAROM-Translationes, Centrul de studii francofone, Universitatea de Vest din Timișoara"
-          />
-          <KTextField
-            label_title="Data susținerii:"
-            label_text="18 decembrie 2014, 14:00"
-          />
-          <KTextField
-            label_title="Membri comisiei:"
-            label_text="Prof. univ. dr. Margareta Gyurcsik (UVT), Prof. univ. dr. Mariana Ionescu (Huron University College at Western, Canada), Prof. univ. dr. Anda Rădulescu (Universitatea din Craiova), Conf. univ. dr. Valy Ceia"
-          />
-          <a href="https://rb.gy/gixuf5" className={styles.logo}>
-            <img className={styles.logo} src={facebook} />
-          </a>
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="L'Image recurrente de la route chez trois écrivains roumains d'expression française: Tristan Tzara, Benjamin Fondane et Ilarie Voronca" />
-          <KTextField
-            label_title="Doctorand:"
-            label_text="Luciana Penteliuc-Cotoşman"
-          />
-          <KTextField
-            label_title="Conducător:"
-            label_text="Prof. univ. dr. Livius CIOCÂRLIE"
-          />
-          <KTextField label_title="Data susținerii:" label_text="2005" />
-        </div>
-
-        <div className={styles.section}>
-          <KRedTitle label_title="L'Image recurrente de la route chez trois écrivains roumains d'expression française: Tristan Tzara, Benjamin Fondane et Ilarie Voronca" />
-          <KTextField label_title="Doctorand:" label_text="Ecaterina Grün" />
-          <KTextField
-            label_title="Conducători:"
-            label_text="Prof. univ. dr. Livius Ciocârlie (UVT), Prof. univ. dr. Alain Vuillemin (Universitatea d’Artois, Arras, Franța)"
-          />
-          <KTextField label_title="Data susținerii:" label_text="2002" />
         </div>
       </div>
     </div>
@@ -180,5 +304,7 @@ const phdThesesPage = () => {
 };
 
 export const Route = createFileRoute('/events/phd-theses/')({
-  component: phdThesesPage,
+  component: PhdThesisPage,
 });
+
+export default PhdThesisPage;
