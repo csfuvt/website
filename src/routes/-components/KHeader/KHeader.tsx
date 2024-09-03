@@ -295,7 +295,7 @@ export const KHeader = () => {
                           <ul className="submenu">
                             <li>
                               <Link to="/research/publications/dialogue-francophones/calls/future">
-                                {latestCall?.year}
+                                {latestCall?.year || 'Apel curent'}
                               </Link>
                             </li>
                             <li>

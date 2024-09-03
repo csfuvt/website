@@ -323,6 +323,7 @@ function Calls() {
   };
   return (
     <div>
+      {isLoggedIn && <KAddButton className={'position'} onClick={showModal} />}
       {isLoading || isFetching ? (
         <Spin />
       ) : isError ? (
@@ -335,9 +336,6 @@ function Calls() {
         <div>
           <KBanner label={`Dialogues Francophones NO. ${data.title}`} />
           <div className="iframeContainer">
-            {isLoggedIn && (
-              <KAddButton className={'position'} onClick={showModal} />
-            )}
             <div className="calls-operations">
               <KTitle label={`Apel la contribuții -  ${data.year}`} />
               {isLoggedIn && (

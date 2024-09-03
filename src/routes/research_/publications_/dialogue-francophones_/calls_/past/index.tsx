@@ -44,7 +44,7 @@ function Calls() {
         <Spin />
       ) : isError ? (
         <span>Apelurile nu pot fi afișate momentan. Reveniți mai târziu!</span>
-      ) : isEmpty(data) ? (
+      ) : isEmpty(data) || data?.length === 1 ? (
         <div className="flex">
           <span>Nu există apeluri momentan.</span>
         </div>
