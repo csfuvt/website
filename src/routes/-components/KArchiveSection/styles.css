@@ -3,13 +3,11 @@
   flex-direction: column;
   gap: 8px;
   padding: 8px 24px;
-
 }
 
 .archive:hover {
   background-color: #f6f6f6;
   border-radius: 16px;
-
 }
 
 .link {
@@ -25,4 +23,15 @@ a {
 .description {
   color: var(--primary);
   font-family: 'Montserrat', sans-serif;
+}
+
+.call {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.information {
+  width: 100%;
 }
