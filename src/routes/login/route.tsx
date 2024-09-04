@@ -4,6 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { md5 } from 'js-md5';
 import { useAuth } from '../../hooks/useAuth.ts';
+import React, { useState } from 'react';
 
 export const Route = createFileRoute('/login')({
   beforeLoad: ({ context }) => {
@@ -24,6 +25,8 @@ interface LogIn {
 function LogInPage() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const { handleSubmit, control } = useForm<LogIn>({
     defaultValues: {
@@ -40,7 +43,13 @@ function LogInPage() {
       })
       .then(({ data: { access_token } }) => {
         signIn(access_token);
+        setError(false);
+        setErrorMessage('');
         navigate({ to: '/' });
+      })
+      .catch(() => {
+        setError(true);
+        setErrorMessage('Emailul si/sau parola sunt incorecte!');
       });
   };
 
@@ -55,6 +64,7 @@ function LogInPage() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <input
+                className={error ? `${styles.inputError}` : ''}
                 value={value}
                 onChange={onChange}
                 type="email"
@@ -69,6 +79,7 @@ function LogInPage() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <input
+                className={error ? `${styles.inputError}` : ''}
                 value={value}
                 onChange={onChange}
                 type="password"
@@ -77,6 +88,9 @@ function LogInPage() {
               />
             )}
           />
+
+          {error && <div className={styles.errorMessage}>{errorMessage}</div>}
+
           {/*<a href="#forgot" className={styles.forgotPassword}>*/}
           {/*  Forgot your password?*/}
           {/*</a>*/}
