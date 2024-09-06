@@ -70,8 +70,8 @@ function RegistrationPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="sectiune">Ciclu de studii*</label>
-              <select id="sectiune" name="sectiune" required>
+              <label htmlFor="ciclul-de-studii">Ciclu de studii*</label>
+              <select id="ciclul-de-studii" name="ciclul-de-studii" required>
                 <option value="Selecteaza">Selectează</option>
 
                 <option value="Licență">Licență</option>
@@ -82,8 +82,8 @@ function RegistrationPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="sectiune">An de studii*</label>
-              <select id="sectiune" name="sectiune" required>
+              <label htmlFor="an-de-studii">An de studii*</label>
+              <select id="an-de-studii" name="an-de-studii" required>
                 <option value="Selecteaza">Selectează</option>
 
                 <option value="1">1</option>
@@ -94,11 +94,13 @@ function RegistrationPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="afiliere">Afiliera instituțională*</label>
+              <label htmlFor="afiliere-institutionala">
+                Afiliera instituțională*
+              </label>
               <input
                 type="text"
-                id="afiliere"
-                name="afiliere"
+                id="afiliere-institutionala"
+                name="afiliere-institutionala"
                 placeholder="ex. universitate, institut, centru de cercetare"
                 required
               />
@@ -128,37 +130,40 @@ function RegistrationPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="titlu-comunicare">
+              <label htmlFor="titlu-lucrare-in-franceza">
                 Titlul lucrării (în limba franceză)*
               </label>
 
               <WordsCounter
+                id="titlu-lucrare-in-franceza"
+                name="titlu-lucrare-in-franceza"
                 limit={25}
                 placeholder="(Introduceți titlul lucrării...)"
               />
 
-              {/*<textarea
-                id="titlu-comunicare"
-                name="titlu-comunicare"
+              {/*
+              <textarea
+                id="titlu-lucrare-in-franceza"
+                name="titlu-lucrare-in-franceza"
                 placeholder="(Introduceți titlul lucrării...)"
                 required></textarea>*/}
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="titlu-comunicare">
+              <label htmlFor="titlu-lucrare-en">
                 Titlul lucrării (în limba engleză)*
               </label>
               <textarea
-                id="titlu-comunicare"
-                name="titlu-comunicare"
+                id="titlu-lucrare-in-engleza"
+                name="titlu-lucrare-in-engleza"
                 placeholder="(Introduceți titlul lucrării...)"
                 required></textarea>
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="rezumat">Rezumat (în limba franceză)*</label>
+              <label htmlFor="rezumat-fr">Rezumat (în limba franceză)*</label>
               <textarea
-                id="rezumat"
-                name="rezumat"
+                id="rezumat-in-franceza"
+                name="rezumat-in-franceza"
                 placeholder="(Introduceți rezumatul...)"
                 required></textarea>
             </div>
@@ -175,12 +180,12 @@ function RegistrationPage() {
             </div>
 */}
             <div className={styles.formGroup}>
-              <label htmlFor="cuvinte-cheie">
+              <label htmlFor="cuvinte-cheie-fr">
                 3 cuvinte-cheie (în limba franceză)*
               </label>
               <textarea
-                id="cuvinte-cheie"
-                name="cuvinte-cheie"
+                id="cuvinte-cheie-in-franceza"
+                name="cuvinte-cheie-in-franceza"
                 placeholder="(Introduceți cuvintele-cheie)"
                 required></textarea>
             </div>

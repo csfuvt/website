@@ -67,8 +67,8 @@ export const RegistrationPage = () => {
               </label>
               <input
                 type="text"
-                id="titlu-academic"
-                name="titlu-academic"
+                id="titlu-academic-si-stiintific"
+                name="titlu-academic-si-stiintific"
                 placeholder="ex. cadru didactic, cercetător, doctorand"
                 required
               />
@@ -77,8 +77,8 @@ export const RegistrationPage = () => {
               <label htmlFor="afiliere">Afiliera instituțională*</label>
               <input
                 type="text"
-                id="afiliere"
-                name="afiliere"
+                id="afiliere-institutionala"
+                name="afiliere-institutionala"
                 placeholder="ex. universitate, institut, centru de cercetare"
                 required
               />
@@ -111,8 +111,8 @@ export const RegistrationPage = () => {
                 Titlul lucrării (în limba franceză)*
               </label>
               <textarea
-                id="titlu-comunicare"
-                name="titlu-comunicare"
+                id="titlu-comunicare-in-franceza"
+                name="titlu-comunicare-in-franceza"
                 placeholder="(Introduceți titlul lucrării...)"
                 required></textarea>
             </div>
@@ -121,8 +121,8 @@ export const RegistrationPage = () => {
                 Titlul lucrării (în limba engleză)*
               </label>
               <textarea
-                id="titlu-comunicare"
-                name="titlu-comunicare"
+                id="titlu-comunicare-in-engleza"
+                name="titlu-comunicare-in-engleza"
                 placeholder="(Introduceți titlul lucrării...)"
                 required></textarea>
             </div>
@@ -130,8 +130,8 @@ export const RegistrationPage = () => {
             <div className={styles.formGroup}>
               <label htmlFor="rezumat">Rezumat (în limba franceză)*</label>
               <textarea
-                id="rezumat"
-                name="rezumat"
+                id="rezumat-in-franceza"
+                name="rezumat-in-franceza"
                 placeholder="(Introduceți rezumatul...)"
                 required></textarea>
             </div>
@@ -139,8 +139,8 @@ export const RegistrationPage = () => {
             <div className={styles.formGroup}>
               <label htmlFor="rezumat">Rezumat (în limba engleză)*</label>
               <textarea
-                id="rezumat"
-                name="rezumat"
+                id="rezumat-in-engleza"
+                name="rezumat-in-engleza"
                 placeholder="(Introduceți rezumatul...)"
                 required></textarea>
             </div>
@@ -150,8 +150,8 @@ export const RegistrationPage = () => {
                 5 cuvinte-cheie (în limba franceză)*
               </label>
               <textarea
-                id="cuvinte-cheie"
-                name="cuvinte-cheie"
+                id="cuvinte-cheie-in-franceza"
+                name="cuvinte-cheie-in-franceza"
                 placeholder="(Introduceți cuvintele-cheie)"
                 required></textarea>
             </div>
@@ -161,8 +161,8 @@ export const RegistrationPage = () => {
                 5 cuvinte-cheie (în limba engleză)*
               </label>
               <textarea
-                id="cuvinte-cheie"
-                name="cuvinte-cheie"
+                id="cuvinte-cheie-in-engleza"
+                name="cuvinte-cheie-in-engleza"
                 placeholder="(Introduceți cuvintele-cheie...)"
                 required></textarea>
             </div>
