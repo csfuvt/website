@@ -1,9 +1,13 @@
 import { useState, ChangeEvent } from 'react';
 
 const WordsCounter = ({
+  id,
+  name,
   limit,
   placeholder,
 }: {
+  id: string;
+  name: string;
   limit: number;
   placeholder: string;
 }) => {
@@ -26,6 +30,8 @@ const WordsCounter = ({
   return (
     <div>
       <textarea
+        id={id}
+        name={name}
         value={text}
         onChange={handleChange}
         rows={2}
@@ -33,7 +39,7 @@ const WordsCounter = ({
         placeholder={placeholder}
       />
       <p>
-        Words: {wordCount} {wordCount >= limit && '(Limit reached)'}
+        Cuvinte: {wordCount} {wordCount >= limit && '(limita atinsa)'}
       </p>
     </div>
   );
