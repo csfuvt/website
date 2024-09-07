@@ -41,6 +41,13 @@ export const RegistrationPage = () => {
           <br />
 
           <form className={styles.form} onSubmit={handleSubmit}>
+            <input
+              type="hidden"
+              id="title"
+              name="title"
+              value="CIEFT 2024 - Fișa de înscriere"
+            />
+
             <div className={styles.formGroup}>
               <label htmlFor="nume">Nume*</label>
               <input
