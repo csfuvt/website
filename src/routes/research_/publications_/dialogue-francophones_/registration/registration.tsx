@@ -42,6 +42,12 @@ export const RegistrationPage = () => {
 
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
+              <input
+                type="hidden"
+                id="title"
+                name="title"
+                value="Dialogue Francophones 2024 - Fișa de înscriere"
+              />
               <label htmlFor="nume">Nume*</label>
               <input
                 type="text"

@@ -41,13 +41,20 @@ function RegistrationPage() {
 
   return (
     <div>
-      <KBanner label=" 2024 COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE - Fișa de înscriere" />
+      <KBanner label="COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE 2024 - Fișa de înscriere" />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <KTitle label="Fișa de înscriere" />
           <br />
 
           <form className={styles.form} onSubmit={handleSubmit}>
+            <input
+              type="hidden"
+              id="title"
+              name="title"
+              value="COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE 2024 - Fișa de înscriere"
+            />
+
             <div className={styles.formGroup}>
               <label htmlFor="nume">Nume*</label>
               <input
