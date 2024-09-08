@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from 'react';
+import styles from './WordsCounter.module.css';
 
 const WordsCounter = ({
   id,
@@ -28,7 +29,7 @@ const WordsCounter = ({
     .filter(word => word.length > 0).length;
 
   return (
-    <div>
+    <div className={styles.wordsCounterContainer}>
       <textarea
         id={id}
         name={name}
@@ -37,10 +38,20 @@ const WordsCounter = ({
         rows={2}
         cols={10}
         placeholder={placeholder}
+        required
+        className={styles.wordCounterTextarea}
       />
-      <p>
-        Cuvinte: {wordCount} {wordCount >= limit && '(limita atinsa)'}
-      </p>
+
+      <div className={styles.wordCountContainer}>
+        <div className={styles.wordCount}>
+          {wordCount}/{limit}
+        </div>
+        {wordCount >= limit && (
+          <div className={styles.limitReached}>
+            Limita de cuvinte a fost atinsa!
+          </div>
+        )}
+      </div>
     </div>
   );
 };
