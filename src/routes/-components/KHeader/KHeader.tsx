@@ -310,6 +310,13 @@ export const KHeader = () => {
                             {t('Volume')}
                           </Link>
                         </li>
+
+                        <li>
+                          <Link to="/research/publications/dialogue-francophones/registration/registration">
+                            {t('Fișa de inscriere')}
+                          </Link>
+                        </li>
+
                         <li>
                           <Link to="/research/publications/dialogue-francophones/indexing">
                             {t('Indexare')}

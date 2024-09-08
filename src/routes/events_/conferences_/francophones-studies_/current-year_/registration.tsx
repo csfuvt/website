@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../../-components/KBanner/KBanner';
 import styles from './registration.module.css';
 import { KTitle } from '../../../../-components/KTitle/KTitle';
-import WordsCounter from '../../../../-components/WordsCounter';
+import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
 
 export const Route = createFileRoute(
   '/events/conferences/francophones-studies/current-year/registration'
@@ -145,8 +145,7 @@ function RegistrationPage() {
                 id="titlu-lucrare-in-franceza"
                 name="titlu-lucrare-in-franceza"
                 limit={25}
-                placeholder="(Introduceți titlul lucrării...)"
-              />
+                placeholder="(Introduceți titlul lucrării...)"></WordsCounter>
 
               {/*
               <textarea

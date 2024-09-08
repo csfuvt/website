@@ -1,0 +1,43 @@
+.wordsCounterContainer {
+  position: relative;
+}
+
+.wordsCounterTextarea {
+  color: var(--primary);
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--primary);
+  border-radius: 16px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 1rem;
+  padding-bottom: 40px;
+}
+
+.wordCount {
+  position: absolute;
+  bottom: 0; 
+  right: 10px;
+  background: white;
+  padding: 0 5px;
+  font-size: 14px;
+  color: #0056b3;
+  white-space: nowrap; 
+}
+
+.limitReached {
+  color: red;
+  font-weight: bold;
+  font-size: 12px; 
+}
+
+
+@media (max-width: 600px) {
+  .wordCount {
+    font-size: 12px; 
+  }
+
+  .limitReached {
+    font-size: 10px; 
+  }
+}

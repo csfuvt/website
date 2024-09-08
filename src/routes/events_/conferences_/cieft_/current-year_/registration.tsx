@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../../-components/KBanner/KBanner';
 import { KTitle } from '../../../../-components/KTitle/KTitle';
 import styles from './registration.module.css';
+import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
 
 export const RegistrationPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -117,39 +118,39 @@ export const RegistrationPage = () => {
               <label htmlFor="titlu-comunicare">
                 Titlul lucrării (în limba franceză)*
               </label>
-              <textarea
+              <WordsCounter
                 id="titlu-comunicare-in-franceza"
                 name="titlu-comunicare-in-franceza"
                 placeholder="(Introduceți titlul lucrării...)"
-                required></textarea>
+                limit={25}></WordsCounter>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="titlu-comunicare">
                 Titlul lucrării (în limba engleză)*
               </label>
-              <textarea
+              <WordsCounter
                 id="titlu-comunicare-in-engleza"
                 name="titlu-comunicare-in-engleza"
                 placeholder="(Introduceți titlul lucrării...)"
-                required></textarea>
+                limit={25}></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
               <label htmlFor="rezumat">Rezumat (în limba franceză)*</label>
-              <textarea
+              <WordsCounter
                 id="rezumat-in-franceza"
                 name="rezumat-in-franceza"
                 placeholder="(Introduceți rezumatul...)"
-                required></textarea>
+                limit={300}></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
               <label htmlFor="rezumat">Rezumat (în limba engleză)*</label>
-              <textarea
+              <WordsCounter
                 id="rezumat-in-engleza"
                 name="rezumat-in-engleza"
                 placeholder="(Introduceți rezumatul...)"
-                required></textarea>
+                limit={300}></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
