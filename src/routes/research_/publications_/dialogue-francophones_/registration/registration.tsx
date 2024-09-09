@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../../-components/KBanner/KBanner';
 import { KTitle } from '../../../../-components/KTitle/KTitle';
 import styles from './registration.module.css';
+import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
 
 export const RegistrationPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +35,7 @@ export const RegistrationPage = () => {
 
   return (
     <div>
-      <KBanner label="Dialogue Francophones 2024 - Fișa de înscriere" />
+      <KBanner label="Dialogues Francophones 2024 - Fișa de înscriere" />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <KTitle label="Fișa de înscriere" />
@@ -46,7 +47,7 @@ export const RegistrationPage = () => {
                 type="hidden"
                 id="title"
                 name="title"
-                value="Dialogue Francophones 2024 - Fișa de înscriere"
+                value="Dialogues Francophones 2024 - Fișa de înscriere"
               />
               <label htmlFor="nume">Nume*</label>
               <input
@@ -95,11 +96,11 @@ export const RegistrationPage = () => {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="ex. universitate, institut, centru de cercetare"
+                placeholder="ex. ion.popescu@gmail.com"
                 required
               />
             </div>
-            <div className={styles.formGroup}>
+            {/* <div className={styles.formGroup}>
               <label htmlFor="sectiune">Secțiunea*</label>
               <select id="sectiune" name="sectiune" required>
                 <option value="Selecteaza">Selectează</option>
@@ -111,44 +112,46 @@ export const RegistrationPage = () => {
                 <option value="Didactica">Didactică</option>
                 <option value="Traductologie">Traductologie</option>
               </select>
-            </div>
+            </div>*/}
             <div className={styles.formGroup}>
               <label htmlFor="titlu-lucrare-fr">
                 Titlul lucrării (în limba franceză)*
               </label>
-              <textarea
+
+              <WordsCounter
                 id="titlu-lucrare-in-franceza"
                 name="titlu-lucrare-in-franceza"
-                placeholder="(Introduceți titlul lucrării...)"
-                required></textarea>
+                limit={25}
+                placeholder="(Introduceți titlul lucrării...)"></WordsCounter>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="titlu-lucrare-en">
                 Titlul lucrării (în limba engleză)*
               </label>
-              <textarea
+
+              <WordsCounter
                 id="titlu-lucrare-in-engleza"
                 name="titlu-lucrare-in-engleza"
-                placeholder="(Introduceți titlul lucrării...)"
-                required></textarea>
+                limit={25}
+                placeholder="(Introduceți titlul lucrării...)"></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
               <label htmlFor="rezumat-fr">Rezumat (în limba franceză)*</label>
-              <textarea
+              <WordsCounter
                 id="rezumat-in-franceza"
                 name="rezumat-in-franceza"
-                placeholder="(Introduceți rezumatul...)"
-                required></textarea>
+                limit={300}
+                placeholder="(Introduceți rezumatul...)"></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
               <label htmlFor="rezumat-en">Rezumat (în limba engleză)*</label>
-              <textarea
+              <WordsCounter
                 id="rezumat-in-engleza"
                 name="rezumat-in-engleza"
-                placeholder="(Introduceți rezumatul...)"
-                required></textarea>
+                limit={300}
+                placeholder="(Introduceți rezumatul...)"></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
