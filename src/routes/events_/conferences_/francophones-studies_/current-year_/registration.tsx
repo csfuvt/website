@@ -118,7 +118,7 @@ function RegistrationPage() {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="ex. universitate, institut, centru de cercetare"
+                placeholder="ex. ion.popescu@gmail.com"
                 required
               />
             </div>
@@ -131,7 +131,9 @@ function RegistrationPage() {
                   Literatură franceză şi francofonă
                 </option>
                 <option value="Lingvistica">Lingvistică</option>
-                <option value="Didactica">Didactică</option>
+                <option value="Cultură şi civilizaţie franceză">
+                  Cultură şi civilizaţie franceză
+                </option>
                 <option value="Traductologie">Traductologie</option>
               </select>
             </div>
@@ -154,24 +156,20 @@ function RegistrationPage() {
                 placeholder="(Introduceți titlul lucrării...)"
                 required></textarea>*/}
             </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="titlu-lucrare-en">
-                Titlul lucrării (în limba engleză)*
-              </label>
-              <textarea
-                id="titlu-lucrare-in-engleza"
-                name="titlu-lucrare-in-engleza"
-                placeholder="(Introduceți titlul lucrării...)"
-                required></textarea>
-            </div>
 
             <div className={styles.formGroup}>
               <label htmlFor="rezumat-fr">Rezumat (în limba franceză)*</label>
-              <textarea
+              <WordsCounter
+                id="rezumat-in-franceza"
+                name="rezumat-in-franceza"
+                limit={300}
+                placeholder="(Introduceți rezumatul...)"></WordsCounter>
+
+              {/*<textarea
                 id="rezumat-in-franceza"
                 name="rezumat-in-franceza"
                 placeholder="(Introduceți rezumatul...)"
-                required></textarea>
+                required></textarea>*/}
             </div>
 
             {/*
@@ -207,6 +205,55 @@ function RegistrationPage() {
         */}
 
             <div className={styles.formGroup}>
+              <label htmlFor="nume">Nume cadru didactic coordonator*</label>
+              <input
+                type="text"
+                id="nume"
+                name="nume"
+                placeholder="ex. Pop"
+                required
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="prenume">
+                Prenume cadru didactic coordonator*
+              </label>
+              <input
+                type="text"
+                id="prenume"
+                name="prenume"
+                placeholder="ex. Andrei"
+                required
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="titlu-academic">
+                Titlu academic cadru didactic coordonator*
+              </label>
+              <input
+                type="text"
+                id="titlu-academic"
+                name="titlu-academic"
+                placeholder="ex. lector universitar, conferențiar universitar doctor"
+                required
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="afiliere-institutionala">
+                Afiliera instituțională cadru didactic coordonator*
+              </label>
+              <input
+                type="text"
+                id="afiliere-institutionala"
+                name="afiliere-institutionala"
+                placeholder="ex. universitate, institut, centru de cercetare"
+                required
+              />
+            </div>
+
+            <div className={styles.formGroup}>
               <label>Prezentare cu video-proiector*</label>
               <div className={styles.radioGroup}>
                 <label>
@@ -229,6 +276,7 @@ function RegistrationPage() {
                 </label>
               </div>
             </div>
+
             <button type="submit" className={styles.submitButton}>
               Submit
             </button>
