@@ -13,6 +13,7 @@ import {
   faDiagramProject,
 } from '@fortawesome/free-solid-svg-icons';
 
+
 type MenuItem = {
   title: string;
   url?: string;

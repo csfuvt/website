@@ -81,7 +81,9 @@ export const RegistrationPage = () => {
               />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="afiliere">Afiliera instituțională*</label>
+              <label htmlFor="afiliere-institutionala">
+                Afiliera instituțională*
+              </label>
               <input
                 type="text"
                 id="afiliere-institutionala"
@@ -203,7 +205,7 @@ export const RegistrationPage = () => {
             */}
 
             <button type="submit" className={styles.submitButton}>
-              Submit
+              Trimite
             </button>
           </form>
         </div>

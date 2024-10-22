@@ -115,28 +115,30 @@ export const RegistrationPage = () => {
               </select>
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="titlu-comunicare">
+              <label htmlFor="titlu-lucrare-in-franceza">
                 Titlul lucrării (în limba franceză)*
               </label>
               <WordsCounter
-                id="titlu-comunicare-in-franceza"
-                name="titlu-comunicare-in-franceza"
+                id="titlu-lucrare-in-franceza"
+                name="titlu-lucrare-in-franceza"
                 placeholder="(Introduceți titlul lucrării...)"
                 limit={25}></WordsCounter>
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="titlu-comunicare">
+              <label htmlFor="titlu-lucrare-in-engleza">
                 Titlul lucrării (în limba engleză)*
               </label>
               <WordsCounter
-                id="titlu-comunicare-in-engleza"
-                name="titlu-comunicare-in-engleza"
+                id="titlu-lucrare-in-engleza"
+                name="titlu-lucrare-in-engleza"
                 placeholder="(Introduceți titlul lucrării...)"
                 limit={25}></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="rezumat">Rezumat (în limba franceză)*</label>
+              <label htmlFor="rezumat-in-franceza">
+                Rezumat (în limba franceză)*
+              </label>
               <WordsCounter
                 id="rezumat-in-franceza"
                 name="rezumat-in-franceza"
@@ -145,7 +147,9 @@ export const RegistrationPage = () => {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="rezumat">Rezumat (în limba engleză)*</label>
+              <label htmlFor="rezumat-in-engleza">
+                Rezumat (în limba engleză)*
+              </label>
               <WordsCounter
                 id="rezumat-in-engleza"
                 name="rezumat-in-engleza"
@@ -165,7 +169,7 @@ export const RegistrationPage = () => {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="cuvinte-cheie">
+              <label htmlFor="cuvinte-cheie-in-engleza">
                 5 cuvinte-cheie (în limba engleză)*
               </label>
               <textarea
@@ -181,7 +185,7 @@ export const RegistrationPage = () => {
                 <label>
                   <input
                     type="radio"
-                    name="video-proiector"
+                    name="prezentare-cu-video-proiector"
                     value="da"
                     required
                   />{' '}
@@ -190,7 +194,7 @@ export const RegistrationPage = () => {
                 <label>
                   <input
                     type="radio"
-                    name="video-proiector"
+                    name="prezentare-cu-video-proiector"
                     value="nu"
                     required
                   />{' '}
@@ -199,7 +203,7 @@ export const RegistrationPage = () => {
               </div>
             </div>
             <button type="submit" className={styles.submitButton}>
-              Submit
+              Trimite
             </button>
           </form>
         </div>
