@@ -127,7 +127,7 @@ function RegistrationPage() {
               <select id="sectiune" name="sectiune" required>
                 <option value="Selecteaza">Selectează</option>
 
-                <option value="Literatura franceza si francofona">
+                <option value="Literatură franceză și francofonă">
                   Literatură franceză şi francofonă
                 </option>
                 <option value="Lingvistica">Lingvistică</option>
@@ -158,7 +158,9 @@ function RegistrationPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="rezumat-fr">Rezumat (în limba franceză)*</label>
+              <label htmlFor="rezumat-in-franceza">
+                Rezumat (în limba franceză)*
+              </label>
               <WordsCounter
                 id="rezumat-in-franceza"
                 name="rezumat-in-franceza"
@@ -184,7 +186,7 @@ function RegistrationPage() {
             </div>
 */}
             <div className={styles.formGroup}>
-              <label htmlFor="cuvinte-cheie-fr">
+              <label htmlFor="cuvinte-cheie-in-franceza">
                 3 cuvinte-cheie (în limba franceză)*
               </label>
               <textarea
@@ -205,49 +207,51 @@ function RegistrationPage() {
         */}
 
             <div className={styles.formGroup}>
-              <label htmlFor="nume">Nume cadru didactic coordonator*</label>
+              <label htmlFor="nume-cadru-didactic-coordonator">
+                Nume cadru didactic coordonator*
+              </label>
               <input
                 type="text"
-                id="nume"
-                name="nume"
+                id="nume-cadru-didactic-coordonator"
+                name="nume-cadru-didactic-coordonator"
                 placeholder="ex. Pop"
                 required
               />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="prenume">
+              <label htmlFor="prenume-cadru-didactic-coordonator">
                 Prenume cadru didactic coordonator*
               </label>
               <input
                 type="text"
-                id="prenume"
-                name="prenume"
+                id="prenume-cadru-didactic-coordonator"
+                name="prenume-cadru-didactic-coordonator"
                 placeholder="ex. Andrei"
                 required
               />
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="titlu-academic">
+              <label htmlFor="titlu-academic-cadru-didactic-coordonator">
                 Titlu academic cadru didactic coordonator*
               </label>
               <input
                 type="text"
-                id="titlu-academic"
-                name="titlu-academic"
+                id="titlu-academic-cadru-didactic-coordonator"
+                name="titlu-academic-cadru-didactic-coordonator"
                 placeholder="ex. lector universitar, conferențiar universitar doctor"
                 required
               />
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="afiliere-institutionala">
+              <label htmlFor="afiliere-institutionala-cadru-didactic-coordonator">
                 Afiliera instituțională cadru didactic coordonator*
               </label>
               <input
                 type="text"
-                id="afiliere-institutionala"
-                name="afiliere-institutionala"
+                id="afiliere-institutionala-cadru-didactic-coordonator"
+                name="afiliere-institutionala-cadru-didactic-coordonator"
                 placeholder="ex. universitate, institut, centru de cercetare"
                 required
               />
@@ -259,7 +263,7 @@ function RegistrationPage() {
                 <label>
                   <input
                     type="radio"
-                    name="video-proiector"
+                    name="prezentare-cu-video-proiector"
                     value="da"
                     required
                   />{' '}
@@ -268,7 +272,7 @@ function RegistrationPage() {
                 <label>
                   <input
                     type="radio"
-                    name="video-proiector"
+                    name="prezentare-cu-video-proiector"
                     value="nu"
                     required
                   />{' '}
@@ -278,7 +282,7 @@ function RegistrationPage() {
             </div>
 
             <button type="submit" className={styles.submitButton}>
-              Submit
+              Trimite
             </button>
           </form>
         </div>
