@@ -1,5 +1,18 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faHome, faBookOpen, faInfo, faBullseye, faUserGroup, faHandshake, faComments, faAddressBook, faGraduationCap, faEllipsis, faNewspaper, faDiagramProject } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHome,
+  faBookOpen,
+  faInfo,
+  faBullseye,
+  faUserGroup,
+  faComments,
+  faAddressBook,
+  faGraduationCap,
+  faEllipsis,
+  faNewspaper,
+  faDiagramProject,
+} from '@fortawesome/free-solid-svg-icons';
+
 
 type MenuItem = {
   title: string;
@@ -10,289 +23,261 @@ type MenuItem = {
 
 export const menuItemsData: MenuItem[] = [
   {
-    title: "Acasa",
-    url: "/",
+    title: 'Acasa',
+    url: '/',
     icon: faHome,
   },
   {
-    title: "Despre noi",
-    url: "/despre-noi",
+    title: 'Despre noi',
     submenu: [
       {
-        title: "Istoric",
-        url: "/despre-noi/istoric",
+        title: 'Istoric',
+        url: '/about/history',
         icon: faBookOpen,
       },
       {
-        title: "Descriere și obiective",
-        url: "/despre-noi/descriere-obiective",
+        title: 'Descriere și obiective',
+        url: '/about/description-and-objectives',
         icon: faBullseye,
       },
       {
-        title: "Membri",
-        url: "/despre-noi/membri",
+        title: 'Membri',
+        url: '/about/members',
         icon: faUserGroup,
       },
-      {
-        title: "Parteneri",
-        url: "/despre-noi/parteneri",
-        icon: faHandshake,
-      }
-    ]
+    ],
   },
   {
-    title: "Evenimente",
-    url: "/evenimente",
+    title: 'Evenimente',
     submenu: [
       {
-        title: "Colocvii",
-        url: "/evenimente/colocvii",
+        title: 'Colocvii',
         submenu: [
           {
-            title: "CIEFT",
-            url: "/evenimente/colocvii/cieft",
+            title: 'CIEFT',
             submenu: [
               {
-                title: "CIEFT 2024",
-                url: "/evenimente/colocvii/cieft-2024",
+                title: 'CIEFT 2024',
                 submenu: [
                   {
-                    title: "Apel la comunicări",
-                    url: "/evenimente/colocvii/cieft-2024/apel-comunicari",
+                    title: 'Apel la comunicări',
+                    url: '/events/conferences/cieft/current-year/calls',
                   },
                   {
-                    title: "Fișa de înscriere",
-                    url: "/evenimente/colocvii/cieft-2024/fisa-inscriere",
+                    title: 'Fișa de înscriere',
+                    url: '/events/conferences/cieft/current-year/registration',
                   },
                   {
-                    title: "Organizatori și parteneri",
-                    url: "/evenimente/colocvii/cieft-2024/organizatori-parteneri",
+                    title: 'Organizatori și parteneri',
+                    url: '/events/conferences/cieft/current-year/organizers-and-partners',
                   },
                   {
-                    title: "Comitet științific",
-                    url: "/evenimente/colocvii/cieft-2024/comitet-stiintific",
+                    title: 'Comitet științific',
+                    url: '/events/conferences/cieft/current-year/scientific-committee',
                   },
                   {
-                    title: "Informații utile",
-                    url: "/evenimente/colocvii/cieft-2024/informatii-utile",
-                  }
+                    title: 'Informații utile',
+                    url: '/evenimente/colocvii/cieft-2024/informatii-utile',
+                  },
                 ],
                 icon: faBookOpen,
               },
               {
-                title: "Ediții anterioare",
-                url: "/evenimente/colocvii/cieft/editi-anterioare",
+                title: 'Ediții anterioare',
+                url: '/events/conferences/francophones-studies/current-year/info',
                 icon: faBookOpen,
-              }
+              },
             ],
             icon: faComments,
           },
           {
-            title: "Colocviile franco-române de lingvistică",
-            url: "/evenimente/colocvii/colocvii-franco-romane",
+            title: 'Colocviile franco-române de lingvistică',
+            url: '/events/conferences/lingvistic-francophones',
             icon: faComments,
           },
           {
-            title: "Colocviul studențesc de studii francofone",
-            url: "/evenimente/colocvii/colocviul-studentesc",
+            title: 'Colocviul studențesc de studii francofone',
             submenu: [
               {
-                title: "2024",
-                url: "/evenimente/colocvii/studentesc-2024",
+                title: '2024',
+                url: '/evenimente/colocvii/studentesc-2024',
                 submenu: [
                   {
-                    title: "Apel la comunicări",
-                    url: "/evenimente/colocvii/studentesc-2024/apel-comunicari",
+                    title: 'Apel la comunicări',
+                    url: '/events/conferences/francophones-studies/current-year/calls',
                   },
                   {
-                    title: "Fișa de înscriere",
-                    url: "/evenimente/colocvii/studentesc-2024/fisa-inscriere",
+                    title: 'Fișa de înscriere',
+                    url: '/events/conferences/francophones-studies/current-year/registration',
                   },
                   {
-                    title: "Organizatori și parteneri",
-                    url: "/evenimente/colocvii/studentesc-2024/organizatori-parteneri",
+                    title: 'Organizatori și parteneri',
+                    url: '/events/conferences/francophones-studies/current-year/organizers-and-partners',
                   },
                   {
-                    title: "Comitet științific",
-                    url: "/evenimente/colocvii/studentesc-2024/comitet-stiintific",
+                    title: 'Comitet științific',
+                    url: '/events/conferences/francophones-studies/current-year/scientific-committee',
                   },
                   {
-                    title: "Informații utile",
-                    url: "/evenimente/colocvii/studentesc-2024/informatii-utile",
-                  }
+                    title: 'Informații utile',
+                    url: '/events/conferences/francophones-studies/current-year/info',
+                  },
                 ],
                 icon: faBookOpen,
               },
               {
-                title: "Ediții anterioare",
-                url: "/evenimente/colocvii/studentesc/editi-anterioare",
+                title: 'Ediții anterioare',
+                url: '/events/conferences/cieft/previous-editions',
                 icon: faBookOpen,
-              }
+              },
             ],
             icon: faComments,
-          }
+          },
         ],
         icon: faComments,
       },
       {
-        title: "Mese rotunde",
-        url: "/evenimente/mese-rotunde",
+        title: 'Mese rotunde',
+        url: '/events/round-tables',
         icon: faAddressBook,
       },
       {
-        title: "Susțineri de teze doctorale",
-        url: "/evenimente/sustinere-teze",
+        title: 'Susțineri de teze doctorale',
+        url: '/events/phd-theses',
         icon: faGraduationCap,
       },
       {
-        title: "Alte evenimente",
-        url: "/evenimente/alte-evenimente",
+        title: 'Alte evenimente',
+        url: '/events/other-events',
         icon: faEllipsis,
-      }
-    ]
+      },
+    ],
   },
   {
-    title: "Cercetare",
-    url: "/cercetare",
+    title: 'Cercetare',
+    url: '/cercetare',
     submenu: [
       {
-        title: "Publicații",
-        url: "/cercetare/publicatii",
+        title: 'Publicații',
         submenu: [
           {
-            title: "Dialogues Francophones",
-            url: "/cercetare/publicatii/dialogues-francophones",
+            title: 'Dialogues Francophones',
             submenu: [
               {
-                title: "Despre noi",
-                url: "/cercetare/publicatii/dialogues-francophones/despre-noi",
+                title: 'Despre noi',
+                url: '/research/publications/dialogue-francophones/about',
                 icon: faInfo,
               },
               {
-                title: "Comitete",
-                url: "/cercetare/publicatii/dialogues-francophones/comitete",
+                title: 'Comitete',
+                url: '/research/publications/dialogue-francophones/committees',
                 icon: faInfo,
               },
               {
-                title: "Politica editorială",
-                url: "/cercetare/publicatii/dialogues-francophones/politica-editoriala",
+                title: 'Politica editorială',
+                url: '/research/publications/dialogue-francophones/editorial-policy',
                 icon: faInfo,
               },
               {
-                title: "Apel la contribuții",
-                url: "/cercetare/publicatii/dialogues-francophones/apel-contributii",
+                title: 'Apel la contribuții',
                 submenu: [
                   {
-                    title: "2024",
-                    url: "/cercetare/publicatii/dialogues-francophones/apel-2024",
+                    title: '2024',
+                    url: '/research/publications/dialogue-francophones/calls/future',
                   },
                   {
-                    title: "Apeluri trecute",
-                    url: "/cercetare/publicatii/dialogues-francophones/apeluri-trecute",
-                  }
+                    title: 'Apeluri trecute',
+                    url: '/research/publications/dialogue-francophones/calls/past',
+                  },
                 ],
                 icon: faInfo,
               },
               {
-                title: "Volume",
-                url: "/cercetare/publicatii/dialogues-francophones/volume",
+                title: 'Volume',
+                url: '/research/publications/dialogue-francophones/volumes',
                 icon: faInfo,
               },
               {
-                title: "Indexare",
-                url: "/cercetare/publicatii/dialogues-francophones/indexare",
+                title: 'Indexare',
+                url: '/research/publications/dialogue-francophones/indexing',
                 icon: faInfo,
-              }
+              },
             ],
             icon: faNewspaper,
           },
           {
-            title: "Agapes Francophones",
-            url: "/cercetare/publicatii/agapes-francophones",
+            title: 'Agapes Francophones',
             submenu: [
               {
-                title: "Despre noi",
-                url: "/cercetare/publicatii/agapes-francophones/despre-noi",
+                title: 'Despre noi',
+                url: '/research/publications/agapes-francophones/about',
                 icon: faInfo,
               },
               {
-                title: "Comitete",
-                url: "/cercetare/publicatii/agapes-francophones/comitete",
+                title: 'Comitete',
+                url: '/research/publications/agapes-francophones/committees',
                 icon: faInfo,
               },
               {
-                title: "Politica editorială",
-                url: "/cercetare/publicatii/agapes-francophones/politica-editoriala",
+                title: 'Politica editorială',
+                url: '/research/publications/agapes-francophones/editorial-policy',
                 icon: faInfo,
               },
               {
-                title: "Apel la contribuții",
-                url: "/cercetare/publicatii/agapes-francophones/apel-contributii",
+                title: 'Apel la contribuții',
                 submenu: [
                   {
-                    title: "Apeluri viitoare",
-                    url: "/cercetare/publicatii/agapes-francophones/apel-viitoare",
+                    title: 'Apeluri viitoare',
+                    url: '/research/publications/agapes-francophones/calls/future',
                   },
                   {
-                    title: "Apeluri trecute",
-                    url: "/cercetare/publicatii/agapes-francophones/apeluri-trecute",
-                  }
+                    title: 'Apeluri trecute',
+                    url: '/research/publications/agapes-francophones/calls/past',
+                  },
                 ],
                 icon: faInfo,
               },
               {
-                title: "Volume",
-                url: "/cercetare/publicatii/agapes-francophones/volume",
+                title: 'Volume',
+                url: '/research/publications/agapes-francophones/volumes',
                 icon: faInfo,
               },
               {
-                title: "Indexare",
-                url: "/cercetare/publicatii/agapes-francophones/indexare",
+                title: 'Indexare',
+                url: '/research/publications/agapes-francophones/indexing',
                 icon: faInfo,
-              }
+              },
             ],
             icon: faNewspaper,
           },
           {
-            title: "Actele colocviilor franco-române de lingvistică",
-            url: "/cercetare/publicatii/actele-colocviilor",
+            title: 'Actele colocviilor franco-române de lingvistică',
+            url: '/research/publications/lingvistic-conferences',
             icon: faNewspaper,
           },
           {
-            title: "Publicațiile membrilor",
-            url: "/cercetare/publicatii/publicatii-membri",
+            title: 'Publicațiile membrilor',
+            url: '/research/publications/members-publications',
             icon: faNewspaper,
           },
           {
-            title: "Traduceri",
-            url: "/cercetare/publicatii/traduceri",
+            title: 'Traduceri',
+            url: '/research/publications/translations',
             icon: faNewspaper,
-          }
+          },
         ],
         icon: faNewspaper,
       },
       {
-        title: "Proiecte",
-        url: "/cercetare/proiecte",
-        submenu: [
-          {
-            title: "Proiecte în derulare",
-            url: "/cercetare/proiecte/derulare",
-            icon: faDiagramProject,
-          },
-          {
-            title: "Proiecte finalizate",
-            url: "/cercetare/proiecte/finalizate",
-            icon: faDiagramProject,
-          }
-        ],
+        title: 'Proiecte',
+        url: '/research/projects',
         icon: faDiagramProject,
-      }
-    ]
+      },
+    ],
   },
   {
-    title: "Contact",
-    url: "/contact",
+    title: 'Contact',
+    url: '/contact',
     icon: faInfo,
-  }
+  },
 ];
