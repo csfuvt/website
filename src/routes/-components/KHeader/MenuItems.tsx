@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 import { Link } from '@tanstack/react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core"; 
-import Dropdown from "./Dropdown";
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import Dropdown from './Dropdown';
 
 type MenuItem = {
   title: string;
@@ -22,22 +22,26 @@ const MenuItems: React.FC<MenuItemsProps> = ({ items, depthLevel }) => {
 
   useEffect(() => {
     const handler = (event: MouseEvent | TouchEvent) => {
-      if (dropdown && ref.current && !ref.current.contains(event.target as Node)) {
+      if (
+        dropdown &&
+        ref.current &&
+        !ref.current.contains(event.target as Node)
+      ) {
         setDropdown(false);
       }
     };
-    document.addEventListener("mousedown", handler);
-    document.addEventListener("touchstart", handler);
+    document.addEventListener('mousedown', handler);
+    document.addEventListener('touchstart', handler);
 
     return () => {
-      document.removeEventListener("mousedown", handler);
-      document.removeEventListener("touchstart", handler);
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('touchstart', handler);
     };
   }, [dropdown]);
 
   const onMouseEnter = () => setDropdown(true);
   const onMouseLeave = () => setDropdown(false);
-  const toggleDropdown = () => setDropdown((prev) => !prev);
+  const toggleDropdown = () => setDropdown(prev => !prev);
   const closeDropdown = () => dropdown && setDropdown(false);
 
   return (
@@ -52,10 +56,12 @@ const MenuItems: React.FC<MenuItemsProps> = ({ items, depthLevel }) => {
           <button
             type="button"
             aria-haspopup="menu"
-            aria-expanded={dropdown ? "true" : "false"}
+            aria-expanded={dropdown ? 'true' : 'false'}
             onClick={toggleDropdown}>
             <Link to={items.url}>
-              {items.icon && <FontAwesomeIcon icon={items.icon} className="menu-icon" />}
+              {items.icon && (
+                <FontAwesomeIcon icon={items.icon} className="menu-icon" />
+              )}
               {items.title}
             </Link>
             {depthLevel > 0 ? <span>&raquo;</span> : <span className="arrow" />}
@@ -71,7 +77,10 @@ const MenuItems: React.FC<MenuItemsProps> = ({ items, depthLevel }) => {
           <button
             type="button"
             aria-haspopup="menu"
-            aria-expanded={dropdown ? "true" : "false"}>
+            aria-expanded={dropdown ? 'true' : 'false'}>
+            {items.icon && (
+              <FontAwesomeIcon icon={items.icon} className="menu-icon" />
+            )}
             {items.title}
             {depthLevel > 0 ? <span>&raquo;</span> : <span className="arrow" />}
           </button>
@@ -82,8 +91,10 @@ const MenuItems: React.FC<MenuItemsProps> = ({ items, depthLevel }) => {
           />
         </>
       ) : (
-        <Link to={items.url || "#"}>
-          {items.icon && <FontAwesomeIcon icon={items.icon} className="menu-icon" />}
+        <Link to={items.url || '#'}>
+          {items.icon && (
+            <FontAwesomeIcon icon={items.icon} className="menu-icon" />
+          )}
           {items.title}
         </Link>
       )}

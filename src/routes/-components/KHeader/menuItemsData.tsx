@@ -6,13 +6,13 @@ import {
   faBullseye,
   faUserGroup,
   faComments,
-  faAddressBook,
   faGraduationCap,
   faEllipsis,
   faNewspaper,
   faDiagramProject,
+  faHandshake,
 } from '@fortawesome/free-solid-svg-icons';
-
+import { faDiscourse } from '@fortawesome/free-brands-svg-icons';
 
 type MenuItem = {
   title: string;
@@ -23,7 +23,7 @@ type MenuItem = {
 
 export const menuItemsData: MenuItem[] = [
   {
-    title: 'Acasa',
+    title: 'Acasă',
     url: '/',
     icon: faHome,
   },
@@ -44,6 +44,11 @@ export const menuItemsData: MenuItem[] = [
         title: 'Membri',
         url: '/about/members',
         icon: faUserGroup,
+      },
+      {
+        title: 'Parteneri',
+        url: '/about/partners',
+        icon: faHandshake,
       },
     ],
   },
@@ -80,27 +85,22 @@ export const menuItemsData: MenuItem[] = [
                     url: '/evenimente/colocvii/cieft-2024/informatii-utile',
                   },
                 ],
-                icon: faBookOpen,
               },
               {
                 title: 'Ediții anterioare',
                 url: '/events/conferences/francophones-studies/current-year/info',
-                icon: faBookOpen,
               },
             ],
-            icon: faComments,
           },
           {
             title: 'Colocviile franco-române de lingvistică',
             url: '/events/conferences/lingvistic-francophones',
-            icon: faComments,
           },
           {
             title: 'Colocviul studențesc de studii francofone',
             submenu: [
               {
                 title: '2024',
-                url: '/evenimente/colocvii/studentesc-2024',
                 submenu: [
                   {
                     title: 'Apel la comunicări',
@@ -123,15 +123,12 @@ export const menuItemsData: MenuItem[] = [
                     url: '/events/conferences/francophones-studies/current-year/info',
                   },
                 ],
-                icon: faBookOpen,
               },
               {
                 title: 'Ediții anterioare',
                 url: '/events/conferences/cieft/previous-editions',
-                icon: faBookOpen,
               },
             ],
-            icon: faComments,
           },
         ],
         icon: faComments,
@@ -139,7 +136,7 @@ export const menuItemsData: MenuItem[] = [
       {
         title: 'Mese rotunde',
         url: '/events/round-tables',
-        icon: faAddressBook,
+        icon: faDiscourse,
       },
       {
         title: 'Susțineri de teze doctorale',
@@ -155,7 +152,6 @@ export const menuItemsData: MenuItem[] = [
   },
   {
     title: 'Cercetare',
-    url: '/cercetare',
     submenu: [
       {
         title: 'Publicații',
@@ -166,17 +162,14 @@ export const menuItemsData: MenuItem[] = [
               {
                 title: 'Despre noi',
                 url: '/research/publications/dialogue-francophones/about',
-                icon: faInfo,
               },
               {
                 title: 'Comitete',
                 url: '/research/publications/dialogue-francophones/committees',
-                icon: faInfo,
               },
               {
                 title: 'Politica editorială',
                 url: '/research/publications/dialogue-francophones/editorial-policy',
-                icon: faInfo,
               },
               {
                 title: 'Apel la contribuții',
@@ -190,20 +183,20 @@ export const menuItemsData: MenuItem[] = [
                     url: '/research/publications/dialogue-francophones/calls/past',
                   },
                 ],
-                icon: faInfo,
               },
               {
                 title: 'Volume',
                 url: '/research/publications/dialogue-francophones/volumes',
-                icon: faInfo,
+              },
+              {
+                title: 'Fișa de înscriere',
+                url: '/research/publications/dialogue-francophones/registration/registration',
               },
               {
                 title: 'Indexare',
                 url: '/research/publications/dialogue-francophones/indexing',
-                icon: faInfo,
               },
             ],
-            icon: faNewspaper,
           },
           {
             title: 'Agapes Francophones',
@@ -211,17 +204,14 @@ export const menuItemsData: MenuItem[] = [
               {
                 title: 'Despre noi',
                 url: '/research/publications/agapes-francophones/about',
-                icon: faInfo,
               },
               {
                 title: 'Comitete',
                 url: '/research/publications/agapes-francophones/committees',
-                icon: faInfo,
               },
               {
                 title: 'Politica editorială',
                 url: '/research/publications/agapes-francophones/editorial-policy',
-                icon: faInfo,
               },
               {
                 title: 'Apel la contribuții',
@@ -235,35 +225,28 @@ export const menuItemsData: MenuItem[] = [
                     url: '/research/publications/agapes-francophones/calls/past',
                   },
                 ],
-                icon: faInfo,
               },
               {
                 title: 'Volume',
                 url: '/research/publications/agapes-francophones/volumes',
-                icon: faInfo,
               },
               {
                 title: 'Indexare',
                 url: '/research/publications/agapes-francophones/indexing',
-                icon: faInfo,
               },
             ],
-            icon: faNewspaper,
           },
           {
             title: 'Actele colocviilor franco-române de lingvistică',
             url: '/research/publications/lingvistic-conferences',
-            icon: faNewspaper,
           },
           {
             title: 'Publicațiile membrilor',
             url: '/research/publications/members-publications',
-            icon: faNewspaper,
           },
           {
             title: 'Traduceri',
             url: '/research/publications/translations',
-            icon: faNewspaper,
           },
         ],
         icon: faNewspaper,
