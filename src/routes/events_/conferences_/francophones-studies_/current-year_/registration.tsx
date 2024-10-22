@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../../-components/KBanner/KBanner';
 import styles from './registration.module.css';
 import { KTitle } from '../../../../-components/KTitle/KTitle';
-import WordsCounter from '../../../../-components/WordsCounter';
+import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
 
 export const Route = createFileRoute(
   '/events/conferences/francophones-studies/current-year/registration'
@@ -41,13 +41,20 @@ function RegistrationPage() {
 
   return (
     <div>
-      <KBanner label=" 2024 COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE - Fișa de înscriere" />
+      <KBanner label="COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE 2024 - Fișa de înscriere" />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <KTitle label="Fișa de înscriere" />
           <br />
 
           <form className={styles.form} onSubmit={handleSubmit}>
+            <input
+              type="hidden"
+              id="title"
+              name="title"
+              value="COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE 2024 - Fișa de înscriere"
+            />
+
             <div className={styles.formGroup}>
               <label htmlFor="nume">Nume*</label>
               <input
@@ -70,8 +77,8 @@ function RegistrationPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="sectiune">Ciclu de studii*</label>
-              <select id="sectiune" name="sectiune" required>
+              <label htmlFor="ciclul-de-studii">Ciclu de studii*</label>
+              <select id="ciclul-de-studii" name="ciclul-de-studii" required>
                 <option value="Selecteaza">Selectează</option>
 
                 <option value="Licență">Licență</option>
@@ -82,8 +89,8 @@ function RegistrationPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="sectiune">An de studii*</label>
-              <select id="sectiune" name="sectiune" required>
+              <label htmlFor="an-de-studii">An de studii*</label>
+              <select id="an-de-studii" name="an-de-studii" required>
                 <option value="Selecteaza">Selectează</option>
 
                 <option value="1">1</option>
@@ -94,11 +101,13 @@ function RegistrationPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="afiliere">Afiliera instituțională*</label>
+              <label htmlFor="afiliere-institutionala">
+                Afiliera instituțională*
+              </label>
               <input
                 type="text"
-                id="afiliere"
-                name="afiliere"
+                id="afiliere-institutionala"
+                name="afiliere-institutionala"
                 placeholder="ex. universitate, institut, centru de cercetare"
                 required
               />
@@ -109,7 +118,7 @@ function RegistrationPage() {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="ex. universitate, institut, centru de cercetare"
+                placeholder="ex. ion.popescu@gmail.com"
                 required
               />
             </div>
@@ -122,45 +131,45 @@ function RegistrationPage() {
                   Literatură franceză şi francofonă
                 </option>
                 <option value="Lingvistica">Lingvistică</option>
-                <option value="Didactica">Didactică</option>
+                <option value="Cultură şi civilizaţie franceză">
+                  Cultură şi civilizaţie franceză
+                </option>
                 <option value="Traductologie">Traductologie</option>
               </select>
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="titlu-comunicare">
+              <label htmlFor="titlu-lucrare-in-franceza">
                 Titlul lucrării (în limba franceză)*
               </label>
 
               <WordsCounter
+                id="titlu-lucrare-in-franceza"
+                name="titlu-lucrare-in-franceza"
                 limit={25}
-                placeholder="(Introduceți titlul lucrării...)"
-              />
+                placeholder="(Introduceți titlul lucrării...)"></WordsCounter>
 
-              {/*<textarea
-                id="titlu-comunicare"
-                name="titlu-comunicare"
+              {/*
+              <textarea
+                id="titlu-lucrare-in-franceza"
+                name="titlu-lucrare-in-franceza"
                 placeholder="(Introduceți titlul lucrării...)"
                 required></textarea>*/}
             </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="titlu-comunicare">
-                Titlul lucrării (în limba engleză)*
-              </label>
-              <textarea
-                id="titlu-comunicare"
-                name="titlu-comunicare"
-                placeholder="(Introduceți titlul lucrării...)"
-                required></textarea>
-            </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="rezumat">Rezumat (în limba franceză)*</label>
-              <textarea
-                id="rezumat"
-                name="rezumat"
+              <label htmlFor="rezumat-fr">Rezumat (în limba franceză)*</label>
+              <WordsCounter
+                id="rezumat-in-franceza"
+                name="rezumat-in-franceza"
+                limit={300}
+                placeholder="(Introduceți rezumatul...)"></WordsCounter>
+
+              {/*<textarea
+                id="rezumat-in-franceza"
+                name="rezumat-in-franceza"
                 placeholder="(Introduceți rezumatul...)"
-                required></textarea>
+                required></textarea>*/}
             </div>
 
             {/*
@@ -175,12 +184,12 @@ function RegistrationPage() {
             </div>
 */}
             <div className={styles.formGroup}>
-              <label htmlFor="cuvinte-cheie">
+              <label htmlFor="cuvinte-cheie-fr">
                 3 cuvinte-cheie (în limba franceză)*
               </label>
               <textarea
-                id="cuvinte-cheie"
-                name="cuvinte-cheie"
+                id="cuvinte-cheie-in-franceza"
+                name="cuvinte-cheie-in-franceza"
                 placeholder="(Introduceți cuvintele-cheie)"
                 required></textarea>
             </div>
@@ -194,6 +203,55 @@ function RegistrationPage() {
                 required></textarea>
             </div>
         */}
+
+            <div className={styles.formGroup}>
+              <label htmlFor="nume">Nume cadru didactic coordonator*</label>
+              <input
+                type="text"
+                id="nume"
+                name="nume"
+                placeholder="ex. Pop"
+                required
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="prenume">
+                Prenume cadru didactic coordonator*
+              </label>
+              <input
+                type="text"
+                id="prenume"
+                name="prenume"
+                placeholder="ex. Andrei"
+                required
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="titlu-academic">
+                Titlu academic cadru didactic coordonator*
+              </label>
+              <input
+                type="text"
+                id="titlu-academic"
+                name="titlu-academic"
+                placeholder="ex. lector universitar, conferențiar universitar doctor"
+                required
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="afiliere-institutionala">
+                Afiliera instituțională cadru didactic coordonator*
+              </label>
+              <input
+                type="text"
+                id="afiliere-institutionala"
+                name="afiliere-institutionala"
+                placeholder="ex. universitate, institut, centru de cercetare"
+                required
+              />
+            </div>
 
             <div className={styles.formGroup}>
               <label>Prezentare cu video-proiector*</label>
@@ -218,6 +276,7 @@ function RegistrationPage() {
                 </label>
               </div>
             </div>
+
             <button type="submit" className={styles.submitButton}>
               Submit
             </button>

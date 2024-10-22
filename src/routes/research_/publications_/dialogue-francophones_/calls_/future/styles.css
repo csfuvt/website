@@ -32,3 +32,9 @@
     align-items: center; 
   }
 }
+
+.calls-operations {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

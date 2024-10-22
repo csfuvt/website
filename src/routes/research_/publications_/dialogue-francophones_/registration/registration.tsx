@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../../-components/KBanner/KBanner';
 import { KTitle } from '../../../../-components/KTitle/KTitle';
 import styles from './registration.module.css';
+import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
 
 export const RegistrationPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +35,7 @@ export const RegistrationPage = () => {
 
   return (
     <div>
-      <KBanner label="Dialogue Francophones 2024 - Fișa de înscriere" />
+      <KBanner label="Dialogues Francophones 2024 - Fișa de înscriere" />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <KTitle label="Fișa de înscriere" />
@@ -42,6 +43,12 @@ export const RegistrationPage = () => {
 
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
+              <input
+                type="hidden"
+                id="title"
+                name="title"
+                value="Dialogues Francophones 2024 - Fișa de înscriere"
+              />
               <label htmlFor="nume">Nume*</label>
               <input
                 type="text"
@@ -67,8 +74,8 @@ export const RegistrationPage = () => {
               </label>
               <input
                 type="text"
-                id="titlu-academic"
-                name="titlu-academic"
+                id="titlu-academic-si-stiintific"
+                name="titlu-academic-si-stiintific"
                 placeholder="ex. cadru didactic, cercetător, doctorand"
                 required
               />
@@ -77,8 +84,8 @@ export const RegistrationPage = () => {
               <label htmlFor="afiliere">Afiliera instituțională*</label>
               <input
                 type="text"
-                id="afiliere"
-                name="afiliere"
+                id="afiliere-institutionala"
+                name="afiliere-institutionala"
                 placeholder="ex. universitate, institut, centru de cercetare"
                 required
               />
@@ -89,11 +96,11 @@ export const RegistrationPage = () => {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="ex. universitate, institut, centru de cercetare"
+                placeholder="ex. ion.popescu@gmail.com"
                 required
               />
             </div>
-            <div className={styles.formGroup}>
+            {/* <div className={styles.formGroup}>
               <label htmlFor="sectiune">Secțiunea*</label>
               <select id="sectiune" name="sectiune" required>
                 <option value="Selecteaza">Selectează</option>
@@ -105,64 +112,66 @@ export const RegistrationPage = () => {
                 <option value="Didactica">Didactică</option>
                 <option value="Traductologie">Traductologie</option>
               </select>
-            </div>
+            </div>*/}
             <div className={styles.formGroup}>
-              <label htmlFor="titlu-comunicare">
+              <label htmlFor="titlu-lucrare-fr">
                 Titlul lucrării (în limba franceză)*
               </label>
-              <textarea
-                id="titlu-comunicare"
-                name="titlu-comunicare"
-                placeholder="(Introduceți titlul lucrării...)"
-                required></textarea>
+
+              <WordsCounter
+                id="titlu-lucrare-in-franceza"
+                name="titlu-lucrare-in-franceza"
+                limit={25}
+                placeholder="(Introduceți titlul lucrării...)"></WordsCounter>
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="titlu-comunicare">
+              <label htmlFor="titlu-lucrare-en">
                 Titlul lucrării (în limba engleză)*
               </label>
-              <textarea
-                id="titlu-comunicare"
-                name="titlu-comunicare"
-                placeholder="(Introduceți titlul lucrării...)"
-                required></textarea>
+
+              <WordsCounter
+                id="titlu-lucrare-in-engleza"
+                name="titlu-lucrare-in-engleza"
+                limit={25}
+                placeholder="(Introduceți titlul lucrării...)"></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="rezumat">Rezumat (în limba franceză)*</label>
-              <textarea
-                id="rezumat"
-                name="rezumat"
-                placeholder="(Introduceți rezumatul...)"
-                required></textarea>
+              <label htmlFor="rezumat-fr">Rezumat (în limba franceză)*</label>
+              <WordsCounter
+                id="rezumat-in-franceza"
+                name="rezumat-in-franceza"
+                limit={300}
+                placeholder="(Introduceți rezumatul...)"></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="rezumat">Rezumat (în limba engleză)*</label>
-              <textarea
-                id="rezumat"
-                name="rezumat"
-                placeholder="(Introduceți rezumatul...)"
-                required></textarea>
+              <label htmlFor="rezumat-en">Rezumat (în limba engleză)*</label>
+              <WordsCounter
+                id="rezumat-in-engleza"
+                name="rezumat-in-engleza"
+                limit={300}
+                placeholder="(Introduceți rezumatul...)"></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="cuvinte-cheie">
+              <label htmlFor="cuvinte-cheie-fr">
                 5 cuvinte-cheie (în limba franceză)*
               </label>
               <textarea
-                id="cuvinte-cheie"
-                name="cuvinte-cheie"
+                id="cuvinte-cheie-in-franceza"
+                name="cuvinte-cheie-in-franceza"
                 placeholder="(Introduceți cuvintele-cheie)"
                 required></textarea>
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="cuvinte-cheie">
+              <label htmlFor="cuvinte-cheie-en">
                 5 cuvinte-cheie (în limba engleză)*
               </label>
               <textarea
-                id="cuvinte-cheie"
-                name="cuvinte-cheie"
+                id="cuvinte-cheie-in-engleza"
+                name="cuvinte-cheie-in-engleza"
                 placeholder="(Introduceți cuvintele-cheie...)"
                 required></textarea>
             </div>

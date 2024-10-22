@@ -17,14 +17,27 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faDiscourse } from '@fortawesome/free-brands-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
+import { getLatestCall } from '../../research_/publications_/dialogue-francophones_/calls_/future';
 
 export const KHeader = () => {
   const { t /*, i18n*/ } = useTranslation();
-
   // const handleLanguageChange = (lang: string) => {
   //   i18n.changeLanguage(lang);
+
   // };
 
+  const {
+    data: latestCall,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['latestCall'],
+    queryFn: getLatestCall,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading year</div>;
   return (
     <div className="header">
       <div className="nav">
@@ -282,7 +295,7 @@ export const KHeader = () => {
                           <ul className="submenu">
                             <li>
                               <Link to="/research/publications/dialogue-francophones/calls/future">
-                                2024
+                                {latestCall?.year || 'Apel curent'}
                               </Link>
                             </li>
                             <li>
@@ -297,6 +310,13 @@ export const KHeader = () => {
                             {t('Volume')}
                           </Link>
                         </li>
+
+                        <li>
+                          <Link to="/research/publications/dialogue-francophones/registration/registration">
+                            {t('Fișa de inscriere')}
+                          </Link>
+                        </li>
+
                         <li>
                           <Link to="/research/publications/dialogue-francophones/indexing">
                             {t('Indexare')}
