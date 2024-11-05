@@ -1,14 +1,41 @@
 import { createFileRoute } from '@tanstack/react-router';
+import axios from 'axios';
+import { Index } from './-index.model.ts';
+import { useState } from 'react';
+import { useAuth } from '../../../../../hooks/useAuth.ts';
+import { useQuery } from '@tanstack/react-query';
+import { KBanner } from '../../../../-components/KBanner/KBanner.tsx';
+import { KAddButton } from '../../../../-components/KAddButton/KAddButton.tsx';
+import { Spin } from 'antd';
+import { isEmpty } from 'lodash-es';
 import styles from './Indexing.module.css';
-import { KBanner } from '../../../../-components/KBanner/KBanner';
+import KIndexList from '../../../../-components/KIndex/KIndexList.tsx';
+import { KAddIndexModal } from '../../../../-components/KAddIndexModal/KAddIndexModal.tsx';
 
-import fabula from '/Fabula.png';
-import erihPlus from '/Erihplus.png';
-import indexCopernicus from '/Indexcopernicus.png';
-import sciendo from '/Sciendo.png';
-import worldCat from '/Worldcat.png';
+const getIndexes = () => axios.get<Index[]>('/indexes').then(res => res.data);
 
 const IndexingPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { isLoggedIn } = useAuth();
+
+  const {
+    data: indexes,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['indexes'],
+    queryFn: getIndexes,
+  });
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <KBanner label="Dialogues Francophones - INDEXARE" />
@@ -17,37 +44,29 @@ const IndexingPage = () => {
           <span className={styles.title}>Dialogue Francophones</span> este
           indexată în următoarele baze de date internaționale:
         </div>
-        <div className={styles.imgsection}>
-          <div className={styles.imgcontainer}>
-            <img src={fabula} alt="Fabula" />
-            <a
-              href="https://www.fabula.org/actualites/96533/dialogues-francophones.html"
-              target="_blank"
-              rel="noopener noreferrer">
-              <div>Fabula</div>
-            </a>
-          </div>
-          <div className={styles.imgcontainer}>
-            <img src={erihPlus} alt="ERIH PLUS" />
-            <div>ERIH PLUS</div>
-          </div>
-          <div className={styles.imgcontainer}>
-            <img src={indexCopernicus} alt="Index Copernicus" />
-            <div>Index Copernicus</div>
-          </div>
-          <div className={styles.imgcontainer}>
-            <img src={sciendo} alt="Sciendo" />
-            <div>Sciendo</div>
-          </div>
-          <div className={styles.imgcontainer}>
-            <img src={worldCat} alt="WorldCat" />
-            <a
-              href="https://search.worldcat.org/title/935487095"
-              target="_blank"
-              rel="noopener noreferrer">
-              <div>WorldCat</div>
-            </a>
-          </div>
+        {isLoggedIn && (
+          <KAddButton className={'position'} onClick={showModal} />
+        )}
+        {isModalOpen && (
+          <KAddIndexModal
+            setIsOpen={setIsModalOpen}
+            publicationType="DIALOGUES_FRANCOPHONE"
+            isModalOpen={isModalOpen}
+            handleCancel={handleCancel}
+          />
+        )}
+        <div className="flex">
+          {isLoading ? (
+            <Spin />
+          ) : isError ? (
+            <span>
+              Indexurile nu pot fi afișate momentan. Reveniți mai târziu!
+            </span>
+          ) : isEmpty(indexes) ? (
+            <span>Nu există indexuri momentan.</span>
+          ) : (
+            <KIndexList publicationType="DIALOGUES_FRANCOPHONE" />
+          )}
         </div>
       </div>
     </div>

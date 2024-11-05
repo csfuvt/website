@@ -82,7 +82,7 @@ export const menuItemsData: MenuItem[] = [
                   },
                   {
                     title: 'Informații utile',
-                    url: '/evenimente/colocvii/cieft-2024/informatii-utile',
+                    url: '/events/conferences/cieft/current-year/info',
                   },
                 ],
               },
