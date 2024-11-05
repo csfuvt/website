@@ -3,6 +3,7 @@ import { KBanner } from '../../../../-components/KBanner/KBanner';
 import { KTitle } from '../../../../-components/KTitle/KTitle';
 import styles from './registration.module.css';
 import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
+import { BASE_URL } from '../../../../../constants.ts';
 
 export const RegistrationPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -12,7 +13,7 @@ export const RegistrationPage = () => {
 
     console.log('Form data being sent:', JSON.stringify(formProps));
     try {
-      const response = await fetch('http://localhost:3000/send-email', {
+      const response = await fetch(BASE_URL + '/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

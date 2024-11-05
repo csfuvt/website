@@ -3,6 +3,7 @@ import { KBanner } from '../../../../-components/KBanner/KBanner';
 import styles from './registration.module.css';
 import { KTitle } from '../../../../-components/KTitle/KTitle';
 import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
+import { BASE_URL } from '../../../../../constants.ts';
 
 export const Route = createFileRoute(
   '/events/conferences/francophones-studies/current-year/registration'
@@ -18,7 +19,7 @@ function RegistrationPage() {
 
     console.log('Form data being sent:', JSON.stringify(formProps));
     try {
-      const response = await fetch('http://localhost:3000/send-email', {
+      const response = await fetch(BASE_URL + '/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
