@@ -11,6 +11,9 @@ export const RegistrationPage = () => {
     const formData = new FormData(event.currentTarget);
     const formProps = Object.fromEntries(formData);
 
+    formProps.receiveCopy =
+      formData.get('receiveCopy') === 'on' ? 'true' : 'false';
+
     console.log('Form data being sent:', JSON.stringify(formProps));
     try {
       const response = await fetch(BASE_URL + '/send-email', {
@@ -36,7 +39,7 @@ export const RegistrationPage = () => {
 
   return (
     <div>
-      <KBanner label="CIEFT 2024 - Fișa de înscriere" />
+      <KBanner label="CIEFT 2025 - Fișa de înscriere" />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <KTitle label="Fișa de înscriere" />
@@ -202,6 +205,12 @@ export const RegistrationPage = () => {
                   Nu
                 </label>
               </div>
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.inlineCheckboxLabel}>
+                <input type="checkbox" id="receiveCopy" name="receiveCopy" />{' '}
+                Doresc să primesc o copie a e-mail-ului
+              </label>
             </div>
             <button type="submit" className={styles.submitButton}>
               Trimite

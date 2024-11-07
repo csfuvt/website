@@ -17,6 +17,9 @@ function RegistrationPage() {
     const formData = new FormData(event.currentTarget);
     const formProps = Object.fromEntries(formData);
 
+    formProps.receiveCopy =
+      formData.get('receiveCopy') === 'on' ? 'true' : 'false';
+
     console.log('Form data being sent:', JSON.stringify(formProps));
     try {
       const response = await fetch(BASE_URL + '/send-email', {
@@ -278,6 +281,12 @@ function RegistrationPage() {
                     required
                   />{' '}
                   Nu
+                </label>
+              </div>
+              <div className={styles.formGroup}>
+                <label className={styles.inlineCheckboxLabel}>
+                  <input type="checkbox" id="receiveCopy" name="receiveCopy" />{' '}
+                  Doresc să primesc o copie a e-mail-ului
                 </label>
               </div>
             </div>

@@ -62,7 +62,7 @@ export const menuItemsData: MenuItem[] = [
             title: 'CIEFT',
             submenu: [
               {
-                title: 'CIEFT 2024',
+                title: 'CIEFT 2025',
                 submenu: [
                   {
                     title: 'Apel la comunicări',
