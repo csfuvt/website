@@ -143,3 +143,14 @@
 }
 
 }
+
+.inlineCheckboxLabel {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 16px !important;
+}
+
+.inlineCheckboxLabel input[type="checkbox"] {
+  margin-right: 8px !important;
+  width: 13px;
+}
