@@ -1,0 +1,50 @@
+.text {
+    background-color: #04AA6D;
+    color: white;
+    font-size: 16px;
+    padding: 16px 32px;
+}
+
+.delete {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+.container-partners {
+    position: relative;
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+.image-partners {
+    border-radius: 16px;
+    opacity: 1;
+    display: block;
+    transition: 0.5s ease;
+    backface-visibility: hidden;
+}
+
+.text-container-partners {
+    max-width: 257px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.text-content-partners {
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+
+.address-partners {
+    font-size: 14px;
+    color: gray;
+    display: block;
+    margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+    .text-container-partners {
+        max-width: 150px;
+    }
+}
