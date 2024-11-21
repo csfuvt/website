@@ -14,10 +14,10 @@ import { Route as rootRoute } from './routes/__root';
 import { Route as LoginRouteImport } from './routes/login/route';
 import { Route as ContactRouteImport } from './routes/contact/route';
 import { Route as IndexRouteImport } from './routes/index/route';
-import { Route as AboutPartnersRouteImport } from './routes/about_/partners/route';
 import { Route as ResearchProjectsIndexImport } from './routes/research_/projects/index';
 import { Route as EventsRoundTablesIndexImport } from './routes/events_/round-tables/index';
 import { Route as EventsPhdThesesIndexImport } from './routes/events_/phd-theses/index';
+import { Route as AboutPartnersIndexImport } from './routes/about_/partners/index';
 import { Route as AboutMembersIndexImport } from './routes/about_/members/index';
 import { Route as AboutHistoryIndexImport } from './routes/about_/history/index';
 import { Route as AboutDescriptionAndObjectivesIndexImport } from './routes/about_/description-and-objectives/index';
@@ -74,11 +74,6 @@ const IndexRouteRoute = IndexRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any);
 
-const AboutPartnersRouteRoute = AboutPartnersRouteImport.update({
-  path: '/about/partners',
-  getParentRoute: () => rootRoute,
-} as any);
-
 const ResearchProjectsIndexRoute = ResearchProjectsIndexImport.update({
   path: '/research/projects/',
   getParentRoute: () => rootRoute,
@@ -91,6 +86,11 @@ const EventsRoundTablesIndexRoute = EventsRoundTablesIndexImport.update({
 
 const EventsPhdThesesIndexRoute = EventsPhdThesesIndexImport.update({
   path: '/events/phd-theses/',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const AboutPartnersIndexRoute = AboutPartnersIndexImport.update({
+  path: '/about/partners/',
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -342,10 +342,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport;
       parentRoute: typeof rootRoute;
     };
-    '/about/partners': {
-      preLoaderRoute: typeof AboutPartnersRouteImport;
-      parentRoute: typeof rootRoute;
-    };
     '/about/description-and-objectives/': {
       preLoaderRoute: typeof AboutDescriptionAndObjectivesIndexImport;
       parentRoute: typeof rootRoute;
@@ -356,6 +352,10 @@ declare module '@tanstack/react-router' {
     };
     '/about/members/': {
       preLoaderRoute: typeof AboutMembersIndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/about/partners/': {
+      preLoaderRoute: typeof AboutPartnersIndexImport;
       parentRoute: typeof rootRoute;
     };
     '/events/phd-theses/': {
@@ -519,10 +519,10 @@ export const routeTree = rootRoute.addChildren([
   IndexRouteRoute,
   ContactRouteRoute,
   LoginRouteRoute,
-  AboutPartnersRouteRoute,
   AboutDescriptionAndObjectivesIndexRoute,
   AboutHistoryIndexRoute,
   AboutMembersIndexRoute,
+  AboutPartnersIndexRoute,
   EventsPhdThesesIndexRoute,
   EventsRoundTablesIndexRoute,
   ResearchProjectsIndexRoute,
