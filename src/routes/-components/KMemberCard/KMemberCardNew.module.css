@@ -1,0 +1,102 @@
+.card {
+  width: 270px;
+  height: 400px;
+  border-radius: 16px;
+  background: #F6F6F6;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  position: relative;
+}
+
+.blueSection {
+  width: 469px; 
+  height: 401px; 
+  background: #B8CCE0;
+  border-radius: 100%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -150px; 
+}
+
+.profileImage {
+  width: 150px;
+  height: 150px;
+  background: lightgray 50% / cover no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  position: relative;
+  top: 70px;
+}
+
+.textSection {
+  margin-top: -120px;
+  line-height: 25px;
+}
+
+.name {
+  color: #004992;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.title {
+  color: #E11E24;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.descriptionContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 40px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  text-align: left;
+  z-index: 1001;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.cvButton {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
