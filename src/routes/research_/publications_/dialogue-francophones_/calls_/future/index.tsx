@@ -1,10 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { KBanner } from '../../../../../-components/KBanner/KBanner.tsx';
-import { KTitle } from '../../../../../-components/KTitle/KTitle.tsx';
-import './styles.css';
-import axios from 'axios';
-import { CallType } from '../-calls.model.ts';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router'
+import { KBanner } from '../../../../../-components/KBanner/KBanner.tsx'
+import { KTitle } from '../../../../../-components/KTitle/KTitle.tsx'
+import './styles.css'
+import axios from 'axios'
+import { CallType } from '../-calls.model.ts'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   Button,
   Dropdown,
@@ -15,115 +15,115 @@ import {
   Spin,
   Upload,
   UploadFile,
-} from 'antd';
-import { isEmpty } from 'lodash-es';
-import { BASE_URL } from '../../../../../../constants.ts';
-import { useEffect, useState } from 'react';
-import { useAuth } from '../../../../../../hooks/useAuth.ts';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { KAddButton } from '../../../../../-components/KAddButton/KAddButton.tsx';
+} from 'antd'
+import { isEmpty } from 'lodash-es'
+import { BASE_URL } from '../../../../../../constants.ts'
+import { useEffect, useState } from 'react'
+import { useAuth } from '../../../../../../hooks/useAuth.ts'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { KAddButton } from '../../../../../-components/KAddButton/KAddButton.tsx'
 import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleFilled,
   UploadOutlined,
-} from '@ant-design/icons';
+} from '@ant-design/icons'
 import {
   AntDFileType,
   FileType,
   useFileUpload,
-} from '../../../../../../hooks/useFileUpload.ts';
-import { ActionableButton } from '../../../../../-components/KChapter/KChapter.tsx';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+} from '../../../../../../hooks/useFileUpload.ts'
+import { ActionableButton } from '../../../../../-components/KChapter/KChapter.tsx'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 
 export interface CallForm {
-  title: string;
-  year: string;
+  title: string
+  year: string
 }
 
 const addCall = ({ title, year, pdf }: CallForm & { pdf: UploadFile }) => {
-  const formData = new FormData();
-  formData.append('pdf', pdf as AntDFileType);
-  formData.append('title', title);
-  formData.append('year', year);
+  const formData = new FormData()
+  formData.append('pdf', pdf as AntDFileType)
+  formData.append('title', title)
+  formData.append('year', year)
   return axios
     .post<CallType>(`/contribution-calls`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
-    .then(res => res.data);
-};
+    .then((res) => res.data)
+}
 
 const deleteCall = (id: number) =>
-  axios.delete(`/contribution-calls/${id}`).then(res => res.data);
+  axios.delete(`/contribution-calls/${id}`).then((res) => res.data)
 
 const updateCall = async ({
   id,
   title,
   year,
 }: CallForm & {
-  id: number;
+  id: number
 }) => {
   const res = await axios.post<CallType>(`/contribution-calls/${id}`, {
     title,
     year,
-  });
-  return res.data;
-};
+  })
+  return res.data
+}
 
 const updatePdf = async ({ id, pdf }: { id: number; pdf: UploadFile }) => {
-  const formData = new FormData();
-  formData.append('pdf', pdf as AntDFileType);
+  const formData = new FormData()
+  formData.append('pdf', pdf as AntDFileType)
   const res = await axios.post<CallType>(
     `/contribution-calls/${id}/pdf`,
     formData,
     {
       headers: { 'Content-Type': 'multipart/form-data' },
-    }
-  );
-  return res.data;
-};
+    },
+  )
+  return res.data
+}
 
 export const getLatestCall = () =>
   axios
     .get<CallType>('/contribution-calls/type/DIALOGUES_FRANCOPHONE/latest')
-    .then(res => res.data);
+    .then((res) => res.data)
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/calls/future/'
+  '/research_/publications_/dialogue-francophones_/calls_/future/',
 )({
   component: Calls,
-});
+})
 
 function Calls() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { isLoggedIn } = useAuth()
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['calls'],
     queryFn: getLatestCall,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
-  });
+  })
 
-  const [isFetching, setIsFetching] = useState(true);
-
-  useEffect(() => {
-    refetch().then(() => setIsFetching(false));
-  }, [refetch]);
+  const [isFetching, setIsFetching] = useState(true)
 
   useEffect(() => {
-    console.log('Data:', data);
-  }, [data]);
+    refetch().then(() => setIsFetching(false))
+  }, [refetch])
+
+  useEffect(() => {
+    console.log('Data:', data)
+  }, [data])
 
   const {
     fileList: pdfList,
     resetFileList: resetPdfList,
     uploadFileProps: uploadPdfProps,
-  } = useFileUpload(FileType.PDF);
+  } = useFileUpload(FileType.PDF)
 
   const {
     handleSubmit,
@@ -135,53 +135,53 @@ function Calls() {
       title: '',
       year: '',
     },
-  });
+  })
 
   const showModal = () => {
-    setIsModalOpen(true);
-  };
+    setIsModalOpen(true)
+  }
 
   const handleCancel = () => {
-    setIsModalOpen(false);
-    resetAllForm();
-  };
+    setIsModalOpen(false)
+    resetAllForm()
+  }
 
   const resetAllForm = () => {
-    reset();
-    resetPdfList();
-  };
+    reset()
+    resetPdfList()
+  }
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const { mutate, isPending } = useMutation({
     mutationFn: addCall,
     onError: () => toast.error('Nu s-a putut adăuga apelul!'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['calls'] });
-      await queryClient.invalidateQueries({ queryKey: ['latestCall'] });
-      setIsModalOpen(false);
-      resetAllForm();
-      toast.success('Apelul a fost adăugat cu succes.');
+      await queryClient.invalidateQueries({ queryKey: ['calls'] })
+      await queryClient.invalidateQueries({ queryKey: ['latestCall'] })
+      setIsModalOpen(false)
+      resetAllForm()
+      toast.success('Apelul a fost adăugat cu succes.')
     },
-  });
+  })
 
-  const onSubmitAddCall: SubmitHandler<CallForm> = data => {
-    mutate({ ...data, pdf: pdfList[0] });
-  };
+  const onSubmitAddCall: SubmitHandler<CallForm> = (data) => {
+    mutate({ ...data, pdf: pdfList[0] })
+  }
 
-  const [isEditCallModalOpen, setIsEditCallModalOpen] = useState(false);
-  const [isChangePdfModalOpen, setIsChangePdfModalOpen] = useState(false);
+  const [isEditCallModalOpen, setIsEditCallModalOpen] = useState(false)
+  const [isChangePdfModalOpen, setIsChangePdfModalOpen] = useState(false)
 
   const showEditChapterModal = () => {
     resetEditCallForm({
       title: data?.title,
       year: data?.year,
-    });
-    setIsEditCallModalOpen(true);
-  };
+    })
+    setIsEditCallModalOpen(true)
+  }
 
   const showChangePdfModal = () => {
-    setIsChangePdfModalOpen(true);
-  };
+    setIsChangePdfModalOpen(true)
+  }
 
   const items: MenuProps['items'] = [
     {
@@ -200,7 +200,7 @@ function Calls() {
       label: 'Șterge apelul',
       icon: <DeleteOutlined />,
     },
-  ];
+  ]
 
   const { mutate: deleteCallMutation, isPending: isDeleteCallPending } =
     useMutation({
@@ -208,17 +208,17 @@ function Calls() {
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [`calls`],
-        });
+        })
         await queryClient.invalidateQueries({
           queryKey: [`calls/${data?.id}`],
-        });
+        })
         await queryClient.invalidateQueries({
           queryKey: [`latestCall`],
-        });
-        toast.success('Apelul a fost șters cu succes');
+        })
+        toast.success('Apelul a fost șters cu succes')
       },
       onError: () => toast.error('A apărut o eroare în momentul ștergerii'),
-    });
+    })
 
   const { mutate: editCallMutation, isPending: isEditCallPending } =
     useMutation({
@@ -226,19 +226,19 @@ function Calls() {
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [`calls`],
-        });
+        })
         await queryClient.invalidateQueries({
           queryKey: [`calls/${data?.id}`],
-        });
+        })
         await queryClient.invalidateQueries({
           queryKey: [`latestCall`],
-        });
-        toast.success('Apelul a fost editat cu succes');
-        resetEditCallForm();
-        handleCancelForEditChapter();
+        })
+        toast.success('Apelul a fost editat cu succes')
+        resetEditCallForm()
+        handleCancelForEditChapter()
       },
       onError: () => toast.error('A apărut o eroare în momentul editării'),
-    });
+    })
 
   const { mutate: updatePdfMutation, isPending: isUpdatePdfPending } =
     useMutation({
@@ -247,20 +247,20 @@ function Calls() {
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [`calls`],
-        });
+        })
         await queryClient.invalidateQueries({
           queryKey: [`calls/${data?.id}`],
-        });
+        })
         await queryClient.invalidateQueries({
           queryKey: [`latestCall`],
-        });
-        setIsChangePdfModalOpen(false);
-        resetPdfList();
-        toast.success('Pdf-ul a fost editat cu succes.');
+        })
+        setIsChangePdfModalOpen(false)
+        resetPdfList()
+        toast.success('Pdf-ul a fost editat cu succes.')
       },
-    });
+    })
 
-  const { confirm } = Modal;
+  const { confirm } = Modal
   const showPropsConfirm = () => {
     confirm({
       title: 'Ștergere apel',
@@ -270,31 +270,31 @@ function Calls() {
       okType: 'danger',
       cancelText: 'Renunță',
       onOk() {
-        deleteCallMutation(data!.id);
+        deleteCallMutation(data!.id)
       },
-    });
-  };
+    })
+  }
 
-  const handleMenuClick: MenuProps['onClick'] = e => {
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key === ActionableButton.DELETE) {
-      showPropsConfirm();
+      showPropsConfirm()
     } else if (e.key === ActionableButton.EDIT) {
-      showEditChapterModal();
+      showEditChapterModal()
     } else if (e.key === ActionableButton.EDIT_PDF) {
-      showChangePdfModal();
+      showChangePdfModal()
     }
-  };
+  }
 
   const menuProps = {
     items,
     onClick: handleMenuClick,
     loading: isDeleteCallPending,
-  };
+  }
 
   const schema = yup.object().shape({
     title: yup.string().required(),
     year: yup.string().required(),
-  });
+  })
 
   const {
     handleSubmit: handleEditCallSubmit,
@@ -307,20 +307,20 @@ function Calls() {
       year: '',
     },
     resolver: yupResolver(schema),
-  });
+  })
 
   const handleCancelForEditChapter = () => {
-    setIsEditCallModalOpen(false);
-  };
+    setIsEditCallModalOpen(false)
+  }
 
   const handleCancelForEditPdf = () => {
-    setIsChangePdfModalOpen(false);
-    resetPdfList();
-  };
+    setIsChangePdfModalOpen(false)
+    resetPdfList()
+  }
 
-  const onSubmitEditCall: SubmitHandler<CallForm> = calls => {
-    editCallMutation({ ...calls, id: data!.id });
-  };
+  const onSubmitEditCall: SubmitHandler<CallForm> = (calls) => {
+    editCallMutation({ ...calls, id: data!.id })
+  }
   return (
     <div>
       {isLoggedIn && <KAddButton className={'position'} onClick={showModal} />}
@@ -343,7 +343,8 @@ function Calls() {
                   menu={menuProps}
                   placement="bottomLeft"
                   arrow
-                  trigger={['click']}>
+                  trigger={['click']}
+                >
                   <Button type="primary" size="large">
                     <FontAwesomeIcon icon={faEllipsisVertical} />
                   </Button>
@@ -370,10 +371,12 @@ function Calls() {
             type="primary"
             loading={isPending}
             disabled={isEmpty(pdfList) || !isValid}
-            onClick={handleSubmit(onSubmitAddCall)}>
+            onClick={handleSubmit(onSubmitAddCall)}
+          >
             Salvează
           </Button>,
-        ]}>
+        ]}
+      >
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
           <Controller
             name="title"
@@ -429,10 +432,12 @@ function Calls() {
             type="primary"
             loading={isEditCallPending}
             disabled={!isEditChapterValid}
-            onClick={handleEditCallSubmit(onSubmitEditCall)}>
+            onClick={handleEditCallSubmit(onSubmitEditCall)}
+          >
             Salvează
           </Button>,
-        ]}>
+        ]}
+      >
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
           <Controller
             name="title"
@@ -486,12 +491,12 @@ function Calls() {
             type="primary"
             loading={isUpdatePdfPending}
             disabled={isEmpty(pdfList)}
-            onClick={() =>
-              updatePdfMutation({ id: data!.id, pdf: pdfList[0] })
-            }>
+            onClick={() => updatePdfMutation({ id: data!.id, pdf: pdfList[0] })}
+          >
             Salvează
           </Button>,
-        ]}>
+        ]}
+      >
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
           <Upload {...uploadPdfProps}>
             <Button icon={<UploadOutlined />}>Selectează pdf</Button>
@@ -499,5 +504,5 @@ function Calls() {
         </Space>
       </Modal>
     </div>
-  );
+  )
 }

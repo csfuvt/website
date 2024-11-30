@@ -1,27 +1,27 @@
-import { KBanner } from '../../-components/KBanner/KBanner.tsx';
-import styles from './ProjectsPage.module.css';
-import axios from 'axios';
-import { Project } from './-projects.model.ts';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, Input, Modal, Space, Spin } from 'antd';
-import { isEmpty } from 'lodash-es';
-import { createFileRoute } from '@tanstack/react-router';
-import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
-import { useState } from 'react';
-import { useAuth } from '../../../hooks/useAuth.ts';
-import { toast } from 'react-toastify';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import KProjectCard from '../../-components/KProjectCard/KProjectCard.tsx';
+import { KBanner } from '../../-components/KBanner/KBanner.tsx'
+import styles from './ProjectsPage.module.css'
+import axios from 'axios'
+import { Project } from './-projects.model.ts'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Button, Input, Modal, Space, Spin } from 'antd'
+import { isEmpty } from 'lodash-es'
+import { createFileRoute } from '@tanstack/react-router'
+import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx'
+import { useState } from 'react'
+import { useAuth } from '../../../hooks/useAuth.ts'
+import { toast } from 'react-toastify'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import KProjectCard from '../../-components/KProjectCard/KProjectCard.tsx'
 
 export interface ProjectForm {
-  title: string;
-  responsible: string;
-  members: string;
-  funding: string;
-  budget: string;
-  hostingUni: string;
-  partners: string;
-  description: string;
+  title: string
+  responsible: string
+  members: string
+  funding: string
+  budget: string
+  hostingUni: string
+  partners: string
+  description: string
 }
 
 const addProject = ({
@@ -45,18 +45,16 @@ const addProject = ({
       partners,
       description,
     })
-    .then(res => res.data);
-};
+    .then((res) => res.data)
+}
 
 const getProjects = () =>
-  axios
-    .get<Project[]>('/projects')
-    .then(res => res.data.reverse());
+  axios.get<Project[]>('/projects').then((res) => res.data.reverse())
 
 const ProjectsPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth()
 
   const {
     data: projects,
@@ -65,7 +63,7 @@ const ProjectsPage = () => {
   } = useQuery({
     queryKey: ['projects'],
     queryFn: getProjects,
-  });
+  })
 
   const {
     handleSubmit,
@@ -83,36 +81,36 @@ const ProjectsPage = () => {
       partners: '',
       description: '',
     },
-  });
+  })
 
   const showModal = () => {
-    setIsModalOpen(true);
-  };
+    setIsModalOpen(true)
+  }
 
   const handleCancel = () => {
-    setIsModalOpen(false);
-    resetForm();
-  };
+    setIsModalOpen(false)
+    resetForm()
+  }
 
   const resetForm = () => {
-    reset();
-  };
+    reset()
+  }
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const { mutate, isPending } = useMutation({
     mutationFn: addProject,
     onError: () => toast.error('Nu s-a putut adăuga proiectul!'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['projects'] });
-      setIsModalOpen(false);
-      resetForm();
-      toast.success('Proiectul a fost adăugat cu succes.');
+      await queryClient.invalidateQueries({ queryKey: ['projects'] })
+      setIsModalOpen(false)
+      resetForm()
+      toast.success('Proiectul a fost adăugat cu succes.')
     },
-  });
+  })
 
-  const onSubmit: SubmitHandler<ProjectForm> = data => {
-    mutate(data);
-  };
+  const onSubmit: SubmitHandler<ProjectForm> = (data) => {
+    mutate(data)
+  }
 
   return (
     <div className={styles.page}>
@@ -135,11 +133,17 @@ const ProjectsPage = () => {
                 type="primary"
                 loading={isPending}
                 disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}>
+                onClick={handleSubmit(onSubmit)}
+              >
                 Salvează
               </Button>,
-            ]}>
-            <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+            ]}
+          >
+            <Space
+              direction="vertical"
+              size="middle"
+              style={{ display: 'flex' }}
+            >
               <Controller
                 name="title"
                 control={control}
@@ -165,7 +169,9 @@ const ProjectsPage = () => {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.responsible ? 'error' : ''}
-                    placeholder={errors.responsible?.message ?? 'Responsabil proiect'}
+                    placeholder={
+                      errors.responsible?.message ?? 'Responsabil proiect'
+                    }
                     value={value}
                     onChange={onChange}
                     allowClear
@@ -181,7 +187,9 @@ const ProjectsPage = () => {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.members ? 'error' : ''}
-                    placeholder={errors.members?.message ?? 'Membri proiectului'}
+                    placeholder={
+                      errors.members?.message ?? 'Membri proiectului'
+                    }
                     value={value}
                     onChange={onChange}
                     allowClear
@@ -229,7 +237,9 @@ const ProjectsPage = () => {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.hostingUni ? 'error' : ''}
-                    placeholder={errors.hostingUni?.message ?? 'Universitatea gazdă'}
+                    placeholder={
+                      errors.hostingUni?.message ?? 'Universitatea gazdă'
+                    }
                     value={value}
                     onChange={onChange}
                     allowClear
@@ -261,7 +271,9 @@ const ProjectsPage = () => {
                 render={({ field: { onChange, value } }) => (
                   <Input.TextArea
                     status={errors.description ? 'error' : ''}
-                    placeholder={errors.description?.message ?? 'Descriere proiect'}
+                    placeholder={
+                      errors.description?.message ?? 'Descriere proiect'
+                    }
                     value={value}
                     onChange={onChange}
                     allowClear
@@ -282,7 +294,7 @@ const ProjectsPage = () => {
                 <span>Nu există proiecte momentan.</span>
               </div>
             ) : (
-              projects?.map(Project => {
+              projects?.map((Project) => {
                 return (
                   <KProjectCard
                     key={Project.id}
@@ -296,18 +308,18 @@ const ProjectsPage = () => {
                     partners={Project.partners}
                     description={Project.description}
                   />
-                );
+                )
               })
             )}
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export const Route = createFileRoute('/research/projects/')({
+export const Route = createFileRoute('/research_/projects/')({
   component: ProjectsPage,
-});
+})
 
-export default ProjectsPage;
+export default ProjectsPage

@@ -1,27 +1,27 @@
-import { KBanner } from '../../../../-components/KBanner/KBanner';
-import { KVolumeCard } from '../../../../-components/KVolumeCard/KVolumeCard';
-import styles from './VolumePage.module.css';
-import axios from 'axios';
-import { Volume } from './-volumes.model.ts';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, Input, Modal, Space, Spin, Upload, UploadFile } from 'antd';
-import { isEmpty } from 'lodash-es';
-import { createFileRoute } from '@tanstack/react-router';
-import { KAddButton } from '../../../../-components/KAddButton/KAddButton.tsx';
-import { useState } from 'react';
-import { useAuth } from '../../../../../hooks/useAuth.ts';
-import { UploadOutlined } from '@ant-design/icons';
-import { toast } from 'react-toastify';
-import { BASE_URL } from '../../../../../constants.ts';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { KBanner } from '../../../../-components/KBanner/KBanner'
+import { KVolumeCard } from '../../../../-components/KVolumeCard/KVolumeCard'
+import styles from './VolumePage.module.css'
+import axios from 'axios'
+import { Volume } from './-volumes.model.ts'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Button, Input, Modal, Space, Spin, Upload, UploadFile } from 'antd'
+import { isEmpty } from 'lodash-es'
+import { createFileRoute } from '@tanstack/react-router'
+import { KAddButton } from '../../../../-components/KAddButton/KAddButton.tsx'
+import { useState } from 'react'
+import { useAuth } from '../../../../../hooks/useAuth.ts'
+import { UploadOutlined } from '@ant-design/icons'
+import { toast } from 'react-toastify'
+import { BASE_URL } from '../../../../../constants.ts'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import {
   AntDFileType,
   FileType,
   useFileUpload,
-} from '../../../../../hooks/useFileUpload.ts';
+} from '../../../../../hooks/useFileUpload.ts'
 
 export interface VolumeForm {
-  title: string;
+  title: string
 }
 
 const addVolume = ({
@@ -29,26 +29,26 @@ const addVolume = ({
   cover,
   pdf,
 }: VolumeForm & { cover: UploadFile; pdf: UploadFile }) => {
-  const formData = new FormData();
-  formData.append('cover', cover as AntDFileType);
-  formData.append('pdf', pdf as AntDFileType);
-  formData.append('title', title);
+  const formData = new FormData()
+  formData.append('cover', cover as AntDFileType)
+  formData.append('pdf', pdf as AntDFileType)
+  formData.append('title', title)
   return axios
     .post<Volume>(`/volumes`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
-    .then(res => res.data);
-};
+    .then((res) => res.data)
+}
 
 const getVolumes = () =>
   axios
     .get<Volume[]>('/volumes/type/DIALOGUES_FRANCOPHONE')
-    .then(res => res.data.reverse());
+    .then((res) => res.data.reverse())
 
 const VolumesPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth()
 
   const {
     data: volumes,
@@ -57,19 +57,19 @@ const VolumesPage = () => {
   } = useQuery({
     queryKey: ['volumes'],
     queryFn: getVolumes,
-  });
+  })
 
   const {
     fileList: pdfList,
     resetFileList: resetPdfList,
     uploadFileProps: uploadPdfProps,
-  } = useFileUpload(FileType.PDF);
+  } = useFileUpload(FileType.PDF)
 
   const {
     fileList: coverList,
     resetFileList: resetCoverList,
     uploadFileProps: uploadCoverProps,
-  } = useFileUpload(FileType.IMAGE);
+  } = useFileUpload(FileType.IMAGE)
 
   const {
     handleSubmit,
@@ -80,38 +80,38 @@ const VolumesPage = () => {
     defaultValues: {
       title: '',
     },
-  });
+  })
 
   const showModal = () => {
-    setIsModalOpen(true);
-  };
+    setIsModalOpen(true)
+  }
 
   const handleCancel = () => {
-    setIsModalOpen(false);
-    resetAllForm();
-  };
+    setIsModalOpen(false)
+    resetAllForm()
+  }
 
   const resetAllForm = () => {
-    reset();
-    resetPdfList();
-    resetCoverList();
-  };
+    reset()
+    resetPdfList()
+    resetCoverList()
+  }
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const { mutate, isPending } = useMutation({
     mutationFn: addVolume,
     onError: () => toast.error('Nu s-a putut adăuga volumul!'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['volumes'] });
-      setIsModalOpen(false);
-      resetAllForm();
-      toast.success('Volumul a fost adăugat cu succes.');
+      await queryClient.invalidateQueries({ queryKey: ['volumes'] })
+      setIsModalOpen(false)
+      resetAllForm()
+      toast.success('Volumul a fost adăugat cu succes.')
     },
-  });
+  })
 
-  const onSubmit: SubmitHandler<VolumeForm> = data => {
-    mutate({ ...data, cover: coverList[0], pdf: pdfList[0] });
-  };
+  const onSubmit: SubmitHandler<VolumeForm> = (data) => {
+    mutate({ ...data, cover: coverList[0], pdf: pdfList[0] })
+  }
 
   return (
     <div>
@@ -133,10 +133,12 @@ const VolumesPage = () => {
               type="primary"
               loading={isPending}
               disabled={isEmpty(coverList) || isEmpty(pdfList) || !isValid}
-              onClick={handleSubmit(onSubmit)}>
+              onClick={handleSubmit(onSubmit)}
+            >
               Salvează
             </Button>,
-          ]}>
+          ]}
+        >
           <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
             <Controller
               name="title"
@@ -177,7 +179,7 @@ const VolumesPage = () => {
               <span>Nu există volume momentan.</span>
             </div>
           ) : (
-            volumes?.map(volume => (
+            volumes?.map((volume) => (
               <KVolumeCard
                 key={volume.id}
                 id={volume.id}
@@ -191,13 +193,13 @@ const VolumesPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/volumes/'
+  '/research_/publications_/dialogue-francophones_/volumes/',
 )({
   component: VolumesPage,
-});
+})
 
-export default VolumesPage;
+export default VolumesPage

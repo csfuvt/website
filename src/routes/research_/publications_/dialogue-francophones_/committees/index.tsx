@@ -1,9 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { KBanner } from '../../../../-components/KBanner/KBanner.tsx';
-import { KTitle } from '../../../../-components/KTitle/KTitle.tsx';
-import { KParagraph } from '../../../../-components/KParagraph/KParagraph.tsx';
-import './styles.css';
-import { KCommitteeSection } from '../../../../-components/KCommitteeSection/KCommitteeSection.tsx';
+import { createFileRoute } from '@tanstack/react-router'
+import { KBanner } from '../../../../-components/KBanner/KBanner.tsx'
+import { KTitle } from '../../../../-components/KTitle/KTitle.tsx'
+import { KParagraph } from '../../../../-components/KParagraph/KParagraph.tsx'
+import './styles.css'
+import { KCommitteeSection } from '../../../../-components/KCommitteeSection/KCommitteeSection.tsx'
 
 const honorificCommitteeMembers = [
   {
@@ -26,7 +26,7 @@ const honorificCommitteeMembers = [
     university: 'Université de Poitiers',
     country: 'France',
   },
-];
+]
 
 const scientificCommitteeMembers = [
   {
@@ -110,7 +110,7 @@ const scientificCommitteeMembers = [
     university: 'Université Eötvös Loránd de Budapest',
     country: 'Hongrie',
   },
-];
+]
 
 const redactionCommitteMembers = [
   {
@@ -153,10 +153,10 @@ const redactionCommitteMembers = [
       },
     ],
   },
-];
+]
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/committees/'
+  '/research_/publications_/dialogue-francophones_/committees/',
 )({
   component: () => (
     <div>
@@ -181,15 +181,15 @@ export const Route = createFileRoute(
         </div>
         <div className="committee">
           <KTitle label="Comitet de redacție" />
-          {redactionCommitteMembers.map(committe => (
+          {redactionCommitteMembers.map((committe) => (
             <KParagraph
               title
               titleLabel={committe.position}
-              text={`${committe.members.map(member => `${member.name}, e-mail: ${member.email}`)}`}
+              text={`${committe.members.map((member) => `${member.name}, e-mail: ${member.email}`)}`}
             />
           ))}
         </div>
       </div>
     </div>
   ),
-});
+})
