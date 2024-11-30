@@ -1,11 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
-  '/events/conferences/francophones-studies/previous-editions/'
+  '/events_/conferences_/francophones-studies_/previous-editions_/',
 )({
   component: () => (
     <div>
       Hello /events/conferences/francophones-studies/previous-editions/!
     </div>
   ),
-});
+})

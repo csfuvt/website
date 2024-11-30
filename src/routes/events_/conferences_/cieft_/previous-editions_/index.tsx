@@ -1,7 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
-  '/events/conferences/cieft/previous-editions/'
+  '/events_/conferences_/cieft_/previous-editions_/',
 )({
   component: () => <div>Hello /conferences/cieft/previous-editions!</div>,
-});
+})
