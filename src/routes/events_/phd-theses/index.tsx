@@ -1,27 +1,27 @@
-import { KBanner } from '../../-components/KBanner/KBanner.tsx'
-import styles from './PhdThesisPage.module.css'
-import axios from 'axios'
-import { PhdThesis } from './-phd-thesis.model.ts'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Button, Input, Modal, Space, Spin } from 'antd'
-import { isEmpty } from 'lodash-es'
-import { createFileRoute } from '@tanstack/react-router'
-import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx'
-import { useState } from 'react'
-import { useAuth } from '../../../hooks/useAuth.ts'
-import { toast } from 'react-toastify'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import KPhdThesisCard from '../../-components/KPhdThesisCard/KPhdThesisCard.tsx'
+import { KBanner } from '../../-components/KBanner/KBanner.tsx';
+import styles from './PhdThesisPage.module.css';
+import axios from 'axios';
+import { PhdThesis } from './-phd-thesis.model.ts';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Button, Input, Modal, Space, Spin } from 'antd';
+import { isEmpty } from 'lodash-es';
+import { createFileRoute } from '@tanstack/react-router';
+import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
+import { useState } from 'react';
+import { useAuth } from '../../../hooks/useAuth.ts';
+import { toast } from 'react-toastify';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import KPhdThesisCard from '../../-components/KPhdThesisCard/KPhdThesisCard.tsx';
 
 export interface PhdThesisForm {
-  title: string
-  candidate: string
-  leader: string
-  organizers: string
-  meetingDate: string
-  councilMembers: string
-  thesisSummary: string
-  links: string
+  title: string;
+  candidate: string;
+  leader: string;
+  organizers: string;
+  meetingDate: string;
+  councilMembers: string;
+  thesisSummary: string;
+  links: string;
 }
 
 const addPhdThesis = ({
@@ -45,16 +45,16 @@ const addPhdThesis = ({
       thesisSummary,
       links,
     })
-    .then((res) => res.data)
-}
+    .then(res => res.data);
+};
 
 const getPhdThesis = () =>
-  axios.get<PhdThesis[]>('/phd-thesis').then((res) => res.data.reverse())
+  axios.get<PhdThesis[]>('/phd-thesis').then(res => res.data.reverse());
 
 const PhdThesisPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuth();
 
   const {
     data: phdThesis,
@@ -63,7 +63,7 @@ const PhdThesisPage = () => {
   } = useQuery({
     queryKey: ['phd-thesis'],
     queryFn: getPhdThesis,
-  })
+  });
 
   const {
     handleSubmit,
@@ -81,36 +81,36 @@ const PhdThesisPage = () => {
       thesisSummary: '',
       links: '',
     },
-  })
+  });
 
   const showModal = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const handleCancel = () => {
-    setIsModalOpen(false)
-    resetForm()
-  }
+    setIsModalOpen(false);
+    resetForm();
+  };
 
   const resetForm = () => {
-    reset()
-  }
+    reset();
+  };
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: addPhdThesis,
     onError: () => toast.error('Nu s-a putut adăuga teza de doctorat!'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['phd-thesis'] })
-      setIsModalOpen(false)
-      resetForm()
-      toast.success('Teza de doctorat a fost adăugată cu succes.')
+      await queryClient.invalidateQueries({ queryKey: ['phd-thesis'] });
+      setIsModalOpen(false);
+      resetForm();
+      toast.success('Teza de doctorat a fost adăugată cu succes.');
     },
-  })
+  });
 
-  const onSubmit: SubmitHandler<PhdThesisForm> = (data) => {
-    mutate(data)
-  }
+  const onSubmit: SubmitHandler<PhdThesisForm> = data => {
+    mutate(data);
+  };
 
   return (
     <div className={styles.page}>
@@ -133,17 +133,14 @@ const PhdThesisPage = () => {
                 type="primary"
                 loading={isPending}
                 disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}
-              >
+                onClick={handleSubmit(onSubmit)}>
                 Salvează
               </Button>,
-            ]}
-          >
+            ]}>
             <Space
               direction="vertical"
               size="middle"
-              style={{ display: 'flex' }}
-            >
+              style={{ display: 'flex' }}>
               <Controller
                 name="title"
                 control={control}
@@ -282,7 +279,7 @@ const PhdThesisPage = () => {
                 <span>Nu există teze de doctorat momentan.</span>
               </div>
             ) : (
-              phdThesis?.map((PhdThesis) => {
+              phdThesis?.map(PhdThesis => {
                 return (
                   <KPhdThesisCard
                     key={PhdThesis.id}
@@ -296,18 +293,18 @@ const PhdThesisPage = () => {
                     thesisSummary={PhdThesis.thesisSummary}
                     links={PhdThesis.links}
                   />
-                )
+                );
               })
             )}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export const Route = createFileRoute('/events_/phd-theses/')({
+export const Route = createFileRoute('/events/phd-theses/')({
   component: PhdThesisPage,
-})
+});
 
-export default PhdThesisPage
+export default PhdThesisPage;

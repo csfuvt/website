@@ -1,11 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute(
-  '/research_/publications_/agapes-francophones_/editorial-policy/',
+  '/research/publications/agapes-francophones/editorial-policy/'
 )({
   component: () => (
     <div>
       Hello /research/publications/agapes-francophones/editorial-policy/!
     </div>
   ),
-})
+});

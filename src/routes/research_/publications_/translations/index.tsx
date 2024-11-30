@@ -1,25 +1,25 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { KBanner } from '../../../-components/KBanner/KBanner'
-import { KTranslationCard } from '../../../-components/KTranslationCard/KTranslationCard'
-import './styles.css'
-import { KAddButton } from '../../../-components/KAddButton/KAddButton.tsx'
-import { KAddTranslationModal } from '../../../-components/KAddTranslationModal/KAddTranslationModal.tsx'
-import { useState } from 'react'
-import { useAuth } from '../../../../hooks/useAuth.ts'
-import axios from 'axios'
-import { BASE_URL } from '../../../../constants.ts'
-import { Spin } from 'antd'
-import { useQuery } from '@tanstack/react-query'
-import { Translation } from './-translation.model.ts'
-import { isEmpty } from 'lodash-es'
+import { createFileRoute } from '@tanstack/react-router';
+import { KBanner } from '../../../-components/KBanner/KBanner';
+import { KTranslationCard } from '../../../-components/KTranslationCard/KTranslationCard';
+import './styles.css';
+import { KAddButton } from '../../../-components/KAddButton/KAddButton.tsx';
+import { KAddTranslationModal } from '../../../-components/KAddTranslationModal/KAddTranslationModal.tsx';
+import { useState } from 'react';
+import { useAuth } from '../../../../hooks/useAuth.ts';
+import axios from 'axios';
+import { BASE_URL } from '../../../../constants.ts';
+import { Spin } from 'antd';
+import { useQuery } from '@tanstack/react-query';
+import { Translation } from './-translation.model.ts';
+import { isEmpty } from 'lodash-es';
 
 const getTranslations = () =>
-  axios.get<Translation[]>('/translations').then((res) => res.data)
+  axios.get<Translation[]>('/translations').then(res => res.data);
 
 const TranslationPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuth();
 
   const {
     data: translations,
@@ -28,7 +28,7 @@ const TranslationPage = () => {
   } = useQuery({
     queryKey: ['translations'],
     queryFn: getTranslations,
-  })
+  });
 
   return (
     <div>
@@ -50,7 +50,7 @@ const TranslationPage = () => {
         ) : isEmpty(translations) ? (
           <span>Nu există traduceri momentan.</span>
         ) : (
-          translations?.map((item) => (
+          translations?.map(item => (
             <KTranslationCard
               key={item.id}
               id={item.id}
@@ -64,11 +64,11 @@ const TranslationPage = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export const Route = createFileRoute('/research_/publications_/translations/')({
+export const Route = createFileRoute('/research/publications/translations/')({
   component: TranslationPage,
-})
+});
 
-export default TranslationPage
+export default TranslationPage;

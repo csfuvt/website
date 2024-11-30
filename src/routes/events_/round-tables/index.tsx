@@ -1,24 +1,24 @@
-import { KBanner } from '../../-components/KBanner/KBanner'
-import styles from './RoundTablesPage.module.css'
-import axios from 'axios'
-import { EventRoundTable } from './-round-tables.model.ts'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Button, Input, Modal, Space, Spin } from 'antd'
-import { isEmpty } from 'lodash-es'
-import { createFileRoute } from '@tanstack/react-router'
-import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx'
-import { useState } from 'react'
-import { useAuth } from '../../../hooks/useAuth.ts'
-import { toast } from 'react-toastify'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import KRoundTablesCard from '../../-components/KRoundTablesCard/KRoundTablesCard.tsx'
+import { KBanner } from '../../-components/KBanner/KBanner';
+import styles from './RoundTablesPage.module.css';
+import axios from 'axios';
+import { EventRoundTable } from './-round-tables.model.ts';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Button, Input, Modal, Space, Spin } from 'antd';
+import { isEmpty } from 'lodash-es';
+import { createFileRoute } from '@tanstack/react-router';
+import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
+import { useState } from 'react';
+import { useAuth } from '../../../hooks/useAuth.ts';
+import { toast } from 'react-toastify';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import KRoundTablesCard from '../../-components/KRoundTablesCard/KRoundTablesCard.tsx';
 
 export interface RoundTableForm {
-  title: string
-  organizers: string
-  meetingDate: string
-  members: string
-  links: string
+  title: string;
+  organizers: string;
+  meetingDate: string;
+  members: string;
+  links: string;
 }
 
 const addRoundTable = ({
@@ -36,18 +36,16 @@ const addRoundTable = ({
       members,
       links,
     })
-    .then((res) => res.data)
-}
+    .then(res => res.data);
+};
 
 const getRoundTables = () =>
-  axios
-    .get<EventRoundTable[]>('/round-tables')
-    .then((res) => res.data.reverse())
+  axios.get<EventRoundTable[]>('/round-tables').then(res => res.data.reverse());
 
 const RoundTablesPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuth();
 
   const {
     data: roundTables,
@@ -56,7 +54,7 @@ const RoundTablesPage = () => {
   } = useQuery({
     queryKey: ['roundTables'],
     queryFn: getRoundTables,
-  })
+  });
 
   const {
     handleSubmit,
@@ -71,36 +69,36 @@ const RoundTablesPage = () => {
       members: '',
       links: '',
     },
-  })
+  });
 
   const showModal = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const handleCancel = () => {
-    setIsModalOpen(false)
-    resetForm()
-  }
+    setIsModalOpen(false);
+    resetForm();
+  };
 
   const resetForm = () => {
-    reset()
-  }
+    reset();
+  };
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: addRoundTable,
     onError: () => toast.error('Nu s-a putut adăuga masa rotundă!'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['roundTables'] })
-      setIsModalOpen(false)
-      resetForm()
-      toast.success('Masa rotundă a fost adăugată cu succes.')
+      await queryClient.invalidateQueries({ queryKey: ['roundTables'] });
+      setIsModalOpen(false);
+      resetForm();
+      toast.success('Masa rotundă a fost adăugată cu succes.');
     },
-  })
+  });
 
-  const onSubmit: SubmitHandler<RoundTableForm> = (data) => {
-    mutate(data)
-  }
+  const onSubmit: SubmitHandler<RoundTableForm> = data => {
+    mutate(data);
+  };
 
   return (
     <div className={styles.page}>
@@ -123,17 +121,14 @@ const RoundTablesPage = () => {
                 type="primary"
                 loading={isPending}
                 disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}
-              >
+                onClick={handleSubmit(onSubmit)}>
                 Salvează
               </Button>,
-            ]}
-          >
+            ]}>
             <Space
               direction="vertical"
               size="middle"
-              style={{ display: 'flex' }}
-            >
+              style={{ display: 'flex' }}>
               <Controller
                 name="title"
                 control={control}
@@ -229,8 +224,8 @@ const RoundTablesPage = () => {
                 <span>Nu există mese rotunde momentan.</span>
               </div>
             ) : (
-              roundTables?.map((eventRoundTable) => {
-                const meetingDate = new Date(eventRoundTable.meetingDate)
+              roundTables?.map(eventRoundTable => {
+                const meetingDate = new Date(eventRoundTable.meetingDate);
                 return (
                   <KRoundTablesCard
                     key={eventRoundTable.id}
@@ -241,18 +236,18 @@ const RoundTablesPage = () => {
                     members={eventRoundTable.members}
                     links={eventRoundTable.links}
                   />
-                )
+                );
               })
             )}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export const Route = createFileRoute('/events_/round-tables/')({
+export const Route = createFileRoute('/events/round-tables/')({
   component: RoundTablesPage,
-})
+});
 
-export default RoundTablesPage
+export default RoundTablesPage;

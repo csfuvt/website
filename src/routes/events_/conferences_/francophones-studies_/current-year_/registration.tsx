@@ -1,26 +1,26 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { KBanner } from '../../../../-components/KBanner/KBanner'
-import styles from './registration.module.css'
-import { KTitle } from '../../../../-components/KTitle/KTitle'
-import WordsCounter from '../../../../-components/WordsCounter/WordsCounter'
-import { BASE_URL } from '../../../../../constants.ts'
+import { createFileRoute } from '@tanstack/react-router';
+import { KBanner } from '../../../../-components/KBanner/KBanner';
+import styles from './registration.module.css';
+import { KTitle } from '../../../../-components/KTitle/KTitle';
+import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
+import { BASE_URL } from '../../../../../constants.ts';
 
 export const Route = createFileRoute(
-  '/events_/conferences_/francophones-studies_/current-year_/registration',
+  '/events/conferences/francophones-studies/current-year/registration'
 )({
   component: RegistrationPage,
-})
+});
 
 function RegistrationPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const formProps = Object.fromEntries(formData)
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formProps = Object.fromEntries(formData);
 
     formProps.receiveCopy =
-      formData.get('receiveCopy') === 'on' ? 'true' : 'false'
+      formData.get('receiveCopy') === 'on' ? 'true' : 'false';
 
-    console.log('Form data being sent:', JSON.stringify(formProps))
+    console.log('Form data being sent:', JSON.stringify(formProps));
     try {
       const response = await fetch(BASE_URL + '/send-email', {
         method: 'POST',
@@ -28,20 +28,20 @@ function RegistrationPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formProps),
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json()
-        console.error('Error submitting form:', errorData)
-        alert(`Failed to send email: ${errorData.message}`)
+        const errorData = await response.json();
+        console.error('Error submitting form:', errorData);
+        alert(`Failed to send email: ${errorData.message}`);
       } else {
-        alert('Email sent successfully!')
+        alert('Email sent successfully!');
       }
     } catch (error) {
-      console.error('Error:', error)
-      alert('Failed to send email')
+      console.error('Error:', error);
+      alert('Failed to send email');
     }
-  }
+  };
 
   return (
     <div>
@@ -151,8 +151,7 @@ function RegistrationPage() {
                 id="titlu-lucrare-in-franceza"
                 name="titlu-lucrare-in-franceza"
                 limit={25}
-                placeholder="(Introduceți titlul lucrării...)"
-              ></WordsCounter>
+                placeholder="(Introduceți titlul lucrării...)"></WordsCounter>
 
               {/*
               <textarea
@@ -170,8 +169,7 @@ function RegistrationPage() {
                 id="rezumat-in-franceza"
                 name="rezumat-in-franceza"
                 limit={300}
-                placeholder="(Introduceți rezumatul...)"
-              ></WordsCounter>
+                placeholder="(Introduceți rezumatul...)"></WordsCounter>
 
               {/*<textarea
                 id="rezumat-in-franceza"
@@ -199,8 +197,7 @@ function RegistrationPage() {
                 id="cuvinte-cheie-in-franceza"
                 name="cuvinte-cheie-in-franceza"
                 placeholder="(Introduceți cuvintele-cheie)"
-                required
-              ></textarea>
+                required></textarea>
             </div>
             {/*
             <div className={styles.formGroup}>
@@ -301,5 +298,5 @@ function RegistrationPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
