@@ -35,7 +35,7 @@ const PartneringPage = () => {
 
   return (
     <div>
-      <KBanner label="Parteneri" />
+      <KBanner label="PARTENERI" />
       <div className={styles.page}>
         <div className={styles.text}>
           <span className={styles.title}>Centrul de Studii Francofone</span> are
