@@ -1,16 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { KBanner } from '../../../-components/KBanner/KBanner'
-import { KActeColocvii } from '../../../-components/KActeColocvii/KActeColocvii'
-import styles from './LingvisticConfPage.module.css'
-import axios from 'axios'
-import { LingvisticConference } from './-lingvistic-conference.model.ts'
-import { useQuery } from '@tanstack/react-query'
-import { BASE_URL } from '../../../../constants.ts'
-import { Spin } from 'antd'
-import { isEmpty } from 'lodash-es'
+import { createFileRoute } from '@tanstack/react-router';
+import { KBanner } from '../../../-components/KBanner/KBanner';
+import { KActeColocvii } from '../../../-components/KActeColocvii/KActeColocvii';
+import styles from './LingvisticConfPage.module.css';
+import axios from 'axios';
+import { LingvisticConference } from './-lingvistic-conference.model.ts';
+import { useQuery } from '@tanstack/react-query';
+import { BASE_URL } from '../../../../constants.ts';
+import { Spin } from 'antd';
+import { isEmpty } from 'lodash-es';
 
 const getLingvisticConferences = () =>
-  axios.get<LingvisticConference[]>('/lingvistics-docs').then((res) => res.data)
+  axios.get<LingvisticConference[]>('/lingvistics-docs').then(res => res.data);
 
 const LingvisticConfPage = () => {
   const {
@@ -20,7 +20,7 @@ const LingvisticConfPage = () => {
   } = useQuery({
     queryKey: ['lingvistics-docs'],
     queryFn: getLingvisticConferences,
-  })
+  });
 
   return (
     <>
@@ -34,7 +34,7 @@ const LingvisticConfPage = () => {
           ) : isEmpty(lingvisticsConferences) ? (
             <span>Nu există acte momentan.</span>
           ) : (
-            lingvisticsConferences?.map((item) => (
+            lingvisticsConferences?.map(item => (
               <KActeColocvii
                 key={item.id}
                 summaryText={item.description}
@@ -49,13 +49,13 @@ const LingvisticConfPage = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export const Route = createFileRoute(
-  '/research_/publications_/lingvistic-conferences/',
+  '/research/publications/lingvistic-conferences/'
 )({
   component: LingvisticConfPage,
-})
+});
 
-export default LingvisticConfPage
+export default LingvisticConfPage;

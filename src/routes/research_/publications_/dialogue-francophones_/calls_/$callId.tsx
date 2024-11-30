@@ -1,29 +1,29 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { KBanner } from '../../../../-components/KBanner/KBanner.tsx'
-import './styles.css'
-import { KTitle } from '../../../../-components/KTitle/KTitle.tsx'
-import axios from 'axios'
-import { useQuery } from '@tanstack/react-query'
-import { Spin } from 'antd'
-import { isEmpty } from 'lodash-es'
-import { BASE_URL } from '../../../../../constants.ts'
-import { CallType } from './-calls.model.ts'
+import { createFileRoute } from '@tanstack/react-router';
+import { KBanner } from '../../../../-components/KBanner/KBanner.tsx';
+import './styles.css';
+import { KTitle } from '../../../../-components/KTitle/KTitle.tsx';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { Spin } from 'antd';
+import { isEmpty } from 'lodash-es';
+import { BASE_URL } from '../../../../../constants.ts';
+import { CallType } from './-calls.model.ts';
 
 const getCallById = (id: string) =>
-  axios.get<CallType>(`/contribution-calls/${id}`).then((res) => res.data)
+  axios.get<CallType>(`/contribution-calls/${id}`).then(res => res.data);
 
 export const Route = createFileRoute(
-  '/research_/publications_/dialogue-francophones_/calls_/$callId',
+  '/research/publications/dialogue-francophones/calls/$callId'
 )({
   component: Call,
-})
+});
 
 function Call() {
-  const { callId } = Route.useParams()
+  const { callId } = Route.useParams();
   const { data, isLoading, isError } = useQuery({
     queryKey: [`contribution-call/${callId}`],
     queryFn: () => getCallById(callId),
-  })
+  });
 
   return (
     <div>
@@ -49,11 +49,10 @@ function Call() {
             <KTitle label={`Apel la contribuții - ${data.year}`} />
             <iframe
               src={BASE_URL + `/files/contribution-calls/${data.pdf}`}
-              className="iframe"
-            ></iframe>
+              className="iframe"></iframe>
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }

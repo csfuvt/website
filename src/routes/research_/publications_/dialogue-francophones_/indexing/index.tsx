@@ -1,23 +1,23 @@
-import { createFileRoute } from '@tanstack/react-router'
-import axios from 'axios'
-import { Index } from './-index.model.ts'
-import { useState } from 'react'
-import { useAuth } from '../../../../../hooks/useAuth.ts'
-import { useQuery } from '@tanstack/react-query'
-import { KBanner } from '../../../../-components/KBanner/KBanner.tsx'
-import { KAddButton } from '../../../../-components/KAddButton/KAddButton.tsx'
-import { Spin } from 'antd'
-import { isEmpty } from 'lodash-es'
-import styles from './Indexing.module.css'
-import KIndexList from '../../../../-components/KIndex/KIndexList.tsx'
-import { KAddIndexModal } from '../../../../-components/KAddIndexModal/KAddIndexModal.tsx'
+import { createFileRoute } from '@tanstack/react-router';
+import axios from 'axios';
+import { Index } from './-index.model.ts';
+import { useState } from 'react';
+import { useAuth } from '../../../../../hooks/useAuth.ts';
+import { useQuery } from '@tanstack/react-query';
+import { KBanner } from '../../../../-components/KBanner/KBanner.tsx';
+import { KAddButton } from '../../../../-components/KAddButton/KAddButton.tsx';
+import { Spin } from 'antd';
+import { isEmpty } from 'lodash-es';
+import styles from './Indexing.module.css';
+import KIndexList from '../../../../-components/KIndex/KIndexList.tsx';
+import { KAddIndexModal } from '../../../../-components/KAddIndexModal/KAddIndexModal.tsx';
 
-const getIndexes = () => axios.get<Index[]>('/indexes').then((res) => res.data)
+const getIndexes = () => axios.get<Index[]>('/indexes').then(res => res.data);
 
 const IndexingPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuth();
 
   const {
     data: indexes,
@@ -26,15 +26,15 @@ const IndexingPage = () => {
   } = useQuery({
     queryKey: ['indexes'],
     queryFn: getIndexes,
-  })
+  });
 
   const showModal = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const handleCancel = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   return (
     <div>
@@ -70,13 +70,13 @@ const IndexingPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const Route = createFileRoute(
-  '/research_/publications_/dialogue-francophones_/indexing/',
+  '/research/publications/dialogue-francophones/indexing/'
 )({
   component: IndexingPage,
-})
+});
 
-export default IndexingPage
+export default IndexingPage;

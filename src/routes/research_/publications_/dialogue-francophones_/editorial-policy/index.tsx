@@ -1,10 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { KParagraph } from '../../../../-components/KParagraph/KParagraph.tsx'
-import './styles.css'
-import { KBanner } from '../../../../-components/KBanner/KBanner.tsx'
+import { createFileRoute } from '@tanstack/react-router';
+import { KParagraph } from '../../../../-components/KParagraph/KParagraph.tsx';
+import './styles.css';
+import { KBanner } from '../../../../-components/KBanner/KBanner.tsx';
 
 export const Route = createFileRoute(
-  '/research_/publications_/dialogue-francophones_/editorial-policy/',
+  '/research/publications/dialogue-francophones/editorial-policy/'
 )({
   component: () => (
     <div>
@@ -52,4 +52,4 @@ export const Route = createFileRoute(
       </div>
     </div>
   ),
-})
+});

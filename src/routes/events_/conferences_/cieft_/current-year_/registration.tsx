@@ -1,20 +1,20 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { KBanner } from '../../../../-components/KBanner/KBanner'
-import { KTitle } from '../../../../-components/KTitle/KTitle'
-import styles from './registration.module.css'
-import WordsCounter from '../../../../-components/WordsCounter/WordsCounter'
-import { BASE_URL } from '../../../../../constants.ts'
+import { createFileRoute } from '@tanstack/react-router';
+import { KBanner } from '../../../../-components/KBanner/KBanner';
+import { KTitle } from '../../../../-components/KTitle/KTitle';
+import styles from './registration.module.css';
+import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
+import { BASE_URL } from '../../../../../constants.ts';
 
 export const RegistrationPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const formProps = Object.fromEntries(formData)
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formProps = Object.fromEntries(formData);
 
     formProps.receiveCopy =
-      formData.get('receiveCopy') === 'on' ? 'true' : 'false'
+      formData.get('receiveCopy') === 'on' ? 'true' : 'false';
 
-    console.log('Form data being sent:', JSON.stringify(formProps))
+    console.log('Form data being sent:', JSON.stringify(formProps));
     try {
       const response = await fetch(BASE_URL + '/send-email', {
         method: 'POST',
@@ -22,20 +22,20 @@ export const RegistrationPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formProps),
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json()
-        console.error('Error submitting form:', errorData)
-        alert(`Failed to send email: ${errorData.message}`)
+        const errorData = await response.json();
+        console.error('Error submitting form:', errorData);
+        alert(`Failed to send email: ${errorData.message}`);
       } else {
-        alert('Email sent successfully!')
+        alert('Email sent successfully!');
       }
     } catch (error) {
-      console.error('Error:', error)
-      alert('Failed to send email')
+      console.error('Error:', error);
+      alert('Failed to send email');
     }
-  }
+  };
 
   return (
     <div>
@@ -126,8 +126,7 @@ export const RegistrationPage = () => {
                 id="titlu-lucrare-in-franceza"
                 name="titlu-lucrare-in-franceza"
                 placeholder="(Introduceți titlul lucrării...)"
-                limit={25}
-              ></WordsCounter>
+                limit={25}></WordsCounter>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="titlu-lucrare-in-engleza">
@@ -137,8 +136,7 @@ export const RegistrationPage = () => {
                 id="titlu-lucrare-in-engleza"
                 name="titlu-lucrare-in-engleza"
                 placeholder="(Introduceți titlul lucrării...)"
-                limit={25}
-              ></WordsCounter>
+                limit={25}></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
@@ -149,8 +147,7 @@ export const RegistrationPage = () => {
                 id="rezumat-in-franceza"
                 name="rezumat-in-franceza"
                 placeholder="(Introduceți rezumatul...)"
-                limit={300}
-              ></WordsCounter>
+                limit={300}></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
@@ -161,8 +158,7 @@ export const RegistrationPage = () => {
                 id="rezumat-in-engleza"
                 name="rezumat-in-engleza"
                 placeholder="(Introduceți rezumatul...)"
-                limit={300}
-              ></WordsCounter>
+                limit={300}></WordsCounter>
             </div>
 
             <div className={styles.formGroup}>
@@ -173,8 +169,7 @@ export const RegistrationPage = () => {
                 id="cuvinte-cheie-in-franceza"
                 name="cuvinte-cheie-in-franceza"
                 placeholder="(Introduceți cuvintele-cheie)"
-                required
-              ></textarea>
+                required></textarea>
             </div>
 
             <div className={styles.formGroup}>
@@ -185,8 +180,7 @@ export const RegistrationPage = () => {
                 id="cuvinte-cheie-in-engleza"
                 name="cuvinte-cheie-in-engleza"
                 placeholder="(Introduceți cuvintele-cheie...)"
-                required
-              ></textarea>
+                required></textarea>
             </div>
 
             <div className={styles.formGroup}>
@@ -225,13 +219,13 @@ export const RegistrationPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const Route = createFileRoute(
-  '/events_/conferences_/cieft_/current-year_/registration',
+  '/events/conferences/cieft/current-year/registration'
 )({
   component: RegistrationPage,
-})
+});
 
-export default RegistrationPage
+export default RegistrationPage;
