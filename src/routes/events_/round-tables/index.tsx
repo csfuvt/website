@@ -100,6 +100,10 @@ const RoundTablesPage = () => {
     mutate(data);
   };
 
+  const handleCacheInvalidation = () => {
+    queryClient.invalidateQueries({ queryKey: ['roundTables'] });
+  };
+
   return (
     <div className={styles.page}>
       <KBanner label="MESE ROTUNDE" />
@@ -235,6 +239,7 @@ const RoundTablesPage = () => {
                     meetingDate={meetingDate.toISOString()}
                     members={eventRoundTable.members}
                     links={eventRoundTable.links}
+                    invalidateCache={handleCacheInvalidation}
                   />
                 );
               })

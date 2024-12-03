@@ -7,5 +7,7 @@ export interface Project {
   budget: string;
   hostingUni: string;
   partners: string;
+  implementationPeriod: string;
   description: string;
+  link: string;
 }

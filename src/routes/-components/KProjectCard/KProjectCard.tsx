@@ -14,6 +14,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Project } from '../../research_/projects/-projects.model.ts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 
 interface ProjectForm {
   title: string;
@@ -23,7 +25,9 @@ interface ProjectForm {
   budget: string;
   hostingUni: string;
   partners: string;
+  implementationPeriod: string;
   description: string;
+  link: string;
 }
 
 const editProject = async ({ id, ...data }: ProjectForm & { id: number }) => {
@@ -43,7 +47,9 @@ export const KProjectsCard = ({
   budget,
   hostingUni,
   partners,
+  implementationPeriod,
   description,
+  link,
 }: {
   id: number;
   title: string;
@@ -53,7 +59,9 @@ export const KProjectsCard = ({
   budget: string;
   hostingUni: string;
   partners: string;
+  implementationPeriod: string;
   description: string;
+  link: string;
 }) => {
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
@@ -132,17 +140,19 @@ export const KProjectsCard = ({
       budget,
       hostingUni,
       partners,
+      implementationPeriod,
       description,
+      link,
     },
   });
 
   const { mutate: editMutation, isPending: isEditPending } = useMutation({
     mutationFn: editProject,
-    onSuccess: async (data) => {
+    onSuccess: async data => {
       await queryClient.invalidateQueries({ queryKey: ['projects'] });
       toast.success('Proiectul a fost editat cu succes');
       const formattedData = {
-        ...data
+        ...data,
       };
       resetForm(formattedData);
       handleCancelForEdit();
@@ -150,7 +160,7 @@ export const KProjectsCard = ({
     onError: () => toast.error('A apărut o eroare în momentul editării'),
   });
 
-  const onSubmit: SubmitHandler<ProjectForm> = (data) => {
+  const onSubmit: SubmitHandler<ProjectForm> = data => {
     editMutation({ ...data, id });
   };
 
@@ -158,14 +168,40 @@ export const KProjectsCard = ({
     <div className={styles.card}>
       <div className={styles.content}>
         <div className={styles.title}>{title}</div>
-        <p><strong>Responsabil proiect:</strong> {responsible}</p>
-        <p><strong>Membri proiect:</strong> {members}</p>
-        <p><strong>Axă de finanțare:</strong> {funding}</p>
-        <p><strong>Buget:</strong> {budget}</p>
-        <p><strong>Universitate gazdă:</strong> {hostingUni}</p>
-        <p><strong>Parteneri:</strong> {partners}</p>
-        <p><strong>Descriere proiect:</strong> {description}</p>
-
+        <p>
+          <strong>Responsabil proiect:</strong> {responsible}
+        </p>
+        <p>
+          <strong>Membri proiect:</strong> {members}
+        </p>
+        <p>
+          <strong>Axă de finanțare:</strong> {funding}
+        </p>
+        <p>
+          <strong>Buget:</strong> {budget}
+        </p>
+        <p>
+          <strong>Universitate gazdă:</strong> {hostingUni}
+        </p>
+        <p>
+          <strong>Parteneri:</strong> {partners}
+        </p>
+        <p>
+          <strong>Perioada de implementare:</strong> {implementationPeriod}
+        </p>
+        <p>
+          <strong>Descriere proiect:</strong> {description}
+        </p>
+        {link && (
+          <div className={styles.linkContainer}>
+            <a href={link} target="_blank" className={styles.logo}>
+              <FontAwesomeIcon
+                icon={faGlobe}
+                style={{ color: '#004992', width: '40px', height: '40px' }}
+              />
+            </a>
+          </div>
+        )}
       </div>
 
       {isLoggedIn && (
@@ -174,8 +210,7 @@ export const KProjectsCard = ({
             menu={menuProps}
             placement="bottomLeft"
             arrow
-            trigger={['click']}
-          >
+            trigger={['click']}>
             <Button
               type="primary"
               icon={<MoreOutlined />}
@@ -198,14 +233,12 @@ export const KProjectsCard = ({
             type="primary"
             loading={isEditPending}
             disabled={!isValid}
-            onClick={handleSubmit(onSubmit)}
-          >
+            onClick={handleSubmit(onSubmit)}>
             Salvează
           </Button>,
-        ]}
-      >
+        ]}>
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-        <Controller
+          <Controller
             name="title"
             control={control}
             rules={{
@@ -230,7 +263,9 @@ export const KProjectsCard = ({
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.responsible ? 'error' : ''}
-                placeholder={errors.responsible?.message ?? 'Responsabil proiect'}
+                placeholder={
+                  errors.responsible?.message ?? 'Responsabil proiect'
+                }
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -294,7 +329,9 @@ export const KProjectsCard = ({
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.hostingUni ? 'error' : ''}
-                placeholder={errors.hostingUni?.message ?? 'Universitatea gazdă'}
+                placeholder={
+                  errors.hostingUni?.message ?? 'Universitatea gazdă'
+                }
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -318,6 +355,24 @@ export const KProjectsCard = ({
             )}
           />
           <Controller
+            name="implementationPeriod"
+            control={control}
+            rules={{
+              required: 'Perioada de implementare este un câmp obligatoriu',
+            }}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                status={errors.partners ? 'error' : ''}
+                placeholder={
+                  errors.partners?.message ?? 'Perioada de implementare'
+                }
+                value={value}
+                onChange={onChange}
+                allowClear
+              />
+            )}
+          />
+          <Controller
             name="description"
             control={control}
             rules={{
@@ -327,6 +382,22 @@ export const KProjectsCard = ({
               <Input.TextArea
                 status={errors.description ? 'error' : ''}
                 placeholder={errors.description?.message ?? 'Descriere proiect'}
+                value={value}
+                onChange={onChange}
+                allowClear
+              />
+            )}
+          />
+          <Controller
+            name="link"
+            control={control}
+            rules={{
+              required: 'Link este un câmp obligatoriu',
+            }}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                status={errors.partners ? 'error' : ''}
+                placeholder={errors.partners?.message ?? 'Link'}
                 value={value}
                 onChange={onChange}
                 allowClear
