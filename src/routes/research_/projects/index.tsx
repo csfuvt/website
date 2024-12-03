@@ -21,7 +21,9 @@ export interface ProjectForm {
   budget: string;
   hostingUni: string;
   partners: string;
+  implementationPeriod: string;
   description: string;
+  link: string;
 }
 
 const addProject = ({
@@ -32,7 +34,9 @@ const addProject = ({
   budget,
   hostingUni,
   partners,
+  implementationPeriod,
   description,
+  link,
 }: ProjectForm) => {
   return axios
     .post<Project>(`/projects`, {
@@ -43,7 +47,9 @@ const addProject = ({
       budget,
       hostingUni,
       partners,
+      implementationPeriod,
       description,
+      link,
     })
     .then(res => res.data);
 };
@@ -79,7 +85,9 @@ const ProjectsPage = () => {
       budget: '',
       hostingUni: '',
       partners: '',
+      implementationPeriod: '',
       description: '',
+      link: '',
     },
   });
 
@@ -260,6 +268,24 @@ const ProjectsPage = () => {
                 )}
               />
               <Controller
+                name="implementationPeriod"
+                control={control}
+                rules={{
+                  required: 'Perioada de implementare este un câmp obligatoriu',
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.partners ? 'error' : ''}
+                    placeholder={
+                      errors.partners?.message ?? 'Perioada de implementare'
+                    }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
                 name="description"
                 control={control}
                 rules={{
@@ -271,6 +297,22 @@ const ProjectsPage = () => {
                     placeholder={
                       errors.description?.message ?? 'Descriere proiect'
                     }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="link"
+                control={control}
+                rules={{
+                  required: 'Link este un câmp obligatoriu',
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.partners ? 'error' : ''}
+                    placeholder={errors.partners?.message ?? 'Link'}
                     value={value}
                     onChange={onChange}
                     allowClear
@@ -303,7 +345,9 @@ const ProjectsPage = () => {
                     budget={Project.budget}
                     hostingUni={Project.hostingUni}
                     partners={Project.partners}
+                    implementationPeriod={Project.implementationPeriod}
                     description={Project.description}
+                    link={Project.link}
                   />
                 );
               })

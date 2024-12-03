@@ -8,7 +8,7 @@ import {
   MoreOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../../hooks/useAuth.ts';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useState } from 'react';
@@ -20,20 +20,23 @@ import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 const formatDate = (date: string | Date) => {
   const d = new Date(date);
   const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0'); 
+  const month = String(d.getMonth() + 1).padStart(2, '0');
   const year = d.getFullYear();
   return `${day}.${month}.${year}`;
 };
 
 interface EventRoundTableForm {
   title: string;
-  organizers?: string; 
+  organizers?: string;
   meetingDate: string;
   members: string;
-  links?: string; 
+  links?: string;
 }
 
-const editEventRoundTable = async ({ id, ...data }: EventRoundTableForm & { id: number }) => {
+const editEventRoundTable = async ({
+  id,
+  ...data
+}: EventRoundTableForm & { id: number }) => {
   const res = await axios.post<EventRoundTable>(`/round-tables/${id}`, data);
   return res.data;
 };
@@ -48,21 +51,23 @@ export const KRoundTablesCard = ({
   meetingDate,
   members,
   links,
+  invalidateCache,
 }: {
   id: number;
   title: string;
-  organizers?: string; 
+  organizers?: string;
   meetingDate: string;
   members: string;
-  links?: string; 
+  links?: string;
+  invalidateCache: () => void;
 }) => {
   const { isLoggedIn } = useAuth();
-  const queryClient = useQueryClient();
+
   const { mutate: deleteMutation, isPending: isDeletePending } = useMutation({
     mutationFn: deleteEventRoundTable,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['round-tables'] });
+    onSuccess: () => {
       toast.success('Masa rotundă a fost ștearsă cu succes!');
+      invalidateCache();
     },
     onError: () => toast.error('A apărut o eroare în momentul ștergerii'),
   });
@@ -136,20 +141,22 @@ export const KRoundTablesCard = ({
 
   const { mutate: editMutation, isPending: isEditPending } = useMutation({
     mutationFn: editEventRoundTable,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({ queryKey: ['round-tables'] });
+    onSuccess: updatedData => {
       toast.success('Masa rotundă a fost editată cu succes');
-      const formattedData = {
-        ...data,
-        meetingDate: new Date(data.meetingDate).toISOString(),
-      };
-      resetForm(formattedData);
+      invalidateCache();
+      resetForm({
+        title: updatedData.title,
+        organizers: updatedData.organizers,
+        meetingDate: updatedData.meetingDate,
+        members: updatedData.members,
+        links: updatedData.links,
+      });
       handleCancelForEdit();
     },
     onError: () => toast.error('A apărut o eroare în momentul editării'),
   });
 
-  const onSubmit: SubmitHandler<EventRoundTableForm> = (data) => {
+  const onSubmit: SubmitHandler<EventRoundTableForm> = data => {
     editMutation({ ...data, id });
   };
 
@@ -157,21 +164,27 @@ export const KRoundTablesCard = ({
     <div className={styles.card}>
       <div className={styles.content}>
         <div className={styles.title}>{title}</div>
-        {organizers && ( 
-          <p><strong>Organizatori:</strong> {organizers}</p>
+        {organizers && (
+          <p>
+            <strong>Organizatori:</strong> {organizers}
+          </p>
         )}
-        <p><strong>Data întâlnirii:</strong> {formatDate(meetingDate)}</p>
-        
-        <p><strong>Membri comisiei:</strong> {members}</p>
-        {links && ( 
-            <div className={styles.linkContainer}>
-              <a href={links} target="_blank" className={styles.logo}>
-              <FontAwesomeIcon icon={faGlobe} style={{color: "#004992", width: "40px", height: "40px",}} />
-              </a>
-            </div>
+        <p>
+          <strong>Data întâlnirii:</strong> {formatDate(meetingDate)}
+        </p>
+        <p>
+          <strong>Membri comisiei:</strong> {members}
+        </p>
+        {links && (
+          <div className={styles.linkContainer}>
+            <a href={links} target="_blank" className={styles.logo}>
+              <FontAwesomeIcon
+                icon={faGlobe}
+                style={{ color: '#004992', width: '40px', height: '40px' }}
+              />
+            </a>
+          </div>
         )}
-
-
       </div>
 
       {isLoggedIn && (
@@ -180,8 +193,7 @@ export const KRoundTablesCard = ({
             menu={menuProps}
             placement="bottomLeft"
             arrow
-            trigger={['click']}
-          >
+            trigger={['click']}>
             <Button
               type="primary"
               icon={<MoreOutlined />}
@@ -204,72 +216,70 @@ export const KRoundTablesCard = ({
             type="primary"
             loading={isEditPending}
             disabled={!isValid}
-            onClick={handleSubmit(onSubmit)}
-          >
+            onClick={handleSubmit(onSubmit)}>
             Salvează
           </Button>,
-        ]}
-      >
+        ]}>
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-        <Controller
-          name="title"
-          control={control}
-          rules={{ required: 'Titlul este obligatoriu' }}
-          render={({ field }) => (
-            <Input
-              {...field}
-              placeholder="Titlul"
-              status={errors.title ? 'error' : ''}
-            />
-          )}
-        />
-        <Controller
-          name="organizers"
-          control={control}
-          render={({ field }) => (
-            <Input
-              {...field}
-              placeholder="Organizatori (opțional)"
-              status={errors.organizers ? 'error' : ''}
-            />
-          )}
-        />
-        <Controller
-          name="meetingDate"
-          control={control}
-          rules={{ required: 'Data întâlnirii este obligatorie' }}
-          render={({ field }) => (
-            <Input
-              {...field}
-              placeholder="Data întâlnirii"
-              type="date"
-              status={errors.meetingDate ? 'error' : ''}
-            />
-          )}
-        />
-        <Controller
-          name="members"
-          control={control}
-          rules={{ required: 'Membrii sunt obligatorii' }}
-          render={({ field }) => (
-            <Input
-              {...field}
-              placeholder="Membri"
-              status={errors.members ? 'error' : ''}
-            />
-          )}
-        />
-        <Controller
-          name="links"
-          control={control}
-          render={({ field }) => (
-            <Input
-              {...field}
-              placeholder="Linkuri (opțional)"
-              status={errors.links ? 'error' : ''}
-            />
-          )}
-        />
+          <Controller
+            name="title"
+            control={control}
+            rules={{ required: 'Titlul este obligatoriu' }}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Titlul"
+                status={errors.title ? 'error' : ''}
+              />
+            )}
+          />
+          <Controller
+            name="organizers"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Organizatori (opțional)"
+                status={errors.organizers ? 'error' : ''}
+              />
+            )}
+          />
+          <Controller
+            name="meetingDate"
+            control={control}
+            rules={{ required: 'Data întâlnirii este obligatorie' }}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Data întâlnirii"
+                type="date"
+                status={errors.meetingDate ? 'error' : ''}
+              />
+            )}
+          />
+          <Controller
+            name="members"
+            control={control}
+            rules={{ required: 'Membrii sunt obligatorii' }}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Membri"
+                status={errors.members ? 'error' : ''}
+              />
+            )}
+          />
+          <Controller
+            name="links"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Linkuri (opțional)"
+                status={errors.links ? 'error' : ''}
+              />
+            )}
+          />
         </Space>
       </Modal>
     </div>
