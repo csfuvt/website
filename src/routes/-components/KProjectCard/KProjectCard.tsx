@@ -19,15 +19,15 @@ import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 
 interface ProjectForm {
   title: string;
-  responsible: string;
-  members: string;
-  funding: string;
-  budget: string;
-  hostingUni: string;
-  partners: string;
-  implementationPeriod: string;
+  responsible?: string;
+  members?: string;
+  funding?: string;
+  budget?: string;
+  hostingUni?: string;
+  partners?: string;
+  implementationPeriod?: string;
   description: string;
-  link: string;
+  link?: string;
 }
 
 const editProject = async ({ id, ...data }: ProjectForm & { id: number }) => {
@@ -53,15 +53,15 @@ export const KProjectsCard = ({
 }: {
   id: number;
   title: string;
-  responsible: string;
-  members: string;
-  funding: string;
-  budget: string;
-  hostingUni: string;
-  partners: string;
-  implementationPeriod: string;
+  responsible?: string;
+  members?: string;
+  funding?: string;
+  budget?: string;
+  hostingUni?: string;
+  partners?: string;
+  implementationPeriod?: string;
   description: string;
-  link: string;
+  link?: string;
 }) => {
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
@@ -168,27 +168,41 @@ export const KProjectsCard = ({
     <div className={styles.card}>
       <div className={styles.content}>
         <div className={styles.title}>{title}</div>
-        <p>
-          <strong>Responsabil proiect:</strong> {responsible}
-        </p>
-        <p>
-          <strong>Membri proiect:</strong> {members}
-        </p>
-        <p>
-          <strong>Axă de finanțare:</strong> {funding}
-        </p>
-        <p>
-          <strong>Buget:</strong> {budget}
-        </p>
-        <p>
-          <strong>Universitate gazdă:</strong> {hostingUni}
-        </p>
-        <p>
-          <strong>Parteneri:</strong> {partners}
-        </p>
-        <p>
-          <strong>Perioada de implementare:</strong> {implementationPeriod}
-        </p>
+        {responsible && (
+          <p>
+            <strong>Responsabil proiect:</strong> {responsible}
+          </p>
+        )}
+        {members && (
+          <p>
+            <strong>Membri proiect:</strong> {members}
+          </p>
+        )}
+        {funding && (
+          <p>
+            <strong>Axă de finanțare:</strong> {funding}
+          </p>
+        )}
+        {budget && (
+          <p>
+            <strong>Buget:</strong> {budget}
+          </p>
+        )}
+        {hostingUni && (
+          <p>
+            <strong>Universitate gazdă:</strong> {hostingUni}
+          </p>
+        )}
+        {partners && (
+          <p>
+            <strong>Parteneri:</strong> {partners}
+          </p>
+        )}
+        {implementationPeriod && (
+          <p>
+            <strong>Perioada de implementare:</strong> {implementationPeriod}
+          </p>
+        )}
         <p>
           <strong>Descriere proiect:</strong> {description}
         </p>
@@ -257,15 +271,10 @@ export const KProjectsCard = ({
           <Controller
             name="responsible"
             control={control}
-            rules={{
-              required: 'Responsabilul proiect este un câmp obligatoriu',
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.responsible ? 'error' : ''}
-                placeholder={
-                  errors.responsible?.message ?? 'Responsabil proiect'
-                }
+                placeholder="Responsabil proiect (opțional)"
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -275,13 +284,10 @@ export const KProjectsCard = ({
           <Controller
             name="members"
             control={control}
-            rules={{
-              required: 'Membri proiectului sunt un câmp obligatoriu',
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.members ? 'error' : ''}
-                placeholder={errors.members?.message ?? 'Membri proiectului'}
+                placeholder="Membri proiectului (opțional)"
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -291,13 +297,10 @@ export const KProjectsCard = ({
           <Controller
             name="funding"
             control={control}
-            rules={{
-              required: 'Axele de finanțare este un câmp obligatoriu',
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.funding ? 'error' : ''}
-                placeholder={errors.funding?.message ?? 'Axă de finanțare'}
+                placeholder="Axă de finanțare (opțional)"
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -307,13 +310,10 @@ export const KProjectsCard = ({
           <Controller
             name="budget"
             control={control}
-            rules={{
-              required: 'Bugetul este un câmp obligatoriu',
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.budget ? 'error' : ''}
-                placeholder={errors.budget?.message ?? 'Buget'}
+                placeholder="Buget (opțional)"
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -323,15 +323,10 @@ export const KProjectsCard = ({
           <Controller
             name="hostingUni"
             control={control}
-            rules={{
-              required: 'Universitatea gazdă este un câmp obligatoriu',
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.hostingUni ? 'error' : ''}
-                placeholder={
-                  errors.hostingUni?.message ?? 'Universitatea gazdă'
-                }
+                placeholder="Universitate gazdă (opțional)"
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -341,13 +336,10 @@ export const KProjectsCard = ({
           <Controller
             name="partners"
             control={control}
-            rules={{
-              required: 'Partenerii sunt un câmp obligatoriu',
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.partners ? 'error' : ''}
-                placeholder={errors.partners?.message ?? 'Parteneri'}
+                placeholder="Parteneri (opțional)"
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -357,15 +349,10 @@ export const KProjectsCard = ({
           <Controller
             name="implementationPeriod"
             control={control}
-            rules={{
-              required: 'Perioada de implementare este un câmp obligatoriu',
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
-                status={errors.partners ? 'error' : ''}
-                placeholder={
-                  errors.partners?.message ?? 'Perioada de implementare'
-                }
+                status={errors.implementationPeriod ? 'error' : ''}
+                placeholder="Perioada de implementare (opțional)"
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -391,13 +378,10 @@ export const KProjectsCard = ({
           <Controller
             name="link"
             control={control}
-            rules={{
-              required: 'Link este un câmp obligatoriu',
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
-                status={errors.partners ? 'error' : ''}
-                placeholder={errors.partners?.message ?? 'Link'}
+                status={errors.link ? 'error' : ''}
+                placeholder="Link (opțional)"
                 value={value}
                 onChange={onChange}
                 allowClear

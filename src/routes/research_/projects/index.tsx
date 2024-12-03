@@ -168,14 +168,12 @@ const ProjectsPage = () => {
               <Controller
                 name="responsible"
                 control={control}
-                rules={{
-                  required: 'Responsabilul proiect este un câmp obligatoriu',
-                }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.responsible ? 'error' : ''}
                     placeholder={
-                      errors.responsible?.message ?? 'Responsabil proiect'
+                      errors.responsible?.message ??
+                      'Responsabil proiect (opțional)'
                     }
                     value={value}
                     onChange={onChange}
@@ -186,14 +184,11 @@ const ProjectsPage = () => {
               <Controller
                 name="members"
                 control={control}
-                rules={{
-                  required: 'Membri proiectului sunt un câmp obligatoriu',
-                }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.members ? 'error' : ''}
                     placeholder={
-                      errors.members?.message ?? 'Membri proiectului'
+                      errors.members?.message ?? 'Membri proiectului (opțional)'
                     }
                     value={value}
                     onChange={onChange}
@@ -204,13 +199,12 @@ const ProjectsPage = () => {
               <Controller
                 name="funding"
                 control={control}
-                rules={{
-                  required: 'Axele de finanțare este un câmp obligatoriu',
-                }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.funding ? 'error' : ''}
-                    placeholder={errors.funding?.message ?? 'Axă de finanțare'}
+                    placeholder={
+                      errors.funding?.message ?? 'Axă de finanțare (opțional)'
+                    }
                     value={value}
                     onChange={onChange}
                     allowClear
@@ -220,13 +214,10 @@ const ProjectsPage = () => {
               <Controller
                 name="budget"
                 control={control}
-                rules={{
-                  required: 'Bugetul este un câmp obligatoriu',
-                }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.budget ? 'error' : ''}
-                    placeholder={errors.budget?.message ?? 'Buget'}
+                    placeholder={errors.budget?.message ?? 'Buget (opțional)'}
                     value={value}
                     onChange={onChange}
                     allowClear
@@ -236,14 +227,12 @@ const ProjectsPage = () => {
               <Controller
                 name="hostingUni"
                 control={control}
-                rules={{
-                  required: 'Universitatea gazdă este un câmp obligatoriu',
-                }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.hostingUni ? 'error' : ''}
                     placeholder={
-                      errors.hostingUni?.message ?? 'Universitatea gazdă'
+                      errors.hostingUni?.message ??
+                      'Universitatea gazdă (opțional)'
                     }
                     value={value}
                     onChange={onChange}
@@ -254,13 +243,12 @@ const ProjectsPage = () => {
               <Controller
                 name="partners"
                 control={control}
-                rules={{
-                  required: 'Partenerii sunt un câmp obligatoriu',
-                }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.partners ? 'error' : ''}
-                    placeholder={errors.partners?.message ?? 'Parteneri'}
+                    placeholder={
+                      errors.partners?.message ?? 'Parteneri (opțional)'
+                    }
                     value={value}
                     onChange={onChange}
                     allowClear
@@ -270,14 +258,12 @@ const ProjectsPage = () => {
               <Controller
                 name="implementationPeriod"
                 control={control}
-                rules={{
-                  required: 'Perioada de implementare este un câmp obligatoriu',
-                }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.partners ? 'error' : ''}
                     placeholder={
-                      errors.partners?.message ?? 'Perioada de implementare'
+                      errors.partners?.message ??
+                      'Perioada de implementare (opțional)'
                     }
                     value={value}
                     onChange={onChange}
@@ -306,13 +292,10 @@ const ProjectsPage = () => {
               <Controller
                 name="link"
                 control={control}
-                rules={{
-                  required: 'Link este un câmp obligatoriu',
-                }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.partners ? 'error' : ''}
-                    placeholder={errors.partners?.message ?? 'Link'}
+                    placeholder={errors.partners?.message ?? 'Link (opțional)'}
                     value={value}
                     onChange={onChange}
                     allowClear
