@@ -29,7 +29,9 @@ export const KPartners = ({
     | 'NORTH_AMERICA'
     | 'CENTRAL_SOUTH_AMERICA'
     | 'AFRICA'
-    | 'ASIA';
+    | 'ASIA'
+    | 'CIEFT_PAGE'
+    | 'COLOCVIU_PAGE';
 }) => {
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();

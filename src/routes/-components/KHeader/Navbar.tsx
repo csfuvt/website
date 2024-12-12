@@ -1,6 +1,5 @@
-import { menuItemsData } from "./menuItemsData.tsx";
-import MenuItems from "./MenuItems";
-
+import { menuItemsData } from './menuItemsData.tsx';
+import MenuItems from './MenuItems';
 
 type MenuItem = {
   title: string;

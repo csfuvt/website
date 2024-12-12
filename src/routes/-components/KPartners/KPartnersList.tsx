@@ -25,7 +25,9 @@ export const KPartnersList = ({
     | 'NORTH_AMERICA'
     | 'CENTRAL_SOUTH_AMERICA'
     | 'AFRICA'
-    | 'ASIA';
+    | 'ASIA'
+    | 'CIEFT_PAGE'
+    | 'COLOCVIU_PAGE';
 }) => {
   const {
     data: indexes,

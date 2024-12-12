@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../-components/KBanner/KBanner';
-import { KTitle } from '../../-components/KTitle/KTitle';
 import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
 import { KAddMemberModal } from '../../-components/KAddMemberModal/KAddMemberModal.tsx';
 import { useTranslation } from 'react-i18next';
@@ -46,7 +45,6 @@ const MembersPage = () => {
       <KBanner label={t('MEMBRI')} />
       <div className={styles.pageContainer}>
         <div className={styles.section}>
-          <KTitle label={t('Membri activi')} />
           {isLoggedIn && (
             <KAddButton className={'position'} onClick={showModal} />
           )}
