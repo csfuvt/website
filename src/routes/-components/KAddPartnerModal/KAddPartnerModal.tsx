@@ -15,7 +15,7 @@ interface PartnerForm {
   name: string;
   link: string;
   address: string;
-  partnerLocation: string;
+  partnerLocation?: string;
 }
 
 const addPartner = ({
@@ -27,10 +27,10 @@ const addPartner = ({
 }: PartnerForm & { pictureUrl: File }) => {
   const formData = new FormData();
   formData.append('name', name);
-  formData.append('partnerLocation', partnerLocation);
-  formData.append('pictureUrl', pictureUrl);
   formData.append('link', link);
   formData.append('address', address);
+  if (partnerLocation) formData.append('partnerLocation', partnerLocation);
+  formData.append('pictureUrl', pictureUrl);
 
   return axios
     .post(`/partners`, formData, {
@@ -43,14 +43,16 @@ export const KAddPartnerModal = ({
   setIsOpen,
   isModalOpen,
   handleCancel,
+  targetPage,
 }: {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   isModalOpen: boolean;
   handleCancel: () => void;
+  targetPage?: 'CIEFT_PAGE' | 'COLOCVIU_PAGE';
 }) => {
   const queryClient = useQueryClient();
   const [fileList, setFileList] = useState<File[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  //const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (data: PartnerForm & { pictureUrl: File }) => {
@@ -58,15 +60,15 @@ export const KAddPartnerModal = ({
         name: data.name,
         link: data.link,
         address: data.address,
-        partnerLocation: data.partnerLocation,
+        partnerLocation: data.partnerLocation || '',
         pictureUrl: data.pictureUrl,
       });
     },
-    onError: () => toast.error('Nu s-a putut adăuga partnerul!'),
+    onError: () => toast.error('Nu s-a putut adăuga partenerul!'),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['partners'] });
       setIsOpen(false);
-      toast.success('Partnerul a fost adăugat cu succes.');
+      toast.success('Partenerul a fost adăugat cu succes.');
     },
   });
 
@@ -106,7 +108,12 @@ export const KAddPartnerModal = ({
       name: '',
       link: '',
       address: '',
-      partnerLocation: '',
+      partnerLocation:
+        targetPage === 'CIEFT_PAGE'
+          ? 'CIEFT_PAGE'
+          : targetPage === 'COLOCVIU_PAGE'
+            ? 'COLOCVIU_PAGE'
+            : 'CENTRAL_EASTERN_EUROPE',
     },
   });
 
@@ -115,53 +122,107 @@ export const KAddPartnerModal = ({
       toast.error('Adaugă o imagine înainte de a salva!');
       return;
     }
-    if (!selectedLocation) {
-      toast.error('Selectează o locație pentru partener!');
-      return;
-    }
     await mutateAsync({
       ...data,
       pictureUrl: fileList[0],
-      partnerLocation: selectedLocation,
     });
   };
 
-  const onCancelHandler = () => {
-    handleCancel();
-  };
+  const renderForm = () => {
+    if (targetPage === 'CIEFT_PAGE') {
+      return (
+        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+          <Controller
+            name="name"
+            defaultValue=""
+            control={control}
+            rules={{ required: 'Numele este obligatoriu' }}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                status={errors.name ? 'error' : ''}
+                value={value}
+                onChange={onChange}
+                placeholder="Nume partener CIEFT"
+              />
+            )}
+          />
+          <Controller
+            name="link"
+            defaultValue=""
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                onChange={onChange}
+                size="large"
+                placeholder="Link partener CIEFT"
+              />
+            )}
+          />
+          <Controller
+            name="partnerLocation"
+            defaultValue="CIEFT_PAGE"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input type="hidden" value={value} onChange={onChange} />
+            )}
+          />
+          <Upload {...uploadFileProps}>
+            <Button icon={<UploadOutlined />}>Selectează imaginea</Button>
+          </Upload>
+        </Space>
+      );
+    } else if (targetPage === 'COLOCVIU_PAGE') {
+      return (
+        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+          <Controller
+            name="name"
+            defaultValue=""
+            control={control}
+            rules={{ required: 'Numele este obligatoriu' }}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                status={errors.name ? 'error' : ''}
+                value={value}
+                onChange={onChange}
+                placeholder="Nume partener Colocviu"
+              />
+            )}
+          />
+          <Controller
+            name="link"
+            defaultValue=""
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                onChange={onChange}
+                size="large"
+                placeholder="Link partener Colocviu"
+              />
+            )}
+          />
+          <Upload {...uploadFileProps}>
+            <Button icon={<UploadOutlined />}>Selectează imaginea</Button>
+          </Upload>
+        </Space>
+      );
+    }
 
-  return (
-    <Modal
-      title="Adaugă un nou partener"
-      open={isModalOpen}
-      onCancel={onCancelHandler}
-      footer={[
-        <Button key="back" onClick={handleCancel}>
-          Renunță
-        </Button>,
-        <Button
-          key="submit"
-          type="primary"
-          loading={isPending}
-          disabled={isEmpty(fileList) || !isValid || !selectedLocation}
-          onClick={handleSubmit(onSubmit)}>
-          Salvează
-        </Button>,
-      ]}>
+    // Formular implicit cu dropdown pentru locații
+    return (
       <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
         <Controller
           name="name"
           defaultValue=""
           control={control}
-          rules={{
-            required: 'Numele este un câmp obligatoriu',
-          }}
+          rules={{ required: 'Numele este obligatoriu' }}
           render={({ field: { onChange, value } }) => (
             <TextArea
               status={errors.name ? 'error' : ''}
               value={value}
               onChange={onChange}
-              placeholder={errors.name?.message ?? 'Nume'}
+              placeholder="Nume partener"
               autoSize={{ minRows: 1, maxRows: 3 }}
               allowClear
             />
@@ -177,7 +238,7 @@ export const KAddPartnerModal = ({
               value={value}
               onChange={onChange}
               size="large"
-              placeholder="Link"
+              placeholder="Link partener"
               allowClear
             />
           )}
@@ -192,33 +253,66 @@ export const KAddPartnerModal = ({
               value={value}
               onChange={onChange}
               size="large"
-              placeholder="Adresa partenerului"
+              placeholder="Adresă partener"
               allowClear
             />
           )}
         />
 
-        <Select
-          placeholder="Selectează locația partenerului"
-          onChange={value => setSelectedLocation(value)}
-          value={selectedLocation}
-          size="large">
-          <Option value="CENTRAL_EASTERN_EUROPE">
-            Europa Centrală și de Est
-          </Option>
-          <Option value="WESTERN_EUROPE">Europa de Vest</Option>
-          <Option value="NORTH_AMERICA">America de Nord</Option>
-          <Option value="CENTRAL_SOUTH_AMERICA">
-            America Centrală și de Sud
-          </Option>
-          <Option value="AFRICA">Africa</Option>
-          <Option value="ASIA">Asia</Option>
-        </Select>
-
+        <Controller
+          name="partnerLocation"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              value={value}
+              onChange={onChange}
+              size="large"
+              placeholder="Selectează locația partenerului">
+              <Option value="CENTRAL_EASTERN_EUROPE">
+                Europa Centrală și de Est
+              </Option>
+              <Option value="WESTERN_EUROPE">Europa de Vest</Option>
+              <Option value="NORTH_AMERICA">America de Nord</Option>
+              <Option value="CENTRAL_SOUTH_AMERICA">
+                America Centrală și de Sud
+              </Option>
+              <Option value="AFRICA">Africa</Option>
+              <Option value="ASIA">Asia</Option>
+            </Select>
+          )}
+        />
         <Upload {...uploadFileProps}>
           <Button icon={<UploadOutlined />}>Selectează imaginea</Button>
         </Upload>
       </Space>
+    );
+  };
+
+  return (
+    <Modal
+      title={
+        targetPage === 'CIEFT_PAGE'
+          ? 'Adaugă un partener pentru CIEFT'
+          : targetPage === 'COLOCVIU_PAGE'
+            ? 'Adaugă un partener pentru Colocviu'
+            : 'Adaugă un nou partener'
+      }
+      open={isModalOpen}
+      onCancel={handleCancel}
+      footer={[
+        <Button key="back" onClick={handleCancel}>
+          Renunță
+        </Button>,
+        <Button
+          key="submit"
+          type="primary"
+          loading={isPending}
+          disabled={isEmpty(fileList) || !isValid}
+          onClick={handleSubmit(onSubmit)}>
+          Salvează
+        </Button>,
+      ]}>
+      {renderForm()}
     </Modal>
   );
 };

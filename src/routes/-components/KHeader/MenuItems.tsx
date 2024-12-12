@@ -18,7 +18,10 @@ interface MenuItemsProps {
 
 const MenuItems: React.FC<MenuItemsProps> = ({ items, depthLevel }) => {
   const [dropdown, setDropdown] = useState(false);
+  const [visibleDropdown, setVisibleDropdown] = useState(false);
   const ref = useRef<HTMLLIElement>(null);
+  let showTimeout: ReturnType<typeof setTimeout>;
+  let hideTimeout: ReturnType<typeof setTimeout>;
 
   useEffect(() => {
     const handler = (event: MouseEvent | TouchEvent) => {
@@ -28,6 +31,7 @@ const MenuItems: React.FC<MenuItemsProps> = ({ items, depthLevel }) => {
         !ref.current.contains(event.target as Node)
       ) {
         setDropdown(false);
+        setVisibleDropdown(false);
       }
     };
     document.addEventListener('mousedown', handler);
@@ -36,13 +40,38 @@ const MenuItems: React.FC<MenuItemsProps> = ({ items, depthLevel }) => {
     return () => {
       document.removeEventListener('mousedown', handler);
       document.removeEventListener('touchstart', handler);
+      clearTimeout(showTimeout);
+      clearTimeout(hideTimeout);
     };
   }, [dropdown]);
 
-  const onMouseEnter = () => setDropdown(true);
-  const onMouseLeave = () => setDropdown(false);
-  const toggleDropdown = () => setDropdown(prev => !prev);
-  const closeDropdown = () => dropdown && setDropdown(false);
+  const onMouseEnter = () => {
+    clearTimeout(hideTimeout);
+    showTimeout = setTimeout(() => {
+      setDropdown(true);
+      setVisibleDropdown(true);
+    }, 300); // Delay before showing dropdown
+  };
+
+  const onMouseLeave = () => {
+    clearTimeout(showTimeout);
+    hideTimeout = setTimeout(() => {
+      setDropdown(false);
+      setVisibleDropdown(false);
+    }, 500); // Delay before hiding dropdown
+  };
+
+  const toggleDropdown = () => {
+    setDropdown(prev => !prev);
+    setVisibleDropdown(prev => !prev);
+  };
+
+  const closeDropdown = () => {
+    if (dropdown) {
+      setDropdown(false);
+      setVisibleDropdown(false);
+    }
+  };
 
   return (
     <li
@@ -69,7 +98,7 @@ const MenuItems: React.FC<MenuItemsProps> = ({ items, depthLevel }) => {
           <Dropdown
             depthLevel={depthLevel}
             submenus={items.submenu}
-            dropdown={dropdown}
+            dropdown={visibleDropdown}
           />
         </>
       ) : !items.url && items.submenu ? (
@@ -87,7 +116,7 @@ const MenuItems: React.FC<MenuItemsProps> = ({ items, depthLevel }) => {
           <Dropdown
             depthLevel={depthLevel}
             submenus={items.submenu}
-            dropdown={dropdown}
+            dropdown={visibleDropdown}
           />
         </>
       ) : (

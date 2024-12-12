@@ -143,11 +143,14 @@ export const KAnnouncementsCard = ({
         <p>
           <i>Publicat: {publicationDate}</i>
         </p>
-        <p>
-          <a href={link} target="_blank">
-            <button className={styles.buttonAnunt}>Click aici</button>
-          </a>
-        </p>
+
+        {link && (
+          <p>
+            <a href={link} target="_blank">
+              <button className={styles.buttonAnunt}>Click aici</button>
+            </a>
+          </p>
+        )}
 
         {isLoggedIn && (
           <div className={styles.actions}>

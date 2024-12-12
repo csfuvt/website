@@ -34,6 +34,12 @@
   top: 70px;
 }
 
+.actions {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
 .textSection {
   margin-top: -120px;
   line-height: 25px;
