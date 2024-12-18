@@ -14,6 +14,7 @@ interface MemberForm {
   name: string;
   description: string;
   role: string;
+  link: string;
   memberCategory: string;
 }
 
@@ -21,6 +22,7 @@ const addMember = ({
   name,
   description,
   role,
+  link,
   memberCategory,
   pictureUrl,
   documentUrl,
@@ -29,6 +31,7 @@ const addMember = ({
   formData.append('name', name);
   formData.append('description', description);
   formData.append('role', role);
+  formData.append('link', link);
   formData.append('memberCategory', memberCategory);
   formData.append('pictureUrl', pictureUrl);
   formData.append('documentUrl', documentUrl);
@@ -64,6 +67,7 @@ export const KAddMemberModal = ({
         name: data.name,
         description: data.description,
         role: data.role,
+        link: data.link,
         memberCategory: data.memberCategory,
         pictureUrl: data.pictureUrl,
         documentUrl: data.documentUrl,
@@ -145,6 +149,7 @@ export const KAddMemberModal = ({
       name: '',
       description: '',
       role: '',
+      link: '',
       memberCategory: '',
     },
   });
@@ -237,6 +242,20 @@ export const KAddMemberModal = ({
           )}
         />
 
+        <Controller
+          name="link"
+          defaultValue=""
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              value={value}
+              onChange={onChange}
+              placeholder="Link (opțional)"
+              allowClear
+            />
+          )}
+        />
+
         <Select
           placeholder="Selectează categoria membrului"
           onChange={value => setMemberCategory(value)}
@@ -245,9 +264,9 @@ export const KAddMemberModal = ({
           <Option value="FOUNDER">Fondator</Option>
           <Option value="MANAGEMENT">Conducere</Option>
           <Option value="BASE_TEAM">Echipa de bază</Option>
-          <Option value="COLLABORATOR">Colaboratori</Option>
           <Option value="STUDENTS">Doctoranzi și studenți</Option>
           <Option value="ASSOCIATE_MEMBER">Membri asociați</Option>
+          <Option value="COLLABORATOR">Colaboratori</Option>
         </Select>
 
         <Upload {...uploadImgProps}>

@@ -129,26 +129,6 @@ const MembersPage = () => {
 
               <div>
                 <center>
-                  <h2>Colaboratori</h2>
-                </center>
-                {isEmpty(
-                  members?.filter(p => p.memberCategory === 'COLLABORATOR')
-                ) ? (
-                  <center>
-                    <span>Nu există membri în această categorie.</span>
-                  </center>
-                ) : (
-                  <KMembersList
-                    memberCategory={'COLLABORATOR'}
-                    openCard={openCard}
-                    toggleDescription={handleToggleDescription}
-                    isLoggedIn={isLoggedIn}
-                  />
-                )}
-              </div>
-
-              <div>
-                <center>
                   <h2>Doctoranzi și studenți</h2>
                 </center>
                 {isEmpty(
@@ -180,6 +160,26 @@ const MembersPage = () => {
                 ) : (
                   <KMembersList
                     memberCategory={'ASSOCIATE_MEMBER'}
+                    openCard={openCard}
+                    toggleDescription={handleToggleDescription}
+                    isLoggedIn={isLoggedIn}
+                  />
+                )}
+              </div>
+
+              <div>
+                <center>
+                  <h2>Colaboratori</h2>
+                </center>
+                {isEmpty(
+                  members?.filter(p => p.memberCategory === 'COLLABORATOR')
+                ) ? (
+                  <center>
+                    <span>Nu există membri în această categorie.</span>
+                  </center>
+                ) : (
+                  <KMembersList
+                    memberCategory={'COLLABORATOR'}
                     openCard={openCard}
                     toggleDescription={handleToggleDescription}
                     isLoggedIn={isLoggedIn}
