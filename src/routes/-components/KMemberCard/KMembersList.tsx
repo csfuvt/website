@@ -19,6 +19,7 @@ type Member = {
   name: string;
   description: string;
   role: string;
+  link: string;
   documentUrl?: string;
   pictureUrl?: string;
 };
@@ -156,6 +157,7 @@ export const KMembersList = ({
                           name={member.name}
                           description={member.description}
                           role={member.role}
+                          link={member.link}
                           pictureUrl={member.pictureUrl}
                           documentUrl={member.documentUrl}
                           memberCategory={memberCategory}
@@ -187,6 +189,7 @@ export const KMembersList = ({
                 name={member.name}
                 description={member.description}
                 role={member.role}
+                link={member.link}
                 pictureUrl={member.pictureUrl}
                 documentUrl={member.documentUrl}
                 memberCategory={memberCategory}

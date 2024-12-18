@@ -58,10 +58,10 @@ export const menuItemsData: MenuItem[] = [
         title: 'Colocvii',
         submenu: [
           {
-            title: 'CIEFT',
+            title: 'Colocviul Internațional de Studii Francofone',
             submenu: [
               {
-                title: 'CIEFT 2025',
+                title: 'CIEFT Ediția curentă',
                 submenu: [
                   {
                     title: 'Apel la comunicări',
@@ -78,6 +78,10 @@ export const menuItemsData: MenuItem[] = [
                   {
                     title: 'Comitet științific',
                     url: '/events/conferences/cieft/current-year/scientific-committee',
+                  },
+                  {
+                    title: 'Afiș, program și rezumate',
+                    url: '/events/conferences/cieft/current-year/events',
                   },
                   {
                     title: 'Informații utile',
@@ -99,7 +103,7 @@ export const menuItemsData: MenuItem[] = [
             title: 'Colocviul studențesc de studii francofone',
             submenu: [
               {
-                title: '2024',
+                title: 'CEEF Ediția curentă',
                 submenu: [
                   {
                     title: 'Apel la comunicări',
@@ -116,6 +120,10 @@ export const menuItemsData: MenuItem[] = [
                   {
                     title: 'Comitet științific',
                     url: '/events/conferences/francophones-studies/current-year/scientific-committee',
+                  },
+                  {
+                    title: 'Afiș, program și rezumate',
+                    url: '/events/conferences/francophones-studies/current-year/events',
                   },
                   {
                     title: 'Informații utile',
@@ -169,7 +177,7 @@ export const menuItemsData: MenuItem[] = [
                 title: 'Apel la contribuții',
                 submenu: [
                   {
-                    title: '2024',
+                    title: 'În curs',
                     url: '/research/publications/dialogue-francophones/calls/future',
                   },
                   {
@@ -211,7 +219,7 @@ export const menuItemsData: MenuItem[] = [
                 title: 'Apel la contribuții',
                 submenu: [
                   {
-                    title: 'Apeluri viitoare',
+                    title: 'Apeluri în curs',
                     url: '/research/publications/agapes-francophones/calls/future',
                   },
                   {
@@ -231,16 +239,16 @@ export const menuItemsData: MenuItem[] = [
             ],
           },
           {
-            title: 'Actele colocviilor franco-române de lingvistică',
-            url: '/research/publications/lingvistic-conferences',
-          },
-          {
             title: 'Publicațiile membrilor',
             url: '/research/publications/members-publications',
           },
           {
             title: 'Traduceri',
             url: '/research/publications/translations',
+          },
+          {
+            title: 'Actele colocviilor franco-române de lingvistică',
+            url: '/research/publications/lingvistic-conferences',
           },
         ],
         icon: faNewspaper,

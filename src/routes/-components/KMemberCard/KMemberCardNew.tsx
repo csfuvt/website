@@ -58,6 +58,7 @@ export const KMemberCardNew = ({
   name,
   description,
   role,
+  link,
   documentUrl,
   pictureUrl,
   memberCategory,
@@ -68,6 +69,7 @@ export const KMemberCardNew = ({
   name: string;
   description: string;
   role: string;
+  link: string;
   documentUrl?: string;
   pictureUrl?: string;
   memberCategory:
@@ -198,15 +200,26 @@ export const KMemberCardNew = ({
           </button>
           <h3 className={styles.descriptionName}>{name}</h3>
           <p>{description}</p>
-          {documentUrl && (
-            <a
-              href={`${BASE_URL}/files/members/${documentUrl}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.cvButton}>
-              CV
-            </a>
-          )}
+          <Space direction="horizontal" size="middle">
+            {documentUrl && (
+              <a
+                href={`${BASE_URL}/files/members/${documentUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.cvButton}>
+                CV
+              </a>
+            )}
+            {link && (
+              <a
+                href={`${link}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.cvButton}>
+                Link
+              </a>
+            )}
+          </Space>
         </div>
       )}
       {isLoggedIn && (
@@ -228,7 +241,7 @@ export const KMemberCardNew = ({
         onOk={() => form.submit()}>
         <Form
           form={form}
-          initialValues={{ name, description, role }}
+          initialValues={{ name, description, role, link }}
           onFinish={values => updateInfo(values)}>
           <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
             <Form.Item name="name" label="Nume">
@@ -238,6 +251,9 @@ export const KMemberCardNew = ({
               <Input.TextArea />
             </Form.Item>
             <Form.Item name="role" label="Rol">
+              <Input />
+            </Form.Item>
+            <Form.Item name="link" label="Link">
               <Input />
             </Form.Item>
           </Space>

@@ -26,9 +26,19 @@ export const KActeColocvii = ({
           <div className={styles.title}>{title}</div>
           <div className={styles.summaryText}>{summaryText}</div>
           <div className={styles.colocviiDetails}>
-            <a href={Sommairelink}><strong>Sommaire</strong></a>
-            {APUlink && <a href={APUlink}><strong>APU</strong></a>}
-            {TexteIntegrallink && <a href={TexteIntegrallink}><strong>Texte intégral</strong></a>}
+            <a href={Sommairelink}>
+              <strong>Cuprins</strong>
+            </a>
+            {APUlink && (
+              <a href={APUlink}>
+                <strong>Editură</strong>
+              </a>
+            )}
+            {TexteIntegrallink && (
+              <a href={TexteIntegrallink}>
+                <strong>Text integral</strong>
+              </a>
+            )}
           </div>
         </div>
       </div>

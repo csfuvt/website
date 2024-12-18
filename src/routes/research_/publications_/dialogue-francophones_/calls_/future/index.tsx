@@ -334,7 +334,7 @@ function Calls() {
         </div>
       ) : (
         <div>
-          <KBanner label={`Dialogues Francophones NO. ${data.title}`} />
+          <KBanner label={`Dialogues Francophones no. ${data.title}`} />
           <div className="iframeContainer">
             <div className="calls-operations">
               <KTitle label={`Apel la contribuții -  ${data.year}`} />
