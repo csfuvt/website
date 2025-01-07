@@ -38,7 +38,7 @@ export const KTranslationCard = ({
         className="image"
         onClick={() => {
           if (link) {
-            window.location.href = link;
+            window.open(link, '_blank');
           }
         }}
       />

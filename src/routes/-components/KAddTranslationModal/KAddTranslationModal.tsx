@@ -1,15 +1,19 @@
-import './styles.css';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { KTitle } from '../KTitle/KTitle.tsx';
-
-import { Button, GetProp, Input, Upload, UploadFile, UploadProps } from 'antd';
+import {
+  Modal,
+  Button,
+  Form,
+  Input,
+  Upload,
+  UploadFile,
+  UploadProps,
+} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import axios from 'axios';
-import { Translation } from '../../research_/publications_/translations/-translation.model.ts';
+import { UploadOutlined } from '@ant-design/icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { UploadOutlined } from '@ant-design/icons';
+import { Dispatch, SetStateAction, useState } from 'react';
+import axios from 'axios';
+import { Translation } from '../../research_/publications_/translations/-translation.model.ts';
 import { isEmpty } from 'lodash-es';
 
 interface TranslationForm {
@@ -17,15 +21,13 @@ interface TranslationForm {
   link?: string;
 }
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
 const addTranslation = ({
   description,
   link,
   file,
 }: TranslationForm & { file: UploadFile }) => {
   const formData = new FormData();
-  formData.append('cover', file as FileType);
+  formData.append('cover', file as unknown as Blob);
   formData.append('description', description);
   if (link) {
     formData.append('link', link);
@@ -43,7 +45,7 @@ export const KAddTranslationModal = ({
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: addTranslation,
     onError: () => toast.error('Nu s-a putut adăuga traducerea!'),
     onSuccess: async () => {
@@ -53,6 +55,7 @@ export const KAddTranslationModal = ({
     },
   });
 
+  const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const uploadFileProps: UploadProps = {
@@ -80,83 +83,62 @@ export const KAddTranslationModal = ({
     fileList,
   };
 
-  const {
-    handleSubmit,
-    formState: { errors, isValid },
-    control,
-  } = useForm<TranslationForm>({
-    defaultValues: {
-      description: '',
-      link: '',
-    },
-  });
-
-  const onSubmit: SubmitHandler<TranslationForm> = data => {
-    mutate({ ...data, file: fileList[0] });
+  const handleFinish = (values: TranslationForm) => {
+    if (isEmpty(fileList)) {
+      toast.error('Selectează un fișier înainte de a salva!');
+      return;
+    }
+    mutate({ ...values, file: fileList[0] });
   };
 
   return (
-    <div>
-      <div className="modal">
-        <KTitle label="Adauga o noua traducere" />
-        <form>
-          <div className="vertical">
-            <div className="inputs">
-              <Controller
-                name="description"
-                defaultValue=""
-                control={control}
-                rules={{
-                  required: 'Descrierea este un câmp obligatoriu',
-                }}
-                render={({ field: { onChange, value } }) => (
-                  <TextArea
-                    status={errors.description ? 'error' : ''}
-                    value={value}
-                    onChange={onChange}
-                    placeholder={errors.description?.message ?? 'Descriere'}
-                    autoSize={{ minRows: 6, maxRows: 8 }}
-                    allowClear
-                  />
-                )}
-              />
+    <Modal
+      title="Adaugă o nouă traducere"
+      open={true}
+      onCancel={() => setIsOpen(false)}
+      footer={null}
+      centered>
+      <Form
+        form={form}
+        onFinish={handleFinish}
+        initialValues={{ description: '', link: '' }}
+        style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
+        <Form.Item
+          label=""
+          name="description"
+          rules={[{ required: true, message: 'Descrierea este obligatorie' }]}
+          style={{ width: '100%' }}>
+          <TextArea
+            placeholder="Descriere"
+            autoSize={{ minRows: 2, maxRows: 4 }}
+            allowClear
+          />
+        </Form.Item>
 
-              <Controller
-                name="link"
-                defaultValue=""
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    value={value}
-                    onChange={onChange}
-                    size="large"
-                    placeholder="Link"
-                    allowClear
-                  />
-                )}
-              />
-              <Upload {...uploadFileProps}>
-                <Button icon={<UploadOutlined />}>Select File</Button>
-              </Upload>
-              <div className="horizontal">
-                <Button
-                  onClick={() => {
-                    setIsOpen(false);
-                  }}>
-                  Cancel
-                </Button>
-                <Button
-                  type="primary"
-                  onClick={handleSubmit(onSubmit)}
-                  loading={isPending}
-                  disabled={isEmpty(fileList) || !isValid}>
-                  Save
-                </Button>
-              </div>
-            </div>
+        <Form.Item label="" name="link" style={{ width: '100%' }}>
+          <Input placeholder="Link" allowClear />
+        </Form.Item>
+
+        <Form.Item label="" style={{ width: '100%' }}>
+          <Upload {...uploadFileProps}>
+            <Button icon={<UploadOutlined />}>Selectează fișier</Button>
+          </Upload>
+        </Form.Item>
+
+        <Form.Item>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '10px',
+            }}>
+            <Button onClick={() => setIsOpen(false)}>Anulează</Button>
+            <Button type="primary" htmlType="submit">
+              Salvează
+            </Button>
           </div>
-        </form>
-      </div>
-    </div>
+        </Form.Item>
+      </Form>
+    </Modal>
   );
 };

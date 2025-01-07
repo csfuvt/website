@@ -21,6 +21,7 @@ import {
 } from '../../../../../hooks/useFileUpload.ts';
 import { VolumeForm } from './index.tsx';
 import _ from 'lodash';
+import TextArea from 'antd/es/input/TextArea';
 
 const getVolumeById = (id: string) =>
   axios.get<Volume>(`/volumes/${id}`).then(res => res.data);
@@ -74,6 +75,26 @@ const VolumePage = () => {
   });
 
   const [isAddArticleModalOpen, setIsAddArticleModalOpen] = useState(false);
+
+  // Stare pentru modalul de editare a tematicii
+  const [isTematicaModalOpen, setIsTematicaModalOpen] = useState(false);
+  const [tematica, setTematica] = useState(volume?.tematica || '');
+
+  const { mutate: updateTematicaMutation } = useMutation({
+    mutationFn: async ({ id, tematica }: { id: number; tematica: string }) => {
+      return axios.post(`/volumes/${id}/tematica`, { tematica });
+    },
+    onError: () => toast.error('Eroare la actualizarea tematicii!'),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [`volume/${volumeId}`] });
+      setIsTematicaModalOpen(false);
+      toast.success('Tematica a fost actualizată cu succes!');
+    },
+  });
+
+  const handleSaveTematica = () => {
+    updateTematicaMutation({ id: parseInt(volumeId), tematica });
+  };
 
   const showArticleModal = () => {
     setIsAddArticleModalOpen(true);
@@ -162,7 +183,7 @@ const VolumePage = () => {
     fileList: pdfList,
     resetFileList: resetPdfList,
     uploadFileProps: uploadPdfProps,
-  } = useFileUpload(FileType.PDF);
+  } = useFileUpload([FileType.PDF, FileType.IMAGE]);
 
   const handleCancelForEditPdf = () => {
     setIsChangePdfModalOpen(false);
@@ -172,14 +193,14 @@ const VolumePage = () => {
   const { mutate: updatePdfMutation, isPending: isUpdatePdfPending } =
     useMutation({
       mutationFn: updatePdf,
-      onError: () => toast.error('Nu s-a putut edita pdf-ul!'),
+      onError: () => toast.error('Nu s-a putut edita sumarul!'),
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
         setIsChangePdfModalOpen(false);
         resetPdfList();
-        toast.success('Pdf-ul a fost editat cu succes.');
+        toast.success('Sumarul a fost editat cu succes!');
       },
     });
 
@@ -203,7 +224,7 @@ const VolumePage = () => {
         </div>
       ) : (
         <div>
-          <KBanner label={`Dialogues Francophones - NO ${volume.title}`} />
+          <KBanner label={`Dialogues Francophones - no. ${volume.title}`} />
           <Modal
             title="Adaugă o secțiune"
             open={isAddArticleModalOpen}
@@ -268,7 +289,7 @@ const VolumePage = () => {
             </Space>
           </Modal>
           <Modal
-            title="Schimbă pdf-ul volumului"
+            title="Schimbă sumarul volumului"
             open={isChangePdfModalOpen}
             onCancel={handleCancelForEditPdf}
             footer={[
@@ -289,10 +310,38 @@ const VolumePage = () => {
               size="middle"
               style={{ display: 'flex' }}>
               <Upload {...uploadPdfProps}>
-                <Button icon={<UploadOutlined />}>Selectează pdf</Button>
+                <Button icon={<UploadOutlined />}>
+                  Selectează pdf/jpg/png/jpeg
+                </Button>
               </Upload>
             </Space>
           </Modal>
+
+          <Modal
+            title="Modifică tematica volumului"
+            open={isTematicaModalOpen}
+            onCancel={() => setIsTematicaModalOpen(false)}
+            footer={[
+              <Button key="back" onClick={() => setIsTematicaModalOpen(false)}>
+                Renunță
+              </Button>,
+              <Button key="submit" type="primary" onClick={handleSaveTematica}>
+                Salvează
+              </Button>,
+            ]}>
+            <Space
+              direction="vertical"
+              size="middle"
+              style={{ display: 'flex' }}>
+              <TextArea
+                value={tematica}
+                onChange={e => setTematica(e.target.value)}
+                placeholder="Introduceți noua tematică"
+                autoSize={{ minRows: 3, maxRows: 6 }}
+              />
+            </Space>
+          </Modal>
+
           <div className="volumeContainer">
             <div className="left">
               <div className="cover-with-options">
@@ -313,11 +362,35 @@ const VolumePage = () => {
                   </Button>
                 )}
               </div>
+
+              {(isLoggedIn || volume.tematica) && (
+                <div className="volumeUrl">
+                  <span className="label">Tematica</span>
+                  <div className="volumeTematicaContainer">
+                    {volume.tematica}
+                  </div>
+                  {isLoggedIn && (
+                    <Button
+                      type="primary"
+                      size="large"
+                      icon={<PlusOutlined />}
+                      onClick={() => {
+                        setTematica(volume.tematica || '');
+                        setIsTematicaModalOpen(true);
+                      }}>
+                      Modifică tematica
+                    </Button>
+                  )}
+                </div>
+              )}
+
               <div className="volumeUrl">
                 <span className="label">Sumar</span>
                 <a
                   href={BASE_URL + `/files/volumes/${volume.pdf}`}
-                  className="url">
+                  className="url"
+                  target="_blank"
+                  rel="noopener noreferrer">
                   {volume.title}
                 </a>
                 {isLoggedIn && (
@@ -326,7 +399,7 @@ const VolumePage = () => {
                     size="large"
                     icon={<PlusOutlined />}
                     onClick={showChangePdfModal}>
-                    Schimbă pdf
+                    Modifică sumar
                   </Button>
                 )}
               </div>
