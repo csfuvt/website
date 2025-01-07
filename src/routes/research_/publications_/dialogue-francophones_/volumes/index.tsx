@@ -1,5 +1,5 @@
 import { KBanner } from '../../../../-components/KBanner/KBanner';
-import { KVolumeCard } from '../../../../-components/KVolumeCard/KVolumeCard';
+//import { KVolumeCard } from '../../../../-components/KVolumeCard/KVolumeCard';
 import styles from './VolumePage.module.css';
 import axios from 'axios';
 import { Volume } from './-volumes.model.ts';
@@ -12,13 +12,14 @@ import { useState } from 'react';
 import { useAuth } from '../../../../../hooks/useAuth.ts';
 import { UploadOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
-import { BASE_URL } from '../../../../../constants.ts';
+//import { BASE_URL } from '../../../../../constants.ts';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   AntDFileType,
   FileType,
   useFileUpload,
 } from '../../../../../hooks/useFileUpload.ts';
+import KVolumeCardFinal from '../../../../-components/KVolumeCard/KVolumeCardFinal.tsx';
 
 export interface VolumeForm {
   title: string;
@@ -177,16 +178,20 @@ const VolumesPage = () => {
               <span>Nu există volume momentan.</span>
             </div>
           ) : (
-            volumes?.map(volume => (
-              <KVolumeCard
-                key={volume.id}
-                id={volume.id}
-                title={volume.title}
-                buttonText="Deschide >"
-                url={`/research/publications/dialogue-francophones/volumes/${volume.id}`}
-                volumeImageUrl={BASE_URL + `/files/volumes/${volume.cover}`}
-              />
-            ))
+            //volumes?.map(volume => (
+            // <KVolumeCard
+            //   key={volume.id}
+            //   id={volume.id}
+            //   title={volume.title}
+            //   buttonText="Deschide >"
+            //   url={`/research/publications/dialogue-francophones/volumes/${volume.id}`}
+            //   volumeImageUrl={BASE_URL + `/files/volumes/${volume.cover}`}
+            // />
+            <KVolumeCardFinal
+              volumeCategory={'DIALOGUES_FRANCOPHONE'}
+              isLoggedIn={isLoggedIn}
+            />
+            // ))
           )}
         </div>
       </div>

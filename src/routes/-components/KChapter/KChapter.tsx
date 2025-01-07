@@ -219,7 +219,7 @@ export const KChapter = ({
     loading: isDeleteChapterPending,
   };
   const handleContainerClick = () => {
-    window.location.href = url;
+    window.open(url, '_blank');
   };
 
   const { handleSubmit } = useForm<VolumeForm>();

@@ -6,4 +6,38 @@
   align-content: flex-start;
   gap: 36px;
   flex-wrap: wrap;
+}
+
+.volumesGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.volumeCardContainer {
+  flex: 1 1 calc(35% - 24px);
+  /*max-width: calc(35% - 24px);*/
+  box-sizing: border-box;
+}
+
+.rowContainer {
+  display: flex;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .volumesGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
+
+  .rowContainer {
+    flex-direction: column;
+  }
+
+  .volumeCardContainer {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}

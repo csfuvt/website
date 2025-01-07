@@ -3,7 +3,7 @@ import { KBanner } from '../../../../../-components/KBanner/KBanner.tsx';
 import { KTitle } from '../../../../../-components/KTitle/KTitle.tsx';
 import './styles.css';
 import axios from 'axios';
-import { CallType } from '../-calls.model.ts';
+import { CallType } from './-calls.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   Button,
@@ -49,7 +49,7 @@ export interface CallForm {
 const addCall = ({
   title,
   year,
-  publicationType = 'DIALOGUES_FRANCOPHONE',
+  publicationType = 'COLOCVIU',
   pdf,
 }: CallForm & { pdf: UploadFile }) => {
   const formData = new FormData();
@@ -96,11 +96,11 @@ const updatePdf = async ({ id, pdf }: { id: number; pdf: UploadFile }) => {
 
 export const getLatestCall = () =>
   axios
-    .get<CallType>('/contribution-calls/type/DIALOGUES_FRANCOPHONE/latest')
+    .get<CallType>('/contribution-calls/type/COLOCVIU/latest')
     .then(res => res.data);
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/calls/future/'
+  '/events/conferences/francophones-studies/current-year/calls/'
 )({
   component: Calls,
 });
@@ -301,7 +301,7 @@ function Calls() {
   const schema = yup.object().shape({
     title: yup.string().required(),
     year: yup.string().required(),
-    publicationType: yup.string().default('DIALOGUES_FRANCOPHONE'),
+    publicationType: yup.string().default('COLOCVIU'),
   });
 
   const {
@@ -313,7 +313,7 @@ function Calls() {
     defaultValues: {
       title: '',
       year: '',
-      publicationType: 'DIALOGUES_FRANCOPHONE',
+      publicationType: 'COLOCVIU',
     },
     resolver: yupResolver(schema),
   });
@@ -332,21 +332,23 @@ function Calls() {
   };
   return (
     <div>
-      {isLoggedIn && <KAddButton className={'position'} onClick={showModal} />}
+      {isLoggedIn && isEmpty(data) && (
+        <KAddButton className={'position'} onClick={showModal} />
+      )}
       {isLoading || isFetching ? (
         <Spin />
       ) : isError ? (
-        <span>Apelurile nu pot fi afișate momentan. Reveniți mai târziu!</span>
+        <span>Apelul nu poate fi afișat momentan. Reveniți mai târziu!</span>
       ) : isEmpty(data) ? (
         <div className="flex">
-          <span>Nu există apeluri momentan.</span>
+          <span>Nu există un apel momentan.</span>
         </div>
       ) : (
         <div>
-          <KBanner label={`Dialogues Francophones no. ${data.title}`} />
+          <KBanner label={`Apel la comunicări CEEF - ${data.title}`} />
           <div className="iframeContainer">
             <div className="calls-operations">
-              <KTitle label={`Apel la contribuții -  ${data.year}`} />
+              <KTitle label={`Ediția ${data.year}`} />
               {isLoggedIn && (
                 <Dropdown
                   menu={menuProps}
@@ -367,7 +369,7 @@ function Calls() {
         </div>
       )}
       <Modal
-        title="Creează un apel nou"
+        title="Creează un apel nou pentru CEEF"
         open={isModalOpen}
         onCancel={handleCancel}
         footer={[
@@ -394,9 +396,7 @@ function Calls() {
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.title ? 'error' : ''}
-                placeholder={
-                  errors.title?.message ?? 'Dialogues Francophones - No. '
-                }
+                placeholder={errors.title?.message ?? 'Titlu apel '}
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -408,12 +408,12 @@ function Calls() {
             defaultValue=""
             control={control}
             rules={{
-              required: 'Anul apelului este un câmp obligatoriu',
+              required: 'Anul ediției este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={errors.title ? 'error' : ''}
-                placeholder={errors.title?.message ?? 'An(i)'}
+                placeholder={errors.title?.message ?? 'Ediție apel (an)'}
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -448,14 +448,12 @@ function Calls() {
             defaultValue=""
             control={editCallControl}
             rules={{
-              required: 'Numărul apelului este un câmp obligatoriu',
+              required: 'Titlu apel este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={editCallErrors.title ? 'error' : ''}
-                placeholder={
-                  editCallErrors.title?.message ?? 'Numărul apelului'
-                }
+                placeholder={editCallErrors.title?.message ?? 'Titlu apel'}
                 value={value}
                 onChange={onChange}
                 allowClear
@@ -467,12 +465,12 @@ function Calls() {
             defaultValue=""
             control={editCallControl}
             rules={{
-              required: 'Anul apelului este un câmp obligatoriu',
+              required: 'Anul ediției este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
               <Input
                 status={editCallErrors.title ? 'error' : ''}
-                placeholder={editCallErrors.title?.message ?? 'Anul apelului'}
+                placeholder={editCallErrors.title?.message ?? 'Anul ediției'}
                 value={value}
                 onChange={onChange}
                 allowClear
