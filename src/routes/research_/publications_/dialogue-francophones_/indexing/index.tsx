@@ -55,19 +55,17 @@ const IndexingPage = () => {
             handleCancel={handleCancel}
           />
         )}
-        <div className="flex">
-          {isLoading ? (
-            <Spin />
-          ) : isError ? (
-            <span>
-              Indexurile nu pot fi afișate momentan. Reveniți mai târziu!
-            </span>
-          ) : isEmpty(indexes) ? (
-            <span>Nu există indexuri momentan.</span>
-          ) : (
-            <KIndexList publicationType="DIALOGUES_FRANCOPHONE" />
-          )}
-        </div>
+        {isLoading ? (
+          <Spin />
+        ) : isError ? (
+          <span>
+            Indexurile nu pot fi afișate momentan. Reveniți mai târziu!
+          </span>
+        ) : isEmpty(indexes) ? (
+          <span>Nu există indexuri momentan.</span>
+        ) : (
+          <KIndexList publicationType="DIALOGUES_FRANCOPHONE" />
+        )}
       </div>
     </div>
   );

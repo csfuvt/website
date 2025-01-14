@@ -4,6 +4,14 @@
     cursor: pointer;
 }
 
+.text-container-index {
+    max-width: 257px;
+    text-align: center;
+    margin-top: 10px;
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+
 .image {
     border-radius: 16px;
     width: 200px;
@@ -31,4 +39,10 @@
     position: relative;
     border-radius: 16px;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .text-container-index {
+        max-width: 150px;
+    }
 }
