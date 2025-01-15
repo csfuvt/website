@@ -20,11 +20,16 @@
 }
 
 .details {
-  display: flex;
   flex-direction: column;
   gap: 8px;
   flex-basis: 80%;
   cursor: pointer;
+  display: flex;
+  max-width: 900px;
+  white-space: normal;
+  word-wrap: break-word;
+  justify-content: space-between;
+  line-height: 1.4;
 }
 
 .pages {
