@@ -1,14 +1,6 @@
 import styles from './KPhdThesisCard.module.css';
 import { ActionableButton } from '../KChapter/KChapter.tsx';
-import {
-  Button,
-  DatePicker,
-  Dropdown,
-  Input,
-  MenuProps,
-  Modal,
-  Space,
-} from 'antd';
+import { Button, Dropdown, Input, MenuProps, Modal, Space } from 'antd';
 import {
   DeleteOutlined,
   EditOutlined,
@@ -19,12 +11,11 @@ import { useAuth } from '../../../hooks/useAuth.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { PhdThesis } from '../../events_/phd-theses/-phd-thesis.model.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
-import dayjs from 'dayjs';
 
 interface PhdThesisForm {
   title: string;
@@ -96,19 +87,8 @@ export const KPhdThesisCard = ({
   };
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
   const showEditModal = () => {
     setIsEditModalOpen(true);
-    resetForm({
-      title,
-      candidate,
-      leader,
-      organizers,
-      meetingDate,
-      councilMembers,
-      thesisSummary,
-      links,
-    }); // Resetăm valorile formularului cu datele curente
   };
 
   const handleCancelForEdit = () => {
@@ -161,37 +141,15 @@ export const KPhdThesisCard = ({
     },
   });
 
-  useEffect(() => {
-    if (isEditModalOpen) {
-      resetForm({
-        title,
-        candidate,
-        leader,
-        organizers,
-        meetingDate,
-        councilMembers,
-        thesisSummary,
-        links,
-      });
-    }
-  }, [
-    title,
-    candidate,
-    leader,
-    organizers,
-    meetingDate,
-    councilMembers,
-    thesisSummary,
-    links,
-    isEditModalOpen,
-    resetForm,
-  ]);
-
   const { mutate: editMutation, isPending: isEditPending } = useMutation({
     mutationFn: editPhdThesis,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['phd-thesis'] });
-      toast.success('Teza de doctorat a fost editată cu succes');
+    onSuccess: async data => {
+      await queryClient.invalidateQueries({ queryKey: ['projects'] });
+      toast.success('Proiectul a fost editat cu succes');
+      const formattedData = {
+        ...data,
+      };
+      resetForm(formattedData);
       handleCancelForEdit();
     },
     onError: () => toast.error('A apărut o eroare în momentul editării'),
@@ -348,15 +306,12 @@ export const KPhdThesisCard = ({
           <Controller
             name="meetingDate"
             control={control}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <DatePicker
-                format="DD.MM.YYYY"
-                value={value ? dayjs(value, 'DD.MM.YYYY') : null}
-                onChange={(_date, dateString) => {
-                  onChange(dateString);
-                }}
-                placeholder={error?.message || 'Selectați o dată'}
-                status={error ? 'error' : ''}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                status={errors.meetingDate ? 'error' : ''}
+                placeholder={errors.meetingDate?.message ?? 'Data susținerii'}
+                value={value}
+                onChange={onChange}
                 allowClear
               />
             )}

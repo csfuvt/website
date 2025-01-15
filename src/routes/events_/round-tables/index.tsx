@@ -189,12 +189,12 @@ const RoundTablesPage = () => {
                 name="members"
                 control={control}
                 rules={{
-                  required: 'Participanții sunt un câmp obligatoriu',
+                  required: 'Membrii sunt un câmp obligatoriu',
                 }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     status={errors.members ? 'error' : ''}
-                    placeholder={errors.members?.message ?? 'Participanți'}
+                    placeholder={errors.members?.message ?? 'Membri'}
                     value={value}
                     onChange={onChange}
                     allowClear

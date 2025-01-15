@@ -3,7 +3,7 @@ import styles from './PhdThesisPage.module.css';
 import axios from 'axios';
 import { PhdThesis } from './-phd-thesis.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, DatePicker, Input, Modal, Space, Spin } from 'antd';
+import { Button, Input, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash-es';
 import { createFileRoute } from '@tanstack/react-router';
 import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
@@ -12,7 +12,6 @@ import { useAuth } from '../../../hooks/useAuth.ts';
 import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import KPhdThesisCard from '../../-components/KPhdThesisCard/KPhdThesisCard.tsx';
-import dayjs from 'dayjs';
 
 export interface PhdThesisForm {
   title: string;
@@ -209,18 +208,14 @@ const PhdThesisPage = () => {
               <Controller
                 name="meetingDate"
                 control={control}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <DatePicker
-                    format="DD.MM.YYYY"
-                    value={value ? dayjs(value, 'DD.MM.YYYY') : null}
-                    onChange={(_date, dateString) => {
-                      onChange(dateString);
-                    }}
-                    placeholder={error?.message || 'Selectați o dată'}
-                    status={error ? 'error' : ''}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.meetingDate ? 'error' : ''}
+                    placeholder={
+                      errors.meetingDate?.message ?? 'Data susținerii'
+                    }
+                    value={value}
+                    onChange={onChange}
                     allowClear
                   />
                 )}

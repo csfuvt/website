@@ -51,17 +51,19 @@ const IndexingPage = () => {
             handleCancel={() => setIsModalOpen(false)}
           />
         )}
-        {isLoading ? (
-          <Spin />
-        ) : isError ? (
-          <span>
-            Indexurile nu pot fi afișate momentan. Reveniți mai târziu!
-          </span>
-        ) : isEmpty(indexes) ? (
-          <span>Nu există indexuri momentan.</span>
-        ) : (
-          <KIndexList publicationType="AGAPES_FRANCOPHONE" />
-        )}
+        <div className="flex">
+          {isLoading ? (
+            <Spin />
+          ) : isError ? (
+            <span>
+              Indexurile nu pot fi afișate momentan. Reveniți mai târziu!
+            </span>
+          ) : isEmpty(indexes) ? (
+            <span>Nu există indexuri momentan.</span>
+          ) : (
+            <KIndexList publicationType="AGAPES_FRANCOPHONE" />
+          )}
+        </div>
       </div>
     </div>
   );

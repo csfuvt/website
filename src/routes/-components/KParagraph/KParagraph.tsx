@@ -19,7 +19,7 @@ export const KParagraph = ({
       <span className="lineP">{text}</span>
       {list && (
         <ul>
-          {listElements?.map(element => <li className="lineP">- {element}</li>)}
+          {listElements?.map(element => <li className="lineP">{element}</li>)}
         </ul>
       )}
     </div>

@@ -17,12 +17,6 @@
   gap: 16px;
 }
 
-ul {
-  margin: 0;
-  list-style-type: none;
-  padding: 0;
-}
-
 @media (max-width: 1024px) {
   .committees {
     padding: 48px 80px; 

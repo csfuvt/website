@@ -173,7 +173,7 @@ export const KRoundTablesCard = ({
           <strong>Data întâlnirii:</strong> {formatDate(meetingDate)}
         </p>
         <p>
-          <strong>Participanți:</strong> {members}
+          <strong>Membri comisiei:</strong> {members}
         </p>
         {links && (
           <div className={styles.linkContainer}>
@@ -260,11 +260,11 @@ export const KRoundTablesCard = ({
           <Controller
             name="members"
             control={control}
-            rules={{ required: 'Participanții sunt obligatorii' }}
+            rules={{ required: 'Membrii sunt obligatorii' }}
             render={({ field }) => (
               <Input
                 {...field}
-                placeholder="Participanți"
+                placeholder="Membri"
                 status={errors.members ? 'error' : ''}
               />
             )}
