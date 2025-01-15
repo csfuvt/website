@@ -277,7 +277,7 @@ const EditCEditCRedactie: React.FC = () => {
             columns={mergedColumns}
             scroll={{ y: 510 }}
             rowClassName="editable-row"
-            pagination={{ onChange: cancel }}
+            pagination={false}
           />
         </Form>
       </SortableContext>
