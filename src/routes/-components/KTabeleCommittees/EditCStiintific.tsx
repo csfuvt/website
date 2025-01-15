@@ -283,7 +283,7 @@ const EditCStiintific: React.FC = () => {
             columns={mergedColumns}
             scroll={{ y: 380 }}
             rowClassName="editable-row"
-            pagination={{ onChange: cancel }}
+            pagination={false}
           />
         </Form>
       </SortableContext>
