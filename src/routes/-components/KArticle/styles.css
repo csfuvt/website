@@ -5,9 +5,9 @@
   font-weight: 700;
   margin: 0;
   display: flex;
+  justify-content: space-between;
   max-width: 900px;
   white-space: normal;
   word-wrap: break-word;
-  justify-content: space-between;
   line-height: 1.4;
 }

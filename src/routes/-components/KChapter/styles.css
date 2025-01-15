@@ -25,10 +25,10 @@
   flex-basis: 80%;
   cursor: pointer;
   display: flex;
-  max-width: 900px;
+  justify-content: space-between;
+  max-width: 800px;
   white-space: normal;
   word-wrap: break-word;
-  justify-content: space-between;
   line-height: 1.4;
 }
 
