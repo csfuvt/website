@@ -1,128 +1,128 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../-components/KBanner/KBanner';
-import KCardColocvii from '../../../-components/KCardColocvii/KCardColocvii';
 import styles from '../../../-components/KCardColocvii/KCardColocvii.module.css';
+import KCardColocvii2 from '../../../-components/KCardColocvii2/KCardColocvii2';
 
 export const Route = createFileRoute(
   '/events/conferences/lingvistic-francophones/'
 )({
   component: () => (
     <>
-      <KBanner label="COLOCVIILE FRANCO-ROMANE DE LINGVISTICA" />
+      <KBanner label="COLOCVIILE FRANCO-ROMANE DE LINGVISTICĂ" />
 
       <div className={styles.colocviiContainer}>
-        <KCardColocvii
+        <KCardColocvii2
           id={0}
-          title={
-            'XVe Colloque International d’Études Francophones « Frontière(s) » (CIEFT 2021)'
+          title={'XIe Colloque franco-roumain de linguistique'}
+          meetingDate={'1 june 2017'}
+          organizers={
+            'l’Université de l’Ouest de Timişoara, l’Université d’Artois et le centre de recherche Grammatica d’Arras. Arras.'
           }
-          meetingDate={'19 mars 2021'}
-          programme={'../../../../public/DocumenteColocvii/15/programme.pdf'}
-          resume={'../../../../public/DocumenteColocvii/15/resume.pdf'}
-          redactionArticle="../../../../public/DocumenteColocvii/15/protocole.pdf"
+          colloquyName={
+            '« De la phrase/énoncé au texte/discours – perspectives linguistiques et didactiques »'
+          }
         />
-        <KCardColocvii
+        <KCardColocvii2
           id={1}
-          title={
-            'XIVe Colloque International d’Études Francophones « Comparaison(s) » (CIEFT 2019)'
+          title={'Xe Colloque international franco-roumain'}
+          meetingDate={'3 june 2015'}
+          organizers={
+            'l’Université d’Artois, les laboratoires Grammatica d’Arras et Circeft-Escol, Paris-Est Créteil. Arras.'
           }
-          meetingDate={'15 mars 2019'}
-          programme={'../../../../public/DocumenteColocvii/14/programme.pdf'}
-          resume={'../../../../public/DocumenteColocvii/14/resume.pdf'}
+          colloquyName={'« La phrase, carrefour linguistique et didactique »'}
         />
-        <KCardColocvii
+        <KCardColocvii2
           id={2}
-          title={
-            'XIIIe Colloque International d’Études Francophones « Silence(s) » (CIEFT 2017)'
+          title={'IXe Colloque de linguistique franco-roumaine'}
+          meetingDate={'15 may 2013'}
+          organizers={
+            'l’Université de l’Ouest de Timişoara, l’Université d’Artois - le centre de recherche Grammatica d’Arras. Timişoara.'
           }
-          meetingDate={'17 mars 2017'}
-          programme={'../../../../public/DocumenteColocvii/13/programme.pdf'}
-          resume={'../../../../public/DocumenteColocvii/13/resume.pdf'}
+          colloquyName={
+            '« La négation. Études linguistiques, pragmatiques et didactiques »'
+          }
         />
-        <KCardColocvii
+        <KCardColocvii2
           id={3}
-          title={
-            'XIIe Colloque International d’Études Francophones « Parabole(s) » (CIEFT 2016)'
+          title={'VIIIe Colloque de linguistique franco-roumaine'}
+          meetingDate={'18 may 2011'}
+          organizers={
+            'l’Université d’Artois - les laboratoires Grammatica d’Arras et l’Université de l’Ouest de Timişoara. Arras.'
           }
-          meetingDate={'18 mars 2016'}
-          programme={'../../../../public/DocumenteColocvii/12/programme.pdf'}
-          resume={'../../../../public/DocumenteColocvii/12/resume.pdf'}
+          colloquyName={
+            '« NominalisationS. Études linguistiques et didactiques »'
+          }
         />
-        <KCardColocvii
+        <KCardColocvii2
           id={4}
-          title={
-            'XIe Colloque international d’études francophones « Le texte en contexte(s) » (CIEFT 2014)'
+          title={'VIIe Colloque de linguistique franco-roumaine'}
+          meetingDate={'18 may 2009'}
+          organizers={
+            'l’Université de l’Ouest de Timişoara et l’Université d’Artois - le centre de recherche Grammatica d’Arras. Timişoara.'
           }
-          meetingDate={'13 mars 2014'}
-          programme={'../../../../public/DocumenteColocvii/11/programme.pdf'}
-          resume={'../../../../public/DocumenteColocvii/11/resume.pdf'}
+          colloquyName={
+            '« Temps, aspect et classes de mots : études théoriques et didactiques »'
+          }
         />
-        <KCardColocvii
+        <KCardColocvii2
           id={5}
-          title={
-            'Xe Colloque international d’études francophones « Voyage(s) » (CIEFT 2013)'
+          title={'VIe Colloque de linguistique franco-roumaine'}
+          meetingDate={'23 may 2007'}
+          organizers={
+            'l’Université d’Artois - les laboratoires Grammatica d’Arras et l’Université de l’Ouest de Timişoara. Arras.'
           }
-          meetingDate={'15 mars 2013'}
-          programme={'../../../../public/DocumenteColocvii/10/programme.pdf'}
-          resume={'../../../../public/DocumenteColocvii/10/resume.pdf'}
+          colloquyName={"« L'adjectif hors de sa catégorie »"}
         />
-        <KCardColocvii
+        <KCardColocvii2
           id={6}
-          title={
-            'IXe Colloque international d’études francophones « Passeurs de mots » (CIEFT 2012)'
+          title={'Ve Colloque franco-roumain de linguistique'}
+          meetingDate={'8 june 2005'}
+          organizers={
+            'l’Université de l’Ouest de Timişoara et l’Université d’Artois - le centre de recherche Grammatica d’Arras. Timişoara.'
           }
-          meetingDate={'16 mars 2012'}
-          programme={'../../../../public/DocumenteColocvii/9/resume.pdf'}
+          colloquyName={
+            '« Les constructions détachées : entre langue et discours »'
+          }
         />
-        <KCardColocvii
+        <KCardColocvii2
           id={7}
-          title={
-            'VIIIe Colloque international d’études francophones « Temps. Espace. Temps-Espace » (CIEFT 2011)'
+          title={'IVe Colloque franco-roumain de linguistique'}
+          meetingDate={'26 may 2003'}
+          organizers={
+            'l’Université d’Artois - les laboratoires Grammatica d’Arras et l’Université de l’Ouest de Timişoara. Université d’Artois, Arras.'
           }
-          meetingDate={'18 mars 2011'}
-          programme={'../../../../public/DocumenteColocvii/8/resume.pdf'}
+          colloquyName={'« L’adverbe : un pervers polymorphe »'}
         />
-        <KCardColocvii
+        <KCardColocvii2
           id={8}
-          title={'VIIe Colloque Contributions roumaines à la francophonie'}
-          meetingDate={'12 mars 2010'}
-          programme={'../../../../public/DocumenteColocvii/7/resume.pdf'}
+          title={'IIIe Colloque franco-roumain de linguistique'}
+          meetingDate={'29 may 2001'}
+          organizers={
+            'l’Université de l’Ouest de Timişoara et l’Université d’Artois - le centre de recherche Grammatica d’Arras. Timişoara.'
+          }
+          colloquyName={
+            '« Prépositions et conjonctions de subordination. Syntaxe et sémantique » »'
+          }
         />
-        <KCardColocvii
+
+        <KCardColocvii2
           id={9}
-          title={'VIe Colloque Contributions roumaines à la francophonie'}
-          meetingDate={'27 mars 2009'}
-          programme={'../../../../public/DocumenteColocvii/6/resume.pdf'}
+          title={'IIe Colloque franco-roumain de linguistique'}
+          meetingDate={'27 april 1999'}
+          organizers={
+            'l’Université d’Artois - les laboratoires Grammatica d’Arras et l’Université de l’Ouest de Timişoara. Arras.'
+          }
+          colloquyName={'« Le syntagme nominal : syntaxe et sémantique »'}
         />
-        <KCardColocvii
+
+        <KCardColocvii2
           id={10}
-          title={'Ve Colloque Contributions roumaines à la francophonie'}
-          meetingDate={'28-29 mars 2008'}
-          programme={'../../../../public/DocumenteColocvii/5/resume.pdf'}
-        />
-        <KCardColocvii
-          id={11}
-          title={'IVe Colloque Contributions roumaines à la francophonie'}
-          meetingDate={'16 mars 2007'}
-          programme={'../../../../public/DocumenteColocvii/4/resume.pdf'}
-        />
-        <KCardColocvii
-          id={12}
-          title={'IIIe Colloque Contributions roumaines à la francophonie'}
-          meetingDate={'16 mars 2007'}
-          programme={'../../../../public/DocumenteColocvii/3/resume.pdf'}
-        />
-        <KCardColocvii
-          id={13}
-          title={'IIe Colloque Contributions roumaines à la francophonie'}
-          meetingDate={'18 mars 2005'}
-          programme={'../../../../public/DocumenteColocvii/2/resume.pdf'}
-        />
-        <KCardColocvii
-          id={14}
-          title={'Ier Colloque Contributions roumaines à la francophonie'}
-          meetingDate={'19 mars 2004'}
-          programme={'../../../../public/DocumenteColocvii/1/resume.pdf'}
+          title={'Ier Colloque franco-roumain de linguistique'}
+          meetingDate={'15 april 1997'}
+          organizers={
+            'l’Université de l’Ouest de Timişoara, l’Université d’Artois - le centre de recherche Grammatica d’Arras. Timişoara.'
+          }
+          colloquyName={'« Fonctions syntaxiques et rôles sémantiques »'}
         />
       </div>
     </>
