@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { KTitle } from '../KTitle/KTitle.tsx';
-import './styles.css'
+import './styles.css';
 import {
   faChevronLeft,
   faChevronRight,
@@ -13,7 +13,7 @@ export const KSliderRight = ({
   imageUrl,
   imageDescription,
 }: {
-  slides: { title: string; paragraphs: string[] }[];
+  slides: { title: string; paragraphs: (string | JSX.Element)[] }[];
   image?: boolean;
   imageUrl?: string;
   imageDescription?: string;
@@ -52,7 +52,11 @@ export const KSliderRight = ({
           </div>
         </div>
         {image && (
-          <img src={imageUrl} alt={imageDescription} className="imageBoxRight" />
+          <img
+            src={imageUrl}
+            alt={imageDescription}
+            className="imageBoxRight"
+          />
         )}
       </div>
       <FontAwesomeIcon onClick={nextSlide} icon={faChevronRight} />

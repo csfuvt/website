@@ -17,20 +17,41 @@ import { Translation } from '../../research_/publications_/translations/-transla
 import { isEmpty } from 'lodash-es';
 
 interface TranslationForm {
+  label: string;
+  author: string;
+  editura: string;
+  year: number;
+  bionote: string;
   description: string;
-  link?: string;
+  url?: string;
 }
 
 const addTranslation = ({
+  label,
+  author,
+  editura,
+  year,
+  bionote,
   description,
-  link,
+  url,
   file,
 }: TranslationForm & { file: UploadFile }) => {
   const formData = new FormData();
   formData.append('cover', file as unknown as Blob);
+  formData.append('label', label);
+  formData.append('author', author);
   formData.append('description', description);
-  if (link) {
-    formData.append('link', link);
+  if (url) {
+    formData.append('url', url);
+  }
+  if (editura) {
+    formData.append('editura', editura);
+  }
+  if (year) {
+    formData.append('year', year.toString());
+  }
+  if (bionote) {
+    formData.append('bionote', bionote);
   }
   return axios
     .post<Translation>(`/translations`, formData, {
@@ -101,22 +122,70 @@ export const KAddTranslationModal = ({
       <Form
         form={form}
         onFinish={handleFinish}
-        initialValues={{ description: '', link: '' }}
+        initialValues={{ description: '', url: '' }}
         style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
+        <Form.Item
+          label=""
+          name="label"
+          rules={[{ required: true, message: 'Titlul este obligatoriu' }]}
+          style={{ width: '100%' }}>
+          <TextArea
+            placeholder="Titlu (obligatoriu)"
+            autoSize={{ minRows: 2, maxRows: 4 }}
+            allowClear
+          />
+        </Form.Item>
+
+        <Form.Item
+          label=""
+          name="author"
+          rules={[{ required: true, message: 'Autorul este obligatoriu' }]}
+          style={{ width: '100%' }}>
+          <TextArea
+            placeholder="Autor (obligatoriu)"
+            autoSize={{ minRows: 2, maxRows: 4 }}
+            allowClear
+          />
+        </Form.Item>
+
+        <Form.Item label="" name="editura" style={{ width: '100%' }}>
+          <TextArea
+            placeholder="Editura (opțional)"
+            autoSize={{ minRows: 1, maxRows: 2 }}
+            allowClear
+          />
+        </Form.Item>
+
+        <Form.Item label="" name="year" style={{ width: '100%' }}>
+          <TextArea
+            placeholder="Anul apariției (opțional)"
+            autoSize={{ minRows: 1, maxRows: 2 }}
+            allowClear
+          />
+        </Form.Item>
+
+        <Form.Item label="" name="bionote" style={{ width: '100%' }}>
+          <TextArea
+            placeholder="Bionotă (opțional)"
+            autoSize={{ minRows: 2, maxRows: 4 }}
+            allowClear
+          />
+        </Form.Item>
+
         <Form.Item
           label=""
           name="description"
           rules={[{ required: true, message: 'Descrierea este obligatorie' }]}
           style={{ width: '100%' }}>
           <TextArea
-            placeholder="Descriere"
+            placeholder="Descriere (obligatoriu)"
             autoSize={{ minRows: 2, maxRows: 4 }}
             allowClear
           />
         </Form.Item>
 
-        <Form.Item label="" name="link" style={{ width: '100%' }}>
-          <Input placeholder="Link" allowClear />
+        <Form.Item label="" name="url" style={{ width: '100%' }}>
+          <Input placeholder="url (opțional)" allowClear />
         </Form.Item>
 
         <Form.Item label="" style={{ width: '100%' }}>

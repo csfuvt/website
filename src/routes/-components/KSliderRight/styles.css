@@ -19,7 +19,7 @@
     border-radius: 50%;
     background-color: gray;
     display: inline-block;
-    margin: 0 5px;
+    margin: 10px 5px 0px 5px;
     cursor: pointer;
   }
   
@@ -78,7 +78,7 @@
   }
   
   .linePRight {
-    font-size: 14px;
+    font-size: 16px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     line-height: 17.07px;
