@@ -13,7 +13,7 @@ export const KSlider = ({
   imageUrl,
   imageDescription,
 }: {
-  slides: { title: string; paragraphs: string[] }[];
+  slides: { title: string; paragraphs: (string | JSX.Element)[] }[];
   image?: boolean;
   imageUrl?: string;
   imageDescription?: string;
