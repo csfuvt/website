@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { md5 } from 'js-md5';
 import { useAuth } from '../../hooks/useAuth.ts';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/login')({
   beforeLoad: ({ context }) => {
@@ -49,7 +49,7 @@ function LogInPage() {
       })
       .catch(() => {
         setError(true);
-        setErrorMessage('Emailul si/sau parola sunt incorecte!');
+        setErrorMessage('Email-ul și/sau parola sunt incorecte!');
       });
   };
 

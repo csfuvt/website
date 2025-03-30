@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import styles from './styles.module.css';
-import { KMovingBanner } from '../-components/KMovingBanner/KMovingBanner';
+import { KMovingBanner } from '../-components/KMovingBanner/KMovingBanner.tsx';
 import home2 from '../../../public/home2.jpg';
 import home0 from '../../../public/home0.png';
 import axios from 'axios';
@@ -10,12 +10,13 @@ import { useAuth } from '../../hooks/useAuth.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { KAddButton } from '../-components/KAddButton/KAddButton.tsx';
-import { Button, Input, Modal, Space, Spin } from 'antd';
+import { Button, Input, Modal, Space, Spin, Upload } from 'antd';
 import { isEmpty } from 'lodash-es';
 import KAnnouncementCard from '../-components/KAnnouncementCard/KAnnouncementCard.tsx';
 import { format } from 'date-fns';
 import { ro } from 'date-fns/locale';
+import { BASE_URL } from '../../constants.ts';
+import EditKMovingBanner from '../-components/KMovingBanner/EditKMovingBanner.tsx';
 
 const images = [home0, home2];
 
@@ -121,9 +122,60 @@ const HomePage = () => {
     queryClient.invalidateQueries({ queryKey: ['homeAnnouncements'] });
   };
 
+  const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
+
+  const handleBannerUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      await axios.post(`${BASE_URL}/banner/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      toast.success('Imaginea a fost încărcată cu succes.');
+      setIsBannerModalOpen(false);
+    } catch (error) {
+      console.error('Eroare la încărcarea imaginii:', error);
+      toast.error('Nu s-a putut încărca imaginea.');
+    }
+  };
+
+  const [isEditModalOpenB, setIsEditModalOpenB] = useState(false);
+
+  const showEditModalB = () => {
+    setIsEditModalOpenB(true);
+  };
+
+  const handleEditModalCancelB = async () => {
+    setIsEditModalOpenB(false);
+    await queryClient.invalidateQueries({ queryKey: ['banner'] });
+  };
+
   return (
     <>
       <KMovingBanner />
+      {!isError && !isLoading && isLoggedIn && (
+        <>
+          <center>
+            <Space direction="horizontal" size="middle">
+              <div className={styles.butonulBannerAdd}>
+                <Button
+                  type="primary"
+                  onClick={() => setIsBannerModalOpen(true)}>
+                  Adaugă o imagine pe bandă
+                </Button>
+              </div>
+              <div className={styles.butonulBannerAdd}>
+                <Button type="default" onClick={showEditModalB}>
+                  Editează banda cu imagini
+                </Button>
+              </div>
+            </Space>
+          </center>
+        </>
+      )}
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <div className={styles.boxContainer}>
@@ -143,9 +195,9 @@ const HomePage = () => {
           </div>
 
           <div className={styles.boxContainer}>
-            {isLoggedIn && (
-              <KAddButton className={'position'} onClick={showModal} />
-            )}
+            {/*{isLoggedIn && (*/}
+            {/*  <KAddButton className={'position'} onClick={showModal} />*/}
+            {/*)}*/}
             <Modal
               title="Creează un anunț"
               open={isModalOpen}
@@ -206,7 +258,43 @@ const HomePage = () => {
               </Space>
             </Modal>
 
+            <Modal
+              title="Încarcă o imagine pe bandă"
+              open={isBannerModalOpen}
+              onCancel={() => setIsBannerModalOpen(false)}
+              footer={null}>
+              <p>Selectează o imagine (JPG / JPEG / PNG):</p>
+              <Upload
+                accept=".jpg,.jpeg,.png"
+                beforeUpload={file => {
+                  handleBannerUpload(file);
+                  return false;
+                }}
+                showUploadList={false}>
+                <Button type="primary">Selectează imaginea</Button>
+              </Upload>
+              <p>
+                <b>Atenție!</b> Fotografiile trebuie să fie cu rezoluția de{' '}
+                <b>1400x330</b>
+              </p>
+            </Modal>
+            <Modal
+              title="Editează banda cu imagini"
+              open={isEditModalOpenB}
+              onCancel={handleEditModalCancelB}
+              footer={null}
+              width={1200}>
+              <EditKMovingBanner />
+            </Modal>
+
             <h1>Anunțuri</h1>
+            {!isError && !isLoading && isLoggedIn && (
+              <div style={{ marginBottom: '1rem' }}>
+                <Button type="primary" onClick={showModal}>
+                  Adaugă un anunț
+                </Button>
+              </div>
+            )}
             <a href="announcements">
               <button className={styles.buttonAnunt}>
                 Vezi toate anunțurile &gt;

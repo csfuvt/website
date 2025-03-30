@@ -1,16 +1,56 @@
-import React from 'react';
-import { Carousel, ConfigProvider } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Carousel, ConfigProvider, Spin, Alert } from 'antd';
 import styles from './KMovingBanner.module.css';
+import axios from 'axios';
+import { BASE_URL } from '../../../constants.ts';
 
-import image1 from '../../../../public/MovingBanner1.png';
-import image2 from '../../../../public/MovingBanner2.png';
-import image3 from '../../../../public/MovingBanner3.png';
-import image4 from '../../../../public/MovingBanner4.png';
-import image5 from '../../../../public/MovingBanner5.png';
-import image6 from '../../../../public/MovingBanner6.png';
-import image7 from '../../../../public/MovingBanner7.png';
+interface BannerImage {
+  id: number;
+  imageUrl: string;
+  order: number;
+}
 
 export const KMovingBanner: React.FC = () => {
+  const [images, setImages] = useState<BannerImage[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchBannerImages = async (attempts = 3) => {
+    try {
+      const response = await axios.get<BannerImage[]>(`${BASE_URL}/banner`);
+      const sorted = response.data.sort((a, b) => a.order - b.order);
+      setImages(sorted);
+      setError(null);
+    } catch (err) {
+      if (attempts > 1) {
+        setTimeout(() => fetchBannerImages(attempts - 1), 1000); // încearcă din nou după 1s
+      } else {
+        console.error('Eroare la încărcarea imaginilor:', err);
+        setError('Nu s-au putut încărca imaginile din banner.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBannerImages();
+  }, []);
+
+  if (loading) return <Spin />;
+
+  if (error) {
+    return (
+      <Alert
+        message="Eroare"
+        description={error}
+        type="error"
+        showIcon
+        style={{ margin: '20px auto', maxWidth: '600px' }}
+      />
+    );
+  }
+
   return (
     <ConfigProvider
       theme={{
@@ -21,16 +61,16 @@ export const KMovingBanner: React.FC = () => {
         },
       }}>
       <Carousel autoplay arrows infinite>
-        {[image1, image2, image3, image4, image5, image6, image7].map(
-          (image, index) => (
-            <div key={index}>
-              <div
-                className={styles.carouselItem}
-                style={{ backgroundImage: `url(${image})` }}
-              />
-            </div>
-          )
-        )}
+        {images.map((image, index) => (
+          <div key={image.id ?? index}>
+            <div
+              className={styles.carouselItem}
+              style={{
+                backgroundImage: `url(${BASE_URL}${image.imageUrl})`,
+              }}
+            />
+          </div>
+        ))}
       </Carousel>
     </ConfigProvider>
   );

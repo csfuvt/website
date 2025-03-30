@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../-components/KBanner/KBanner';
-import { KTranslationCard } from '../../../-components/KTranslationCard/KTranslationCard';
 import './styles.css';
 import { KAddButton } from '../../../-components/KAddButton/KAddButton.tsx';
 import { KAddTranslationModal } from '../../../-components/KAddTranslationModal/KAddTranslationModal.tsx';
@@ -9,9 +8,10 @@ import { useAuth } from '../../../../hooks/useAuth.ts';
 import axios from 'axios';
 import { BASE_URL } from '../../../../constants.ts';
 import { Spin } from 'antd';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Translation } from './-translation.model.ts';
 import { isEmpty } from 'lodash-es';
+import KTranslationCard2 from '../../../-components/KTranslationCard2/KTranslationCard2.tsx';
 
 const getTranslations = () =>
   axios.get<Translation[]>('/translations').then(res => res.data);
@@ -29,6 +29,12 @@ const TranslationPage = () => {
     queryKey: ['translations'],
     queryFn: getTranslations,
   });
+
+  const queryClient = useQueryClient();
+
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({ queryKey: ['translations'] });
+  };
 
   return (
     <div>
@@ -51,14 +57,20 @@ const TranslationPage = () => {
           <span>Nu există traduceri momentan.</span>
         ) : (
           translations?.map(item => (
-            <KTranslationCard
+            <KTranslationCard2
               key={item.id}
               id={item.id}
-              summaryText={item.description}
+              title={item.links[0]?.label}
               link={item.links[0]?.url}
-              translationImage={
+              description={item.description}
+              author={item.links[0]?.author}
+              editura={item.links[0]?.editura}
+              year={item.links[0]?.year}
+              bionote={item.links[0]?.bionote}
+              bookImage={
                 BASE_URL + `/pics/translations/${item.id}${item.coverExtension}`
               }
+              invalidateCache={invalidateCache}
             />
           ))
         )}
