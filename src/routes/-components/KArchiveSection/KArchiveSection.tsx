@@ -24,7 +24,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import { isEmpty } from 'lodash-es';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CallForm } from '../../research_/publications_/dialogue-francophones_/calls_/future';
@@ -213,7 +213,7 @@ export const KArchiveSection = ({
     formState: { errors: editCallErrors, isValid: isEditChapterValid },
     control: editCallControl,
   } = useForm<CallForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as unknown as Resolver<CallForm>,
     defaultValues: {
       title: title,
       year: year,

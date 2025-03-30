@@ -2,11 +2,20 @@ import './styles.css';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Modal, Button, Input, Upload, UploadProps, Space, Select } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  Controller,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from 'react-hook-form';
 import axios from 'axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { UploadOutlined } from '@ant-design/icons';
+import {
+  MinusCircleOutlined,
+  PlusOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -26,7 +35,12 @@ const addMember = ({
   memberCategory,
   pictureUrl,
   documentUrl,
-}: MemberForm & { pictureUrl: File; documentUrl: File }) => {
+  links,
+}: MemberForm & {
+  pictureUrl: File;
+  documentUrl: File;
+  links: { label: string; pageUrl: string }[];
+}) => {
   const formData = new FormData();
   formData.append('name', name);
   formData.append('description', description);
@@ -35,6 +49,8 @@ const addMember = ({
   formData.append('memberCategory', memberCategory);
   formData.append('pictureUrl', pictureUrl);
   formData.append('documentUrl', documentUrl);
+
+  formData.append('links', JSON.stringify(links));
 
   return axios
     .post(`/members`, formData, {
@@ -61,7 +77,11 @@ export const KAddMemberModal = ({
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (
-      data: MemberForm & { pictureUrl: File; documentUrl: File }
+      data: MemberForm & {
+        pictureUrl: File;
+        documentUrl: File;
+        links: { label: string; pageUrl: string }[];
+      }
     ) => {
       await addMember({
         name: data.name,
@@ -71,6 +91,7 @@ export const KAddMemberModal = ({
         memberCategory: data.memberCategory,
         pictureUrl: data.pictureUrl,
         documentUrl: data.documentUrl,
+        links: data.links,
       });
     },
     onError: () => toast.error('Nu s-a putut adăuga membrul!'),
@@ -142,19 +163,27 @@ export const KAddMemberModal = ({
 
   const {
     handleSubmit,
-    formState: { errors, isValid },
     control,
-  } = useForm<MemberForm>({
+    formState: { errors, isValid },
+  } = useForm<MemberForm & { links: { label: string; pageUrl: string }[] }>({
     defaultValues: {
       name: '',
       description: '',
       role: '',
       link: '',
       memberCategory: '',
+      links: [],
     },
   });
 
-  const onSubmit: SubmitHandler<MemberForm> = async data => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'links',
+  });
+
+  const onSubmit: SubmitHandler<
+    MemberForm & { links: { label: string; pageUrl: string }[] }
+  > = async data => {
     /*
     if (!fileList[0]) {
       toast.error('Adaugă un fisier înainte de a salva!');
@@ -242,19 +271,50 @@ export const KAddMemberModal = ({
           )}
         />
 
-        <Controller
-          name="link"
-          defaultValue=""
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <Input
-              value={value}
-              onChange={onChange}
-              placeholder="Link (opțional)"
-              allowClear
+        {/*<Controller*/}
+        {/*  name="link"*/}
+        {/*  defaultValue=""*/}
+        {/*  control={control}*/}
+        {/*  render={({ field: { onChange, value } }) => (*/}
+        {/*    <Input*/}
+        {/*      value={value}*/}
+        {/*      onChange={onChange}*/}
+        {/*      placeholder="Link (opțional)"*/}
+        {/*      allowClear*/}
+        {/*    />*/}
+        {/*  )}*/}
+        {/*/>*/}
+
+        {fields.map((field, index) => (
+          <Space
+            key={field.id}
+            style={{ display: 'flex', marginBottom: 8 }}
+            align="baseline">
+            <Controller
+              name={`links.${index}.label`}
+              control={control}
+              rules={{ required: 'Denumire link este obligatoriu' }}
+              render={({ field }) => (
+                <Input {...field} placeholder="Label (denumire link)" />
+              )}
             />
-          )}
-        />
+            <Controller
+              name={`links.${index}.pageUrl`}
+              control={control}
+              rules={{ required: 'Link-ul este obligatoriu' }}
+              render={({ field }) => <Input {...field} placeholder="Link" />}
+            />
+            <MinusCircleOutlined onClick={() => remove(index)} />
+          </Space>
+        ))}
+
+        <Button
+          type="dashed"
+          onClick={() => append({ label: '', pageUrl: '' })}
+          block
+          icon={<PlusOutlined />}>
+          Adaugă link
+        </Button>
 
         <Select
           placeholder="Selectează categoria membrului"

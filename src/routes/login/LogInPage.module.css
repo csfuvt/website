@@ -41,10 +41,11 @@
 .errorMessage {
     color: red;
     width: 400px;
-    height: 50px;
+    min-height: 20px;
     border: 2px solid red;
     padding: 12px;
     border-radius: 16px;
+    box-sizing: border-box;
 }
 
 .forgotPassword {
@@ -90,4 +91,34 @@
 
 .signupLink a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .loginForm input[type="email"],
+    .loginForm input[type="password"],
+    .loginForm input[type="email"].inputError,
+    .loginForm input[type="password"].inputError {
+        box-sizing: border-box;
+        height: 48px;
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .errorMessage {
+        box-sizing: border-box;
+        height: auto;
+        font-size: 0.9rem;
+        padding: 10px;
+        word-wrap: break-word;
+        width: 100%;
+    }
+
+    .loginForm {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .loginContainer {
+        padding: 2rem;
+    }
 }

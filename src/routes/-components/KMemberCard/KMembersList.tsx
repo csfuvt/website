@@ -22,6 +22,7 @@ type Member = {
   link: string;
   documentUrl?: string;
   pictureUrl?: string;
+  links?: { id: number; label: string; pageUrl: string; memberId: number }[];
 };
 
 export const KMembersList = ({
@@ -165,6 +166,7 @@ export const KMembersList = ({
                           toggleDescription={() =>
                             toggleDescription(member.name)
                           }
+                          links={member.links ?? []}
                         />
                       </div>
                     )}
@@ -195,6 +197,7 @@ export const KMembersList = ({
                 memberCategory={memberCategory}
                 isOpen={openCard === member.name}
                 toggleDescription={() => toggleDescription(member.name)}
+                links={member.links ?? []}
               />
             </div>
           ))}

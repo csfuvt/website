@@ -701,7 +701,13 @@ const ComiteteTest = () => {
                       ) : (
                         committee.name
                       )}
-                      , e-mail: {committee.email}
+                      , e-mail:{' '}
+                      <a
+                        href={`mailto:${committee.email}`}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        {committee.email}
+                      </a>
                     </li>
                   </ul>
                 </div>

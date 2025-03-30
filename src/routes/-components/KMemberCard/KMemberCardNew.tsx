@@ -3,17 +3,10 @@ import {
   EditOutlined,
   UploadOutlined,
   MoreOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
-import {
-  Button,
-  Modal,
-  Form,
-  Input,
-  Upload,
-  Dropdown,
-  Menu,
-  Space,
-} from 'antd';
+import { Button, Modal, Input, Upload, Dropdown, Menu, Space } from 'antd';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../../hooks/useAuth.ts';
 import axios from 'axios';
@@ -21,9 +14,18 @@ import { toast } from 'react-toastify';
 import { BASE_URL } from '../../../constants.ts';
 import styles from './KMemberCardNew.module.css';
 import Tooltip from '../KHoverTip/KHoverTip.tsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
+
+interface MemberForm {
+  name: string;
+  description: string;
+  role: string;
+  link: string;
+  links: { label: string; pageUrl: string }[];
+}
 
 const updateMemberInfo = (id: number, data: any) =>
   axios.post(`/members/${id}`, data).then(res => res.data);
@@ -64,6 +66,7 @@ export const KMemberCardNew = ({
   memberCategory,
   isOpen,
   toggleDescription,
+  links = [],
 }: {
   id: number;
   name: string;
@@ -81,6 +84,7 @@ export const KMemberCardNew = ({
     | 'ASSOCIATE_MEMBER';
   isOpen: boolean;
   toggleDescription: () => void;
+  links?: { label: string; pageUrl: string }[];
 }) => {
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
@@ -88,10 +92,43 @@ export const KMemberCardNew = ({
   const [fileModalOpen, setFileModalOpen] = useState<
     'pictureUrl' | 'documentUrl' | null
   >(null);
-  const [form] = Form.useForm();
+
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<MemberForm>({
+    defaultValues: {
+      name,
+      description,
+      role,
+      link,
+      links: [],
+    },
+  });
+
+  const { fields, append, remove, replace } = useFieldArray({
+    control,
+    name: 'links',
+  });
+
+  useEffect(() => {
+    if (editModalOpen) {
+      const validLinks =
+        links?.filter(link => !!link.label || !!link.pageUrl) ?? [];
+      replace(validLinks);
+    }
+  }, [editModalOpen]);
 
   const { mutate: updateInfo } = useMutation({
-    mutationFn: (data: any) => updateMemberInfo(id, data),
+    mutationFn: (data: any) => {
+      const payload = {
+        ...data,
+        links: data.links || [],
+      };
+      return updateMemberInfo(id, payload);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['members', memberCategory] });
       toast.success('Informațiile membrului au fost actualizate');
@@ -147,12 +184,27 @@ export const KMemberCardNew = ({
     }
   };
 
+  const handleEditOpen = () => {
+    const validLinks =
+      links?.filter(link => !!link.label || !!link.pageUrl) ?? [];
+
+    setEditModalOpen(true);
+
+    setTimeout(() => {
+      reset({
+        name,
+        description,
+        role,
+        link,
+        links: validLinks,
+      });
+      replace(validLinks);
+    }, 0);
+  };
+
   const menu = (
     <Menu>
-      <Menu.Item
-        key="edit"
-        icon={<EditOutlined />}
-        onClick={() => setEditModalOpen(true)}>
+      <Menu.Item key="edit" icon={<EditOutlined />} onClick={handleEditOpen}>
         Modifică Informațiile
       </Menu.Item>
       <Menu.Item
@@ -200,7 +252,7 @@ export const KMemberCardNew = ({
           </button>
           <h3 className={styles.descriptionName}>{name}</h3>
           <p>{description}</p>
-          <Space direction="horizontal" size="middle">
+          <Space direction="horizontal" size="middle" wrap>
             {documentUrl && (
               <a
                 href={`${BASE_URL}/files/members/${documentUrl}`}
@@ -210,15 +262,25 @@ export const KMemberCardNew = ({
                 CV
               </a>
             )}
-            {link && (
+            {/*{link && (*/}
+            {/*  <a*/}
+            {/*    href={`${link}`}*/}
+            {/*    target="_blank"*/}
+            {/*    rel="noopener noreferrer"*/}
+            {/*    className={styles.cvButton}>*/}
+            {/*    Link*/}
+            {/*  </a>*/}
+            {/*)}*/}
+            {links?.map((l, index) => (
               <a
-                href={`${link}`}
+                key={index}
+                href={l.pageUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.cvButton}>
-                Link
+                {l.label}
               </a>
-            )}
+            ))}
           </Space>
         </div>
       )}
@@ -236,28 +298,93 @@ export const KMemberCardNew = ({
 
       <Modal
         title="Editare Informații"
-        visible={editModalOpen}
-        onCancel={() => setEditModalOpen(false)}
-        onOk={() => form.submit()}>
-        <Form
-          form={form}
-          initialValues={{ name, description, role, link }}
-          onFinish={values => updateInfo(values)}>
-          <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-            <Form.Item name="name" label="Nume">
-              <Input />
-            </Form.Item>
-            <Form.Item name="description" label="Descriere">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item name="role" label="Rol">
-              <Input />
-            </Form.Item>
-            <Form.Item name="link" label="Link">
-              <Input />
-            </Form.Item>
-          </Space>
-        </Form>
+        open={editModalOpen}
+        onCancel={() => {
+          setEditModalOpen(false);
+          reset({ name, description, role, link, links });
+        }}
+        footer={[
+          <Button key="cancel" onClick={() => setEditModalOpen(false)}>
+            Renunță
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            onClick={handleSubmit(data => updateInfo(data))}>
+            Salvează
+          </Button>,
+        ]}>
+        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+          <Controller
+            name="name"
+            control={control}
+            rules={{ required: 'Numele este obligatoriu' }}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Nume"
+                status={errors.name ? 'error' : ''}
+              />
+            )}
+          />
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Descriere"
+                status={errors.description ? 'error' : ''}
+              />
+            )}
+          />
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Rol"
+                status={errors.role ? 'error' : ''}
+              />
+            )}
+          />
+          {/*<Controller*/}
+          {/*    name="link"*/}
+          {/*    control={control}*/}
+          {/*    render={({ field }) => (*/}
+          {/*        <Input {...field} placeholder="Link" status={errors.link ? 'error' : ''} />*/}
+          {/*    )}*/}
+          {/*/>*/}
+
+          {fields.map((field, index) => (
+            <Space key={field.id} style={{ display: 'flex' }} align="baseline">
+              <Controller
+                name={`links.${index}.label` as const}
+                control={control}
+                rules={{ required: 'Denumirea este obligatorie' }}
+                render={({ field }) => (
+                  <Input {...field} placeholder="Denumire link" />
+                )}
+              />
+              <Controller
+                name={`links.${index}.pageUrl` as const}
+                control={control}
+                rules={{ required: 'Link-ul este obligatoriu' }}
+                render={({ field }) => <Input {...field} placeholder="URL" />}
+              />
+              <MinusCircleOutlined onClick={() => remove(index)} />
+            </Space>
+          ))}
+
+          <Button
+            type="dashed"
+            onClick={() => append({ label: '', pageUrl: '' })}
+            block
+            icon={<PlusOutlined />}>
+            Adaugă link
+          </Button>
+        </Space>
       </Modal>
 
       <Modal
