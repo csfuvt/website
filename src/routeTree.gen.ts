@@ -22,6 +22,8 @@ import { Route as AboutPartnersIndexImport } from './routes/about_/partners/inde
 import { Route as AboutMembersIndexImport } from './routes/about_/members/index';
 import { Route as AboutHistoryIndexImport } from './routes/about_/history/index';
 import { Route as AboutDescriptionAndObjectivesIndexImport } from './routes/about_/description-and-objectives/index';
+import { Route as EventsRoundTablesArchiveImport } from './routes/events_/round-tables/archive';
+import { Route as EventsPhdThesesArchiveImport } from './routes/events_/phd-theses/archive';
 import { Route as ResearchPublicationsTranslationsIndexImport } from './routes/research_/publications_/translations/index';
 import { Route as ResearchPublicationsMembersPublicationsIndexImport } from './routes/research_/publications_/members-publications/index';
 import { Route as ResearchPublicationsLingvisticConferencesIndexImport } from './routes/research_/publications_/lingvistic-conferences/index';
@@ -46,9 +48,7 @@ import { Route as EventsConferencesFrancophonesStudiesCurrentYearScientificCommi
 import { Route as EventsConferencesFrancophonesStudiesCurrentYearRegistrationImport } from './routes/events_/conferences_/francophones-studies_/current-year_/registration';
 import { Route as EventsConferencesFrancophonesStudiesCurrentYearInfoImport } from './routes/events_/conferences_/francophones-studies_/current-year_/info';
 import { Route as EventsConferencesCieftPreviousEditionsYearImport } from './routes/events_/conferences_/cieft_/previous-editions_/$year';
-import { Route as EventsConferencesCieftCurrentYearScientificCommitteeImport } from './routes/events_/conferences_/cieft_/current-year_/scientific-committee';
 import { Route as EventsConferencesCieftCurrentYearRegistrationImport } from './routes/events_/conferences_/cieft_/current-year_/registration';
-import { Route as EventsConferencesCieftCurrentYearInfoImport } from './routes/events_/conferences_/cieft_/current-year_/info';
 import { Route as ResearchPublicationsDialogueFrancophonesCallsPastIndexImport } from './routes/research_/publications_/dialogue-francophones_/calls_/past/index';
 import { Route as ResearchPublicationsDialogueFrancophonesCallsFutureIndexImport } from './routes/research_/publications_/dialogue-francophones_/calls_/future/index';
 import { Route as ResearchPublicationsAgapesFrancophonesCallsPastIndexImport } from './routes/research_/publications_/agapes-francophones_/calls_/past/index';
@@ -56,7 +56,9 @@ import { Route as ResearchPublicationsAgapesFrancophonesCallsFutureIndexImport }
 import { Route as EventsConferencesFrancophonesStudiesCurrentYearOrganizersAndPartnersIndexImport } from './routes/events_/conferences_/francophones-studies_/current-year_/organizers-and-partners/index';
 import { Route as EventsConferencesFrancophonesStudiesCurrentYearEventsIndexImport } from './routes/events_/conferences_/francophones-studies_/current-year_/events/index';
 import { Route as EventsConferencesFrancophonesStudiesCurrentYearCallsIndexImport } from './routes/events_/conferences_/francophones-studies_/current-year_/calls/index';
+import { Route as EventsConferencesCieftCurrentYearScientificCommitteeIndexImport } from './routes/events_/conferences_/cieft_/current-year_/scientific-committee/index';
 import { Route as EventsConferencesCieftCurrentYearOrganizersAndPartnersIndexImport } from './routes/events_/conferences_/cieft_/current-year_/organizers-and-partners/index';
+import { Route as EventsConferencesCieftCurrentYearInfoIndexImport } from './routes/events_/conferences_/cieft_/current-year_/info/index';
 import { Route as EventsConferencesCieftCurrentYearEventsIndexImport } from './routes/events_/conferences_/cieft_/current-year_/events/index';
 import { Route as EventsConferencesCieftCurrentYearCallsIndexImport } from './routes/events_/conferences_/cieft_/current-year_/calls/index';
 import { Route as EventsConferencesFrancophonesStudiesCurrentYearEventsArchiveImport } from './routes/events_/conferences_/francophones-studies_/current-year_/events/archive';
@@ -119,6 +121,16 @@ const AboutDescriptionAndObjectivesIndexRoute =
     path: '/about/description-and-objectives/',
     getParentRoute: () => rootRoute,
   } as any);
+
+const EventsRoundTablesArchiveRoute = EventsRoundTablesArchiveImport.update({
+  path: '/events/round-tables/archive',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const EventsPhdThesesArchiveRoute = EventsPhdThesesArchiveImport.update({
+  path: '/events/phd-theses/archive',
+  getParentRoute: () => rootRoute,
+} as any);
 
 const ResearchPublicationsTranslationsIndexRoute =
   ResearchPublicationsTranslationsIndexImport.update({
@@ -268,21 +280,9 @@ const EventsConferencesCieftPreviousEditionsYearRoute =
     getParentRoute: () => rootRoute,
   } as any);
 
-const EventsConferencesCieftCurrentYearScientificCommitteeRoute =
-  EventsConferencesCieftCurrentYearScientificCommitteeImport.update({
-    path: '/events/conferences/cieft/current-year/scientific-committee',
-    getParentRoute: () => rootRoute,
-  } as any);
-
 const EventsConferencesCieftCurrentYearRegistrationRoute =
   EventsConferencesCieftCurrentYearRegistrationImport.update({
     path: '/events/conferences/cieft/current-year/registration',
-    getParentRoute: () => rootRoute,
-  } as any);
-
-const EventsConferencesCieftCurrentYearInfoRoute =
-  EventsConferencesCieftCurrentYearInfoImport.update({
-    path: '/events/conferences/cieft/current-year/info',
     getParentRoute: () => rootRoute,
   } as any);
 
@@ -330,9 +330,21 @@ const EventsConferencesFrancophonesStudiesCurrentYearCallsIndexRoute =
     getParentRoute: () => rootRoute,
   } as any);
 
+const EventsConferencesCieftCurrentYearScientificCommitteeIndexRoute =
+  EventsConferencesCieftCurrentYearScientificCommitteeIndexImport.update({
+    path: '/events/conferences/cieft/current-year/scientific-committee/',
+    getParentRoute: () => rootRoute,
+  } as any);
+
 const EventsConferencesCieftCurrentYearOrganizersAndPartnersIndexRoute =
   EventsConferencesCieftCurrentYearOrganizersAndPartnersIndexImport.update({
     path: '/events/conferences/cieft/current-year/organizers-and-partners/',
+    getParentRoute: () => rootRoute,
+  } as any);
+
+const EventsConferencesCieftCurrentYearInfoIndexRoute =
+  EventsConferencesCieftCurrentYearInfoIndexImport.update({
+    path: '/events/conferences/cieft/current-year/info/',
     getParentRoute: () => rootRoute,
   } as any);
 
@@ -380,6 +392,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnnouncementsIndexImport;
       parentRoute: typeof rootRoute;
     };
+    '/events/phd-theses/archive': {
+      preLoaderRoute: typeof EventsPhdThesesArchiveImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/events/round-tables/archive': {
+      preLoaderRoute: typeof EventsRoundTablesArchiveImport;
+      parentRoute: typeof rootRoute;
+    };
     '/about/description-and-objectives/': {
       preLoaderRoute: typeof AboutDescriptionAndObjectivesIndexImport;
       parentRoute: typeof rootRoute;
@@ -424,16 +444,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResearchPublicationsTranslationsIndexImport;
       parentRoute: typeof rootRoute;
     };
-    '/events/conferences/cieft/current-year/info': {
-      preLoaderRoute: typeof EventsConferencesCieftCurrentYearInfoImport;
-      parentRoute: typeof rootRoute;
-    };
     '/events/conferences/cieft/current-year/registration': {
       preLoaderRoute: typeof EventsConferencesCieftCurrentYearRegistrationImport;
-      parentRoute: typeof rootRoute;
-    };
-    '/events/conferences/cieft/current-year/scientific-committee': {
-      preLoaderRoute: typeof EventsConferencesCieftCurrentYearScientificCommitteeImport;
       parentRoute: typeof rootRoute;
     };
     '/events/conferences/cieft/previous-editions/$year': {
@@ -532,8 +544,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsConferencesCieftCurrentYearEventsIndexImport;
       parentRoute: typeof rootRoute;
     };
+    '/events/conferences/cieft/current-year/info/': {
+      preLoaderRoute: typeof EventsConferencesCieftCurrentYearInfoIndexImport;
+      parentRoute: typeof rootRoute;
+    };
     '/events/conferences/cieft/current-year/organizers-and-partners/': {
       preLoaderRoute: typeof EventsConferencesCieftCurrentYearOrganizersAndPartnersIndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/events/conferences/cieft/current-year/scientific-committee/': {
+      preLoaderRoute: typeof EventsConferencesCieftCurrentYearScientificCommitteeIndexImport;
       parentRoute: typeof rootRoute;
     };
     '/events/conferences/francophones-studies/current-year/calls/': {
@@ -574,6 +594,8 @@ export const routeTree = rootRoute.addChildren([
   ContactRouteRoute,
   LoginRouteRoute,
   AnnouncementsIndexRoute,
+  EventsPhdThesesArchiveRoute,
+  EventsRoundTablesArchiveRoute,
   AboutDescriptionAndObjectivesIndexRoute,
   AboutHistoryIndexRoute,
   AboutMembersIndexRoute,
@@ -585,9 +607,7 @@ export const routeTree = rootRoute.addChildren([
   ResearchPublicationsLingvisticConferencesIndexRoute,
   ResearchPublicationsMembersPublicationsIndexRoute,
   ResearchPublicationsTranslationsIndexRoute,
-  EventsConferencesCieftCurrentYearInfoRoute,
   EventsConferencesCieftCurrentYearRegistrationRoute,
-  EventsConferencesCieftCurrentYearScientificCommitteeRoute,
   EventsConferencesCieftPreviousEditionsYearRoute,
   EventsConferencesFrancophonesStudiesCurrentYearInfoRoute,
   EventsConferencesFrancophonesStudiesCurrentYearRegistrationRoute,
@@ -612,7 +632,9 @@ export const routeTree = rootRoute.addChildren([
   EventsConferencesFrancophonesStudiesCurrentYearEventsArchiveRoute,
   EventsConferencesCieftCurrentYearCallsIndexRoute,
   EventsConferencesCieftCurrentYearEventsIndexRoute,
+  EventsConferencesCieftCurrentYearInfoIndexRoute,
   EventsConferencesCieftCurrentYearOrganizersAndPartnersIndexRoute,
+  EventsConferencesCieftCurrentYearScientificCommitteeIndexRoute,
   EventsConferencesFrancophonesStudiesCurrentYearCallsIndexRoute,
   EventsConferencesFrancophonesStudiesCurrentYearEventsIndexRoute,
   EventsConferencesFrancophonesStudiesCurrentYearOrganizersAndPartnersIndexRoute,

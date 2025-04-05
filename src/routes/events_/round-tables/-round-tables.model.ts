@@ -5,4 +5,5 @@ export interface EventRoundTable {
   meetingDate: string;
   members: string;
   links: string;
+  active: boolean;
 }

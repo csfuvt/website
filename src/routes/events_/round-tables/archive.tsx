@@ -3,16 +3,13 @@ import styles from './RoundTablesPage.module.css';
 import axios from 'axios';
 import { EventRoundTable } from './-round-tables.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, DatePicker, Input, Modal, Space, Spin } from 'antd';
+import { Button, Input, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash-es';
 import { createFileRoute } from '@tanstack/react-router';
-import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
 import { useState } from 'react';
-import { useAuth } from '../../../hooks/useAuth.ts';
 import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import KRoundTablesCard from '../../-components/KRoundTablesCard/KRoundTablesCard.tsx';
-import dayjs from 'dayjs';
 
 export interface RoundTableForm {
   title: string;
@@ -41,19 +38,19 @@ const addRoundTable = ({
 };
 
 const getRoundTables = () =>
-  axios.get<EventRoundTable[]>('/round-tables').then(res => res.data.reverse());
+  axios
+    .get<EventRoundTable[]>('/round-tables/archive')
+    .then(res => res.data.reverse());
 
-const RoundTablesPage = () => {
+const RoundTablesPageArchive = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { isLoggedIn } = useAuth();
 
   const {
     data: roundTables,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['roundTables'],
+    queryKey: ['archivedRoundTables'],
     queryFn: getRoundTables,
   });
 
@@ -72,10 +69,6 @@ const RoundTablesPage = () => {
     },
   });
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
     resetForm();
@@ -90,7 +83,9 @@ const RoundTablesPage = () => {
     mutationFn: addRoundTable,
     onError: () => toast.error('Nu s-a putut adăuga masa rotundă!'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['roundTables'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['archivedRoundTables'],
+      });
       setIsModalOpen(false);
       resetForm();
       toast.success('Masa rotundă a fost adăugată cu succes.');
@@ -102,12 +97,12 @@ const RoundTablesPage = () => {
   };
 
   const handleCacheInvalidation = () => {
-    queryClient.invalidateQueries({ queryKey: ['roundTables'] });
+    queryClient.invalidateQueries({ queryKey: ['archivedRoundTables'] });
   };
 
   return (
     <div className={styles.page}>
-      <KBanner label="MESE ROTUNDE" />
+      <KBanner label="MESE ROTUNDE - Arhivă" />
       <div className={styles.section}>
         <div
           style={{
@@ -117,17 +112,12 @@ const RoundTablesPage = () => {
           }}>
           <Button
             type="primary"
-            onClick={() =>
-              (window.location.href = '/events/round-tables/archive')
-            }
+            onClick={() => (window.location.href = '/events/round-tables')}
             size="large">
-            Mergi la Arhivă
+            Înapoi la mese rotunde
           </Button>
         </div>
         <div className={styles.cardsContainer}>
-          {isLoggedIn && (
-            <KAddButton className={'position'} onClick={showModal} />
-          )}
           <Modal
             title="Creează o masă rotundă"
             open={isModalOpen}
@@ -185,19 +175,18 @@ const RoundTablesPage = () => {
               <Controller
                 name="meetingDate"
                 control={control}
-                rules={{ required: 'Data întâlnirii este obligatorie' }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <DatePicker
-                    format="DD.MM.YYYY"
-                    value={value ? dayjs(value, 'DD.MM.YYYY') : null}
-                    onChange={(_date, dateString) => {
-                      onChange(dateString);
-                    }}
-                    placeholder={error?.message || 'Selectați o dată'}
-                    status={error ? 'error' : ''}
+                rules={{
+                  required: 'Data întâlnirii este un câmp obligatoriu',
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    type="date"
+                    status={errors.meetingDate ? 'error' : ''}
+                    placeholder={
+                      errors.meetingDate?.message ?? 'Data întâlnirii'
+                    }
+                    value={value}
+                    onChange={onChange}
                     allowClear
                   />
                 )}
@@ -242,7 +231,7 @@ const RoundTablesPage = () => {
               </span>
             ) : isEmpty(roundTables) ? (
               <div className="flex">
-                <span>Nu există mese rotunde momentan.</span>
+                <span>Nu există mese rotunde arhivate.</span>
               </div>
             ) : (
               roundTables?.map(eventRoundTable => {
@@ -268,8 +257,8 @@ const RoundTablesPage = () => {
   );
 };
 
-export const Route = createFileRoute('/events/round-tables/')({
-  component: RoundTablesPage,
+export const Route = createFileRoute('/events/round-tables/archive')({
+  component: RoundTablesPageArchive,
 });
 
-export default RoundTablesPage;
+export default RoundTablesPageArchive;

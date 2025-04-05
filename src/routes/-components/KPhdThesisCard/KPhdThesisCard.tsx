@@ -13,6 +13,7 @@ import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleFilled,
+  InboxOutlined,
   MoreOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../../hooks/useAuth.ts';
@@ -48,6 +49,12 @@ const editPhdThesis = async ({
 const deletePhdThesis = (id: number) =>
   axios.delete(`/phd-thesis/${id}`).then(res => res.data);
 
+const archivePhdThesis = (id: number) =>
+  axios.post(`/phd-thesis/archive/${id}/false`).then(res => res.data);
+
+const unarchivePhdThesis = (id: number) =>
+  axios.post(`/phd-thesis/archive/${id}/true`).then(res => res.data);
+
 export const KPhdThesisCard = ({
   id,
   title,
@@ -57,7 +64,9 @@ export const KPhdThesisCard = ({
   meetingDate,
   councilMembers,
   thesisSummary,
+  active,
   links,
+  invalidateCache,
 }: {
   id: number;
   title: string;
@@ -67,7 +76,9 @@ export const KPhdThesisCard = ({
   meetingDate: string;
   councilMembers: string;
   thesisSummary: string;
+  active: boolean;
   links: string;
+  invalidateCache: () => void;
 }) => {
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
@@ -91,6 +102,52 @@ export const KPhdThesisCard = ({
       cancelText: 'Renunță',
       onOk() {
         deleteMutation(id);
+      },
+    });
+  };
+
+  const { mutate: archiveMutation } = useMutation({
+    mutationFn: archivePhdThesis,
+    onSuccess: () => {
+      toast.success('Teza de doctorat a fost arhivată cu succes!');
+      invalidateCache();
+    },
+    onError: () => toast.error('A apărut o eroare la arhivare'),
+  });
+
+  const { mutate: unarchiveMutation } = useMutation({
+    mutationFn: unarchivePhdThesis,
+    onSuccess: () => {
+      toast.success('Teza de doctorat a fost dezarhivată cu succes!');
+      invalidateCache();
+    },
+    onError: () => toast.error('A apărut o eroare la dezarhivare'),
+  });
+
+  const showPropsConfirmArchive = () => {
+    confirm({
+      title: 'Arhivare teză de doctorat',
+      icon: <ExclamationCircleFilled />,
+      content: 'Sigur doriți să arhivați această teză de doctorat?',
+      okText: 'Arhivează',
+      okType: 'danger',
+      cancelText: 'Renunță',
+      onOk() {
+        archiveMutation(id);
+      },
+    });
+  };
+
+  const showPropsConfirmUnarchive = () => {
+    confirm({
+      title: 'Dezarhivare teză de doctorat',
+      icon: <ExclamationCircleFilled />,
+      content: 'Sigur doriți să dezarhivați această teză de doctorat?',
+      okText: 'Dezarhivează',
+      okType: 'primary',
+      cancelText: 'Renunță',
+      onOk() {
+        unarchiveMutation(id);
       },
     });
   };
@@ -119,24 +176,48 @@ export const KPhdThesisCard = ({
   const handleMenuClick: MenuProps['onClick'] = e => {
     if (e.key === ActionableButton.DELETE) {
       showPropsConfirm();
-    } else if (e.key === ActionableButton.EDIT) {
+    } else if (e.key === ActionableButton.EDIT && active) {
       showEditModal();
+    } else if (e.key === 'ARCHIVE') {
+      showPropsConfirmArchive();
+    } else if (e.key === 'UNARCHIVE') {
+      showPropsConfirmUnarchive();
     }
   };
 
-  const items: MenuProps['items'] = [
-    {
-      key: ActionableButton.EDIT,
-      label: 'Editează',
-      icon: <EditOutlined />,
-    },
-    {
-      key: ActionableButton.DELETE,
-      danger: true,
-      label: 'Șterge',
-      icon: <DeleteOutlined />,
-    },
-  ];
+  const items: MenuProps['items'] = active
+    ? [
+        {
+          key: ActionableButton.EDIT,
+          label: 'Editează',
+          icon: <EditOutlined />,
+        },
+        {
+          key: ActionableButton.DELETE,
+          danger: true,
+          label: 'Șterge',
+          icon: <DeleteOutlined />,
+        },
+        {
+          key: 'ARCHIVE',
+          danger: true,
+          label: 'Arhivează',
+          icon: <InboxOutlined />,
+        },
+      ]
+    : [
+        {
+          key: ActionableButton.DELETE,
+          danger: true,
+          label: 'Șterge',
+          icon: <DeleteOutlined />,
+        },
+        {
+          key: 'UNARCHIVE',
+          label: 'Dezarhivează',
+          icon: <InboxOutlined />,
+        },
+      ];
 
   const menuProps = {
     items,
@@ -267,145 +348,151 @@ export const KPhdThesisCard = ({
           </Dropdown>
         </div>
       )}
-      <Modal
-        title="Editează teza de doctorat"
-        open={isEditModalOpen}
-        onCancel={handleCancelForEdit}
-        footer={[
-          <Button key="back" onClick={handleCancelForEdit}>
-            Renunță
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={isEditPending}
-            disabled={!isValid}
-            onClick={handleSubmit(onSubmit)}>
-            Salvează
-          </Button>,
-        ]}>
-        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-          <Controller
-            name="title"
-            control={control}
-            rules={{
-              required: 'Titlul tezei de doctorat este un câmp obligatoriu',
-            }}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                status={errors.title ? 'error' : ''}
-                placeholder={
-                  errors.title?.message ?? 'Titlul tezei de doctorat'
-                }
-                value={value}
-                onChange={onChange}
-                allowClear
-              />
-            )}
-          />
-          <Controller
-            name="candidate"
-            control={control}
-            rules={{
-              required: 'Doctorandul tezei este un câmp obligatoriu',
-            }}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                status={errors.candidate ? 'error' : ''}
-                placeholder={errors.candidate?.message ?? 'Doctorandul tezei'}
-                value={value}
-                onChange={onChange}
-                allowClear
-              />
-            )}
-          />
-          <Controller
-            name="leader"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                status={errors.leader ? 'error' : ''}
-                placeholder={errors.leader?.message ?? 'Coordonatorul tezei'}
-                value={value}
-                onChange={onChange}
-                allowClear
-              />
-            )}
-          />
-          <Controller
-            name="organizers"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                status={errors.organizers ? 'error' : ''}
-                placeholder={errors.organizers?.message ?? 'Organizatori'}
-                value={value}
-                onChange={onChange}
-                allowClear
-              />
-            )}
-          />
-          <Controller
-            name="meetingDate"
-            control={control}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <DatePicker
-                format="DD.MM.YYYY"
-                value={value ? dayjs(value, 'DD.MM.YYYY') : null}
-                onChange={(_date, dateString) => {
-                  onChange(dateString);
-                }}
-                placeholder={error?.message || 'Selectați o dată'}
-                status={error ? 'error' : ''}
-                allowClear
-              />
-            )}
-          />
-          <Controller
-            name="councilMembers"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                status={errors.councilMembers ? 'error' : ''}
-                placeholder={
-                  errors.councilMembers?.message ?? 'Membri comisiei'
-                }
-                value={value}
-                onChange={onChange}
-                allowClear
-              />
-            )}
-          />
-          <Controller
-            name="thesisSummary"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                status={errors.thesisSummary ? 'error' : ''}
-                placeholder={
-                  errors.thesisSummary?.message ?? 'Rezumatul tezei de doctorat'
-                }
-                value={value}
-                onChange={onChange}
-                allowClear
-              />
-            )}
-          />
-          <Controller
-            name="links"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input.TextArea
-                status={errors.links ? 'error' : ''}
-                placeholder={errors.links?.message ?? 'Link-uri'}
-                value={value}
-                onChange={onChange}
-                allowClear
-              />
-            )}
-          />
-        </Space>
-      </Modal>
+      {active && (
+        <Modal
+          title="Editează teza de doctorat"
+          open={isEditModalOpen}
+          onCancel={handleCancelForEdit}
+          footer={[
+            <Button key="back" onClick={handleCancelForEdit}>
+              Renunță
+            </Button>,
+            <Button
+              key="submit"
+              type="primary"
+              loading={isEditPending}
+              disabled={!isValid}
+              onClick={handleSubmit(onSubmit)}>
+              Salvează
+            </Button>,
+          ]}>
+          <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+            <Controller
+              name="title"
+              control={control}
+              rules={{
+                required: 'Titlul tezei de doctorat este un câmp obligatoriu',
+              }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  status={errors.title ? 'error' : ''}
+                  placeholder={
+                    errors.title?.message ?? 'Titlul tezei de doctorat'
+                  }
+                  value={value}
+                  onChange={onChange}
+                  allowClear
+                />
+              )}
+            />
+            <Controller
+              name="candidate"
+              control={control}
+              rules={{
+                required: 'Doctorandul tezei este un câmp obligatoriu',
+              }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  status={errors.candidate ? 'error' : ''}
+                  placeholder={errors.candidate?.message ?? 'Doctorandul tezei'}
+                  value={value}
+                  onChange={onChange}
+                  allowClear
+                />
+              )}
+            />
+            <Controller
+              name="leader"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  status={errors.leader ? 'error' : ''}
+                  placeholder={errors.leader?.message ?? 'Coordonatorul tezei'}
+                  value={value}
+                  onChange={onChange}
+                  allowClear
+                />
+              )}
+            />
+            <Controller
+              name="organizers"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  status={errors.organizers ? 'error' : ''}
+                  placeholder={errors.organizers?.message ?? 'Organizatori'}
+                  value={value}
+                  onChange={onChange}
+                  allowClear
+                />
+              )}
+            />
+            <Controller
+              name="meetingDate"
+              control={control}
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <DatePicker
+                  format="DD.MM.YYYY"
+                  value={value ? dayjs(value, 'DD.MM.YYYY') : null}
+                  onChange={(_date, dateString) => {
+                    onChange(dateString);
+                  }}
+                  placeholder={error?.message || 'Selectați o dată'}
+                  status={error ? 'error' : ''}
+                  allowClear
+                />
+              )}
+            />
+            <Controller
+              name="councilMembers"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  status={errors.councilMembers ? 'error' : ''}
+                  placeholder={
+                    errors.councilMembers?.message ?? 'Membri comisiei'
+                  }
+                  value={value}
+                  onChange={onChange}
+                  allowClear
+                />
+              )}
+            />
+            <Controller
+              name="thesisSummary"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  status={errors.thesisSummary ? 'error' : ''}
+                  placeholder={
+                    errors.thesisSummary?.message ??
+                    'Rezumatul tezei de doctorat'
+                  }
+                  value={value}
+                  onChange={onChange}
+                  allowClear
+                />
+              )}
+            />
+            <Controller
+              name="links"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input.TextArea
+                  status={errors.links ? 'error' : ''}
+                  placeholder={errors.links?.message ?? 'Link-uri'}
+                  value={value}
+                  onChange={onChange}
+                  allowClear
+                />
+              )}
+            />
+          </Space>
+        </Modal>
+      )}
     </div>
   );
 };

@@ -6,9 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, DatePicker, Input, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash-es';
 import { createFileRoute } from '@tanstack/react-router';
-import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
 import { useState } from 'react';
-import { useAuth } from '../../../hooks/useAuth.ts';
 import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import KPhdThesisCard from '../../-components/KPhdThesisCard/KPhdThesisCard.tsx';
@@ -50,19 +48,17 @@ const addPhdThesis = ({
 };
 
 const getPhdThesis = () =>
-  axios.get<PhdThesis[]>('/phd-thesis').then(res => res.data.reverse());
+  axios.get<PhdThesis[]>('/phd-thesis/archive').then(res => res.data.reverse());
 
-const PhdThesisPage = () => {
+const PhdThesisPageArchive = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { isLoggedIn } = useAuth();
 
   const {
     data: phdThesis,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['phd-thesis'],
+    queryKey: ['phd-thesis-archived'],
     queryFn: getPhdThesis,
   });
 
@@ -84,10 +80,6 @@ const PhdThesisPage = () => {
     },
   });
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
     resetForm();
@@ -102,7 +94,9 @@ const PhdThesisPage = () => {
     mutationFn: addPhdThesis,
     onError: () => toast.error('Nu s-a putut adăuga teza de doctorat!'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['phd-thesis'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['phd-thesis-archived'],
+      });
       setIsModalOpen(false);
       resetForm();
       toast.success('Teza de doctorat a fost adăugată cu succes.');
@@ -114,12 +108,12 @@ const PhdThesisPage = () => {
   };
 
   const handleCacheInvalidation = () => {
-    queryClient.invalidateQueries({ queryKey: ['phd-thesis'] });
+    queryClient.invalidateQueries({ queryKey: ['phd-thesis-archived'] });
   };
 
   return (
     <div className={styles.page}>
-      <KBanner label="SUSȚINERI DE TEZE DOCTORALE" />
+      <KBanner label="SUSȚINERI DE TEZE DOCTORALE - Arhivă" />
       <div className={styles.section}>
         <div
           style={{
@@ -129,17 +123,12 @@ const PhdThesisPage = () => {
           }}>
           <Button
             type="primary"
-            onClick={() =>
-              (window.location.href = '/events/phd-theses/archive')
-            }
+            onClick={() => (window.location.href = '/events/phd-theses')}
             size="large">
-            Mergi la Arhivă
+            Înapoi la susținerile tezelor de doctorat
           </Button>
         </div>
         <div className={styles.cardsContainer}>
-          {isLoggedIn && (
-            <KAddButton className={'position'} onClick={showModal} />
-          )}
           <Modal
             title="Creează o teză de doctorat"
             open={isModalOpen}
@@ -300,7 +289,7 @@ const PhdThesisPage = () => {
               </span>
             ) : isEmpty(phdThesis) ? (
               <div className="flex">
-                <span>Nu există teze de doctorat momentan.</span>
+                <span>Nu există teze de doctorat arhivate.</span>
               </div>
             ) : (
               phdThesis?.map(PhdThesis => {
@@ -329,8 +318,8 @@ const PhdThesisPage = () => {
   );
 };
 
-export const Route = createFileRoute('/events/phd-theses/')({
-  component: PhdThesisPage,
+export const Route = createFileRoute('/events/phd-theses/archive')({
+  component: PhdThesisPageArchive,
 });
 
-export default PhdThesisPage;
+export default PhdThesisPageArchive;

@@ -113,35 +113,28 @@ body {
  position: relative;
  margin: 0;
  min-height: 100%;
- padding-bottom: 18rem;
+ padding-bottom: 2rem;
  box-sizing: inherit;
 }
 
 
-
 .footer {
+  background-color: var(--secondary);
+  padding: 2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* RAMANE column mereu */
+  align-items: center;
+  font-weight: 500;
+}
+
+
+.footer-content {
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3.25rem 1rem;
-  background-color: var(--secondary);
-  font-weight: 500;
-  text-align: center;
-  position: absolute;
-  left: 0;
-  right:0;
- bottom:0
+  flex-wrap: wrap;
 }
 
-@media (min-width: 768px) {
-
-
-  .footer {
-    flex-direction: row;
-    padding: 3.25rem 2rem;
-  }
-}
 
 .logo {
   max-width: 150px;
@@ -158,7 +151,7 @@ body {
 .address {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 @media (min-width: 768px) {
@@ -176,9 +169,11 @@ body {
   margin-bottom: 0.25rem;
 }
 
+
 .row {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
   margin-bottom: 0.5rem;
 }
 
@@ -220,6 +215,22 @@ body {
 .loginButton:hover {
   background-color: #003d82;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.footer-made-by {
+  margin-top: 2rem;
+  font-size: 15px;
+  text-align: center;
+  color: #004992;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease, text-decoration-color 0.3s ease;
+}
+
+.footer-made-by:hover {
+  color: #002d6e; /* o nuanță mai închisă la hover */
+  text-decoration-color: #002d6e; /* underline-ul se colorează la hover */
 }
 
 @media (max-width: 768px) {
