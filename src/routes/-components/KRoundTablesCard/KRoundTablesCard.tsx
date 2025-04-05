@@ -1,10 +1,19 @@
 import styles from './KRoundTablesCard.module.css';
 import { ActionableButton } from '../KChapter/KChapter.tsx';
-import { Button, Dropdown, Input, MenuProps, Modal, Space } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Dropdown,
+  Input,
+  MenuProps,
+  Modal,
+  Space,
+} from 'antd';
 import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleFilled,
+  InboxOutlined,
   MoreOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../../hooks/useAuth.ts';
@@ -16,14 +25,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { EventRoundTable } from '../../events_/round-tables/-round-tables.model.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
-
-const formatDate = (date: string | Date) => {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
-  return `${day}.${month}.${year}`;
-};
+import dayjs from 'dayjs';
 
 interface EventRoundTableForm {
   title: string;
@@ -44,6 +46,12 @@ const editEventRoundTable = async ({
 const deleteEventRoundTable = (id: number) =>
   axios.delete(`/round-tables/${id}`).then(res => res.data);
 
+const archiveEventRoundTable = (id: number) =>
+  axios.post(`/round-tables/archive/${id}/false`).then(res => res.data);
+
+const unarchiveEventRoundTable = (id: number) =>
+  axios.post(`/round-tables/archive/${id}/true`).then(res => res.data);
+
 export const KRoundTablesCard = ({
   id,
   title,
@@ -51,6 +59,7 @@ export const KRoundTablesCard = ({
   meetingDate,
   members,
   links,
+  active,
   invalidateCache,
 }: {
   id: number;
@@ -59,6 +68,7 @@ export const KRoundTablesCard = ({
   meetingDate: string;
   members: string;
   links?: string;
+  active: boolean;
   invalidateCache: () => void;
 }) => {
   const { isLoggedIn } = useAuth();
@@ -87,6 +97,52 @@ export const KRoundTablesCard = ({
     });
   };
 
+  const { mutate: archiveMutation } = useMutation({
+    mutationFn: archiveEventRoundTable,
+    onSuccess: () => {
+      toast.success('Masa rotundă a fost arhivată cu succes!');
+      invalidateCache();
+    },
+    onError: () => toast.error('A apărut o eroare la arhivare'),
+  });
+
+  const { mutate: unarchiveMutation } = useMutation({
+    mutationFn: unarchiveEventRoundTable,
+    onSuccess: () => {
+      toast.success('Masa rotundă a fost dezarhivată cu succes!');
+      invalidateCache();
+    },
+    onError: () => toast.error('A apărut o eroare la dezarhivare'),
+  });
+
+  const showPropsConfirmArchive = () => {
+    confirm({
+      title: 'Arhivare masă rotundă',
+      icon: <ExclamationCircleFilled />,
+      content: 'Sigur doriți să arhivați această masă rotundă?',
+      okText: 'Arhivează',
+      okType: 'danger',
+      cancelText: 'Renunță',
+      onOk() {
+        archiveMutation(id);
+      },
+    });
+  };
+
+  const showPropsConfirmUnarchive = () => {
+    confirm({
+      title: 'Dezarhivare masă rotundă',
+      icon: <ExclamationCircleFilled />,
+      content: 'Sigur doriți să dezarhivați această masă rotundă?',
+      okText: 'Dezarhivează',
+      okType: 'primary',
+      cancelText: 'Renunță',
+      onOk() {
+        unarchiveMutation(id);
+      },
+    });
+  };
+
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const showEditModal = () => {
     setIsEditModalOpen(true);
@@ -100,24 +156,48 @@ export const KRoundTablesCard = ({
   const handleMenuClick: MenuProps['onClick'] = e => {
     if (e.key === ActionableButton.DELETE) {
       showPropsConfirm();
-    } else if (e.key === ActionableButton.EDIT) {
+    } else if (e.key === ActionableButton.EDIT && active) {
       showEditModal();
+    } else if (e.key === 'ARCHIVE') {
+      showPropsConfirmArchive();
+    } else if (e.key === 'UNARCHIVE') {
+      showPropsConfirmUnarchive();
     }
   };
 
-  const items: MenuProps['items'] = [
-    {
-      key: ActionableButton.EDIT,
-      label: 'Editează',
-      icon: <EditOutlined />,
-    },
-    {
-      key: ActionableButton.DELETE,
-      danger: true,
-      label: 'Șterge',
-      icon: <DeleteOutlined />,
-    },
-  ];
+  const items: MenuProps['items'] = active
+    ? [
+        {
+          key: ActionableButton.EDIT,
+          label: 'Editează',
+          icon: <EditOutlined />,
+        },
+        {
+          key: ActionableButton.DELETE,
+          danger: true,
+          label: 'Șterge',
+          icon: <DeleteOutlined />,
+        },
+        {
+          key: 'ARCHIVE',
+          danger: true,
+          label: 'Arhivează',
+          icon: <InboxOutlined />,
+        },
+      ]
+    : [
+        {
+          key: ActionableButton.DELETE,
+          danger: true,
+          label: 'Șterge',
+          icon: <DeleteOutlined />,
+        },
+        {
+          key: 'UNARCHIVE',
+          label: 'Dezarhivează',
+          icon: <InboxOutlined />,
+        },
+      ];
 
   const menuProps = {
     items,
@@ -170,7 +250,7 @@ export const KRoundTablesCard = ({
           </p>
         )}
         <p>
-          <strong>Data întâlnirii:</strong> {formatDate(meetingDate)}
+          <strong>Data întâlnirii:</strong> {meetingDate}
         </p>
         <p>
           <strong>Participanți:</strong> {members}
@@ -203,85 +283,94 @@ export const KRoundTablesCard = ({
           </Dropdown>
         </div>
       )}
-      <Modal
-        title="Editează masa rotundă"
-        open={isEditModalOpen}
-        onCancel={handleCancelForEdit}
-        footer={[
-          <Button key="back" onClick={handleCancelForEdit}>
-            Renunță
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={isEditPending}
-            disabled={!isValid}
-            onClick={handleSubmit(onSubmit)}>
-            Salvează
-          </Button>,
-        ]}>
-        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-          <Controller
-            name="title"
-            control={control}
-            rules={{ required: 'Titlul este obligatoriu' }}
-            render={({ field }) => (
-              <Input
-                {...field}
-                placeholder="Titlul"
-                status={errors.title ? 'error' : ''}
-              />
-            )}
-          />
-          <Controller
-            name="organizers"
-            control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                placeholder="Organizatori (opțional)"
-                status={errors.organizers ? 'error' : ''}
-              />
-            )}
-          />
-          <Controller
-            name="meetingDate"
-            control={control}
-            rules={{ required: 'Data întâlnirii este obligatorie' }}
-            render={({ field }) => (
-              <Input
-                {...field}
-                placeholder="Data întâlnirii"
-                type="date"
-                status={errors.meetingDate ? 'error' : ''}
-              />
-            )}
-          />
-          <Controller
-            name="members"
-            control={control}
-            rules={{ required: 'Participanții sunt obligatorii' }}
-            render={({ field }) => (
-              <Input
-                {...field}
-                placeholder="Participanți"
-                status={errors.members ? 'error' : ''}
-              />
-            )}
-          />
-          <Controller
-            name="links"
-            control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                placeholder="Linkuri (opțional)"
-                status={errors.links ? 'error' : ''}
-              />
-            )}
-          />
-        </Space>
-      </Modal>
+      {active && (
+        <Modal
+          title="Editează masa rotundă"
+          open={isEditModalOpen}
+          onCancel={handleCancelForEdit}
+          footer={[
+            <Button key="back" onClick={handleCancelForEdit}>
+              Renunță
+            </Button>,
+            <Button
+              key="submit"
+              type="primary"
+              loading={isEditPending}
+              disabled={!isValid}
+              onClick={handleSubmit(onSubmit)}>
+              Salvează
+            </Button>,
+          ]}>
+          <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+            <Controller
+              name="title"
+              control={control}
+              rules={{ required: 'Titlul este obligatoriu' }}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  placeholder="Titlul"
+                  status={errors.title ? 'error' : ''}
+                />
+              )}
+            />
+            <Controller
+              name="organizers"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  placeholder="Organizatori (opțional)"
+                  status={errors.organizers ? 'error' : ''}
+                />
+              )}
+            />
+            <Controller
+              name="meetingDate"
+              control={control}
+              rules={{ required: 'Data întâlnirii este obligatorie' }}
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <DatePicker
+                  format="DD.MM.YYYY"
+                  value={value ? dayjs(value, 'DD.MM.YYYY') : null}
+                  onChange={(_date, dateString) => {
+                    onChange(dateString);
+                  }}
+                  placeholder={error?.message || 'Selectați o dată'}
+                  status={error ? 'error' : ''}
+                  allowClear
+                />
+              )}
+            />
+            <Controller
+              name="members"
+              control={control}
+              rules={{ required: 'Participanții sunt obligatorii' }}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  placeholder="Participanți"
+                  status={errors.members ? 'error' : ''}
+                />
+              )}
+            />
+            <Controller
+              name="links"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  placeholder="Linkuri (opțional)"
+                  status={errors.links ? 'error' : ''}
+                />
+              )}
+            />
+          </Space>
+        </Modal>
+      )}
     </div>
   );
 };

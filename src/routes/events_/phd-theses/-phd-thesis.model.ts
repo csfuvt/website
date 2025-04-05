@@ -8,4 +8,5 @@ export interface PhdThesis {
   councilMembers: string;
   thesisSummary: string;
   links: string;
+  active: boolean;
 }

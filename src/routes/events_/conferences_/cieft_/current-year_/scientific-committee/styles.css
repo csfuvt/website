@@ -1,0 +1,46 @@
+.committees {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+
+  width: 100%;
+  padding: 64px 128px;
+  gap: 56px;
+
+  background-color: var(--white);
+}
+
+.committee {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+ul {
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
+}
+
+@media (max-width: 1024px) {
+  .committees {
+    padding: 48px 80px; 
+    gap: 40px; 
+  }
+}
+
+@media (max-width: 768px) {
+  .committees {
+    padding: 32px 40px; 
+    gap: 24px; 
+    align-items: center; 
+  }
+}
+
+@media (max-width: 480px) {
+  .committees {
+    padding: 16px 16px; 
+    gap: 16px; 
+  }
+}
