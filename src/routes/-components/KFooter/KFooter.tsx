@@ -99,7 +99,7 @@ export const KFooter: React.FC = () => {
             </center>
             <ul style={{ paddingLeft: '1.5rem' }}>
               <li>- Iosif-Alexandru Nagy</li>
-              <li>- Iasmina Gușcă</li>
+              <li>- Ana-Maria-Iasmina Gușcă</li>
               <li>- Erwin Kirichner</li>
               <li>- Andreea Laza</li>
             </ul>

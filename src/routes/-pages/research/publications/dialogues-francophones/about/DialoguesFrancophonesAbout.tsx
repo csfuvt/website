@@ -8,8 +8,18 @@ export const DialoguesFrancophonesAboutPage = () => {
     {
       title: 'Despre noi',
       paragraphs: [
-        'Creată în 1995, la iniţiativa Prof.dr.univ. Margareta Gyurcsik, revista Dialogues francophones, publicaţie a Centrului de Studii Francofone de la Catedra de Limbi romanice a Universităţii de Vest din Timişoara, este consacrată literaturii francofone contemporane.',
-        'Revista Dialogues francophones îşi propune să evidenţieze conexiunile literaturii francofone cu teoria literară şi literatura comparată.',
+        <text>
+          Creată în 1995, la iniţiativa Prof.dr.univ. Margareta Gyurcsik,
+          revista <i>Dialogues francophones</i>, publicaţie a Centrului de
+          Studii Francofone de la Catedra de Limbi romanice a Universităţii de
+          Vest din Timişoara, este consacrată literaturii francofone
+          contemporane.
+        </text>,
+        <text>
+          Revista <i>Dialogues francophones</i> îşi propune să evidenţieze
+          conexiunile literaturii francofone cu teoria literară şi literatura
+          comparată.
+        </text>,
       ],
     },
     {
@@ -22,7 +32,7 @@ export const DialoguesFrancophonesAboutPage = () => {
   ];
   return (
     <div>
-      <KBanner label="Dialogues Francophones - Despre noi" />
+      <KBanner label="Dialogues francophones - Despre noi" />
       <div className="content">
         <KSlider slides={slides} image imageUrl={Image} />
       </div>
