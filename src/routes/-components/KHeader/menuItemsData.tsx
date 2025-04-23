@@ -55,10 +55,10 @@ export const menuItemsData: MenuItem[] = [
     title: 'Evenimente',
     submenu: [
       {
-        title: 'Colocvii',
+        title: 'Manifestări Științifice',
         submenu: [
           {
-            title: 'Colocviul Internațional de Studii Francofone',
+            title: 'Colocvii',
             submenu: [
               {
                 title: 'CIEFT Ediția curentă',

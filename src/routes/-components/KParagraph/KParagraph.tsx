@@ -1,13 +1,13 @@
 import './styles.css';
 
 export const KParagraph = ({
-  text,
+  children,
   list,
   listElements,
   title,
   titleLabel,
 }: {
-  text: string;
+  children: React.ReactNode;
   list?: boolean;
   listElements?: string[];
   title?: boolean;
@@ -16,7 +16,7 @@ export const KParagraph = ({
   return (
     <div className="line">
       {title && <div>{titleLabel}</div>}
-      <span className="lineP">{text}</span>
+      <span className="lineP">{children}</span>
       {list && (
         <ul>
           {listElements?.map(element => <li className="lineP">- {element}</li>)}

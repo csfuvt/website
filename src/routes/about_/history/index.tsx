@@ -46,8 +46,9 @@ const HistoryPage = () => {
           )}
           <i>Contributions roumaines à la francophonie</i>
           {
-            ', apoi, din 2010, Colloque International d’Études Francophones à Timişoara (CIEFT). Lucrările sunt publicate în volume intitulate Agapes francophones.'
+            ', apoi, din 2010, Colloque International d’Études Francophones à Timişoara (CIEFT). Lucrările sunt publicate în volume intitulate '
           }
+          <i> Agapes francophones.'</i>
         </>,
         t(
           'Centrul a iniţiat o serie de proiecte, în domenii variate: studii literare, traducere, lingvistică, didactica limbii franceze ca limbă străină.'

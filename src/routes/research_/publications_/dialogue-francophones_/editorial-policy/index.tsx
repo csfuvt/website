@@ -8,15 +8,35 @@ export const Route = createFileRoute(
 )({
   component: () => (
     <div>
-      <KBanner label="Dialogues Francophones - Politica editorială" />
+      <KBanner label="Dialogues rancophones - Politica editorială" />
       <div className="content-policy">
-        <KParagraph text="Revista Dialogues francophones stabilește o temă pentru fiecare număr prin consultarea membrilor comitetului științific. Calitatea articolelor publicate în Dialogues francophones rezultă din evaluarea temeinică a contribuțiilor trimise pe adresa revistei." />
-        <KParagraph text="Textele trimise pe adresa redacției sunt evaluate, în prima etapă, de comitetul de redacției al Dialogues francophones pentru a stabili gradul de adecvare la tematica anunțată." />
-        <KParagraph text="Redacția Dialogues francophones trimite textele evaluatorilor după obținerea raportului de originalitate (Ithenticate, Turnitin etc.) pentru fiecare articol." />
-        <KParagraph text="Evaluarea dublu anonimizată – a autorului și a evaluatorilor – este efectuată de cel puțin doi cercetători în domeniu (alții decât membrii comitetului de redacție), membri în comitetul științific sau experți la care se apelează ocazional." />
-        <KParagraph text="În fiecare număr al revistei, lista evaluatorilor este actualizată." />
+        <KParagraph>
+          Revista <i>Dialogues francophones</i> stabilește o temă pentru fiecare
+          număr prin consultarea membrilor comitetului științific. Calitatea
+          articolelor publicate în <i>Dialogues francophones</i> rezultă din
+          evaluarea temeinică a contribuțiilor trimise pe adresa revistei.
+        </KParagraph>
+        <KParagraph>
+          Textele trimise pe adresa redacției sunt evaluate, în prima etapă, de
+          comitetul de redacției al <i>Dialogues francophones</i> pentru a
+          stabili gradul de adecvare la tematica anunțată.
+        </KParagraph>
+        <KParagraph>
+          Redacția <i>Dialogues francophones</i> trimite textele evaluatorilor
+          după obținerea raportului de originalitate (Ithenticate, Turnitin
+          etc.) pentru fiecare articol.
+        </KParagraph>
+        <KParagraph>
+          Evaluarea dublu anonimizată – a autorului și a evaluatorilor – este
+          efectuată de cel puțin doi cercetători în domeniu (alții decât membrii
+          comitetului de redacție), membri în comitetul științific sau experți
+          la care se apelează ocazional.
+        </KParagraph>
+        <KParagraph>
+          În fiecare număr al revistei, lista evaluatorilor este actualizată.
+        </KParagraph>
         <KParagraph
-          text="În procesul de evaluare, membrii comitetului științific și experții-evaluatori ad hoc au în vedere următoarele criterii :"
+          children="În procesul de evaluare, membrii comitetului științific și experții-evaluatori ad hoc au în vedere următoarele criterii :"
           list
           listElements={[
             'Respectarea protocolului de tehnoredactare (nerespectarea antrenează respingerea automată a articolului)',
@@ -28,7 +48,7 @@ export const Route = createFileRoute(
         />
 
         <KParagraph
-          text="Se apreciază:"
+          children="Se apreciază:"
           list
           listElements={[
             'Părțile originale și corect editate în materialul supus evaluării',
@@ -38,7 +58,7 @@ export const Route = createFileRoute(
         />
 
         <KParagraph
-          text="Se sancționează:"
+          children="Se sancționează:"
           list
           listElements={[
             'Absența surselor primare din bibliografie în favoarea referințele bibliografice secundare',
@@ -48,7 +68,11 @@ export const Route = createFileRoute(
             'Preluarea de tip mozaic a unui bloc de text, fără citarea de rigoare, iar în interiorului textului respectiv se înlocuiesc cuvinte, dar cu păstrarea structurii de ansamblu a frazării',
           ]}
         />
-        <KParagraph text="Toți colaboratorii vor fi informați cu privire la acceptarea sau refuzul propunerii lor prin intermediul platformei Dialogues francophones." />
+        <KParagraph>
+          Toți colaboratorii vor fi informați cu privire la acceptarea sau
+          refuzul propunerii lor prin intermediul platformei{' '}
+          <i>Dialogues francophones</i>.
+        </KParagraph>
       </div>
     </div>
   ),
