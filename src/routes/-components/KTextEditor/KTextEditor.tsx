@@ -22,16 +22,26 @@ const TextEditor: React.FC<TextEditorProps> = ({
     ],
   };
 
+  const handleUpdate = (val: string) => {
+    // Curăță tagurile <p> și <br> din textul introdus
+    const cleanedValue = val
+      .replace(/<\/?p[^>]*>/g, '') // Elimină orice tag <p>
+      .replace('<br>', ''); // Elimină tagurile <br>
+
+    // Trimite valoarea curățată în funcția onChange
+    onChange(cleanedValue);
+  };
+
   return (
     <div
       className={`${status === 'error' ? 'border border-red-500 rounded' : ''}`}>
       <ReactQuill
         className="h-[10rem]"
         theme="snow"
-        onChange={onChange}
+        onChange={handleUpdate}
         formats={['bold', 'italic', 'underline', 'list', 'bullet']}
         placeholder={placeholder}
-        value={value}
+        value={!value ? '<br>' : `<p>${value}</p>`}
         modules={modules}
       />
     </div>

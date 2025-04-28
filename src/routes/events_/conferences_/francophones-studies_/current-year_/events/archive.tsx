@@ -6,11 +6,11 @@ import { useAuth } from '../../../../../../hooks/useAuth.ts';
 import { useQuery } from '@tanstack/react-query';
 import { KBanner } from '../../../../../-components/KBanner/KBanner.tsx';
 import { KAddButton } from '../../../../../-components/KAddButton/KAddButton.tsx';
-import { Button, Spin } from 'antd';
+import { Spin } from 'antd';
 import { isEmpty } from 'lodash-es';
 import styles from './Events.module.css';
 import { KAddPostersModal } from '../../../../../-components/KAddPostersModal/KAddPostersModal.tsx';
-import KPostersListArchive from '../../../../../-components/KPosters/KPostersListArchive.tsx';
+import KPostersList from '../../../../../-components/KPosters/KPostersList.tsx';
 
 const getEvents = () =>
   axios.get<PostersIndexCOLOCVIU[]>('/event-posters').then(res => res.data);
@@ -35,7 +35,7 @@ const PostersCOLOCVIU = () => {
 
   return (
     <div>
-      <KBanner label="Arhivă - AFIȘ, PROGRAM ȘI REZUMATE" />
+      <KBanner label="ARHIVĂ - AFIȘ, PROGRAM ȘI REZUMATE" />
       <div className={styles.page}>
         {isLoggedIn && (
           <KAddButton className={'position'} onClick={showModal} />
@@ -48,18 +48,6 @@ const PostersCOLOCVIU = () => {
             targetPage={'COLOCVIU'}
           />
         )}
-
-        <div style={{ margin: '20px 0', textAlign: 'center' }}>
-          <Button
-            type="primary"
-            onClick={() =>
-              (window.location.href =
-                '/events/conferences/francophones-studies/current-year/events')
-            }
-            size="large">
-            Mergi la ultimul poster
-          </Button>
-        </div>
 
         {isLoading ? (
           <div className="flex">
@@ -77,7 +65,7 @@ const PostersCOLOCVIU = () => {
                   <span>Nu există postere.</span>
                 </center>
               ) : (
-                <KPostersListArchive type="COLOCVIU" isLoggedIn={isLoggedIn} />
+                <KPostersList type="COLOCVIU" isLoggedIn={isLoggedIn} />
               )}
             </div>
           </>

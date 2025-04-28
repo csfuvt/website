@@ -8,6 +8,8 @@ import {
   MenuProps,
   Modal,
   Space,
+  Upload,
+  UploadProps,
 } from 'antd';
 import {
   DeleteOutlined,
@@ -15,6 +17,7 @@ import {
   ExclamationCircleFilled,
   InboxOutlined,
   MoreOutlined,
+  UploadOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../../hooks/useAuth.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -26,6 +29,7 @@ import { PhdThesis } from '../../events_/phd-theses/-phd-thesis.model.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
+import { BASE_URL } from '../../../constants.ts';
 
 interface PhdThesisForm {
   title: string;
@@ -36,6 +40,7 @@ interface PhdThesisForm {
   councilMembers: string;
   thesisSummary: string;
   links: string;
+  posterUrl?: string;
 }
 
 const editPhdThesis = async ({
@@ -66,6 +71,7 @@ export const KPhdThesisCard = ({
   thesisSummary,
   active,
   links,
+  posterUrl,
   invalidateCache,
 }: {
   id: number;
@@ -78,6 +84,7 @@ export const KPhdThesisCard = ({
   thesisSummary: string;
   active: boolean;
   links: string;
+  posterUrl?: string;
   invalidateCache: () => void;
 }) => {
   const { isLoggedIn } = useAuth();
@@ -239,6 +246,7 @@ export const KPhdThesisCard = ({
       councilMembers,
       thesisSummary,
       links,
+      posterUrl,
     },
   });
 
@@ -253,6 +261,7 @@ export const KPhdThesisCard = ({
         councilMembers,
         thesisSummary,
         links,
+        posterUrl,
       });
     }
   }, [
@@ -264,6 +273,7 @@ export const KPhdThesisCard = ({
     councilMembers,
     thesisSummary,
     links,
+    posterUrl,
     isEditModalOpen,
     resetForm,
   ]);
@@ -278,48 +288,109 @@ export const KPhdThesisCard = ({
     onError: () => toast.error('A apărut o eroare în momentul editării'),
   });
 
-  const onSubmit: SubmitHandler<PhdThesisForm> = data => {
-    editMutation({ ...data, id });
+  const onSubmit: SubmitHandler<PhdThesisForm> = async data => {
+    await editMutation({ ...data, id });
+    if (posterFileList.length > 0) {
+      const formData = new FormData();
+      formData.append('posterUrl', posterFileList[0]);
+
+      try {
+        await axios.post(`/phd-thesis/${id}/poster`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        toast.success('Poster actualizat cu succes!');
+      } catch (error) {
+        toast.error('A apărut o eroare la încărcarea posterului!');
+      }
+    }
+  };
+
+  const [posterFileList, setPosterFileList] = useState<File[]>([]);
+
+  const uploadPosterProps: UploadProps = {
+    onRemove: () => setPosterFileList([]),
+    beforeUpload: file => {
+      const isJpgOrPng =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/png' ||
+        file.type === 'image/jpg';
+      if (!isJpgOrPng) {
+        toast.error('Se pot adăuga doar fișiere JPG / PNG!');
+        return false;
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        return false;
+      }
+      setPosterFileList([file]);
+      return false; // stop automatic upload
+    },
+    fileList: posterFileList.map(file => ({
+      uid: file.name,
+      name: file.name,
+      status: 'done',
+      url: URL.createObjectURL(file),
+    })),
   };
 
   return (
     <div className={styles.card}>
-      <div className={styles.content}>
-        <div className={styles.title}>{title}</div>
-        <p>
-          <strong>Doctorand:</strong> {candidate}
-        </p>
-
-        {leader && (
-          <p>
-            <strong>Conducător:</strong> {leader}
-          </p>
+      <div className={styles.contentWrapper}>
+        {posterUrl && (
+          <div className={styles.posterContainer}>
+            <img
+              src={`${BASE_URL}/files/phd-thesis/${posterUrl}`}
+              alt="Poster"
+              className={styles.posterImage}
+              onClick={() =>
+                window.open(
+                  `${BASE_URL}/files/phd-thesis/${posterUrl}`,
+                  '_blank',
+                  'noopener,noreferrer'
+                )
+              }
+            />
+          </div>
         )}
-
-        {organizers && (
+        <div className={styles.content}>
+          <div className={styles.title}>{title}</div>
           <p>
-            <strong>Organizatori:</strong> {organizers}
+            <strong>Doctorand:</strong> {candidate}
           </p>
-        )}
 
-        {meetingDate && (
-          <p>
-            <strong>Data susținerii:</strong> {meetingDate}
-          </p>
-        )}
+          {leader && (
+            <p>
+              <strong>Conducător:</strong> {leader}
+            </p>
+          )}
 
-        {councilMembers && (
-          <p>
-            <strong>Membri comisiei:</strong> {councilMembers}
-          </p>
-        )}
+          {organizers && (
+            <p>
+              <strong>Organizatori:</strong> {organizers}
+            </p>
+          )}
 
-        {thesisSummary && (
-          <p>
-            <strong>Rezumatul tezei:</strong> {thesisSummary}
-          </p>
-        )}
+          {meetingDate && (
+            <p>
+              <strong>Data susținerii:</strong> {meetingDate}
+            </p>
+          )}
 
+          {councilMembers && (
+            <p>
+              <strong>Membri comisiei:</strong> {councilMembers}
+            </p>
+          )}
+
+          {thesisSummary && (
+            <p>
+              <strong>Rezumatul tezei:</strong> {thesisSummary}
+            </p>
+          )}
+        </div>
         {links && (
           <div className={styles.linkContainer}>
             <a href={links} target="_blank" className={styles.logo}>
@@ -488,6 +559,27 @@ export const KPhdThesisCard = ({
                   onChange={onChange}
                   allowClear
                 />
+              )}
+            />
+            <Controller
+              name="posterUrl"
+              control={control}
+              render={({ field }) => (
+                <Upload
+                  {...uploadPosterProps}
+                  listType="picture"
+                  showUploadList={true}
+                  onChange={info => {
+                    if (info.file.status === 'done' && info.file.response) {
+                      const uploadedUrl = info.file.response.url;
+                      field.onChange(uploadedUrl);
+                      toast.success('Poster actualizat!');
+                    } else if (info.file.status === 'error') {
+                      toast.error('Eroare la actualizarea posterului');
+                    }
+                  }}>
+                  <Button icon={<UploadOutlined />}>Selectează imaginea</Button>
+                </Upload>
               )}
             />
           </Space>

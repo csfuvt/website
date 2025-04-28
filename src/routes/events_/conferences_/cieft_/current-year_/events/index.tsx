@@ -6,7 +6,7 @@ import { useAuth } from '../../../../../../hooks/useAuth.ts';
 import { useQuery } from '@tanstack/react-query';
 import { KBanner } from '../../../../../-components/KBanner/KBanner.tsx';
 import { KAddButton } from '../../../../../-components/KAddButton/KAddButton.tsx';
-import { Button, Spin } from 'antd';
+import { Spin } from 'antd';
 import { isEmpty } from 'lodash-es';
 import styles from './Events.module.css';
 import { KAddPostersModal } from '../../../../../-components/KAddPostersModal/KAddPostersModal.tsx';
@@ -48,18 +48,6 @@ const PostersCIEFT = () => {
             targetPage={'CIEFT'}
           />
         )}
-
-        <div style={{ margin: '20px 0', textAlign: 'center' }}>
-          <Button
-            type="primary"
-            onClick={() =>
-              (window.location.href =
-                '/events/conferences/cieft/current-year/events/archive')
-            }
-            size="large">
-            Mergi la Arhivă
-          </Button>
-        </div>
 
         {isLoading ? (
           <div className="flex">

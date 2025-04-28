@@ -90,8 +90,29 @@ export const menuItemsData: MenuItem[] = [
                 ],
               },
               {
-                title: 'Ediții anterioare',
-                url: '/events/conferences/francophones-studies/current-year/info',
+                title: 'Arhivă colocvii anterioare',
+                submenu: [
+                  {
+                    title: 'Apel la comunicări',
+                    url: '/events/conferences/cieft/current-year/calls/archive',
+                  },
+                  {
+                    title: 'Organizatori și parteneri',
+                    url: '/events/conferences/cieft/current-year/organizers-and-partners/archive',
+                  },
+                  {
+                    title: 'Comitet științific',
+                    url: '/events/conferences/cieft/current-year/scientific-committee/archive',
+                  },
+                  {
+                    title: 'Afiș, program, rezumate',
+                    url: '/events/conferences/cieft/current-year/events/archive',
+                  },
+                  {
+                    title: 'Informații utile',
+                    url: '/events/conferences/cieft/current-year/info/archive',
+                  },
+                ],
               },
             ],
           },
@@ -119,7 +140,7 @@ export const menuItemsData: MenuItem[] = [
                   },
                   {
                     title: 'Comitet științific',
-                    url: '/events/conferences/francophones-studies/current-year/scientific-committee',
+                    url: '/events/conferences/francophones-studies/current-year/committee/scientific-committee',
                   },
                   {
                     title: 'Afiș, program și rezumate',
@@ -132,8 +153,29 @@ export const menuItemsData: MenuItem[] = [
                 ],
               },
               {
-                title: 'Ediții anterioare',
-                url: '/events/conferences/cieft/previous-editions',
+                title: 'Arhivă ediții anterioare',
+                submenu: [
+                  {
+                    title: 'Apel la comunicări',
+                    url: '/events/conferences/francophones-studies/current-year/calls/archive',
+                  },
+                  {
+                    title: 'Organizatori și parteneri',
+                    url: '/events/conferences/francophones-studies/current-year/organizers-and-partners/archive',
+                  },
+                  {
+                    title: 'Comitet științific',
+                    url: '/events/conferences/francophones-studies/current-year/committee/archive',
+                  },
+                  {
+                    title: 'Afiș, program și rezumate',
+                    url: '/events/conferences/francophones-studies/current-year/events/archive',
+                  },
+                  {
+                    title: 'Informații utile',
+                    url: '/events/conferences/francophones-studies/current-year/info/archive',
+                  },
+                ],
               },
             ],
           },

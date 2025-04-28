@@ -3,7 +3,16 @@ import styles from './PhdThesisPage.module.css';
 import axios from 'axios';
 import { PhdThesis } from './-phd-thesis.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, DatePicker, Input, Modal, Space, Spin } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Input,
+  Modal,
+  Space,
+  Spin,
+  Upload,
+  UploadProps,
+} from 'antd';
 import { isEmpty } from 'lodash-es';
 import { createFileRoute } from '@tanstack/react-router';
 import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
@@ -13,6 +22,7 @@ import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import KPhdThesisCard from '../../-components/KPhdThesisCard/KPhdThesisCard.tsx';
 import dayjs from 'dayjs';
+import { UploadOutlined } from '@ant-design/icons';
 
 export interface PhdThesisForm {
   title: string;
@@ -23,6 +33,7 @@ export interface PhdThesisForm {
   councilMembers: string;
   thesisSummary: string;
   links: string;
+  posterUrl: string;
 }
 
 const addPhdThesis = ({
@@ -34,6 +45,7 @@ const addPhdThesis = ({
   councilMembers,
   thesisSummary,
   links,
+  posterUrl,
 }: PhdThesisForm) => {
   return axios
     .post<PhdThesis>(`/phd-thesis`, {
@@ -45,6 +57,7 @@ const addPhdThesis = ({
       councilMembers,
       thesisSummary,
       links,
+      posterUrl,
     })
     .then(res => res.data);
 };
@@ -81,6 +94,7 @@ const PhdThesisPage = () => {
       councilMembers: '',
       thesisSummary: '',
       links: '',
+      posterUrl: '',
     },
   });
 
@@ -115,6 +129,35 @@ const PhdThesisPage = () => {
 
   const handleCacheInvalidation = () => {
     queryClient.invalidateQueries({ queryKey: ['phd-thesis'] });
+  };
+
+  const [posterFileList, setPosterFileList] = useState<File[]>([]);
+
+  const uploadPosterProps: UploadProps = {
+    onRemove: () => setPosterFileList([]),
+    beforeUpload: file => {
+      const isJpgOrPng =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/png' ||
+        file.type === 'image/jpg';
+      if (!isJpgOrPng) {
+        toast.error('Se pot adăuga doar fișiere JPG / PNG!');
+        return false;
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        return false;
+      }
+      setPosterFileList([file]);
+      return false; // stop automatic upload
+    },
+    fileList: posterFileList.map(file => ({
+      uid: file.name,
+      name: file.name,
+      status: 'done',
+      url: URL.createObjectURL(file),
+    })),
   };
 
   return (
@@ -288,6 +331,29 @@ const PhdThesisPage = () => {
                   />
                 )}
               />
+              <Controller
+                name="posterUrl"
+                control={control}
+                render={({ field }) => (
+                  <Upload
+                    {...uploadPosterProps}
+                    listType="picture"
+                    showUploadList={true}
+                    onChange={info => {
+                      if (info.file.status === 'done' && info.file.response) {
+                        const uploadedUrl = info.file.response.url;
+                        field.onChange(uploadedUrl);
+                        toast.success('Poster actualizat!');
+                      } else if (info.file.status === 'error') {
+                        toast.error('Eroare la actualizarea posterului');
+                      }
+                    }}>
+                    <Button icon={<UploadOutlined />}>
+                      Selectează imaginea
+                    </Button>
+                  </Upload>
+                )}
+              />
             </Space>
           </Modal>
           <div className="flex">
@@ -317,6 +383,7 @@ const PhdThesisPage = () => {
                     thesisSummary={PhdThesis.thesisSummary}
                     active={PhdThesis.active}
                     links={PhdThesis.links}
+                    posterUrl={PhdThesis.posterUrl}
                     invalidateCache={handleCacheInvalidation}
                   />
                 );
