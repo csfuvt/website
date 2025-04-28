@@ -21,6 +21,7 @@ export interface PhdThesisForm {
   councilMembers: string;
   thesisSummary: string;
   links: string;
+  posterUrl: string;
 }
 
 const addPhdThesis = ({
@@ -32,6 +33,7 @@ const addPhdThesis = ({
   councilMembers,
   thesisSummary,
   links,
+  posterUrl,
 }: PhdThesisForm) => {
   return axios
     .post<PhdThesis>(`/phd-thesis`, {
@@ -43,6 +45,7 @@ const addPhdThesis = ({
       councilMembers,
       thesisSummary,
       links,
+      posterUrl,
     })
     .then(res => res.data);
 };
@@ -77,6 +80,7 @@ const PhdThesisPageArchive = () => {
       councilMembers: '',
       thesisSummary: '',
       links: '',
+      posterUrl: '',
     },
   });
 
@@ -277,6 +281,19 @@ const PhdThesisPageArchive = () => {
                   />
                 )}
               />
+              <Controller
+                name="posterUrl"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.posterUrl ? 'error' : ''}
+                    placeholder={errors.posterUrl?.message ?? 'Afiș (opțional)'}
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
             </Space>
           </Modal>
           <div className="flex">
@@ -306,6 +323,7 @@ const PhdThesisPageArchive = () => {
                     thesisSummary={PhdThesis.thesisSummary}
                     active={PhdThesis.active}
                     links={PhdThesis.links}
+                    posterUrl={PhdThesis.posterUrl}
                     invalidateCache={handleCacheInvalidation}
                   />
                 );
