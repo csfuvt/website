@@ -35,6 +35,7 @@ import { isEmpty } from 'lodash-es';
 import { VolumeForm } from '../../research_/publications_/dialogue-francophones_/volumes';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import TextEditor from '../KTextEditor/KTextEditor.tsx';
 
 const updateChapter = async ({
   id,
@@ -249,8 +250,12 @@ export const KChapter = ({
   return (
     <div className="chapterContainer">
       <div className="details" onClick={handleContainerClick}>
-        <span className="chapterTitle">{title}</span>
-        <span className="desc">{authors}</span>
+        <span className="chapterTitle">
+          <div dangerouslySetInnerHTML={{ __html: title }} />
+        </span>
+        <span className="desc">
+          <div dangerouslySetInnerHTML={{ __html: authors }} />
+        </span>
       </div>
       <div className="pages">
         <span>
@@ -282,14 +287,13 @@ export const KChapter = ({
                 required: 'Titlul articolului este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
-                <Input
+                <TextEditor
                   status={editChapterErrors.title ? 'error' : ''}
                   placeholder={
                     editChapterErrors.title?.message ?? 'Titlul articolului'
                   }
                   value={value}
                   onChange={onChange}
-                  allowClear
                 />
               )}
             />
@@ -301,14 +305,13 @@ export const KChapter = ({
                 required: 'Autorii articolului este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
-                <Input
+                <TextEditor
                   status={editChapterErrors.title ? 'error' : ''}
                   placeholder={
                     editChapterErrors.title?.message ?? 'Autorii articolului'
                   }
                   value={value}
                   onChange={onChange}
-                  allowClear
                 />
               )}
             />

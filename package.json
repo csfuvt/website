@@ -41,6 +41,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.52.1",
     "react-i18next": "^14.1.2",
+    "react-quill": "^2.0.0",
     "react-toastify": "^10.0.5",
     "swiper": "^11.1.5",
     "yup": "^1.4.0"

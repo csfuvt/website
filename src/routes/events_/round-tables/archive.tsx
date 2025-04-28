@@ -17,6 +17,7 @@ export interface RoundTableForm {
   meetingDate: string;
   members: string;
   links: string;
+  posterUrl: string;
 }
 
 const addRoundTable = ({
@@ -25,6 +26,7 @@ const addRoundTable = ({
   meetingDate,
   members,
   links,
+  posterUrl,
 }: RoundTableForm) => {
   return axios
     .post<EventRoundTable>(`/round-tables`, {
@@ -33,6 +35,7 @@ const addRoundTable = ({
       meetingDate,
       members,
       links,
+      posterUrl,
     })
     .then(res => res.data);
 };
@@ -66,6 +69,7 @@ const RoundTablesPageArchive = () => {
       meetingDate: '',
       members: '',
       links: '',
+      posterUrl: '',
     },
   });
 
@@ -220,6 +224,19 @@ const RoundTablesPageArchive = () => {
                   />
                 )}
               />
+              <Controller
+                name="posterUrl"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    status={errors.posterUrl ? 'error' : ''}
+                    placeholder={errors.posterUrl?.message ?? 'Afiș (opțional)'}
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
             </Space>
           </Modal>
           <div className="flex">
@@ -245,6 +262,7 @@ const RoundTablesPageArchive = () => {
                     members={eventRoundTable.members}
                     links={eventRoundTable.links}
                     active={eventRoundTable.active}
+                    posterUrl={eventRoundTable.posterUrl}
                     invalidateCache={handleCacheInvalidation}
                   />
                 );

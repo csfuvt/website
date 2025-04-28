@@ -12,6 +12,7 @@ import { useAuth } from '../../../hooks/useAuth.ts';
 import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import KProjectCard from '../../-components/KProjectCard/KProjectCard.tsx';
+import TextEditor from '../../-components/KTextEditor/KTextEditor.tsx';
 
 export interface ProjectForm {
   title: string;
@@ -156,12 +157,11 @@ const ProjectsPage = () => {
                   required: 'Titlul proiectului este un câmp obligatoriu',
                 }}
                 render={({ field: { onChange, value } }) => (
-                  <Input
+                  <TextEditor
                     status={errors.title ? 'error' : ''}
                     placeholder={errors.title?.message ?? 'Titlul proiectului'}
                     value={value}
                     onChange={onChange}
-                    allowClear
                   />
                 )}
               />
@@ -278,14 +278,13 @@ const ProjectsPage = () => {
                   required: 'Descrierea este un câmp obligatoriu',
                 }}
                 render={({ field: { onChange, value } }) => (
-                  <Input.TextArea
+                  <TextEditor
                     status={errors.description ? 'error' : ''}
                     placeholder={
                       errors.description?.message ?? 'Descriere proiect'
                     }
                     value={value}
                     onChange={onChange}
-                    allowClear
                   />
                 )}
               />

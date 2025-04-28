@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Article, Volume } from './-volumes.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { KBanner } from '../../../../-components/KBanner/KBanner.tsx';
-import { Button, Input, Modal, Space, Spin, Upload, UploadFile } from 'antd';
+import { Button, Modal, Space, Spin, Upload, UploadFile } from 'antd';
 import { isEmpty } from 'lodash-es';
 import { KChapter } from '../../../../-components/KChapter/KChapter.tsx';
 import { KArticle } from '../../../../-components/KArticle/KArticle.tsx';
@@ -21,7 +21,7 @@ import {
 } from '../../../../../hooks/useFileUpload.ts';
 import { VolumeForm } from './index.tsx';
 import _ from 'lodash';
-import TextArea from 'antd/es/input/TextArea';
+import TextEditor from '../../../../-components/KTextEditor/KTextEditor.tsx';
 
 const getVolumeById = (id: string) =>
   axios.get<Volume>(`/volumes/${id}`).then(res => res.data);
@@ -250,14 +250,13 @@ const VolumePage = () => {
                 required: 'Titlul secțiunii este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
-                <Input
+                <TextEditor
                   status={articleErrors.title ? 'error' : ''}
                   placeholder={
                     articleErrors.title?.message ?? 'Titlul secțiunii'
                   }
                   value={value}
                   onChange={onChange}
-                  allowClear
                 />
               )}
             />
@@ -333,11 +332,11 @@ const VolumePage = () => {
               direction="vertical"
               size="middle"
               style={{ display: 'flex' }}>
-              <TextArea
-                value={tematica}
-                onChange={e => setTematica(e.target.value)}
+              <TextEditor
+                status={articleErrors.title ? 'error' : ''}
                 placeholder="Introduceți noua tematică"
-                autoSize={{ minRows: 3, maxRows: 6 }}
+                value={tematica}
+                onChange={value => setTematica(value)}
               />
             </Space>
           </Modal>
@@ -367,7 +366,9 @@ const VolumePage = () => {
                 <div className="volumeUrl">
                   <span className="label">Tematica</span>
                   <div className="volumeTematicaContainer">
-                    {volume.tematica}
+                    <div
+                      dangerouslySetInnerHTML={{ __html: volume.tematica }}
+                    />
                   </div>
                   {isLoggedIn && (
                     <Button
@@ -412,6 +413,7 @@ const VolumePage = () => {
               )}
               {volume.articles.map(article => (
                 <div className="space-20">
+                  <div className="article-title"></div>
                   <KArticle label={article.title} articleId={article.id} />
                   {_.sortBy(article.chapters, [a => a.pageStart]).map(
                     chapter => (
