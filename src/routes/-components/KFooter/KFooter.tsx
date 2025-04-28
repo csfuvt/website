@@ -24,13 +24,11 @@ export const KFooter: React.FC = () => {
             <div className="address">
               <div className="row">
                 <FontAwesomeIcon icon={faEnvelope} />
-                <a href="mailto:dialogues.francophones@e-uvt.ro">
-                  dialogues.francophones@e-uvt.ro
-                </a>
+                <a href="mailto:csf.admin@e-uvt.ro">csf.admin@e-uvt.ro</a>
               </div>
               <div className="row">
                 <FontAwesomeIcon icon={faEnvelope} />
-                <a href="mailto:csf.admin@e-uvt.ro">csf.admin@e-uvt.ro</a>
+                <a href="mailto:dialogues.francophones@e-uvt.ro">dialogues.francophones@e-uvt.ro</a>
               </div>
               <div className="row">
                 <FontAwesomeIcon icon={faCompass} />
