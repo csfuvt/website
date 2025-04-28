@@ -40,6 +40,7 @@ import { isEmpty } from 'lodash-es';
 import { ActionableButton } from '../KChapter/KChapter.tsx';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import TextEditor from '../KTextEditor/KTextEditor.tsx';
 
 export interface ChapterForm {
   title: string;
@@ -239,7 +240,7 @@ export const KArticle = ({
 
   return (
     <div className="subtitle">
-      {label}
+      <div dangerouslySetInnerHTML={{ __html: label ?? '' }} />
       {isLoggedIn && (
         <Space direction="horizontal" size="middle" style={{ display: 'flex' }}>
           <Dropdown.Button
@@ -279,14 +280,13 @@ export const KArticle = ({
               required: 'Titlul articolului este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
-              <Input
+              <TextEditor
                 status={chapterErrors.title ? 'error' : ''}
                 placeholder={
                   chapterErrors.title?.message ?? 'Titlul articolului'
                 }
                 value={value}
                 onChange={onChange}
-                allowClear
               />
             )}
           />
@@ -298,14 +298,13 @@ export const KArticle = ({
               required: 'Autorii articolului este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
-              <Input
+              <TextEditor
                 status={chapterErrors.title ? 'error' : ''}
                 placeholder={
                   chapterErrors.title?.message ?? 'Autorii articolului'
                 }
                 value={value}
                 onChange={onChange}
-                allowClear
               />
             )}
           />
@@ -378,12 +377,11 @@ export const KArticle = ({
             required: 'Titlul secțiunii este un câmp obligatoriu',
           }}
           render={({ field: { onChange, value } }) => (
-            <Input
+            <TextEditor
               status={articleErrors.title ? 'error' : ''}
               placeholder={articleErrors.title?.message ?? 'Titlul secțiunii'}
               value={value}
               onChange={onChange}
-              allowClear
             />
           )}
         />

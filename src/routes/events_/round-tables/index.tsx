@@ -3,7 +3,16 @@ import styles from './RoundTablesPage.module.css';
 import axios from 'axios';
 import { EventRoundTable } from './-round-tables.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, DatePicker, Input, Modal, Space, Spin } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Input,
+  Modal,
+  Space,
+  Spin,
+  Upload,
+  UploadProps,
+} from 'antd';
 import { isEmpty } from 'lodash-es';
 import { createFileRoute } from '@tanstack/react-router';
 import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
@@ -13,6 +22,7 @@ import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import KRoundTablesCard from '../../-components/KRoundTablesCard/KRoundTablesCard.tsx';
 import dayjs from 'dayjs';
+import { UploadOutlined } from '@ant-design/icons';
 
 export interface RoundTableForm {
   title: string;
@@ -20,6 +30,7 @@ export interface RoundTableForm {
   meetingDate: string;
   members: string;
   links: string;
+  posterUrl: string;
 }
 
 const addRoundTable = ({
@@ -28,6 +39,7 @@ const addRoundTable = ({
   meetingDate,
   members,
   links,
+  posterUrl,
 }: RoundTableForm) => {
   return axios
     .post<EventRoundTable>(`/round-tables`, {
@@ -36,6 +48,7 @@ const addRoundTable = ({
       meetingDate,
       members,
       links,
+      posterUrl,
     })
     .then(res => res.data);
 };
@@ -69,6 +82,7 @@ const RoundTablesPage = () => {
       meetingDate: '',
       members: '',
       links: '',
+      posterUrl: '',
     },
   });
 
@@ -103,6 +117,35 @@ const RoundTablesPage = () => {
 
   const handleCacheInvalidation = () => {
     queryClient.invalidateQueries({ queryKey: ['roundTables'] });
+  };
+
+  const [posterFileList, setPosterFileList] = useState<File[]>([]);
+
+  const uploadPosterProps: UploadProps = {
+    onRemove: () => setPosterFileList([]),
+    beforeUpload: file => {
+      const isJpgOrPng =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/png' ||
+        file.type === 'image/jpg';
+      if (!isJpgOrPng) {
+        toast.error('Se pot adăuga doar fișiere JPG / PNG!');
+        return false;
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        return false;
+      }
+      setPosterFileList([file]);
+      return false; // stop automatic upload
+    },
+    fileList: posterFileList.map(file => ({
+      uid: file.name,
+      name: file.name,
+      status: 'done',
+      url: URL.createObjectURL(file),
+    })),
   };
 
   return (
@@ -231,6 +274,29 @@ const RoundTablesPage = () => {
                   />
                 )}
               />
+              <Controller
+                name="posterUrl"
+                control={control}
+                render={({ field }) => (
+                  <Upload
+                    {...uploadPosterProps}
+                    listType="picture"
+                    showUploadList={true}
+                    onChange={info => {
+                      if (info.file.status === 'done' && info.file.response) {
+                        const uploadedUrl = info.file.response.url;
+                        field.onChange(uploadedUrl);
+                        toast.success('Poster actualizat!');
+                      } else if (info.file.status === 'error') {
+                        toast.error('Eroare la actualizarea posterului');
+                      }
+                    }}>
+                    <Button icon={<UploadOutlined />}>
+                      Selectează imaginea
+                    </Button>
+                  </Upload>
+                )}
+              />
             </Space>
           </Modal>
           <div className="flex">
@@ -256,6 +322,7 @@ const RoundTablesPage = () => {
                     members={eventRoundTable.members}
                     links={eventRoundTable.links}
                     active={eventRoundTable.active}
+                    posterUrl={eventRoundTable.posterUrl}
                     invalidateCache={handleCacheInvalidation}
                   />
                 );

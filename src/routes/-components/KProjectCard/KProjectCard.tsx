@@ -16,6 +16,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Project } from '../../research_/projects/-projects.model.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
+import TextEditor from '../KTextEditor/KTextEditor.tsx';
 
 interface ProjectForm {
   title: string;
@@ -167,7 +168,9 @@ export const KProjectsCard = ({
   return (
     <div className={styles.card}>
       <div className={styles.content}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>
+          <div dangerouslySetInnerHTML={{ __html: title }} />
+        </div>
         {responsible && (
           <p>
             <strong>Responsabil proiect:</strong> {responsible}
@@ -204,7 +207,8 @@ export const KProjectsCard = ({
           </p>
         )}
         <p>
-          <strong>Descriere proiect:</strong> {description}
+          <strong>Descriere proiect:</strong>
+          <div dangerouslySetInnerHTML={{ __html: description }} />
         </p>
         {link && (
           <div className={styles.linkContainer}>
@@ -259,12 +263,11 @@ export const KProjectsCard = ({
               required: 'Titlul proiectului este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
-              <Input
+              <TextEditor
                 status={errors.title ? 'error' : ''}
                 placeholder={errors.title?.message ?? 'Titlul proiectului'}
                 value={value}
                 onChange={onChange}
-                allowClear
               />
             )}
           />
@@ -366,12 +369,11 @@ export const KProjectsCard = ({
               required: 'Descrierea este un câmp obligatoriu',
             }}
             render={({ field: { onChange, value } }) => (
-              <Input.TextArea
+              <TextEditor
                 status={errors.description ? 'error' : ''}
                 placeholder={errors.description?.message ?? 'Descriere proiect'}
                 value={value}
                 onChange={onChange}
-                allowClear
               />
             )}
           />

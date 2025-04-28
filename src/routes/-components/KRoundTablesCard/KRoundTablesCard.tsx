@@ -8,6 +8,8 @@ import {
   MenuProps,
   Modal,
   Space,
+  Upload,
+  UploadProps,
 } from 'antd';
 import {
   DeleteOutlined,
@@ -15,6 +17,7 @@ import {
   ExclamationCircleFilled,
   InboxOutlined,
   MoreOutlined,
+  UploadOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../../hooks/useAuth.ts';
 import { useMutation } from '@tanstack/react-query';
@@ -33,6 +36,7 @@ interface EventRoundTableForm {
   meetingDate: string;
   members: string;
   links?: string;
+  posterUrl?: string;
 }
 
 const editEventRoundTable = async ({
@@ -60,6 +64,7 @@ export const KRoundTablesCard = ({
   members,
   links,
   active,
+  posterUrl,
   invalidateCache,
 }: {
   id: number;
@@ -69,6 +74,7 @@ export const KRoundTablesCard = ({
   members: string;
   links?: string;
   active: boolean;
+  posterUrl?: string;
   invalidateCache: () => void;
 }) => {
   const { isLoggedIn } = useAuth();
@@ -216,6 +222,7 @@ export const KRoundTablesCard = ({
       meetingDate,
       members,
       links,
+      posterUrl,
     },
   });
 
@@ -230,6 +237,7 @@ export const KRoundTablesCard = ({
         meetingDate: updatedData.meetingDate,
         members: updatedData.members,
         links: updatedData.links,
+        posterUrl: updatedData.posterUrl,
       });
       handleCancelForEdit();
     },
@@ -238,6 +246,35 @@ export const KRoundTablesCard = ({
 
   const onSubmit: SubmitHandler<EventRoundTableForm> = data => {
     editMutation({ ...data, id });
+  };
+
+  const [posterFileList, setPosterFileList] = useState<File[]>([]);
+
+  const uploadPosterProps: UploadProps = {
+    onRemove: () => setPosterFileList([]),
+    beforeUpload: file => {
+      const isJpgOrPng =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/png' ||
+        file.type === 'image/jpg';
+      if (!isJpgOrPng) {
+        toast.error('Se pot adăuga doar fișiere JPG / PNG!');
+        return false;
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        return false;
+      }
+      setPosterFileList([file]);
+      return false; // stop automatic upload
+    },
+    fileList: posterFileList.map(file => ({
+      uid: file.name,
+      name: file.name,
+      status: 'done',
+      url: URL.createObjectURL(file),
+    })),
   };
 
   return (
@@ -263,6 +300,20 @@ export const KRoundTablesCard = ({
                 style={{ color: '#004992', width: '40px', height: '40px' }}
               />
             </a>
+          </div>
+        )}
+        {posterUrl && (
+          <div className={styles.posterContainer}>
+            <strong>Afiș:</strong>
+
+            <img
+              src={posterUrl}
+              alt="Poster"
+              className={styles.posterImage}
+              onClick={() =>
+                window.open(posterUrl, '_blank', 'noopener,noreferrer')
+              }
+            />
           </div>
         )}
       </div>
@@ -366,6 +417,28 @@ export const KRoundTablesCard = ({
                   placeholder="Linkuri (opțional)"
                   status={errors.links ? 'error' : ''}
                 />
+              )}
+            />
+
+            <Controller
+              name="posterUrl"
+              control={control}
+              render={({ field }) => (
+                <Upload
+                  {...uploadPosterProps}
+                  listType="picture"
+                  showUploadList={true}
+                  onChange={info => {
+                    if (info.file.status === 'done' && info.file.response) {
+                      const uploadedUrl = info.file.response.url;
+                      field.onChange(uploadedUrl);
+                      toast.success('Poster actualizat!');
+                    } else if (info.file.status === 'error') {
+                      toast.error('Eroare la actualizarea posterului');
+                    }
+                  }}>
+                  <Button icon={<UploadOutlined />}>Selectează imaginea</Button>
+                </Upload>
               )}
             />
           </Space>
