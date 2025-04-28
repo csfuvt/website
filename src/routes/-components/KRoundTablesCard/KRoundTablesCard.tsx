@@ -294,6 +294,35 @@ export const KRoundTablesCard = ({
     })),
   };
 
+  const [posterFileList, setPosterFileList] = useState<File[]>([]);
+
+  const uploadPosterProps: UploadProps = {
+    onRemove: () => setPosterFileList([]),
+    beforeUpload: file => {
+      const isJpgOrPng =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/png' ||
+        file.type === 'image/jpg';
+      if (!isJpgOrPng) {
+        toast.error('Se pot adăuga doar fișiere JPG / PNG!');
+        return false;
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        return false;
+      }
+      setPosterFileList([file]);
+      return false; // stop automatic upload
+    },
+    fileList: posterFileList.map(file => ({
+      uid: file.name,
+      name: file.name,
+      status: 'done',
+      url: URL.createObjectURL(file),
+    })),
+  };
+
   return (
     <div className={styles.card}>
       <div className={styles.content}>
