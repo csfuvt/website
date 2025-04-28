@@ -29,6 +29,7 @@ import { EventRoundTable } from '../../events_/round-tables/-round-tables.model.
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
+import { BASE_URL } from '../../../constants.ts';
 
 interface EventRoundTableForm {
   title: string;
@@ -39,11 +40,11 @@ interface EventRoundTableForm {
   posterUrl?: string;
 }
 
-const editEventRoundTable = async ({
-  id,
-  ...data
-}: EventRoundTableForm & { id: number }) => {
-  const res = await axios.post<EventRoundTable>(`/round-tables/${id}`, data);
+const editEventRoundTable = async (
+  data: EventRoundTableForm & { id: number }
+) => {
+  const { id, ...body } = data;
+  const res = await axios.post<EventRoundTable>(`/round-tables/${id}`, body);
   return res.data;
 };
 
@@ -244,8 +245,24 @@ export const KRoundTablesCard = ({
     onError: () => toast.error('A apărut o eroare în momentul editării'),
   });
 
-  const onSubmit: SubmitHandler<EventRoundTableForm> = data => {
-    editMutation({ ...data, id });
+  const onSubmit: SubmitHandler<EventRoundTableForm> = async data => {
+    await editMutation({ ...data, id });
+
+    if (posterFileList.length > 0) {
+      const formData = new FormData();
+      formData.append('posterUrl', posterFileList[0]);
+
+      try {
+        await axios.post(`/round-tables/${id}/poster`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        toast.success('Poster actualizat cu succes!');
+      } catch (error) {
+        toast.error('A apărut o eroare la încărcarea posterului!');
+      }
+    }
   };
 
   const [posterFileList, setPosterFileList] = useState<File[]>([]);
@@ -307,7 +324,7 @@ export const KRoundTablesCard = ({
             <strong>Afiș:</strong>
 
             <img
-              src={posterUrl}
+              src={`${BASE_URL}/files/round-tables/${posterUrl}`}
               alt="Poster"
               className={styles.posterImage}
               onClick={() =>
