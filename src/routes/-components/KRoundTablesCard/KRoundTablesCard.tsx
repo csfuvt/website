@@ -326,17 +326,19 @@ export const KRoundTablesCard = ({
           <p>
             <strong>Participanți:</strong> {members}
           </p>
-          {links && (
-            <div className={styles.linkContainer}>
-              <a href={links} target="_blank" className={styles.logo}>
-                <FontAwesomeIcon
-                  icon={faGlobe}
-                  style={{ color: '#004992', width: '40px', height: '40px' }}
-                />
-              </a>
-            </div>
-          )}
         </div>
+      </div>
+
+      {/* LinkContainer moved here */}
+      <div className={styles.linkContainer}>
+        {links && (
+          <a href={links} target="_blank" className={styles.logo}>
+            <FontAwesomeIcon
+              icon={faGlobe}
+              style={{ color: '#004992', width: '40px', height: '40px' }}
+            />
+          </a>
+        )}
       </div>
 
       {isLoggedIn && (

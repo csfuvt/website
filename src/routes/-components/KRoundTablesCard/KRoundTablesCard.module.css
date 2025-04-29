@@ -49,6 +49,14 @@
     display: flex;
     justify-content: center;
     margin-top: 16px;
+    width: 100%;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
 }
   
 .logo {
@@ -70,6 +78,10 @@
 
 .posterContainer {
     flex-shrink: 0; 
+}
+
+.content{
+    width:100%;
 }
 
 .posterImage {

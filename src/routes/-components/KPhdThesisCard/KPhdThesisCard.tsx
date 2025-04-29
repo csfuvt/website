@@ -391,6 +391,8 @@ export const KPhdThesisCard = ({
             </p>
           )}
         </div>
+      </div>
+      <div>
         {links && (
           <div className={styles.linkContainer}>
             <a href={links} target="_blank" className={styles.logo}>
