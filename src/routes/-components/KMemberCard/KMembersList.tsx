@@ -33,7 +33,6 @@ export const KMembersList = ({
 }: {
   memberCategory:
     | 'FOUNDER'
-    | 'MANAGEMENT'
     | 'BASE_TEAM'
     | 'COLLABORATOR'
     | 'STUDENTS'

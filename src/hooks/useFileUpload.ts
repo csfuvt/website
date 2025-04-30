@@ -46,9 +46,9 @@ export const useFileUpload = (types: FileType | FileType[]) => {
         toast.error(`Se pot adăuga doar fișiere ${allowedTypes}`);
         return false;
       }
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 < 30;
       if (!isLt2M) {
-        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        toast.error('Se pot adăuga doar fișiere până în 30MB');
         return false;
       }
       setFileList([file]);

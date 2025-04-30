@@ -106,3 +106,21 @@
   background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
+
+.iconGroup {
+  display: flex;
+  justify-content: center; /* center horizontally */
+  align-items: center;
+  gap: 10px; /* space between icons */
+  margin-top: 8px;
+}
+.orcidIcon {
+  height: 24px;
+  width: 24px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+.orcidIcon:hover {
+  transform: scale(1.1);
+}

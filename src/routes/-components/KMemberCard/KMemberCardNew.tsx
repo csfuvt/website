@@ -15,9 +15,10 @@ import { BASE_URL } from '../../../constants.ts';
 import styles from './KMemberCardNew.module.css';
 import Tooltip from '../KHoverTip/KHoverTip.tsx';
 import { useEffect, useState } from 'react';
-import { faX } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 
 interface MemberForm {
   name: string;
@@ -77,7 +78,6 @@ export const KMemberCardNew = ({
   pictureUrl?: string;
   memberCategory:
     | 'FOUNDER'
-    | 'MANAGEMENT'
     | 'BASE_TEAM'
     | 'COLLABORATOR'
     | 'STUDENTS'
@@ -244,6 +244,54 @@ export const KMemberCardNew = ({
           <div className={styles.name}>{name}</div>
         </Tooltip>
         <div className={styles.title}>{role}</div>
+        {(links?.length > 0 || documentUrl || link) && (
+          <div className={styles.iconGroup}>
+            {documentUrl && (
+              <a
+                href={`${BASE_URL}/files/members/${documentUrl}`}
+                target="_blank"
+                rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faLink} className={styles.icon} />
+              </a>
+            )}
+
+            {links?.some(link => link.label?.toLowerCase() === 'email') && (
+              <a
+                href={`mailto:${
+                  links.find(link => link.label?.toLowerCase() === 'email')
+                    ?.pageUrl
+                }`}>
+                <FontAwesomeIcon icon={faEnvelope} className={styles.icon} />
+              </a>
+            )}
+
+            {links.map((link, index) => {
+              const key = link.label?.toLowerCase().replace(/\s+/g, '');
+              const iconMap: Record<string, string> = {
+                orcid: 'orcid.png',
+                googlescholar: 'googlescholar.png',
+                researchgate: 'researchgate.png',
+                academia: 'academia.png',
+              };
+
+              if (!key || !iconMap[key]) return null;
+
+              return (
+                <a
+                  key={index}
+                  href={link.pageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <img
+                    src={`/MembersIcons/${iconMap[key]}`}
+                    alt={key}
+                    className={styles.orcidIcon}
+                  />
+                </a>
+              );
+            })}
+          </div>
+        )}
       </div>
       {isOpen && (
         <div className={styles.descriptionContainer}>

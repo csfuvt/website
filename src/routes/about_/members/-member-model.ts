@@ -7,7 +7,6 @@ export interface MemberIndex {
   documentUrl: string;
   memberCategory:
     | 'FOUNDER'
-    | 'MANAGEMENT'
     | 'BASE_TEAM'
     | 'COLLABORATOR'
     | 'STUDENTS'

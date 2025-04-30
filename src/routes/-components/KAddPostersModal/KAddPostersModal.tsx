@@ -85,9 +85,9 @@ export const KAddPostersModal = ({
         toast.error('Se pot adăuga doar fișiere JPG / PNG!');
         return false;
       }
-      const isLt2M = file.size / 1024 / 1024 < 5;
+      const isLt2M = file.size / 1024 / 1024 < 30;
       if (!isLt2M) {
-        toast.error('Se pot adăuga doar fișiere până în 5MB');
+        toast.error('Se pot adăuga doar fișiere până în 30MB');
         return false;
       }
       setPictureFileList([file]);

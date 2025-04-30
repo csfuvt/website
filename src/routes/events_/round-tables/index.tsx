@@ -100,7 +100,7 @@ const RoundTablesPage = () => {
   };
 
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
+  const { isPending } = useMutation({
     mutationFn: addRoundTable,
     onError: () => toast.error('Nu s-a putut adăuga masa rotundă!'),
     onSuccess: async () => {
@@ -111,8 +111,35 @@ const RoundTablesPage = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<RoundTableForm> = data => {
-    mutate(data);
+  const onSubmit: SubmitHandler<RoundTableForm> = async data => {
+    try {
+      const created = await axios
+        .post<EventRoundTable>(`/round-tables`, {
+          ...data,
+          posterUrl: '',
+        })
+        .then(res => res.data);
+
+      if (posterFileList.length > 0) {
+        const formData = new FormData();
+        formData.append('posterUrl', posterFileList[0]);
+
+        await axios.post(`/round-tables/${created.id}/poster`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        toast.success('Poster încărcat cu succes!');
+      }
+
+      await queryClient.invalidateQueries({ queryKey: ['roundTables'] });
+      setIsModalOpen(false);
+      resetForm();
+      toast.success('Masa rotundă a fost adăugată cu succes.');
+    } catch (err) {
+      console.error(err);
+      toast.error('Nu s-a putut adăuga masa rotundă!');
+    }
   };
 
   const handleCacheInvalidation = () => {
@@ -132,9 +159,9 @@ const RoundTablesPage = () => {
         toast.error('Se pot adăuga doar fișiere JPG / PNG!');
         return false;
       }
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 < 30;
       if (!isLt2M) {
-        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        toast.error('Se pot adăuga doar fișiere până în 30MB');
         return false;
       }
       setPosterFileList([file]);

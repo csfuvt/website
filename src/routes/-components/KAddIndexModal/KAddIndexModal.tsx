@@ -76,9 +76,9 @@ export const KAddIndexModal = ({
         toast.error('Se pot adăuga doar fișiere JPG / PNG!');
         return false;
       }
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 < 30;
       if (!isLt2M) {
-        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        toast.error('Se pot adăuga doar fișiere până în 30MB');
         return false;
       }
       setFileList([file]);

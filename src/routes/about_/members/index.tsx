@@ -89,26 +89,6 @@ const MembersPage = () => {
 
               <div>
                 <center>
-                  <h2>Conducere</h2>
-                </center>
-                {isEmpty(
-                  members?.filter(p => p.memberCategory === 'MANAGEMENT')
-                ) ? (
-                  <center>
-                    <span>Nu există membri în această categorie.</span>
-                  </center>
-                ) : (
-                  <KMembersList
-                    memberCategory={'MANAGEMENT'}
-                    openCard={openCard}
-                    toggleDescription={handleToggleDescription}
-                    isLoggedIn={isLoggedIn}
-                  />
-                )}
-              </div>
-
-              <div>
-                <center>
                   <h2>Echipa de bază</h2>
                 </center>
                 {isEmpty(
