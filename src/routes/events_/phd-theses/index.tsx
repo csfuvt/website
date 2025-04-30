@@ -112,7 +112,7 @@ const PhdThesisPage = () => {
   };
 
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
+  const { isPending } = useMutation({
     mutationFn: addPhdThesis,
     onError: () => toast.error('Nu s-a putut adăuga teza de doctorat!'),
     onSuccess: async () => {
@@ -123,8 +123,37 @@ const PhdThesisPage = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<PhdThesisForm> = data => {
-    mutate(data);
+  const onSubmit: SubmitHandler<PhdThesisForm> = async data => {
+    try {
+      const created = await axios
+        .post<PhdThesis>(`/phd-thesis`, {
+          ...data,
+          posterUrl: '',
+        })
+        .then(res => res.data);
+
+      if (posterFileList.length > 0) {
+        const formData = new FormData();
+        formData.append('posterUrl', posterFileList[0]);
+
+        await axios.post(`/phd-thesis/${created.id}/poster`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        toast.success('Poster încărcat cu succes!');
+      }
+
+      await queryClient.invalidateQueries({ queryKey: ['phd-thesis'] });
+      setIsModalOpen(false);
+      resetForm();
+      setPosterFileList([]);
+      toast.success('Teza de doctorat a fost adăugată cu succes.');
+    } catch (error) {
+      console.error(error);
+      toast.error('Nu s-a putut adăuga teza de doctorat!');
+    }
   };
 
   const handleCacheInvalidation = () => {
@@ -144,9 +173,9 @@ const PhdThesisPage = () => {
         toast.error('Se pot adăuga doar fișiere JPG / PNG!');
         return false;
       }
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 < 30;
       if (!isLt2M) {
-        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        toast.error('Se pot adăuga doar fișiere până în 30MB');
         return false;
       }
       setPosterFileList([file]);

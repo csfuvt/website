@@ -289,21 +289,27 @@ export const KPhdThesisCard = ({
   });
 
   const onSubmit: SubmitHandler<PhdThesisForm> = async data => {
-    await editMutation({ ...data, id });
-    if (posterFileList.length > 0) {
-      const formData = new FormData();
-      formData.append('posterUrl', posterFileList[0]);
+    try {
+      await editMutation({ ...data, id });
 
-      try {
+      if (posterFileList.length > 0) {
+        const formData = new FormData();
+        formData.append('posterUrl', posterFileList[0]);
+
         await axios.post(`/phd-thesis/${id}/poster`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
+
         toast.success('Poster actualizat cu succes!');
-      } catch (error) {
-        toast.error('A apărut o eroare la încărcarea posterului!');
       }
+
+      await queryClient.invalidateQueries({ queryKey: ['phd-thesis'] });
+      handleCancelForEdit();
+    } catch (error) {
+      toast.error('A apărut o eroare la salvarea tezei de doctorat!');
+      console.error(error);
     }
   };
 
@@ -320,9 +326,9 @@ export const KPhdThesisCard = ({
         toast.error('Se pot adăuga doar fișiere JPG / PNG!');
         return false;
       }
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 < 30;
       if (!isLt2M) {
-        toast.error('Se pot adăuga doar fișiere până în 2MB');
+        toast.error('Se pot adăuga doar fișiere până în 30MB');
         return false;
       }
       setPosterFileList([file]);
@@ -567,21 +573,46 @@ export const KPhdThesisCard = ({
               name="posterUrl"
               control={control}
               render={({ field }) => (
-                <Upload
-                  {...uploadPosterProps}
-                  listType="picture"
-                  showUploadList={true}
-                  onChange={info => {
-                    if (info.file.status === 'done' && info.file.response) {
-                      const uploadedUrl = info.file.response.url;
-                      field.onChange(uploadedUrl);
-                      toast.success('Poster actualizat!');
-                    } else if (info.file.status === 'error') {
-                      toast.error('Eroare la actualizarea posterului');
-                    }
-                  }}>
-                  <Button icon={<UploadOutlined />}>Selectează imaginea</Button>
-                </Upload>
+                <Space direction="horizontal" size="middle">
+                  <Upload
+                    {...uploadPosterProps}
+                    listType="picture"
+                    showUploadList={true}
+                    onChange={info => {
+                      if (info.file.status === 'done' && info.file.response) {
+                        const uploadedUrl = info.file.response.url;
+                        field.onChange(uploadedUrl);
+                        toast.success('Poster actualizat!');
+                      } else if (info.file.status === 'error') {
+                        toast.error('Eroare la actualizarea posterului');
+                      }
+                    }}>
+                    <Button icon={<UploadOutlined />}>
+                      Selectează imaginea
+                    </Button>
+                  </Upload>
+
+                  {posterUrl && (
+                    <Button
+                      danger
+                      onClick={async () => {
+                        try {
+                          await axios.delete(`/phd-thesis/${id}/poster`);
+                          toast.success('Posterul a fost șters!');
+                          setPosterFileList([]);
+                          field.onChange(''); // Golește valoarea din formular
+                          await queryClient.invalidateQueries({
+                            queryKey: ['phd-thesis'],
+                          });
+                        } catch (error) {
+                          toast.error('Eroare la ștergerea posterului!');
+                          console.error(error);
+                        }
+                      }}>
+                      Șterge fotografia
+                    </Button>
+                  )}
+                </Space>
               )}
             />
           </Space>

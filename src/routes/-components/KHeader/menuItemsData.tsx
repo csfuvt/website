@@ -242,44 +242,44 @@ export const menuItemsData: MenuItem[] = [
               },
             ],
           },
-          {
-            title: 'Agapes Francophones',
-            submenu: [
-              {
-                title: 'Despre noi',
-                url: '/research/publications/agapes-francophones/about',
-              },
-              {
-                title: 'Comitete',
-                url: '/research/publications/agapes-francophones/committees',
-              },
-              {
-                title: 'Politica editorială',
-                url: '/research/publications/agapes-francophones/editorial-policy',
-              },
-              {
-                title: 'Apel la contribuții',
-                submenu: [
-                  {
-                    title: 'Apeluri în curs',
-                    url: '/research/publications/agapes-francophones/calls/future',
-                  },
-                  {
-                    title: 'Apeluri trecute',
-                    url: '/research/publications/agapes-francophones/calls/past',
-                  },
-                ],
-              },
-              {
-                title: 'Volume',
-                url: '/research/publications/agapes-francophones/volumes',
-              },
-              {
-                title: 'Indexare',
-                url: '/research/publications/agapes-francophones/indexing',
-              },
-            ],
-          },
+          // {
+          //   title: 'Agapes Francophones',
+          //   submenu: [
+          //     {
+          //       title: 'Despre noi',
+          //       url: '/research/publications/agapes-francophones/about',
+          //     },
+          //     {
+          //       title: 'Comitete',
+          //       url: '/research/publications/agapes-francophones/committees',
+          //     },
+          //     {
+          //       title: 'Politica editorială',
+          //       url: '/research/publications/agapes-francophones/editorial-policy',
+          //     },
+          //     {
+          //       title: 'Apel la contribuții',
+          //       submenu: [
+          //         {
+          //           title: 'Apeluri în curs',
+          //           url: '/research/publications/agapes-francophones/calls/future',
+          //         },
+          //         {
+          //           title: 'Apeluri trecute',
+          //           url: '/research/publications/agapes-francophones/calls/past',
+          //         },
+          //       ],
+          //     },
+          //     {
+          //       title: 'Volume',
+          //       url: '/research/publications/agapes-francophones/volumes',
+          //     },
+          //     {
+          //       title: 'Indexare',
+          //       url: '/research/publications/agapes-francophones/indexing',
+          //     },
+          //   ],
+          // },
           {
             title: 'Publicațiile membrilor',
             url: '/research/publications/members-publications',

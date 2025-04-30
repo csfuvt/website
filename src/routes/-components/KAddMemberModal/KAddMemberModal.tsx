@@ -113,9 +113,9 @@ export const KAddMemberModal = ({
         toast.error('Se pot adăuga doar fișiere JPG / PNG');
         return false;
       }
-      const isLt10M = file.size / 1024 / 1024 < 10;
+      const isLt10M = file.size / 1024 / 1024 < 30;
       if (!isLt10M) {
-        toast.error('Se pot adăuga doar fișiere până în 10MB');
+        toast.error('Se pot adăuga doar fișiere până în 30MB');
         return false;
       }
       setImageFile(file);
@@ -141,9 +141,9 @@ export const KAddMemberModal = ({
         toast.error('Se pot adăuga doar fișiere PDF!');
         return false;
       }
-      const isLt10M = file.size / 1024 / 1024 < 10;
+      const isLt10M = file.size / 1024 / 1024 < 30;
       if (!isLt10M) {
-        toast.error('Se pot adăuga doar fișiere până în 10MB');
+        toast.error('Se pot adăuga doar fișiere până în 30MB');
         return false;
       }
       setDocumentFile(file);
@@ -322,7 +322,6 @@ export const KAddMemberModal = ({
           value={selectedMemberCategory}
           size="large">
           <Option value="FOUNDER">Fondator</Option>
-          <Option value="MANAGEMENT">Conducere</Option>
           <Option value="BASE_TEAM">Echipa de bază</Option>
           <Option value="STUDENTS">Doctoranzi și studenți</Option>
           <Option value="ASSOCIATE_MEMBER">Membri asociați</Option>
