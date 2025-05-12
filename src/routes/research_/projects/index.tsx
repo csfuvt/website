@@ -13,6 +13,9 @@ import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import KProjectCard from '../../-components/KProjectCard/KProjectCard.tsx';
 import TextEditor from '../../-components/KTextEditor/KTextEditor.tsx';
+import type { UploadFile } from 'antd/es/upload/interface';
+import { Upload } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 
 export interface ProjectForm {
   title: string;
@@ -25,6 +28,7 @@ export interface ProjectForm {
   implementationPeriod: string;
   description: string;
   link: string;
+  images: UploadFile[];
 }
 
 const addProject = ({
@@ -38,6 +42,7 @@ const addProject = ({
   implementationPeriod,
   description,
   link,
+  images,
 }: ProjectForm) => {
   return axios
     .post<Project>(`/projects`, {
@@ -51,8 +56,44 @@ const addProject = ({
       implementationPeriod,
       description,
       link,
+      images: images.map(file => file.name),
     })
     .then(res => res.data);
+};
+
+/*const uploadImages = async (projectId: number, images: UploadFile[]) => {
+  const formData = new FormData();
+  images.forEach((file) => {
+    if (file.originFileObj) {
+      formData.append('images', file.originFileObj);
+    }
+  });
+
+  return axios.post(`/projects/${projectId}/images`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};*/
+const uploadImages = async (projectId: number, images: UploadFile[]) => {
+  const formData = new FormData();
+  images.forEach(file => {
+    if (file.originFileObj) {
+      formData.append('images', file.originFileObj);
+    }
+  });
+
+  const res = await axios.post<{ fileNames: string[] }>(
+    `/projects/${projectId}/images`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
+
+  return res.data.fileNames;
 };
 
 const getProjects = () =>
@@ -60,6 +101,8 @@ const getProjects = () =>
 
 const ProjectsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const { isLoggedIn } = useAuth();
 
@@ -103,10 +146,22 @@ const ProjectsPage = () => {
 
   const resetForm = () => {
     reset();
+    setFileList([]);
   };
 
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
+  /* const { mutate, isPending } = useMutation({
+    mutationFn: addProject,
+    onError: () => toast.error('Nu s-a putut adăuga proiectul!'),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['projects'] });
+      setIsModalOpen(false);
+      resetForm();
+      toast.success('Proiectul a fost adăugat cu succes.');
+    },
+  });*/
+
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: addProject,
     onError: () => toast.error('Nu s-a putut adăuga proiectul!'),
     onSuccess: async () => {
@@ -117,9 +172,53 @@ const ProjectsPage = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<ProjectForm> = data => {
-    mutate(data);
+  const onSubmit: SubmitHandler<ProjectForm> = async data => {
+    const { images, ...rest } = data;
+    // Înainte de a adăuga proiectul, trimite imagini
+    const createdProject = await mutateAsync({ ...rest, images });
+
+    // Încarcă imagini dacă există fișiere
+    if (fileList.length > 0) {
+      const savedImageNames = await uploadImages(createdProject.id, fileList);
+
+      // Dacă există imagini salvate, le adaugă proiectului
+      if (savedImageNames.length > 0) {
+        await axios.patch(`/projects/${createdProject.id}`, {
+          images: savedImageNames,
+        });
+      }
+    }
+
+    // Încarcă din nou lista de proiecte
+    await queryClient.invalidateQueries({ queryKey: ['projects'] });
+    setIsModalOpen(false);
+    resetForm();
+    toast.success('Proiectul a fost adăugat cu succes.');
   };
+
+  /*
+  const onSubmit: SubmitHandler<ProjectForm> = async (data) => {
+    try {
+      const { images, ...rest } = data;
+      const createdProject = await mutateAsync({ ...rest, images }); // use mutation
+
+      if (fileList.length > 0) {
+        await uploadImages(createdProject.id, fileList); // POST /projects/:id/images
+      }
+  
+      await queryClient.invalidateQueries({ queryKey: ['projects'] });
+      setIsModalOpen(false);
+      resetForm();
+      toast.success('Proiectul a fost adăugat cu succes.');
+    } catch (error) {
+      toast.error('Nu s-a putut adăuga proiectul!');
+    }
+  };
+  */
+
+  //const onSubmit: SubmitHandler<ProjectForm> = data => {
+  // mutate(data);
+  //};
 
   return (
     <div className={styles.page}>
@@ -301,6 +400,29 @@ const ProjectsPage = () => {
                   />
                 )}
               />
+              <Controller
+                name="images"
+                control={control}
+                defaultValue={[]}
+                render={({ field }) => (
+                  <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onChange={({ fileList }) => {
+                      setFileList(fileList);
+                      field.onChange(fileList); // actualizează în react-hook-form
+                    }}
+                    beforeUpload={() => false}
+                    multiple>
+                    {fileList.length < 5 && (
+                      <div>
+                        <PlusOutlined />
+                        <div style={{ marginTop: 5 }}>Încarcă</div>
+                      </div>
+                    )}
+                  </Upload>
+                )}
+              />
             </Space>
           </Modal>
           <div className="flex">
@@ -330,6 +452,7 @@ const ProjectsPage = () => {
                     implementationPeriod={Project.implementationPeriod}
                     description={Project.description}
                     link={Project.link}
+                    images={Project.images}
                   />
                 );
               })
