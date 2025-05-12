@@ -1,11 +1,22 @@
 import styles from './KProjectCard.module.css';
 import { ActionableButton } from '../KChapter/KChapter.tsx';
-import { Button, Dropdown, Input, MenuProps, Modal, Space } from 'antd';
+import {
+  Button,
+  Dropdown,
+  Input,
+  MenuProps,
+  Modal,
+  Space,
+  Upload,
+  Image,
+  UploadFile,
+} from 'antd';
 import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleFilled,
   MoreOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../../hooks/useAuth.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -17,6 +28,7 @@ import { Project } from '../../research_/projects/-projects.model.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import TextEditor from '../KTextEditor/KTextEditor.tsx';
+import { BASE_URL } from '../../../constants.ts';
 
 interface ProjectForm {
   title: string;
@@ -29,6 +41,7 @@ interface ProjectForm {
   implementationPeriod?: string;
   description: string;
   link?: string;
+  images?: any[];
 }
 
 const editProject = async ({ id, ...data }: ProjectForm & { id: number }) => {
@@ -38,6 +51,19 @@ const editProject = async ({ id, ...data }: ProjectForm & { id: number }) => {
 
 const deleteProject = (id: number) =>
   axios.delete(`/projects/${id}`).then(res => res.data);
+
+const uploadImages = async (id: number, formData: FormData) => {
+  try {
+    await axios.post(`/projects/${id}/upload-images`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    toast.success('Imaginile au fost încărcate cu succes!');
+  } catch (error) {
+    toast.error('A apărut o eroare la încărcarea imaginilor.');
+  }
+};
 
 export const KProjectsCard = ({
   id,
@@ -51,6 +77,7 @@ export const KProjectsCard = ({
   implementationPeriod,
   description,
   link,
+  images,
 }: {
   id: number;
   title: string;
@@ -63,6 +90,7 @@ export const KProjectsCard = ({
   implementationPeriod?: string;
   description: string;
   link?: string;
+  images?: string[];
 }) => {
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
@@ -89,6 +117,8 @@ export const KProjectsCard = ({
       },
     });
   };
+
+  const [fileList, setFileList] = useState<UploadFile[]>([]); // inițializarea stării pentru fileList
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const showEditModal = () => {
@@ -144,6 +174,7 @@ export const KProjectsCard = ({
       implementationPeriod,
       description,
       link,
+      images: images || [],
     },
   });
 
@@ -161,9 +192,51 @@ export const KProjectsCard = ({
     onError: () => toast.error('A apărut o eroare în momentul editării'),
   });
 
-  const onSubmit: SubmitHandler<ProjectForm> = data => {
-    editMutation({ ...data, id });
+  const onSubmit: SubmitHandler<ProjectForm> = async data => {
+    try {
+      const formData = new FormData();
+
+      // Adaugă toate datele (titlu, descriere etc.)
+      Object.entries(data).forEach(([key, value]) => {
+        if (value) {
+          // Adaugă fiecare câmp la FormData
+          formData.append(key, value);
+        }
+      });
+
+      // Dacă există imagini (care sunt de tip FileList)
+      if (data.images && data.images.length > 0) {
+        data.images.forEach((file: any) => {
+          if (file instanceof File) {
+            // Verifică dacă fișierul este o imagine cu extensia jpg, jpeg sau png
+            const validImageTypes = ['image/jpeg', 'image/png']; // Tipuri MIME permise
+            if (validImageTypes.includes(file.type)) {
+              // Adaugă fișierul în formData
+              formData.append('images', file);
+            } else {
+              toast.error(
+                'Fișierul nu este un tip de imagine valid. Permise: .jpg, .jpeg, .png'
+              );
+            }
+          }
+        });
+      }
+
+      await editMutation({ ...data, id });
+
+      if (data.images && data.images.length > 0) {
+        await uploadImages(id, formData);
+      }
+
+      await queryClient.invalidateQueries({ queryKey: ['projects'] });
+      toast.success('Proiectul a fost editat cu succes.');
+      resetForm();
+    } catch (error) {
+      toast.error('A apărut o eroare în momentul editării');
+    }
   };
+
+  const [previewVisible, setPreviewVisible] = useState(false);
 
   return (
     <div className={styles.card}>
@@ -171,6 +244,37 @@ export const KProjectsCard = ({
         <div className={styles.title}>
           <div dangerouslySetInnerHTML={{ __html: title }} />
         </div>
+        {images && images.length > 0 && (
+          <div className={styles.imageGallery}>
+            <Image.PreviewGroup
+              preview={{
+                visible: previewVisible,
+                onVisibleChange: vis => setPreviewVisible(vis),
+              }}>
+              {/* Ascundem celelalte imagini din DOM, dar sunt incluse în PreviewGroup */}
+              <div style={{ display: 'none' }}>
+                {images.map((src, index) => (
+                  <Image
+                    key={index}
+                    src={`${BASE_URL}/files/project-images/${src}`}
+                    alt={`Proiect imagine ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Afișăm doar prima imagine vizibilă */}
+              <Image
+                src={`${BASE_URL}/files/project-images/${images[0]}`}
+                alt="Imagine principală"
+                width={200}
+                onClick={() => setPreviewVisible(true)}
+                preview={false}
+                className={styles.projectImage}
+              />
+            </Image.PreviewGroup>
+          </div>
+        )}
+
         {responsible && (
           <p>
             <strong>Responsabil proiect:</strong> {responsible}
@@ -388,6 +492,30 @@ export const KProjectsCard = ({
                 onChange={onChange}
                 allowClear
               />
+            )}
+          />
+
+          <Controller
+            name="images"
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
+              <Upload
+                listType="picture-card"
+                fileList={fileList}
+                onChange={({ fileList }) => {
+                  setFileList(fileList);
+                  field.onChange(fileList); // actualizează în react-hook-form
+                }}
+                beforeUpload={() => false} // Evită încărcarea automată
+                multiple>
+                {fileList.length < 5 && (
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 5 }}>Încarcă</div>
+                  </div>
+                )}
+              </Upload>
             )}
           />
         </Space>

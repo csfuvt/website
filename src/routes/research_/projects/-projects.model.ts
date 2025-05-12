@@ -10,4 +10,5 @@ export interface Project {
   implementationPeriod: string;
   description: string;
   link: string;
+  images?: string[];
 }

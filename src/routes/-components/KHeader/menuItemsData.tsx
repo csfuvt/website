@@ -61,7 +61,7 @@ export const menuItemsData: MenuItem[] = [
             title: 'Colocvii',
             submenu: [
               {
-                title: 'CIEFT Ediția curentă',
+                title: 'Ediția curentă',
                 submenu: [
                   {
                     title: 'Apel la comunicări',
@@ -90,7 +90,7 @@ export const menuItemsData: MenuItem[] = [
                 ],
               },
               {
-                title: 'Arhivă colocvii anterioare',
+                title: 'Ediții anterioare',
                 submenu: [
                   {
                     title: 'Apel la comunicări',
@@ -107,10 +107,6 @@ export const menuItemsData: MenuItem[] = [
                   {
                     title: 'Afiș, program, rezumate',
                     url: '/events/conferences/cieft/current-year/events/archive',
-                  },
-                  {
-                    title: 'Informații utile',
-                    url: '/events/conferences/cieft/current-year/info/archive',
                   },
                 ],
               },
