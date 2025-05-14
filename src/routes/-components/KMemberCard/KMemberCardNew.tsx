@@ -113,6 +113,7 @@ export const KMemberCardNew = ({
     name: 'links',
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (editModalOpen) {
       const validLinks =
