@@ -194,139 +194,141 @@ const RoundTablesPage = () => {
             Mergi la Arhivă
           </Button>
         </div>
-        <div className={styles.cardsContainer}>
-          {isLoggedIn && (
-            <KAddButton className={'position'} onClick={showModal} />
-          )}
-          <Modal
-            title="Creează o masă rotundă"
-            open={isModalOpen}
-            onCancel={handleCancel}
-            footer={[
-              <Button key="back" onClick={handleCancel}>
-                Renunță
-              </Button>,
-              <Button
-                key="submit"
-                type="primary"
-                loading={isPending}
-                disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}>
-                Salvează
-              </Button>,
-            ]}>
-            <Space
-              direction="vertical"
-              size="middle"
-              style={{ display: 'flex' }}>
-              <Controller
-                name="title"
-                control={control}
-                rules={{
-                  required: 'Titlul este un câmp obligatoriu',
-                }}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.title ? 'error' : ''}
-                    placeholder={
-                      errors.title?.message ?? 'Titlul mesei rotunde'
-                    }
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="organizers"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.organizers ? 'error' : ''}
-                    placeholder={
-                      errors.organizers?.message ?? 'Organizatori (opțional)'
-                    }
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="meetingDate"
-                control={control}
-                rules={{ required: 'Data întâlnirii este obligatorie' }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <DatePicker
-                    format="DD.MM.YYYY"
-                    value={value ? dayjs(value, 'DD.MM.YYYY') : null}
-                    onChange={(_date, dateString) => {
-                      onChange(dateString);
-                    }}
-                    placeholder={error?.message || 'Selectați o dată'}
-                    status={error ? 'error' : ''}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="members"
-                control={control}
-                rules={{
-                  required: 'Participanții sunt un câmp obligatoriu',
-                }}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.members ? 'error' : ''}
-                    placeholder={errors.members?.message ?? 'Participanți'}
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="links"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.links ? 'error' : ''}
-                    placeholder={errors.links?.message ?? 'Linkuri (opțional)'}
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="posterUrl"
-                control={control}
-                render={({ field }) => (
-                  <Upload
-                    {...uploadPosterProps}
-                    listType="picture"
-                    showUploadList={true}
-                    onChange={info => {
-                      if (info.file.status === 'done' && info.file.response) {
-                        const uploadedUrl = info.file.response.url;
-                        field.onChange(uploadedUrl);
-                        toast.success('Poster actualizat!');
-                      } else if (info.file.status === 'error') {
-                        toast.error('Eroare la actualizarea posterului');
+        <div className="flex">
+          <div className={styles.cardsContainer}>
+            {isLoggedIn && (
+              <KAddButton className={'position'} onClick={showModal} />
+            )}
+            <Modal
+              title="Creează o masă rotundă"
+              open={isModalOpen}
+              onCancel={handleCancel}
+              footer={[
+                <Button key="back" onClick={handleCancel}>
+                  Renunță
+                </Button>,
+                <Button
+                  key="submit"
+                  type="primary"
+                  loading={isPending}
+                  disabled={!isValid}
+                  onClick={handleSubmit(onSubmit)}>
+                  Salvează
+                </Button>,
+              ]}>
+              <Space
+                direction="vertical"
+                size="middle"
+                style={{ display: 'flex' }}>
+                <Controller
+                  name="title"
+                  control={control}
+                  rules={{
+                    required: 'Titlul este un câmp obligatoriu',
+                  }}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      status={errors.title ? 'error' : ''}
+                      placeholder={
+                        errors.title?.message ?? 'Titlul mesei rotunde'
                       }
-                    }}>
-                    <Button icon={<UploadOutlined />}>
-                      Selectează imaginea
-                    </Button>
-                  </Upload>
-                )}
-              />
-            </Space>
-          </Modal>
-          <div className="flex">
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="organizers"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      status={errors.organizers ? 'error' : ''}
+                      placeholder={
+                        errors.organizers?.message ?? 'Organizatori (opțional)'
+                      }
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="meetingDate"
+                  control={control}
+                  rules={{ required: 'Data întâlnirii este obligatorie' }}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <DatePicker
+                      format="DD.MM.YYYY"
+                      value={value ? dayjs(value, 'DD.MM.YYYY') : null}
+                      onChange={(_date, dateString) => {
+                        onChange(dateString);
+                      }}
+                      placeholder={error?.message || 'Selectați o dată'}
+                      status={error ? 'error' : ''}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="members"
+                  control={control}
+                  rules={{
+                    required: 'Participanții sunt un câmp obligatoriu',
+                  }}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      status={errors.members ? 'error' : ''}
+                      placeholder={errors.members?.message ?? 'Participanți'}
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="links"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      status={errors.links ? 'error' : ''}
+                      placeholder={
+                        errors.links?.message ?? 'Linkuri (opțional)'
+                      }
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="posterUrl"
+                  control={control}
+                  render={({ field }) => (
+                    <Upload
+                      {...uploadPosterProps}
+                      listType="picture"
+                      showUploadList={true}
+                      onChange={info => {
+                        if (info.file.status === 'done' && info.file.response) {
+                          const uploadedUrl = info.file.response.url;
+                          field.onChange(uploadedUrl);
+                          toast.success('Poster actualizat!');
+                        } else if (info.file.status === 'error') {
+                          toast.error('Eroare la actualizarea posterului');
+                        }
+                      }}>
+                      <Button icon={<UploadOutlined />}>
+                        Selectează imaginea
+                      </Button>
+                    </Upload>
+                  )}
+                />
+              </Space>
+            </Modal>
             {isLoading ? (
               <Spin />
             ) : isError ? (

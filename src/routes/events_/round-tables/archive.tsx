@@ -121,125 +121,129 @@ const RoundTablesPageArchive = () => {
             Înapoi la mese rotunde
           </Button>
         </div>
-        <div className={styles.cardsContainer}>
-          <Modal
-            title="Creează o masă rotundă"
-            open={isModalOpen}
-            onCancel={handleCancel}
-            footer={[
-              <Button key="back" onClick={handleCancel}>
-                Renunță
-              </Button>,
-              <Button
-                key="submit"
-                type="primary"
-                loading={isPending}
-                disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}>
-                Salvează
-              </Button>,
-            ]}>
-            <Space
-              direction="vertical"
-              size="middle"
-              style={{ display: 'flex' }}>
-              <Controller
-                name="title"
-                control={control}
-                rules={{
-                  required: 'Titlul este un câmp obligatoriu',
-                }}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.title ? 'error' : ''}
-                    placeholder={
-                      errors.title?.message ?? 'Titlul mesei rotunde'
-                    }
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="organizers"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.organizers ? 'error' : ''}
-                    placeholder={
-                      errors.organizers?.message ?? 'Organizatori (opțional)'
-                    }
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="meetingDate"
-                control={control}
-                rules={{
-                  required: 'Data întâlnirii este un câmp obligatoriu',
-                }}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    type="date"
-                    status={errors.meetingDate ? 'error' : ''}
-                    placeholder={
-                      errors.meetingDate?.message ?? 'Data întâlnirii'
-                    }
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="members"
-                control={control}
-                rules={{
-                  required: 'Participanții sunt un câmp obligatoriu',
-                }}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.members ? 'error' : ''}
-                    placeholder={errors.members?.message ?? 'Participanți'}
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="links"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.links ? 'error' : ''}
-                    placeholder={errors.links?.message ?? 'Linkuri (opțional)'}
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-              <Controller
-                name="posterUrl"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.posterUrl ? 'error' : ''}
-                    placeholder={errors.posterUrl?.message ?? 'Afiș (opțional)'}
-                    value={value}
-                    onChange={onChange}
-                    allowClear
-                  />
-                )}
-              />
-            </Space>
-          </Modal>
-          <div className="flex">
+        <div className="flex">
+          <div className={styles.cardsContainer}>
+            <Modal
+              title="Creează o masă rotundă"
+              open={isModalOpen}
+              onCancel={handleCancel}
+              footer={[
+                <Button key="back" onClick={handleCancel}>
+                  Renunță
+                </Button>,
+                <Button
+                  key="submit"
+                  type="primary"
+                  loading={isPending}
+                  disabled={!isValid}
+                  onClick={handleSubmit(onSubmit)}>
+                  Salvează
+                </Button>,
+              ]}>
+              <Space
+                direction="vertical"
+                size="middle"
+                style={{ display: 'flex' }}>
+                <Controller
+                  name="title"
+                  control={control}
+                  rules={{
+                    required: 'Titlul este un câmp obligatoriu',
+                  }}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      status={errors.title ? 'error' : ''}
+                      placeholder={
+                        errors.title?.message ?? 'Titlul mesei rotunde'
+                      }
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="organizers"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      status={errors.organizers ? 'error' : ''}
+                      placeholder={
+                        errors.organizers?.message ?? 'Organizatori (opțional)'
+                      }
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="meetingDate"
+                  control={control}
+                  rules={{
+                    required: 'Data întâlnirii este un câmp obligatoriu',
+                  }}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      type="date"
+                      status={errors.meetingDate ? 'error' : ''}
+                      placeholder={
+                        errors.meetingDate?.message ?? 'Data întâlnirii'
+                      }
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="members"
+                  control={control}
+                  rules={{
+                    required: 'Participanții sunt un câmp obligatoriu',
+                  }}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      status={errors.members ? 'error' : ''}
+                      placeholder={errors.members?.message ?? 'Participanți'}
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="links"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      status={errors.links ? 'error' : ''}
+                      placeholder={
+                        errors.links?.message ?? 'Linkuri (opțional)'
+                      }
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+                <Controller
+                  name="posterUrl"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      status={errors.posterUrl ? 'error' : ''}
+                      placeholder={
+                        errors.posterUrl?.message ?? 'Afiș (opțional)'
+                      }
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                    />
+                  )}
+                />
+              </Space>
+            </Modal>
             {isLoading ? (
               <Spin />
             ) : isError ? (
