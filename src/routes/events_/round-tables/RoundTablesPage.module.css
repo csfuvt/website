@@ -1,9 +1,8 @@
 .cardsContainer {
   display: flex;
-  padding: 64px 128px;
-  justify-content: center;
-  align-items: flex-start;
-  align-content: flex-start;
-  gap: 36px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 36px;
+  gap: 10px;
+  width: 100%;
   }

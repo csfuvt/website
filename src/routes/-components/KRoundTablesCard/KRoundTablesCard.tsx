@@ -311,13 +311,13 @@ export const KRoundTablesCard = ({
               src={`${BASE_URL}/files/round-tables/${posterUrl}`}
               alt="Poster"
               className={styles.posterImage}
-              onClick={() =>
-                window.open(
-                  `${BASE_URL}/files/round-tables/${posterUrl}`,
-                  '_blank',
-                  'noopener,noreferrer'
-                )
-              }
+              // onClick={() =>
+              //   window.open(
+              //     `${BASE_URL}/files/round-tables/${posterUrl}`,
+              //     '_blank',
+              //     'noopener,noreferrer'
+              //   )
+              // }
             />
           </div>
         )}
