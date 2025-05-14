@@ -10,5 +10,11 @@ export interface Project {
   implementationPeriod: string;
   description: string;
   link: string;
-  images?: string[];
+  images?: ProjectImage[];
+}
+
+export interface ProjectImage {
+  id: number;
+  path: string;
+  projectId: number;
 }

@@ -42,8 +42,7 @@ const addProject = ({
   implementationPeriod,
   description,
   link,
-  images,
-}: ProjectForm) => {
+}: Omit<ProjectForm, 'images'>) => {
   return axios
     .post<Project>(`/projects`, {
       title,
@@ -56,7 +55,6 @@ const addProject = ({
       implementationPeriod,
       description,
       link,
-      images: images.map(file => file.name),
     })
     .then(res => res.data);
 };
@@ -93,7 +91,7 @@ const uploadImages = async (projectId: number, images: UploadFile[]) => {
     }
   );
 
-  return res.data.fileNames;
+  return res.data?.fileNames ?? []; // fallback empty array
 };
 
 const getProjects = () =>
@@ -173,27 +171,41 @@ const ProjectsPage = () => {
   });
 
   const onSubmit: SubmitHandler<ProjectForm> = async data => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { images, ...rest } = data;
-    // Înainte de a adăuga proiectul, trimite imagini
-    const createdProject = await mutateAsync({ ...rest, images });
 
-    // Încarcă imagini dacă există fișiere
-    if (fileList.length > 0) {
-      const savedImageNames = await uploadImages(createdProject.id, fileList);
+    try {
+      const createdProject = await mutateAsync(rest);
 
-      // Dacă există imagini salvate, le adaugă proiectului
-      if (savedImageNames.length > 0) {
-        await axios.patch(`/projects/${createdProject.id}`, {
+      let fullProject = createdProject;
+
+      if (fileList && fileList.length > 0) {
+        const savedImageNames = await uploadImages(createdProject.id, fileList);
+
+        // 🔁 Nu mai verifica .length — mereu trimite PATCH și apoi GET
+        await axios.post(`/projects/${createdProject.id}`, {
           images: savedImageNames,
         });
-      }
-    }
 
-    // Încarcă din nou lista de proiecte
-    await queryClient.invalidateQueries({ queryKey: ['projects'] });
-    setIsModalOpen(false);
-    resetForm();
-    toast.success('Proiectul a fost adăugat cu succes.');
+        // 🔁 Fă mereu GET ca să obții și imaginile din DB
+        const updated = await axios.get<Project>(
+          `/projects/${createdProject.id}`
+        );
+        fullProject = updated.data;
+      }
+
+      queryClient.setQueryData<Project[]>(['projects'], old => {
+        if (!old) return [fullProject];
+        return [fullProject, ...old.filter(p => p.id !== fullProject.id)];
+      });
+
+      resetForm();
+      setIsModalOpen(false);
+      toast.success('Proiectul a fost adăugat cu succes.');
+    } catch (err) {
+      console.error(err);
+      toast.error('A apărut o eroare la adăugarea proiectului.');
+    }
   };
 
   /*

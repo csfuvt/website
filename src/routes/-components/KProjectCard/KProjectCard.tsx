@@ -22,13 +22,14 @@ import { useAuth } from '../../../hooks/useAuth.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Project } from '../../research_/projects/-projects.model.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import TextEditor from '../KTextEditor/KTextEditor.tsx';
 import { BASE_URL } from '../../../constants.ts';
+import { UploadFileStatus } from 'antd/es/upload/interface';
 
 interface ProjectForm {
   title: string;
@@ -41,7 +42,7 @@ interface ProjectForm {
   implementationPeriod?: string;
   description: string;
   link?: string;
-  images?: any[];
+  images?: (UploadFile | { id: number; path: string; projectId: number })[];
 }
 
 const editProject = async ({ id, ...data }: ProjectForm & { id: number }) => {
@@ -54,7 +55,7 @@ const deleteProject = (id: number) =>
 
 const uploadImages = async (id: number, formData: FormData) => {
   try {
-    await axios.post(`/projects/${id}/upload-images`, formData, {
+    await axios.post(`/projects/${id}/images`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -90,7 +91,7 @@ export const KProjectsCard = ({
   implementationPeriod?: string;
   description: string;
   link?: string;
-  images?: string[];
+  images?: { id: number; path: string; projectId: number }[];
 }) => {
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
@@ -118,7 +119,20 @@ export const KProjectsCard = ({
     });
   };
 
-  const [fileList, setFileList] = useState<UploadFile[]>([]); // inițializarea stării pentru fileList
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (images && images.length > 0) {
+      const formattedImages: UploadFile[] = images.map(img => ({
+        uid: img.id.toString(),
+        name: img.path,
+        status: 'done' as UploadFileStatus,
+        url: `${BASE_URL}/files/project-images/${img.path}`,
+      }));
+      setFileList(formattedImages);
+    }
+  }, [images]);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const showEditModal = () => {
@@ -194,38 +208,36 @@ export const KProjectsCard = ({
 
   const onSubmit: SubmitHandler<ProjectForm> = async data => {
     try {
-      const formData = new FormData();
+      const newImages =
+        data.images?.filter((file: any) => file.originFileObj) ?? [];
 
-      // Adaugă toate datele (titlu, descriere etc.)
-      Object.entries(data).forEach(([key, value]) => {
-        if (value) {
-          // Adaugă fiecare câmp la FormData
-          formData.append(key, value);
-        }
+      const formData = new FormData();
+      newImages.forEach((file: any) => {
+        formData.append('images', file.originFileObj);
       });
 
-      // Dacă există imagini (care sunt de tip FileList)
-      if (data.images && data.images.length > 0) {
-        data.images.forEach((file: any) => {
-          if (file instanceof File) {
-            // Verifică dacă fișierul este o imagine cu extensia jpg, jpeg sau png
-            const validImageTypes = ['image/jpeg', 'image/png']; // Tipuri MIME permise
-            if (validImageTypes.includes(file.type)) {
-              // Adaugă fișierul în formData
-              formData.append('images', file);
-            } else {
-              toast.error(
-                'Fișierul nu este un tip de imagine valid. Permise: .jpg, .jpeg, .png'
-              );
-            }
-          }
-        });
+      if (newImages.length > 0) {
+        await uploadImages(id, formData); // POST /projects/:id/images ✅
       }
 
-      await editMutation({ ...data, id });
+      await editMutation({
+        id,
+        title: data.title,
+        responsible: data.responsible,
+        members: data.members,
+        funding: data.funding,
+        budget: data.budget,
+        hostingUni: data.hostingUni,
+        partners: data.partners,
+        implementationPeriod: data.implementationPeriod,
+        description: data.description,
+        link: data.link,
+      }); // POST /projects/:id ✅
 
-      if (data.images && data.images.length > 0) {
-        await uploadImages(id, formData);
+      if (imagesToDelete.length > 0) {
+        await axios.post(`/projects/${id}/delete-images`, {
+          imageIds: imagesToDelete,
+        }); // POST /projects/:id/delete-images ✅
       }
 
       await queryClient.invalidateQueries({ queryKey: ['projects'] });
@@ -251,26 +263,18 @@ export const KProjectsCard = ({
                 visible: previewVisible,
                 onVisibleChange: vis => setPreviewVisible(vis),
               }}>
-              {/* Ascundem celelalte imagini din DOM, dar sunt incluse în PreviewGroup */}
-              <div style={{ display: 'none' }}>
-                {images.map((src, index) => (
-                  <Image
-                    key={index}
-                    src={`${BASE_URL}/files/project-images/${src}`}
-                    alt={`Proiect imagine ${index + 1}`}
-                  />
-                ))}
-              </div>
-
-              {/* Afișăm doar prima imagine vizibilă */}
-              <Image
-                src={`${BASE_URL}/files/project-images/${images[0]}`}
-                alt="Imagine principală"
-                width={200}
-                onClick={() => setPreviewVisible(true)}
-                preview={false}
-                className={styles.projectImage}
-              />
+              {images.map((img, index) => (
+                <Image
+                  key={index}
+                  src={`${BASE_URL}/files/project-images/${img.path}`}
+                  alt={`Proiect imagine ${index + 1}`}
+                  width={index === 0 ? 200 : 0}
+                  style={index === 0 ? {} : { display: 'none' }}
+                  onClick={
+                    index === 0 ? () => setPreviewVisible(true) : undefined
+                  }
+                />
+              ))}
             </Image.PreviewGroup>
           </div>
         )}
@@ -505,9 +509,16 @@ export const KProjectsCard = ({
                 fileList={fileList}
                 onChange={({ fileList }) => {
                   setFileList(fileList);
-                  field.onChange(fileList); // actualizează în react-hook-form
+                  field.onChange(fileList);
                 }}
-                beforeUpload={() => false} // Evită încărcarea automată
+                onRemove={file => {
+                  // dacă fișierul e deja salvat (nu e nou adăugat)
+                  if (!file.originFileObj && file.uid) {
+                    setImagesToDelete(prev => [...prev, parseInt(file.uid)]);
+                  }
+                  return true;
+                }}
+                beforeUpload={() => false}
                 multiple>
                 {fileList.length < 5 && (
                   <div>
