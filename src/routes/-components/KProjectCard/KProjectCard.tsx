@@ -232,12 +232,12 @@ export const KProjectsCard = ({
         implementationPeriod: data.implementationPeriod,
         description: data.description,
         link: data.link,
-      }); // POST /projects/:id ✅
+      }); // POST /projects/:id
 
       if (imagesToDelete.length > 0) {
         await axios.post(`/projects/${id}/delete-images`, {
           imageIds: imagesToDelete,
-        }); // POST /projects/:id/delete-images ✅
+        }); // POST /projects/:id/delete-images
       }
 
       await queryClient.invalidateQueries({ queryKey: ['projects'] });
@@ -252,10 +252,7 @@ export const KProjectsCard = ({
 
   return (
     <div className={styles.card}>
-      <div className={styles.content}>
-        <div className={styles.title}>
-          <div dangerouslySetInnerHTML={{ __html: title }} />
-        </div>
+      <div className={styles.contentWrapper}>
         {images && images.length > 0 && (
           <div className={styles.imageGallery}>
             <Image.PreviewGroup
@@ -268,65 +265,71 @@ export const KProjectsCard = ({
                   key={index}
                   src={`${BASE_URL}/files/project-images/${img.path}`}
                   alt={`Proiect imagine ${index + 1}`}
-                  width={index === 0 ? 200 : 0}
+                  // width={index === 0 ? 200 : 0}
                   style={index === 0 ? {} : { display: 'none' }}
                   onClick={
                     index === 0 ? () => setPreviewVisible(true) : undefined
                   }
+                  className={styles.projectImage}
                 />
               ))}
             </Image.PreviewGroup>
           </div>
         )}
 
-        {responsible && (
-          <p>
-            <strong>Responsabil proiect:</strong> {responsible}
-          </p>
-        )}
-        {members && (
-          <p>
-            <strong>Membri proiect:</strong> {members}
-          </p>
-        )}
-        {funding && (
-          <p>
-            <strong>Axă de finanțare:</strong> {funding}
-          </p>
-        )}
-        {budget && (
-          <p>
-            <strong>Buget:</strong> {budget}
-          </p>
-        )}
-        {hostingUni && (
-          <p>
-            <strong>Universitate gazdă:</strong> {hostingUni}
-          </p>
-        )}
-        {partners && (
-          <p>
-            <strong>Parteneri:</strong> {partners}
-          </p>
-        )}
-        {implementationPeriod && (
-          <p>
-            <strong>Perioada de implementare:</strong> {implementationPeriod}
-          </p>
-        )}
-        <p>
-          <strong>Descriere proiect:</strong>
-          <div dangerouslySetInnerHTML={{ __html: description }} />
-        </p>
-        {link && (
-          <div className={styles.linkContainer}>
-            <a href={link} target="_blank" className={styles.logo}>
-              <FontAwesomeIcon
-                icon={faGlobe}
-                style={{ color: '#004992', width: '40px', height: '40px' }}
-              />
-            </a>
+        <div className={styles.content}>
+          <div className={styles.title}>
+            <div dangerouslySetInnerHTML={{ __html: title }} />
           </div>
+          {responsible && (
+            <p>
+              <strong>Responsabil proiect:</strong> {responsible}
+            </p>
+          )}
+          {members && (
+            <p>
+              <strong>Membri proiect:</strong> {members}
+            </p>
+          )}
+          {funding && (
+            <p>
+              <strong>Axă de finanțare:</strong> {funding}
+            </p>
+          )}
+          {budget && (
+            <p>
+              <strong>Buget:</strong> {budget}
+            </p>
+          )}
+          {hostingUni && (
+            <p>
+              <strong>Universitate gazdă:</strong> {hostingUni}
+            </p>
+          )}
+          {partners && (
+            <p>
+              <strong>Parteneri:</strong> {partners}
+            </p>
+          )}
+          {implementationPeriod && (
+            <p>
+              <strong>Perioada de implementare:</strong> {implementationPeriod}
+            </p>
+          )}
+          <p>
+            <strong>Descriere proiect:</strong>
+            <div dangerouslySetInnerHTML={{ __html: description }} />
+          </p>
+        </div>
+      </div>
+      <div className={styles.linkContainer}>
+        {link && (
+          <a href={link} target="_blank" className={styles.logo}>
+            <FontAwesomeIcon
+              icon={faGlobe}
+              style={{ color: '#004992', width: '40px', height: '40px' }}
+            />
+          </a>
         )}
       </div>
 

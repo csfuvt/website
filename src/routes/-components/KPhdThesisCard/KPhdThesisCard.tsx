@@ -351,13 +351,13 @@ export const KPhdThesisCard = ({
               src={`${BASE_URL}/files/phd-thesis/${posterUrl}`}
               alt="Poster"
               className={styles.posterImage}
-              onClick={() =>
-                window.open(
-                  `${BASE_URL}/files/phd-thesis/${posterUrl}`,
-                  '_blank',
-                  'noopener,noreferrer'
-                )
-              }
+              // onClick={() =>
+              //   window.open(
+              //     `${BASE_URL}/files/phd-thesis/${posterUrl}`,
+              //    '_blank',
+              //    'noopener,noreferrer'
+              // )
+              //}
             />
           </div>
         )}

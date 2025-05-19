@@ -7,3 +7,20 @@
   gap: 36px;
   flex-wrap: wrap;
   }
+
+   /* Tablete și telefoane */
+@media only screen and (max-width: 1024px) {
+  .cardsContainer {
+    padding: 32px;
+    gap: 24px;
+  }
+}
+
+/* Telefoane mici */
+@media only screen and (max-width: 768px) {
+  .cardsContainer {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+}

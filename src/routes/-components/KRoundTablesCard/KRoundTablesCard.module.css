@@ -108,6 +108,7 @@
 
     .contentWrapper {
         flex-direction: column;
+        align-items: center;
     }
 
     .title {
@@ -115,10 +116,11 @@
     }
 
     .actions {
-        position: static;
-        margin-top: 16px;
+        top: 16px;
+        right: 16px;
+        position:absolute;
         display: flex;
-        justify-content: center;
+        justify-content: right;
     }
 
     .button {
@@ -136,4 +138,47 @@
         width: 50px;
         height: 50px;
     }
+}
+
+@media only screen and (min-width: 769px) and (max-width:1024px) {
+    .card {
+        width: 100%;
+        gap: 16px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .actions {
+        top: 16px;
+        right: 16px;
+        position:absolute;
+        display: flex;
+        justify-content: right;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .logoImage {
+        width: 50px; 
+        height: 50px;
+    }
+      .contentWrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+    
+      .posterImage {
+        width: 100%;
+        height: auto;
+      }
+    
+      .content {
+        width: 100%;
+      }
+    
 }

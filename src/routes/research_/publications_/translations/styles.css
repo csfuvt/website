@@ -2,16 +2,20 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 64px 128px;
+  padding: 64px 100px;
   gap: 20px;
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .flex {
+    padding: 64px 60px;
+    gap: 24px;
+  }
 }
 
 @media only screen and (max-width: 768px) {
   .flex {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 64px 85px;
+    padding: 64px 27px;
     gap: 20px;
   }
 }
