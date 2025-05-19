@@ -149,7 +149,7 @@ export const menuItemsData: MenuItem[] = [
                 ],
               },
               {
-                title: 'Arhivă ediții anterioare',
+                title: 'Ediții anterioare',
                 submenu: [
                   {
                     title: 'Apel la comunicări',
@@ -166,10 +166,6 @@ export const menuItemsData: MenuItem[] = [
                   {
                     title: 'Afiș, program și rezumate',
                     url: '/events/conferences/francophones-studies/current-year/events/archive',
-                  },
-                  {
-                    title: 'Informații utile',
-                    url: '/events/conferences/francophones-studies/current-year/info/archive',
                   },
                 ],
               },
