@@ -92,8 +92,14 @@ export const KArticle = ({
   } = useFileUpload(FileType.PDF);
 
   const schema = yup.object().shape({
-    title: yup.string().required(),
-    authors: yup.string().required(),
+    title: yup
+      .string()
+      .transform(value => (value?.trim() === '' ? ' ' : value))
+      .required(),
+    authors: yup
+      .string()
+      .transform(value => (value?.trim() === '' ? ' ' : value))
+      .required(),
     pageStart: yup.number().positive().required(),
     pageEnd: yup.number().positive().min(yup.ref('pageStart')).required(),
   });
