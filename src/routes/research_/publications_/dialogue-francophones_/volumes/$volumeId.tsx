@@ -387,13 +387,17 @@ const VolumePage = () => {
 
               <div className="volumeUrl">
                 <span className="label">Sumar</span>
-                <a
-                  href={BASE_URL + `/files/volumes/${volume.pdf}`}
-                  className="url"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  {volume.title}
-                </a>
+                {volume.pdf ? (
+                  <a
+                    href={BASE_URL + `/files/volumes/${volume.pdf}`}
+                    className="url"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    {volume.title}
+                  </a>
+                ) : (
+                  <span className="url">{volume.title}</span> // stil păstrat, dar neclickabil
+                )}
                 {isLoggedIn && (
                   <Button
                     type="primary"
@@ -421,10 +425,15 @@ const VolumePage = () => {
                         key={chapter.id}
                         chapterId={chapter.id}
                         title={chapter.title}
-                        url={BASE_URL + `/files/chapters/${chapter.pdf}`}
+                        url={
+                          chapter.pdf
+                            ? BASE_URL + `/files/chapters/${chapter.pdf}`
+                            : ''
+                        }
                         authors={chapter.authors}
                         pageStart={chapter.pageStart}
                         pageEnd={chapter.pageEnd}
+                        pdf={chapter.pdf}
                       />
                     )
                   )}

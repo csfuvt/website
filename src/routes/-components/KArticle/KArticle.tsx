@@ -36,7 +36,6 @@ import {
   ArticleForm,
   Route,
 } from '../../research_/publications_/dialogue-francophones_/volumes/$volumeId.tsx';
-import { isEmpty } from 'lodash-es';
 import { ActionableButton } from '../KChapter/KChapter.tsx';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -56,13 +55,18 @@ const addChapter = async ({
   authors,
   pageStart,
   pageEnd,
-}: ChapterForm & { id: number; pdf: UploadFile }) => {
+}: ChapterForm & { id: number; pdf?: UploadFile }) => {
   const formData = new FormData();
-  formData.append('pdf', pdf as AntDFileType);
+
+  if (pdf) {
+    formData.append('pdf', pdf as AntDFileType);
+  }
+
   formData.append('title', title);
   formData.append('authors', authors);
   formData.append('pageStart', pageStart.toString());
   formData.append('pageEnd', pageEnd.toString());
+
   const res = await axios.post<Chapter>(`/articles/${id}/chapter`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
@@ -141,7 +145,11 @@ export const KArticle = ({
     });
 
   const onChapterSubmit: SubmitHandler<ChapterForm> = data => {
-    addChapterMutation({ ...data, pdf: pdfList[0], id: articleId });
+    addChapterMutation({
+      ...data,
+      pdf: pdfList.length > 0 ? pdfList[0] : undefined,
+      id: articleId,
+    });
   };
 
   const [isAddChapterModalOpen, setIsAddChapterModalOpen] = useState(false);
@@ -272,7 +280,7 @@ export const KArticle = ({
             key="submit"
             type="primary"
             loading={isChapterPending}
-            disabled={isEmpty(pdfList) || !isChapterValid}
+            disabled={!isChapterValid} // isEmpty(pdfList) ||
             onClick={handleChapterSubmit(onChapterSubmit)}>
             Salvează
           </Button>,

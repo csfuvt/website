@@ -39,7 +39,9 @@ export const RegistrationPage = () => {
 
   return (
     <div>
-      <KBanner label="Dialogues Francophones 2024 - Fișa de înscriere" />
+      <KBanner
+        label={`Dialogues Francophones ${new Date().getFullYear()} - Fișa de înscriere`}
+      />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <KTitle label="Fișa de înscriere" />
@@ -51,7 +53,7 @@ export const RegistrationPage = () => {
                 type="hidden"
                 id="title"
                 name="title"
-                value="Dialogues Francophones 2024 - Fișa de înscriere"
+                value={`Dialogues Francophones ${new Date().getFullYear()} - Fișa de înscriere`}
               />
               <label htmlFor="nume">Nume*</label>
               <input
