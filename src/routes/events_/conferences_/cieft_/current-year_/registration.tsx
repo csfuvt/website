@@ -39,7 +39,9 @@ export const RegistrationPage = () => {
 
   return (
     <div>
-      <KBanner label="CIEFT 2025 - Fișa de înscriere" />
+      <KBanner
+        label={`CIEFT ${new Date().getFullYear()} - Fișa de înscriere`}
+      />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <KTitle label="Fișa de înscriere" />
@@ -50,7 +52,7 @@ export const RegistrationPage = () => {
               type="hidden"
               id="title"
               name="title"
-              value="CIEFT 2024 - Fișa de înscriere"
+              value={`CIEFT ${new Date().getFullYear()} - Fișa de înscriere`}
             />
 
             <div className={styles.formGroup}>

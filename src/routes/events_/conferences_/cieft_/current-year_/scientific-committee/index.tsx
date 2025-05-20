@@ -181,7 +181,7 @@ const ComiteteTest = () => {
   return (
     <>
       <div>
-        <KBanner label="COMITETE" />
+        <KBanner label="COMITETE - CIEFT" />
 
         <Modal
           title="Adaugă persoană - Comitet științific"

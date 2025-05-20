@@ -80,6 +80,7 @@ export const KChapter = ({
   authors,
   pageStart,
   pageEnd,
+  pdf,
 }: {
   chapterId: number;
   title: string;
@@ -87,6 +88,7 @@ export const KChapter = ({
   authors: string;
   pageStart: number;
   pageEnd: number;
+  pdf: string | null;
 }) => {
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
@@ -226,7 +228,9 @@ export const KChapter = ({
     loading: isDeleteChapterPending,
   };
   const handleContainerClick = () => {
-    window.open(url, '_blank');
+    if (url) {
+      window.open(url, '_blank');
+    }
   };
 
   const { handleSubmit } = useForm<VolumeForm>();
@@ -252,6 +256,22 @@ export const KChapter = ({
   useEffect(() => {
     resetEditChapterForm({ title, authors, pageStart, pageEnd });
   }, [title, authors, pageStart, pageEnd, resetEditChapterForm]);
+
+  const deletePdf = (id: number) =>
+    axios.delete(`/chapters/${id}/pdf`).then(res => res.data);
+
+  const { mutate: deletePdfMutation, isPending: isDeletePdfPending } =
+    useMutation({
+      mutationFn: deletePdf,
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [`volume/${volumeId}`],
+        });
+        setIsChangePdfModalOpen(false);
+        toast.success('PDF-ul a fost șters cu succes.');
+      },
+      onError: () => toast.error('Nu s-a putut șterge pdf-ul!'),
+    });
 
   return (
     <div className="chapterContainer">
@@ -371,6 +391,15 @@ export const KChapter = ({
             <Button key="back" onClick={handleCancelForEditPdf}>
               Renunță
             </Button>,
+            pdf && (
+              <Button
+                key="delete"
+                danger
+                loading={isDeletePdfPending}
+                onClick={() => deletePdfMutation(chapterId)}>
+                Șterge PDF-ul
+              </Button>
+            ),
             <Button
               key="submit"
               type="primary"

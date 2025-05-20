@@ -45,7 +45,9 @@ function RegistrationPage() {
 
   return (
     <div>
-      <KBanner label="COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE 2024 - Fișa de înscriere" />
+      <KBanner
+        label={`COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE ${new Date().getFullYear()} - Fișa de înscriere`}
+      />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <KTitle label="Fișa de înscriere" />
@@ -56,7 +58,7 @@ function RegistrationPage() {
               type="hidden"
               id="title"
               name="title"
-              value="COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE 2024 - Fișa de înscriere"
+              value={`COLOCVIUL STUDENȚESC DE STUDII FRANCOFONE ${new Date().getFullYear()} - Fișa de înscriere`}
             />
 
             <div className={styles.formGroup}>

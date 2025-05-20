@@ -97,24 +97,12 @@ export const menuItemsData: MenuItem[] = [
                     url: '/events/conferences/cieft/current-year/calls/archive',
                   },
                   {
-                    title: 'Organizatori și parteneri',
-                    url: '/events/conferences/cieft/current-year/organizers-and-partners/archive',
-                  },
-                  {
-                    title: 'Comitet științific',
-                    url: '/events/conferences/cieft/current-year/scientific-committee/archive',
-                  },
-                  {
                     title: 'Afiș, program, rezumate',
                     url: '/events/conferences/cieft/current-year/events/archive',
                   },
                 ],
               },
             ],
-          },
-          {
-            title: 'Colocviile franco-române de lingvistică',
-            url: '/events/conferences/lingvistic-francophones',
           },
           {
             title: 'Colocviul studențesc de studii francofone',
@@ -156,20 +144,16 @@ export const menuItemsData: MenuItem[] = [
                     url: '/events/conferences/francophones-studies/current-year/calls/archive',
                   },
                   {
-                    title: 'Organizatori și parteneri',
-                    url: '/events/conferences/francophones-studies/current-year/organizers-and-partners/archive',
-                  },
-                  {
-                    title: 'Comitet științific',
-                    url: '/events/conferences/francophones-studies/current-year/committee/archive',
-                  },
-                  {
                     title: 'Afiș, program și rezumate',
                     url: '/events/conferences/francophones-studies/current-year/events/archive',
                   },
                 ],
               },
             ],
+          },
+          {
+            title: 'Colocviile franco-române de lingvistică',
+            url: '/events/conferences/lingvistic-francophones',
           },
         ],
         icon: faComments,
