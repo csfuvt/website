@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../../-components/KBanner/KBanner';
-import { KTitle } from '../../../../-components/KTitle/KTitle';
 import styles from './registration.module.css';
 import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
 import { BASE_URL } from '../../../../../constants.ts';
@@ -44,9 +43,6 @@ export const RegistrationPage = () => {
       />
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
-          <KTitle label="Fișa de înscriere" />
-          <br />
-
           <form className={styles.form} onSubmit={handleSubmit}>
             <input
               type="hidden"

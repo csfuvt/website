@@ -340,14 +340,12 @@ const ComiteteTest = () => {
               name="role"
               defaultValue=""
               control={comitetRedactieControl}
-              rules={{
-                required: 'Rolul în redacție este un câmp obligatoriu',
-              }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   status={comitetRedactieErrors.name ? 'error' : ''}
                   placeholder={
-                    comitetRedactieErrors.name?.message ?? 'Rolul în redacție'
+                    comitetRedactieErrors.name?.message ??
+                    'Rolul în redacție (opțional)'
                   }
                   value={value}
                   onChange={onChange}

@@ -159,7 +159,10 @@ const HomePage = () => {
       {!isError && !isLoading && isLoggedIn && (
         <>
           <center>
-            <Space direction="horizontal" size="middle">
+            <Space
+              direction="horizontal"
+              size="middle"
+              style={{ flexWrap: 'wrap', justifyContent: 'center' }}>
               <div className={styles.butonulBannerAdd}>
                 <Button
                   type="primary"

@@ -35,7 +35,7 @@ const PostersCIEFT = () => {
 
   return (
     <div>
-      <KBanner label="Arhivă - AFIȘ, PROGRAM ȘI REZUMATE" />
+      <KBanner label="Arhivă Colocvii - AFIȘ, PROGRAM ȘI REZUMATE" />
       <div className={styles.page}>
         {isLoggedIn && (
           <KAddButton className={'position'} onClick={showModal} />

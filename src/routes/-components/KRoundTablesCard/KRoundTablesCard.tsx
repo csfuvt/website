@@ -389,7 +389,8 @@ export const KRoundTablesCard = ({
               control={control}
               rules={{ required: 'Titlul este obligatoriu' }}
               render={({ field }) => (
-                <Input
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
                   {...field}
                   placeholder="Titlul"
                   status={errors.title ? 'error' : ''}
@@ -400,7 +401,8 @@ export const KRoundTablesCard = ({
               name="organizers"
               control={control}
               render={({ field }) => (
-                <Input
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
                   {...field}
                   placeholder="Organizatori (opțional)"
                   status={errors.organizers ? 'error' : ''}
@@ -432,7 +434,8 @@ export const KRoundTablesCard = ({
               control={control}
               rules={{ required: 'Participanții sunt obligatorii' }}
               render={({ field }) => (
-                <Input
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
                   {...field}
                   placeholder="Participanți"
                   status={errors.members ? 'error' : ''}
@@ -455,7 +458,10 @@ export const KRoundTablesCard = ({
               name="posterUrl"
               control={control}
               render={({ field }) => (
-                <Space direction="horizontal" size="middle">
+                <Space
+                  direction="horizontal"
+                  size="middle"
+                  style={{ flexWrap: 'wrap', justifyContent: 'center' }}>
                   <Upload
                     {...uploadPosterProps}
                     listType="picture"

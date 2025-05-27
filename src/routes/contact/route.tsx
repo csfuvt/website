@@ -40,7 +40,7 @@ const ContactPage: React.FC = () => {
           <br />
           <div className={styles.line}>
             <div className={styles.text}>
-              <span>Conducere CSF:</span>
+              <span>Centrul de Studii Francofone:</span>
               <a href="mailto:csf.admin@e-uvt.ro">csf.admin@e-uvt.ro</a>
             </div>
             <div className={styles.text}>
