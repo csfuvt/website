@@ -227,7 +227,8 @@ const RoundTablesPage = () => {
                     required: 'Titlul este un câmp obligatoriu',
                   }}
                   render={({ field: { onChange, value } }) => (
-                    <Input
+                    <Input.TextArea
+                      autoSize={{ minRows: 1, maxRows: 30 }}
                       status={errors.title ? 'error' : ''}
                       placeholder={
                         errors.title?.message ?? 'Titlul mesei rotunde'
@@ -242,7 +243,8 @@ const RoundTablesPage = () => {
                   name="organizers"
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <Input
+                    <Input.TextArea
+                      autoSize={{ minRows: 1, maxRows: 100 }}
                       status={errors.organizers ? 'error' : ''}
                       placeholder={
                         errors.organizers?.message ?? 'Organizatori (opțional)'
@@ -280,7 +282,8 @@ const RoundTablesPage = () => {
                     required: 'Participanții sunt un câmp obligatoriu',
                   }}
                   render={({ field: { onChange, value } }) => (
-                    <Input
+                    <Input.TextArea
+                      autoSize={{ minRows: 1, maxRows: 100 }}
                       status={errors.members ? 'error' : ''}
                       placeholder={errors.members?.message ?? 'Participanți'}
                       value={value}

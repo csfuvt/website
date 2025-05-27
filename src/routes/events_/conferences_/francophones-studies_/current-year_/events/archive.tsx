@@ -35,7 +35,7 @@ const PostersCOLOCVIU = () => {
 
   return (
     <div>
-      <KBanner label="ARHIVĂ - AFIȘ, PROGRAM ȘI REZUMATE" />
+      <KBanner label="ARHIVĂ CEEF - AFIȘ, PROGRAM ȘI REZUMATE" />
       <div className={styles.page}>
         {isLoggedIn && (
           <KAddButton className={'position'} onClick={showModal} />

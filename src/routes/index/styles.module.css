@@ -1,9 +1,12 @@
 .pageContainer {
+  max-width: 1066px;
+  width:100%;
   display: flex;
-  padding: 64px 128px;
+  padding: 64px 100px;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   align-self: stretch;
+  margin: 0 auto;
 }
 
 .sectionContainer {
@@ -19,12 +22,13 @@
   padding: 64px 24px;
   align-items: center;
   justify-content: center;
-  flex: 1 0 0;
   align-self: stretch;
   border-radius: 32px;
   background: #FFF;
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
   flex-direction: column;
+  width: 450px;
+  height: auto;
 }
 
 .callToContributeContainer {
@@ -147,16 +151,54 @@
   line-height: normal;
 }
 
+@media only screen and (max-width: 1024px) {
+ 
+  .boxContainer {
+    width: 100%;         /* Ocupă tot spațiul disponibil */
+    max-width: 400px;    /* Dar să nu fie mai lată de 450px */
+    padding: 32px 50px;  /* Reduce padding-ul un pic */
+    box-sizing: border-box; /* Include padding în lățime */
+  }
+
+  .pageContainer {
+    max-width: 850px;
+    padding: 64px 0px;
+  }
+
+  .image {
+    width:70%;
+}
+}
+
 @media only screen and (max-width: 768px) {
+  .butonulBannerAdd {
+    width: 100%;
+    padding-top: 16px; /* mai puțin padding */
+    display: flex;
+    justify-content: center;
+  }
+
+  .butonulBannerAdd button {
+    width: 100%;
+    max-width: 300px; /* eventual o limită să nu fie prea late */
+  }
   .pageContainer {
       flex-direction: column;
-      padding: 32px 16px;
+      padding: 32px 0px;
       align-items: center;
   }
 
   .sectionContainer {
       flex-direction: column;
       gap: 32px;
+  }
+
+  .boxContainer {
+    width:100%;
+    
+    padding: 64px 0px;
+    height: auto;
+    max-height: 453px;
   }
 
   .textContainer {
@@ -197,3 +239,4 @@
       font-size: 14px;
   }
 }
+

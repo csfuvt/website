@@ -332,6 +332,8 @@ function Calls() {
   };
   return (
     <div>
+      <KBanner label="Arhivă Colocvii - APEL LA COMUNICĂRI" />
+
       {isLoggedIn && isEmpty(data) && (
         <KAddButton className={'position'} onClick={showModal} />
       )}

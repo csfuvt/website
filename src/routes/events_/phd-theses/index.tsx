@@ -30,10 +30,11 @@ export interface PhdThesisForm {
   leader: string;
   organizers: string;
   meetingDate: string;
-  councilMembers: string;
+  councilPresident: string;
+  councilReviewers: string;
   thesisSummary: string;
   links: string;
-  posterUrl: string;
+  posterUrl?: string;
 }
 
 const addPhdThesis = ({
@@ -42,7 +43,8 @@ const addPhdThesis = ({
   leader,
   organizers,
   meetingDate,
-  councilMembers,
+  councilPresident,
+  councilReviewers,
   thesisSummary,
   links,
   posterUrl,
@@ -54,7 +56,8 @@ const addPhdThesis = ({
       leader,
       organizers,
       meetingDate,
-      councilMembers,
+      councilPresident,
+      councilReviewers,
       thesisSummary,
       links,
       posterUrl,
@@ -91,7 +94,8 @@ const PhdThesisPage = () => {
       leader: '',
       organizers: '',
       meetingDate: '',
-      councilMembers: '',
+      councilPresident: '',
+      councilReviewers: '',
       thesisSummary: '',
       links: '',
       posterUrl: '',
@@ -240,7 +244,8 @@ const PhdThesisPage = () => {
                   required: 'Titlul tezei de doctorat este un câmp obligatoriu',
                 }}
                 render={({ field: { onChange, value } }) => (
-                  <Input
+                  <Input.TextArea
+                    autoSize={{ minRows: 1, maxRows: 100 }}
                     status={errors.title ? 'error' : ''}
                     placeholder={
                       errors.title?.message ?? 'Titlul tezei de doctorat'
@@ -258,7 +263,8 @@ const PhdThesisPage = () => {
                   required: 'Doctorandul tezei este un câmp obligatoriu',
                 }}
                 render={({ field: { onChange, value } }) => (
-                  <Input
+                  <Input.TextArea
+                    autoSize={{ minRows: 1, maxRows: 100 }}
                     status={errors.candidate ? 'error' : ''}
                     placeholder={
                       errors.candidate?.message ?? 'Doctorandul tezei'
@@ -273,7 +279,8 @@ const PhdThesisPage = () => {
                 name="leader"
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <Input
+                  <Input.TextArea
+                    autoSize={{ minRows: 1, maxRows: 100 }}
                     status={errors.leader ? 'error' : ''}
                     placeholder={
                       errors.leader?.message ?? 'Coordonatorul tezei'
@@ -288,7 +295,8 @@ const PhdThesisPage = () => {
                 name="organizers"
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <Input
+                  <Input.TextArea
+                    autoSize={{ minRows: 1, maxRows: 100 }}
                     status={errors.organizers ? 'error' : ''}
                     placeholder={errors.organizers?.message ?? 'Organizatori'}
                     value={value}
@@ -317,13 +325,30 @@ const PhdThesisPage = () => {
                 )}
               />
               <Controller
-                name="councilMembers"
+                name="councilPresident"
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <Input
-                    status={errors.councilMembers ? 'error' : ''}
+                  <Input.TextArea
+                    autoSize={{ minRows: 1, maxRows: 100 }}
+                    status={errors.councilPresident ? 'error' : ''}
                     placeholder={
-                      errors.councilMembers?.message ?? 'Membri comisiei'
+                      errors.councilPresident?.message ?? 'Președinte comisie'
+                    }
+                    value={value}
+                    onChange={onChange}
+                    allowClear
+                  />
+                )}
+              />
+              <Controller
+                name="councilReviewers"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input.TextArea
+                    autoSize={{ minRows: 1, maxRows: 100 }}
+                    status={errors.councilReviewers ? 'error' : ''}
+                    placeholder={
+                      errors.councilReviewers?.message ?? 'Referenți'
                     }
                     value={value}
                     onChange={onChange}
@@ -335,7 +360,8 @@ const PhdThesisPage = () => {
                 name="thesisSummary"
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <Input
+                  <Input.TextArea
+                    autoSize={{ minRows: 1, maxRows: 100 }}
                     status={errors.thesisSummary ? 'error' : ''}
                     placeholder={
                       errors.thesisSummary?.message ??
@@ -408,7 +434,8 @@ const PhdThesisPage = () => {
                     leader={PhdThesis.leader}
                     organizers={PhdThesis.organizers}
                     meetingDate={PhdThesis.meetingDate}
-                    councilMembers={PhdThesis.councilMembers}
+                    councilPresident={PhdThesis.councilPresident}
+                    councilReviewers={PhdThesis.councilReviewers}
                     thesisSummary={PhdThesis.thesisSummary}
                     active={PhdThesis.active}
                     links={PhdThesis.links}

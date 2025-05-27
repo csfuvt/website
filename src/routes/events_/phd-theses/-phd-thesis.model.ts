@@ -5,7 +5,8 @@ export interface PhdThesis {
   leader: string;
   organizers: string;
   meetingDate: string;
-  councilMembers: string;
+  councilPresident: string;
+  councilReviewers: string;
   thesisSummary: string;
   links: string;
   posterUrl: string;

@@ -37,7 +37,8 @@ interface PhdThesisForm {
   leader: string;
   organizers: string;
   meetingDate: string;
-  councilMembers: string;
+  councilPresident: string;
+  councilReviewers: string;
   thesisSummary: string;
   links: string;
   posterUrl?: string;
@@ -67,7 +68,8 @@ export const KPhdThesisCard = ({
   leader,
   organizers,
   meetingDate,
-  councilMembers,
+  councilPresident,
+  councilReviewers,
   thesisSummary,
   active,
   links,
@@ -80,7 +82,8 @@ export const KPhdThesisCard = ({
   leader: string;
   organizers: string;
   meetingDate: string;
-  councilMembers: string;
+  councilPresident: string;
+  councilReviewers: string;
   thesisSummary: string;
   active: boolean;
   links: string;
@@ -169,7 +172,8 @@ export const KPhdThesisCard = ({
       leader,
       organizers,
       meetingDate,
-      councilMembers,
+      councilPresident,
+      councilReviewers,
       thesisSummary,
       links,
     }); // Resetăm valorile formularului cu datele curente
@@ -243,7 +247,8 @@ export const KPhdThesisCard = ({
       leader,
       organizers,
       meetingDate,
-      councilMembers,
+      councilPresident,
+      councilReviewers,
       thesisSummary,
       links,
       posterUrl,
@@ -258,7 +263,8 @@ export const KPhdThesisCard = ({
         leader,
         organizers,
         meetingDate,
-        councilMembers,
+        councilPresident,
+        councilReviewers,
         thesisSummary,
         links,
         posterUrl,
@@ -270,7 +276,8 @@ export const KPhdThesisCard = ({
     leader,
     organizers,
     meetingDate,
-    councilMembers,
+    councilPresident,
+    councilReviewers,
     thesisSummary,
     links,
     posterUrl,
@@ -385,9 +392,15 @@ export const KPhdThesisCard = ({
             </p>
           )}
 
-          {councilMembers && (
+          {councilPresident && (
             <p>
-              <strong>Membri comisiei:</strong> {councilMembers}
+              <strong>Președinte comisie:</strong> {councilPresident}
+            </p>
+          )}
+
+          {councilReviewers && (
+            <p>
+              <strong>Refenți:</strong> {councilReviewers}
             </p>
           )}
 
@@ -453,7 +466,8 @@ export const KPhdThesisCard = ({
                 required: 'Titlul tezei de doctorat este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
-                <Input
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
                   status={errors.title ? 'error' : ''}
                   placeholder={
                     errors.title?.message ?? 'Titlul tezei de doctorat'
@@ -471,7 +485,8 @@ export const KPhdThesisCard = ({
                 required: 'Doctorandul tezei este un câmp obligatoriu',
               }}
               render={({ field: { onChange, value } }) => (
-                <Input
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
                   status={errors.candidate ? 'error' : ''}
                   placeholder={errors.candidate?.message ?? 'Doctorandul tezei'}
                   value={value}
@@ -484,7 +499,8 @@ export const KPhdThesisCard = ({
               name="leader"
               control={control}
               render={({ field: { onChange, value } }) => (
-                <Input
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
                   status={errors.leader ? 'error' : ''}
                   placeholder={errors.leader?.message ?? 'Coordonatorul tezei'}
                   value={value}
@@ -497,7 +513,8 @@ export const KPhdThesisCard = ({
               name="organizers"
               control={control}
               render={({ field: { onChange, value } }) => (
-                <Input
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
                   status={errors.organizers ? 'error' : ''}
                   placeholder={errors.organizers?.message ?? 'Organizatori'}
                   value={value}
@@ -526,14 +543,29 @@ export const KPhdThesisCard = ({
               )}
             />
             <Controller
-              name="councilMembers"
+              name="councilPresident"
               control={control}
               render={({ field: { onChange, value } }) => (
-                <Input
-                  status={errors.councilMembers ? 'error' : ''}
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
+                  status={errors.councilPresident ? 'error' : ''}
                   placeholder={
-                    errors.councilMembers?.message ?? 'Membri comisiei'
+                    errors.councilPresident?.message ?? 'Președinte comisie'
                   }
+                  value={value}
+                  onChange={onChange}
+                  allowClear
+                />
+              )}
+            />
+            <Controller
+              name="councilReviewers"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
+                  status={errors.councilReviewers ? 'error' : ''}
+                  placeholder={errors.councilReviewers?.message ?? 'Referenți'}
                   value={value}
                   onChange={onChange}
                   allowClear
@@ -544,7 +576,8 @@ export const KPhdThesisCard = ({
               name="thesisSummary"
               control={control}
               render={({ field: { onChange, value } }) => (
-                <Input
+                <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 100 }}
                   status={errors.thesisSummary ? 'error' : ''}
                   placeholder={
                     errors.thesisSummary?.message ??
@@ -573,7 +606,10 @@ export const KPhdThesisCard = ({
               name="posterUrl"
               control={control}
               render={({ field }) => (
-                <Space direction="horizontal" size="middle">
+                <Space
+                  direction="horizontal"
+                  size="middle"
+                  style={{ flexWrap: 'wrap', justifyContent: 'center' }}>
                   <Upload
                     {...uploadPosterProps}
                     listType="picture"

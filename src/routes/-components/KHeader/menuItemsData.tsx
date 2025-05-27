@@ -76,7 +76,7 @@ export const menuItemsData: MenuItem[] = [
                     url: '/events/conferences/cieft/current-year/organizers-and-partners',
                   },
                   {
-                    title: 'Comitet științific',
+                    title: 'Comitete',
                     url: '/events/conferences/cieft/current-year/scientific-committee',
                   },
                   {
@@ -123,7 +123,7 @@ export const menuItemsData: MenuItem[] = [
                     url: '/events/conferences/francophones-studies/current-year/organizers-and-partners',
                   },
                   {
-                    title: 'Comitet științific',
+                    title: 'Comitete',
                     url: '/events/conferences/francophones-studies/current-year/committee/scientific-committee',
                   },
                   {
