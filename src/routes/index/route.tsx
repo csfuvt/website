@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import styles from './styles.module.css';
 import { KMovingBanner } from '../-components/KMovingBanner/KMovingBanner.tsx';
-import home2 from '../../../public/home2.jpg';
-import home0 from '../../../public/home0.png';
 import axios from 'axios';
 import { Announcement } from './-announcement.model.ts';
 import { useAuth } from '../../hooks/useAuth.ts';
@@ -17,8 +15,7 @@ import { format } from 'date-fns';
 import { ro } from 'date-fns/locale';
 import { BASE_URL } from '../../constants.ts';
 import EditKMovingBanner from '../-components/KMovingBanner/EditKMovingBanner.tsx';
-
-const images = [home0, home2];
+import EditKMovingBannerJos from '../-components/KMovingBanner/EditKMovingBannerJos.tsx';
 
 export interface AnnouncementForm {
   title: string;
@@ -49,6 +46,16 @@ const HomePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { isLoggedIn } = useAuth();
+
+  const {
+    data: bannerJos = [],
+    isLoading: isBannerLoading,
+    isError: isBannerError,
+  } = useQuery({
+    queryKey: ['bannerJos'],
+    queryFn: async () =>
+      axios.get(`${BASE_URL}/bannerjos`).then(res => res.data),
+  });
 
   const {
     data: announcements,
@@ -108,13 +115,13 @@ const HomePage = () => {
 
   const handlePrev = () => {
     setCurrentIndex(prevIndex =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+      prevIndex === 0 ? bannerJos.length - 1 : prevIndex - 1
     );
   };
 
   const handleNext = () => {
     setCurrentIndex(prevIndex =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      prevIndex === bannerJos.length - 1 ? 0 : prevIndex + 1
     );
   };
 
@@ -142,6 +149,28 @@ const HomePage = () => {
     }
   };
 
+  // ---------
+
+  const [isBannerJosModalOpen, setIsBannerJosModalOpen] = useState(false);
+
+  const handleBannerJosUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      await axios.post(`${BASE_URL}/bannerjos/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      toast.success('Imaginea a fost încărcată cu succes.');
+      setIsBannerModalOpen(false);
+    } catch (error) {
+      console.error('Eroare la încărcarea imaginii:', error);
+      toast.error('Nu s-a putut încărca imaginea.');
+    }
+  };
+
   const [isEditModalOpenB, setIsEditModalOpenB] = useState(false);
 
   const showEditModalB = () => {
@@ -153,16 +182,28 @@ const HomePage = () => {
     await queryClient.invalidateQueries({ queryKey: ['banner'] });
   };
 
+  /// /==-=-=--=-=
+
+  const [isEditModalOpenBJos, setIsEditModalOpenBJos] = useState(false);
+
+  const showEditModalBJos = () => {
+    setIsEditModalOpenBJos(true);
+  };
+
+  const handleEditModalCancelBJos = async () => {
+    setIsEditModalOpenBJos(false);
+    await queryClient.invalidateQueries({ queryKey: ['bannerJos'] });
+  };
+
   return (
     <>
       <KMovingBanner />
       {!isError && !isLoading && isLoggedIn && (
-        <>
-          <center>
-            <Space
-              direction="horizontal"
-              size="middle"
-              style={{ flexWrap: 'wrap', justifyContent: 'center' }}>
+        <center>
+          <Space
+            direction="vertical"
+            style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Space direction="horizontal" size="middle">
               <div className={styles.butonulBannerAdd}>
                 <Button
                   type="primary"
@@ -176,25 +217,52 @@ const HomePage = () => {
                 </Button>
               </div>
             </Space>
-          </center>
-        </>
+
+            <Space direction="horizontal" size="middle">
+              <div className={styles.butonulBannerAdd}>
+                <Button
+                  type="primary"
+                  onClick={() => setIsBannerJosModalOpen(true)}>
+                  Adaugă o imagine în slider jos
+                </Button>
+              </div>
+              <div className={styles.butonulBannerAdd}>
+                <Button type="default" onClick={showEditModalBJos}>
+                  Editează slider jos
+                </Button>
+              </div>
+            </Space>
+          </Space>
+        </center>
       )}
       <div className={styles.pageContainer}>
         <div className={styles.sectionContainer}>
           <div className={styles.boxContainer}>
-            <div className={styles.imageSliderContainer}>
-              <button className={styles.arrowButton} onClick={handlePrev}>
-                {'<'}
-              </button>
-              <img
-                src={images[currentIndex]}
-                alt="Slider"
-                className={styles.image}
-              />
-              <button className={styles.arrowButton} onClick={handleNext}>
-                {'>'}
-              </button>
-            </div>
+            {isBannerError ? (
+              <div style={{ color: 'red', textAlign: 'center' }}>
+                Eroare la încărcarea imaginilor.
+              </div>
+            ) : isBannerLoading ? (
+              <Spin />
+            ) : bannerJos.length > 0 ? (
+              <div className={styles.imageSliderContainer}>
+                <button className={styles.arrowButton} onClick={handlePrev}>
+                  {'<'}
+                </button>
+                <img
+                  src={`${BASE_URL}${bannerJos[currentIndex]?.imageUrl}`}
+                  alt="Homepage"
+                  className={styles.image}
+                />
+                <button className={styles.arrowButton} onClick={handleNext}>
+                  {'>'}
+                </button>
+              </div>
+            ) : (
+              <div className={styles.emptyBannerMessage}>
+                Nu există imagini în slider.
+              </div>
+            )}
           </div>
 
           <div className={styles.boxContainer}>
@@ -281,6 +349,27 @@ const HomePage = () => {
                 <b>1400x330</b>
               </p>
             </Modal>
+
+            <Modal
+              title="Încarcă o imagine pe slider-ul de jos"
+              open={isBannerJosModalOpen}
+              onCancel={() => setIsBannerJosModalOpen(false)}
+              footer={null}>
+              <p>Selectează o imagine (JPG / JPEG / PNG):</p>
+              <Upload
+                accept=".jpg,.jpeg,.png"
+                beforeUpload={file => {
+                  handleBannerJosUpload(file);
+                  return false;
+                }}
+                showUploadList={false}>
+                <Button type="primary">Selectează imaginea</Button>
+              </Upload>
+              <p>
+                <b>Atenție!</b> Rezoluție recomandată (minim) <b>1386x1772</b>
+              </p>
+            </Modal>
+
             <Modal
               title="Editează banda cu imagini"
               open={isEditModalOpenB}
@@ -288,6 +377,15 @@ const HomePage = () => {
               footer={null}
               width={1200}>
               <EditKMovingBanner />
+            </Modal>
+
+            <Modal
+              title="Editează slider-ul de jos"
+              open={isEditModalOpenBJos}
+              onCancel={handleEditModalCancelBJos}
+              footer={null}
+              width={1200}>
+              <EditKMovingBannerJos />
             </Modal>
 
             <h1>Anunțuri</h1>

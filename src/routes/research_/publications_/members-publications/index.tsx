@@ -115,7 +115,7 @@ const MemberPublicationPage = () => {
     formState: { errors, isValid },
     control,
     reset,
-    watch,
+    // watch,
   } = useForm<MemberPublicationForm>({
     defaultValues: {
       title: '',
@@ -188,7 +188,7 @@ const MemberPublicationPage = () => {
     }
   };
 
-  const pdfValue = watch('pdf');
+  // const pdfValue = watch('pdf');
 
   return (
     <div className={styles.page}>
@@ -210,7 +210,7 @@ const MemberPublicationPage = () => {
                 key="submit"
                 type="primary"
                 loading={isPending}
-                disabled={!isValid || !pdfValue}
+                disabled={!isValid} // || !pdfValue
                 onClick={handleSubmit(onSubmit)}>
                 Salvează
               </Button>,
@@ -328,7 +328,7 @@ const MemberPublicationPage = () => {
                       return false; // împiedică auto-upload
                     }}>
                     <Button icon={<UploadOutlined />} block>
-                      Selectează PDF
+                      Selectează PDF (opțional)
                     </Button>
                   </Upload>
                 )}

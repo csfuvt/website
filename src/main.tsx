@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
-import './i18n';
 import axios from 'axios';
 import { AuthContextProvider } from './auth.context.tsx';
 import { InnerApp } from './router.tsx';

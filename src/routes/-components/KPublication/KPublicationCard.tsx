@@ -22,7 +22,7 @@ import { useAuth } from '../../../hooks/useAuth.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import TextEditor from '../KTextEditor/KTextEditor.tsx';
 import { BASE_URL } from '../../../constants.ts';
@@ -95,7 +95,7 @@ export const KPublicationCard = ({
     mutationFn: deleteMemberPublication,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ['members-publications'],
+        queryKey: ['publications'],
       });
       toast.success('Publicația a fost ștearsă cu succes');
     },
@@ -119,8 +119,42 @@ export const KPublicationCard = ({
 
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
+  const [isPdfPresent, setIsPdfPresent] = useState(!!pdf);
 
-  useEffect(() => {
+  const handleDeletePdf = async () => {
+    try {
+      await axios.post(`/members-publications/${id}/delete-pdf`);
+      toast.success('PDF-ul a fost șters');
+      setIsPdfPresent(false);
+      resetForm({ ...getValues(), pdf: '' });
+      const updated = await axios.get<MemberPublication>(
+        `/members-publications/${id}`
+      );
+      queryClient.setQueryData<MemberPublication[]>(['publications'], old => {
+        if (!old) return [updated.data];
+        return old.map(p => (p.id === id ? updated.data : p));
+      });
+    } catch (err) {
+      toast.error('Eroare la ștergerea PDF-ului');
+    }
+  };
+
+  // am facut alta implementare si nu mai e nevoie de asta
+  //
+  // useEffect(() => {
+  //   if (images && images.length > 0) {
+  //     const formattedImages: UploadFile[] = images.map(img => ({
+  //       uid: img.id.toString(),
+  //       name: img.path,
+  //       status: 'done' as UploadFileStatus,
+  //       url: `${BASE_URL}/files/publication-images/${img.path}`,
+  //     }));
+  //     setFileList(formattedImages);
+  //   }
+  // }, [images]);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const showEditModal = () => {
     if (images && images.length > 0) {
       const formattedImages: UploadFile[] = images.map(img => ({
         uid: img.id.toString(),
@@ -129,11 +163,23 @@ export const KPublicationCard = ({
         url: `${BASE_URL}/files/publication-images/${img.path}`,
       }));
       setFileList(formattedImages);
+    } else {
+      setFileList([]); // goli lista dacă nu sunt imagini
     }
-  }, [images]);
 
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const showEditModal = () => {
+    setImagesToDelete([]);
+    resetForm({
+      title,
+      author,
+      publishingHouse,
+      publicationYear,
+      bionota,
+      description,
+      images: images || [],
+      pdf,
+    });
+
+    setIsPdfPresent(!!pdf);
     setIsEditModalOpen(true);
   };
 
@@ -174,6 +220,7 @@ export const KPublicationCard = ({
   const {
     handleSubmit,
     reset: resetForm,
+    getValues,
     formState: { errors, isValid },
     control,
   } = useForm<MemberPublicationForm>({
@@ -232,8 +279,17 @@ export const KPublicationCard = ({
         }); // POST /projects/:id/delete-images
       }
 
+      const updated = await axios.get<MemberPublication>(
+        `/members-publications/${id}`
+      );
+
+      queryClient.setQueryData<MemberPublication[]>(['publications'], old => {
+        if (!old) return [updated.data];
+        return old.map(p => (p.id === id ? updated.data : p));
+      });
+
       await queryClient.invalidateQueries({
-        queryKey: ['members-publications'],
+        queryKey: ['publications'],
       });
       toast.success('Publicația a fost editată cu succes.');
     } catch (error) {
@@ -281,13 +337,14 @@ export const KPublicationCard = ({
           )}
           {publishingHouse && (
             <p>
-              <strong>Editura:</strong>
+              <strong>Editura: </strong>
               {publishingHouse}
             </p>
           )}
           {publicationYear && (
             <p>
-              <strong>Anul publicării:</strong> {publicationYear}
+              <strong>Anul publicării: </strong>
+              {publicationYear}
             </p>
           )}
           {bionota && (
@@ -306,9 +363,8 @@ export const KPublicationCard = ({
               type="link"
               className={styles.cuprinsButton}
               href={`${BASE_URL}/files/publication-pdfs/${pdf}`}
-              //target="_blank"
-              //rel="noopener noreferrer"
-            >
+              target="_blank"
+              rel="noopener noreferrer">
               Cuprins
             </Button>
           )}
@@ -426,43 +482,48 @@ export const KPublicationCard = ({
           <Controller
             name="pdf"
             control={control}
-            rules={{ required: 'PDF-ul este obligatoriu' }}
+            // rules={{ required: 'PDF-ul este obligatoriu' }}
             render={({ field }) => (
-              <Upload
-                accept=".pdf"
-                showUploadList={false}
-                beforeUpload={async file => {
-                  const formData = new FormData();
-                  formData.append('pdf', file);
+              <Space.Compact block>
+                <Upload
+                  accept=".pdf"
+                  showUploadList={false}
+                  beforeUpload={async file => {
+                    const formData = new FormData();
+                    formData.append('pdf', file);
 
-                  try {
-                    const response = await axios.post(
-                      `${BASE_URL}/members-publications/upload/pdf`,
-                      formData,
-                      {
-                        headers: {
-                          'Content-Type': 'multipart/form-data',
-                        },
-                      }
-                    );
+                    try {
+                      const response = await axios.post(
+                        `${BASE_URL}/members-publications/upload/pdf`,
+                        formData,
+                        {
+                          headers: { 'Content-Type': 'multipart/form-data' },
+                        }
+                      );
+                      const uploadedUrl = response.data.url;
+                      field.onChange(uploadedUrl);
+                      setIsPdfPresent(true);
+                      toast.success('PDF-ul a fost încărcat cu succes');
+                    } catch (error) {
+                      toast.error('Eroare la încărcarea PDF-ului');
+                    }
 
-                    const uploadedUrl = response.data.url; // Presupunem că backend-ul returnează { url: '...' }
-                    console.log(response.data);
-                    field.onChange(uploadedUrl);
-                    toast.success('PDF-ul a fost încărcat cu succes');
-                  } catch (error) {
-                    toast.error('Eroare la încărcarea PDF-ului');
-                  }
-
-                  return false; // împiedică auto-upload
-                }}>
-                <Button
-                  icon={<UploadOutlined />}
-                  block
-                  style={{ width: '100%' }}>
-                  Selectează PDF
-                </Button>
-              </Upload>
+                    return false;
+                  }}>
+                  <Button
+                    icon={<UploadOutlined />}
+                    block
+                    style={{ width: '100%' }}
+                    disabled={isPdfPresent}>
+                    Selectează PDF
+                  </Button>
+                </Upload>
+                {isPdfPresent && (
+                  <Button danger onClick={handleDeletePdf}>
+                    Șterge PDF
+                  </Button>
+                )}
+              </Space.Compact>
             )}
           />
           <Controller
