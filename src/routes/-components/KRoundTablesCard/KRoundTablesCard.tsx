@@ -448,7 +448,7 @@ export const KRoundTablesCard = ({
               render={({ field }) => (
                 <Input
                   {...field}
-                  placeholder="Linkuri (opțional)"
+                  placeholder="Link (opțional)"
                   status={errors.links ? 'error' : ''}
                 />
               )}

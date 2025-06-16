@@ -64,6 +64,7 @@ const TranslationPage = () => {
               link={item.links[0]?.url}
               description={item.description}
               author={item.links[0]?.author}
+              translator={item.translator}
               editura={item.links[0]?.editura}
               year={item.links[0]?.year}
               bionote={item.links[0]?.bionote}

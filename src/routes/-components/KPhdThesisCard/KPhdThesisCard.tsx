@@ -376,7 +376,7 @@ export const KPhdThesisCard = ({
 
           {leader && (
             <p>
-              <strong>Conducător:</strong> {leader}
+              <strong>Coordonator științific:</strong> {leader}
             </p>
           )}
 
@@ -400,7 +400,7 @@ export const KPhdThesisCard = ({
 
           {councilReviewers && (
             <p>
-              <strong>Refenți:</strong> {councilReviewers}
+              <strong>Referenți:</strong> {councilReviewers}
             </p>
           )}
 
@@ -595,7 +595,7 @@ export const KPhdThesisCard = ({
               render={({ field: { onChange, value } }) => (
                 <Input.TextArea
                   status={errors.links ? 'error' : ''}
-                  placeholder={errors.links?.message ?? 'Link-uri'}
+                  placeholder={errors.links?.message ?? 'Link'}
                   value={value}
                   onChange={onChange}
                   allowClear

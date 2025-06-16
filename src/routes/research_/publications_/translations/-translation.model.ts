@@ -1,6 +1,7 @@
 export interface Translation {
   id: number;
   description: string;
+  translator: string;
   links: {
     label: string;
     url: string;
