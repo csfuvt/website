@@ -37,6 +37,7 @@ interface TranslationForm {
   description: string;
   link?: string;
   author?: string;
+  translator: string;
   bionote?: string;
   editura?: string;
   year?: string;
@@ -65,6 +66,7 @@ export const KTranslationCard2 = ({
   description,
   link,
   author,
+  translator,
   bionote,
   editura,
   year,
@@ -76,6 +78,7 @@ export const KTranslationCard2 = ({
   description: string;
   link?: string;
   author?: string;
+  translator: string;
   bionote?: string;
   editura?: string;
   year?: string;
@@ -158,6 +161,7 @@ export const KTranslationCard2 = ({
       description,
       link,
       author,
+      translator,
       bionote,
       editura,
       year,
@@ -198,6 +202,7 @@ export const KTranslationCard2 = ({
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('description', values.description);
+    formData.append('translator', values.translator);
     if (values.link) formData.append('link', values.link);
     if (values.author) formData.append('author', values.author);
     if (values.bionote) formData.append('bionote', values.bionote);
@@ -224,6 +229,7 @@ export const KTranslationCard2 = ({
         description: updatedData.description,
         link: updatedData.links[0].url,
         author: updatedData.links[0].author,
+        translator: updatedData.translator,
         bionote: updatedData.links[0].bionote,
         editura: updatedData.links[0].editura,
         year: updatedData.links[0].year,
@@ -306,6 +312,19 @@ export const KTranslationCard2 = ({
               )}
             />
             <Controller
+              name="translator"
+              control={control}
+              rules={{ required: 'Traducătorul este obligatoriu' }}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  placeholder="Traducător"
+                  status={errors.translator ? 'error' : ''}
+                />
+              )}
+            />
+
+            <Controller
               name="editura"
               control={control}
               render={({ field }) => (
@@ -376,6 +395,12 @@ export const KTranslationCard2 = ({
           {author && (
             <div className={styles.description}>
               <b>Autor:</b> {author}
+            </div>
+          )}
+
+          {translator && (
+            <div className={styles.description}>
+              <b>Traducător:</b> {translator}
             </div>
           )}
           {editura && (

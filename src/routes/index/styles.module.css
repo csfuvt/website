@@ -198,8 +198,7 @@
   }
 
   .boxContainer {
-    width:100%;
-    
+    width: 342px;
     padding: 64px 0px;
     height: auto;
     max-height: 453px;
@@ -244,3 +243,83 @@
   }
 }
 
+
+@media (max-width: 768px) {
+  .buttonGroup {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .buttonGroup > * {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .pageContainer {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .sectionContainer {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .boxContainer {
+    width: 342px;
+    height: auto;
+    max-height: none;
+  }
+
+  .imageSliderContainer {
+    width: 279px;
+    height: auto;
+    gap: 12px;
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+    max-height: 300px; 
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .buttonGroup > * {
+    width: 100%;
+    max-width: 280px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+
+  .butonulBannerAdd {
+    padding-top: 8px;
+  }
+
+  .buttonAnunt {
+    font-size: 14px; 
+    padding: 8px 16px;
+    max-width: 280px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .blueTextBold {
+    font-size: 14px;
+  }
+
+  .blueText {
+    font-size: 12px;
+  }
+}

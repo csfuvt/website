@@ -300,7 +300,7 @@ const PhdThesisPageArchive = () => {
                 render={({ field: { onChange, value } }) => (
                   <Input.TextArea
                     status={errors.links ? 'error' : ''}
-                    placeholder={errors.links?.message ?? 'Link-uri'}
+                    placeholder={errors.links?.message ?? 'Link'}
                     value={value}
                     onChange={onChange}
                     allowClear

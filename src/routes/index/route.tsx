@@ -200,39 +200,31 @@ const HomePage = () => {
       <KMovingBanner />
       {!isError && !isLoading && isLoggedIn && (
         <center>
-          <Space
-            direction="vertical"
-            style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Space direction="horizontal" size="middle">
-              <div className={styles.butonulBannerAdd}>
-                <Button
-                  type="primary"
-                  onClick={() => setIsBannerModalOpen(true)}>
-                  Adaugă o imagine pe bandă
-                </Button>
-              </div>
-              <div className={styles.butonulBannerAdd}>
-                <Button type="default" onClick={showEditModalB}>
-                  Editează banda cu imagini
-                </Button>
-              </div>
-            </Space>
+          <div className={styles.buttonGroup}>
+            <div className={styles.butonulBannerAdd}>
+              <Button type="primary" onClick={() => setIsBannerModalOpen(true)}>
+                Adaugă o imagine pe bandă
+              </Button>
+            </div>
+            <div className={styles.butonulBannerAdd}>
+              <Button type="default" onClick={showEditModalB}>
+                Editează banda cu imagini
+              </Button>
+            </div>
 
-            <Space direction="horizontal" size="middle">
-              <div className={styles.butonulBannerAdd}>
-                <Button
-                  type="primary"
-                  onClick={() => setIsBannerJosModalOpen(true)}>
-                  Adaugă o imagine în slider jos
-                </Button>
-              </div>
-              <div className={styles.butonulBannerAdd}>
-                <Button type="default" onClick={showEditModalBJos}>
-                  Editează slider jos
-                </Button>
-              </div>
-            </Space>
-          </Space>
+            <div className={styles.butonulBannerAdd}>
+              <Button
+                type="primary"
+                onClick={() => setIsBannerJosModalOpen(true)}>
+                Adaugă o imagine în slider jos
+              </Button>
+            </div>
+            <div className={styles.butonulBannerAdd}>
+              <Button type="default" onClick={showEditModalBJos}>
+                Editează slider jos
+              </Button>
+            </div>
+          </div>
         </center>
       )}
       <div className={styles.pageContainer}>

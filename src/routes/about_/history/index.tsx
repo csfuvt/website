@@ -9,21 +9,21 @@ const HistoryPage = () => {
   // const { t } = useTranslation();
   const slides = [
     {
-      title: 'Istoric',
+      title: '',
       paragraphs: [
         'Centrul de Studii Francofone, având drept obiect cercetarea în domeniul francofoniei, a fost creat în 1994 la iniţiativa Prof. univ. dr. Margareta Gyurcsik şi reuneşte cercetători şi cadre didactice din Colectivul de Limba franceză de la Facultatea de Litere, Istorie, Filosofie şi Teologie, Universitatea de Vest din Timişoara.',
         'Domeniul francofoniei este înţeles în sens larg prin explorarea literaturilor din arii geografice diverse (Canada, Maghreb, Africa subsahariană etc.), incluzând literatura franceză contemporană. De asemenea, programele de cercetare şi publicaţiile Centrului acordă constant atenţie contribuţiilor româneşti: literatura scriitorilor români francofoni, traducerea literară din şi în limba franceză, autotraducerea, precum şi aportul cercetării româneşti la exegeza şi istoriografia în curs de constituire a literaturilor francofone.',
       ],
     },
     {
-      title: 'Istoric',
+      title: '',
       paragraphs: [
         'Centrul a avut şi are un rol federator, propunând teme de investigaţie şi puncte de joncţiune pentru cercetări diverse, care pun în valoare specializări ştiinţifice şi opţiuni metodologice variate.',
         'Centrul contribuie substanţial la configurarea şi derularea programelor de studiu ale Catedrei de Limbi Romanice prin includerea domeniului literar francofon atât în ciclul de licenţă, cât mai ales în cele de masterat şi doctorat.',
       ],
     },
     {
-      title: 'Istoric',
+      title: '',
       paragraphs: [
         <>
           {

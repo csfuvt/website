@@ -218,9 +218,7 @@ const RoundTablesPageArchive = () => {
                   render={({ field: { onChange, value } }) => (
                     <Input
                       status={errors.links ? 'error' : ''}
-                      placeholder={
-                        errors.links?.message ?? 'Linkuri (opțional)'
-                      }
+                      placeholder={errors.links?.message ?? 'Link (opțional)'}
                       value={value}
                       onChange={onChange}
                       allowClear

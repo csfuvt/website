@@ -19,6 +19,7 @@ import { isEmpty } from 'lodash-es';
 interface TranslationForm {
   label: string;
   author: string;
+  translator: string;
   editura: string;
   year: number;
   bionote: string;
@@ -29,6 +30,7 @@ interface TranslationForm {
 const addTranslation = ({
   label,
   author,
+  translator,
   editura,
   year,
   bionote,
@@ -41,6 +43,7 @@ const addTranslation = ({
   formData.append('label', label);
   formData.append('author', author);
   formData.append('description', description);
+  formData.append('translator', translator);
   if (url) {
     formData.append('url', url);
   }
@@ -144,6 +147,20 @@ export const KAddTranslationModal = ({
           <TextArea
             placeholder="Autor (obligatoriu)"
             autoSize={{ minRows: 2, maxRows: 4 }}
+            allowClear
+          />
+        </Form.Item>
+
+        <Form.Item
+          label=""
+          name="translator"
+          style={{ width: '100%' }}
+          rules={[
+            { required: true, message: 'Traducătorul este obligatoriu' },
+          ]}>
+          <TextArea
+            placeholder="Translator (obligatoriu)"
+            autoSize={{ minRows: 1, maxRows: 2 }}
             allowClear
           />
         </Form.Item>

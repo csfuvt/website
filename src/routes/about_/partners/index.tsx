@@ -39,7 +39,7 @@ const PartneringPage = () => {
       <div className={styles.page}>
         <div className={styles.text}>
           <span className={styles.title}>Centrul de Studii Francofone</span> are
-          parteneriate cu instituții de pe întreg mapamondul:
+          parteneriate cu următoarele instituții:
         </div>
         {isLoggedIn && (
           <KAddButton className={'position'} onClick={showModal} />
