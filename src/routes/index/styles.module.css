@@ -1,10 +1,10 @@
 .pageContainer {
   max-width: 1066px;
-  width:100%;
+  width: 100%;
   display: flex;
   padding: 64px 100px;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
   align-self: stretch;
   margin: 0 auto;
 }
@@ -14,7 +14,7 @@
   align-items: flex-start;
   gap: 56px;
   flex: 1 0 0;
-  
+  justify-content: center;
 }
 
 .boxContainer {
@@ -125,7 +125,25 @@
 }
 
 .butonulBannerAdd {
-  padding-top: 50px;
+  margin: 0;
+  padding: 0;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  padding: 50px 0 20px 0;
+}
+
+.buttonRow {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .buttonAnunt:hover {
@@ -151,8 +169,11 @@
   line-height: normal;
 }
 
-.butonulBannerAdd {
-  margin: -30px 0.5rem;
+.emptyBannerMessage {
+  color: #666;
+  font-size: 16px;
+  padding: 20px;
+  text-align: center;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -177,31 +198,50 @@
 @media only screen and (max-width: 768px) {
   .butonulBannerAdd {
     width: 100%;
-    padding-top: 16px; /* mai puțin padding */
+    padding-top: 16px;
     display: flex;
     justify-content: center;
   }
 
   .butonulBannerAdd button {
     width: 100%;
-    max-width: 300px; /* eventual o limită să nu fie prea late */
+    max-width: 300px;
+    font-size: 15px;
   }
+
   .pageContainer {
       flex-direction: column;
-      padding: 32px 0px;
+      padding: 32px 16px;
       align-items: center;
+      gap: 32px;
   }
 
   .sectionContainer {
       flex-direction: column;
       gap: 32px;
+      width: 100%;
   }
 
   .boxContainer {
-    width: 342px;
-    padding: 64px 0px;
+    width: 100%;
+    max-width: 100%;
+    padding: 40px 20px;
     height: auto;
-    max-height: 453px;
+    min-height: auto;
+    margin: 0 auto 24px;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  .cardAnunt {
+    width: 100%;
+    max-width: 100%;
+    margin: 16px 0;
+    font-size: 16px;
+  }
+
+  .titleAnunt {
+    font-size: 24px;
   }
 
   .textContainer {
@@ -231,31 +271,44 @@
   }
 
   .title {
-      font-size: 20px;
+      font-size: 24px;
   }
 
   .blueTextBold {
-      font-size: 16px;
+      font-size: 19px;
   }
 
   .blueText {
-      font-size: 14px;
+      font-size: 17px;
   }
-}
 
-
-@media (max-width: 768px) {
   .buttonGroup {
     flex-direction: column;
     gap: 12px;
     align-items: center;
+    padding: 30px 0 20px 0;
   }
 
-  .buttonGroup > * {
+  .buttonRow {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .buttonGroup .butonulBannerAdd {
     width: 100%;
     max-width: 300px;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .buttonGroup button {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .emptyBannerMessage {
+    font-size: 18px;
   }
 }
 
@@ -263,23 +316,34 @@
   .pageContainer {
     flex-direction: column;
     max-width: 100%;
+    padding: 24px 12px;
   }
 
   .sectionContainer {
     flex-direction: column;
     gap: 24px;
+    width: 100%;
   }
 
   .boxContainer {
-    width: 342px;
+    width: 100%;
+    max-width: 100%;
+    padding: 20px 10px;
     height: auto;
     max-height: none;
   }
 
+  .cardAnunt {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    font-size: 15px;
+  }
+
   .imageSliderContainer {
-    width: 279px;
+    width: 90%;
     height: auto;
-    gap: 12px;
+    gap: 10px;
   }
 
   .image {
@@ -306,20 +370,28 @@
   }
 
   .buttonAnunt {
-    font-size: 14px; 
+    font-size: 15px;
     padding: 8px 16px;
-    max-width: 280px;
+    max-width: 100%;
   }
 
   .title {
-    font-size: 18px;
+    font-size: 20px;
+  }
+
+  .titleAnunt {
+    font-size: 21px;
   }
 
   .blueTextBold {
-    font-size: 14px;
+    font-size: 17px;
   }
 
   .blueText {
-    font-size: 12px;
+    font-size: 15px;
+  }
+
+  .emptyBannerMessage {
+    font-size: 17px;
   }
 }

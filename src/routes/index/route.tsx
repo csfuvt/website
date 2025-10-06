@@ -201,28 +201,33 @@ const HomePage = () => {
       {!isError && !isLoading && isLoggedIn && (
         <center>
           <div className={styles.buttonGroup}>
-            <div className={styles.butonulBannerAdd}>
-              <Button type="primary" onClick={() => setIsBannerModalOpen(true)}>
-                Adaugă o imagine pe bandă
-              </Button>
+            <div className={styles.buttonRow}>
+              <div className={styles.butonulBannerAdd}>
+                <Button
+                  type="primary"
+                  onClick={() => setIsBannerModalOpen(true)}>
+                  Încarcă o imagine pe bandă
+                </Button>
+              </div>
+              <div className={styles.butonulBannerAdd}>
+                <Button
+                  type="primary"
+                  onClick={() => setIsBannerJosModalOpen(true)}>
+                  Adaugă o imagine în slider jos
+                </Button>
+              </div>
             </div>
-            <div className={styles.butonulBannerAdd}>
-              <Button type="default" onClick={showEditModalB}>
-                Editează banda cu imagini
-              </Button>
-            </div>
-
-            <div className={styles.butonulBannerAdd}>
-              <Button
-                type="primary"
-                onClick={() => setIsBannerJosModalOpen(true)}>
-                Adaugă o imagine în slider jos
-              </Button>
-            </div>
-            <div className={styles.butonulBannerAdd}>
-              <Button type="default" onClick={showEditModalBJos}>
-                Editează slider jos
-              </Button>
+            <div className={styles.buttonRow}>
+              <div className={styles.butonulBannerAdd}>
+                <Button type="default" onClick={showEditModalB}>
+                  Editează banda cu imagini
+                </Button>
+              </div>
+              <div className={styles.butonulBannerAdd}>
+                <Button type="default" onClick={showEditModalBJos}>
+                  Editează slider jos
+                </Button>
+              </div>
             </div>
           </div>
         </center>

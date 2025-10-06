@@ -15,6 +15,9 @@
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     color: var(--primary);
     font-weight: 600;
+    position: relative;
+    z-index: 1000;
+    background-color: white;
   }
 
   .nav-area {
@@ -23,6 +26,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 10px 20px;
+    position: relative;
   }
   
   .logo {
@@ -241,5 +245,3 @@
   .menu-icon {
     margin-right: 10px; 
   }
-
-  
