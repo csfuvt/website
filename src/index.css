@@ -5,11 +5,67 @@
     --white: white;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 html, body {
     padding: 0;
     margin: 0;
+    overflow-x: hidden;
+    width: 100%;
 }
 
+/* Previne scroll-ul paginii când un modal este deschis - dar permite revenirea normală */
+body.ant-scrolling-effect {
+    overflow: hidden !important;
+}
+
+/* Stiluri globale pentru modaluri - scroll în interior */
+.ant-modal-wrap {
+    overflow-y: auto !important;
+}
+
+.ant-modal {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    padding-bottom: 0 !important;
+}
+
+.ant-modal-content {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.ant-modal-body {
+    overflow-y: auto !important;
+    max-height: calc(90vh - 110px); /* 110px pentru header și footer */
+    flex: 1;
+    padding: 24px;
+}
+
+/* Pentru modaluri pe ecrane mici */
+@media (max-width: 768px) {
+    .ant-modal {
+        max-height: 95vh;
+        margin: 0 auto;
+        width: calc(100% - 32px) !important;
+        top: 50% !important;
+    }
+
+    .ant-modal-content {
+        max-height: 95vh;
+    }
+
+    .ant-modal-body {
+        max-height: calc(95vh - 110px);
+        padding: 16px;
+    }
+}
 
 @font-face {
     font-family: 'Montserrat';
