@@ -144,7 +144,8 @@ export const KMembersList = ({
                   <Draggable
                     key={member.id.toString()}
                     draggableId={member.id.toString()}
-                    index={index}>
+                    index={index}
+                    isDragDisabled={openCard === member.name}>
                     {provided => (
                       <div
                         ref={provided.innerRef}
