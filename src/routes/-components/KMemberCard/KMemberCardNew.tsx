@@ -113,6 +113,46 @@ export const KMemberCardNew = ({
     name: 'links',
   });
 
+  // Block body scroll when description is open
+  useEffect(() => {
+    if (isOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+
+      // Store scroll position
+      document.body.setAttribute('data-scroll-y', scrollY.toString());
+    } else {
+      // Restore scroll position
+      const scrollY = document.body.getAttribute('data-scroll-y');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY));
+        document.body.removeAttribute('data-scroll-y');
+      }
+    }
+
+    return () => {
+      const scrollY = document.body.getAttribute('data-scroll-y');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY));
+        document.body.removeAttribute('data-scroll-y');
+      }
+    };
+  }, [isOpen]);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (editModalOpen) {
@@ -300,37 +340,32 @@ export const KMemberCardNew = ({
             <FontAwesomeIcon icon={faX} />
           </button>
           <h3 className={styles.descriptionName}>{name}</h3>
-          <p>{description}</p>
-          <Space direction="horizontal" size="middle" wrap>
-            {documentUrl && (
-              <a
-                href={`${BASE_URL}/files/members/${documentUrl}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.cvButton}>
-                CV
-              </a>
-            )}
-            {/*{link && (*/}
-            {/*  <a*/}
-            {/*    href={`${link}`}*/}
-            {/*    target="_blank"*/}
-            {/*    rel="noopener noreferrer"*/}
-            {/*    className={styles.cvButton}>*/}
-            {/*    Link*/}
-            {/*  </a>*/}
-            {/*)}*/}
-            {links?.map((l, index) => (
-              <a
-                key={index}
-                href={l.pageUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.cvButton}>
-                {l.label}
-              </a>
-            ))}
-          </Space>
+          <div className={styles.descriptionContent}>
+            <p>{description}</p>
+          </div>
+          <div className={styles.descriptionButtons}>
+            <Space direction="horizontal" size="middle" wrap>
+              {documentUrl && (
+                <a
+                  href={`${BASE_URL}/files/members/${documentUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.cvButton}>
+                  CV
+                </a>
+              )}
+              {links?.map((l, index) => (
+                <a
+                  key={index}
+                  href={l.pageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.cvButton}>
+                  {l.label}
+                </a>
+              ))}
+            </Space>
+          </div>
         </div>
       )}
       {isLoggedIn && (

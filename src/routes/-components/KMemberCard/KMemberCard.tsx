@@ -23,6 +23,46 @@ export const KMemberCard: React.FC<KMemberCardProps> = ({
   isOpen,
   toggleDescription,
 }) => {
+  // Block body scroll when description is open
+  React.useEffect(() => {
+    if (isOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+
+      // Store scroll position
+      document.body.setAttribute('data-scroll-y', scrollY.toString());
+    } else {
+      // Restore scroll position
+      const scrollY = document.body.getAttribute('data-scroll-y');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY));
+        document.body.removeAttribute('data-scroll-y');
+      }
+    }
+
+    return () => {
+      const scrollY = document.body.getAttribute('data-scroll-y');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY));
+        document.body.removeAttribute('data-scroll-y');
+      }
+    };
+  }, [isOpen]);
+
   return (
     <div className={styles.card}>
       {isOpen && (
@@ -45,15 +85,19 @@ export const KMemberCard: React.FC<KMemberCardProps> = ({
             <FontAwesomeIcon icon={faX} />
           </button>
           <h3 className={styles.descriptionName}>{label_name}</h3>
-          <p>{description}</p>
+          <div className={styles.descriptionContent}>
+            <p>{description}</p>
+          </div>
           {cvLink && (
-            <a
-              href={cvLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.cvButton}>
-              CV
-            </a>
+            <div className={styles.descriptionButtons}>
+              <a
+                href={cvLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.cvButton}>
+                CV
+              </a>
+            </div>
           )}
         </div>
       )}
