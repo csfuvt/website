@@ -72,7 +72,7 @@ const IndexingPage = () => {
 };
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/indexing/'
+  '/research_/publications_/dialogue-francophones_/indexing/'
 )({
   component: IndexingPage,
 });

@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../-components/KBanner/KBanner.tsx';
 import styles from './ProjectsPage.module.css';
 import axios from 'axios';
@@ -5,7 +6,6 @@ import { Project } from './-projects.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Input, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash-es';
-import { createFileRoute } from '@tanstack/react-router';
 import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
 import { useState } from 'react';
 import { useAuth } from '../../../hooks/useAuth.ts';
@@ -476,7 +476,7 @@ const ProjectsPage = () => {
   );
 };
 
-export const Route = createFileRoute('/research/projects/')({
+export const Route = createFileRoute('/research_/projects/')({
   component: ProjectsPage,
 });
 

@@ -4,7 +4,7 @@ import styles from '../../../-components/KCardColocvii/KCardColocvii.module.css'
 import KCardColocvii2 from '../../../-components/KCardColocvii2/KCardColocvii2';
 
 export const Route = createFileRoute(
-  '/events/conferences/lingvistic-francophones/'
+  '/events_/conferences_/lingvistic-francophones/'
 )({
   component: () => (
     <>

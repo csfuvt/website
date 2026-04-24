@@ -1,21 +1,19 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import HttpBackend from 'i18next-http-backend';
-import LanguageDetector from 'i18next-browser-languagedetector';
 
-i18n
-  .use(HttpBackend)
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    fallbackLng: 'ro',
-    debug: true,
-    interpolation: {
-      escapeValue: false,
-    },
-    backend: {
-      loadPath: '/locals/{{lng}}/translation.json',
-    },
-  });
+/**
+ * i18n rămâne disponibil fără fișiere JSON (traducerea conținutului = DeepL din navbar, prin server).
+ */
+i18n.use(initReactI18next).init({
+  lng: 'ro',
+  fallbackLng: 'ro',
+  debug: false,
+  interpolation: {
+    escapeValue: false,
+  },
+  resources: {
+    ro: { translation: {} },
+  },
+});
 
 export default i18n;

@@ -494,7 +494,7 @@ const ComiteteTest = () => {
 };
 
 export const Route = createFileRoute(
-  '/events/conferences/francophones-studies/current-year/committee/scientific-committee'
+  '/events_/conferences_/francophones-studies_/current-year_/committee/scientific-committee'
 )({
   component: ComiteteTest,
 });

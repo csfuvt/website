@@ -100,7 +100,7 @@ export const getLatestCall = () =>
     .then(res => res.data);
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/calls/future/'
+  '/research_/publications_/dialogue-francophones_/calls_/future/'
 )({
   component: Calls,
 });

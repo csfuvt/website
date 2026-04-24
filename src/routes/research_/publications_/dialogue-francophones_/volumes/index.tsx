@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../../../-components/KBanner/KBanner';
 //import { KVolumeCard } from '../../../../-components/KVolumeCard/KVolumeCard';
 import styles from './VolumePage.module.css';
@@ -6,7 +7,6 @@ import { Volume } from './-volumes.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Input, Modal, Space, Spin, Upload, UploadFile } from 'antd';
 import { isEmpty } from 'lodash-es';
-import { createFileRoute } from '@tanstack/react-router';
 import { KAddButton } from '../../../../-components/KAddButton/KAddButton.tsx';
 import { useState } from 'react';
 import { useAuth } from '../../../../../hooks/useAuth.ts';
@@ -200,7 +200,7 @@ const VolumesPage = () => {
 };
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/volumes/'
+  '/research_/publications_/dialogue-francophones_/volumes/'
 )({
   component: VolumesPage,
 });

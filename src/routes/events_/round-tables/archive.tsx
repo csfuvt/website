@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../-components/KBanner/KBanner';
 import styles from './RoundTablesPage.module.css';
 import axios from 'axios';
@@ -5,7 +6,6 @@ import { EventRoundTable } from './-round-tables.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Input, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash-es';
-import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -277,7 +277,7 @@ const RoundTablesPageArchive = () => {
   );
 };
 
-export const Route = createFileRoute('/events/round-tables/archive')({
+export const Route = createFileRoute('/events_/round-tables/archive')({
   component: RoundTablesPageArchive,
 });
 

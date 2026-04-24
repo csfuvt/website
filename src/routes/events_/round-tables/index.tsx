@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../-components/KBanner/KBanner';
 import styles from './RoundTablesPage.module.css';
 import axios from 'axios';
@@ -14,7 +15,6 @@ import {
   UploadProps,
 } from 'antd';
 import { isEmpty } from 'lodash-es';
-import { createFileRoute } from '@tanstack/react-router';
 import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
 import { useState } from 'react';
 import { useAuth } from '../../../hooks/useAuth.ts';
@@ -365,7 +365,7 @@ const RoundTablesPage = () => {
   );
 };
 
-export const Route = createFileRoute('/events/round-tables/')({
+export const Route = createFileRoute('/events_/round-tables/')({
   component: RoundTablesPage,
 });
 

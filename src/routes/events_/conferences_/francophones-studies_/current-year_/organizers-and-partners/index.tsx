@@ -85,7 +85,7 @@ const OrgPartFranco = () => {
 };
 
 export const Route = createFileRoute(
-  '/events/conferences/francophones-studies/current-year/organizers-and-partners/'
+  '/events_/conferences_/francophones-studies_/current-year_/organizers-and-partners/'
 )({
   component: OrgPartFranco,
 });

@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../-components/KBanner/KBanner.tsx';
 import styles from './PhdThesisPage.module.css';
 import axios from 'axios';
@@ -5,7 +6,6 @@ import { PhdThesis } from './-phd-thesis.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, DatePicker, Input, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash-es';
-import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -363,7 +363,7 @@ const PhdThesisPageArchive = () => {
   );
 };
 
-export const Route = createFileRoute('/events/phd-theses/archive')({
+export const Route = createFileRoute('/events_/phd-theses/archive')({
   component: PhdThesisPageArchive,
 });
 

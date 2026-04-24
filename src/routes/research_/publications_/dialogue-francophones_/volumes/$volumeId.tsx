@@ -3,7 +3,15 @@ import axios from 'axios';
 import { Article, Volume } from './-volumes.model.ts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { KBanner } from '../../../../-components/KBanner/KBanner.tsx';
-import { Button, Modal, Space, Spin, Upload, UploadFile } from 'antd';
+import {
+  Button,
+  Modal,
+  Popconfirm,
+  Space,
+  Spin,
+  Upload,
+  UploadFile,
+} from 'antd';
 import { isEmpty } from 'lodash-es';
 import { KChapter } from '../../../../-components/KChapter/KChapter.tsx';
 import { KArticle } from '../../../../-components/KArticle/KArticle.tsx';
@@ -59,6 +67,30 @@ const updatePdf = async ({ id, pdf }: { id: number; pdf: UploadFile }) => {
   });
   return res.data;
 };
+
+const updateRezumate = async ({
+  id,
+  rezumat1,
+  rezumat2,
+}: {
+  id: number;
+  rezumat1?: UploadFile;
+  rezumat2?: UploadFile;
+}) => {
+  const formData = new FormData();
+  if (rezumat1) formData.append('rezumat1', rezumat1 as AntDFileType);
+  if (rezumat2) formData.append('rezumat2', rezumat2 as AntDFileType);
+  const res = await axios.post<Volume>(`/volumes/${id}/rezumate`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return res.data;
+};
+
+const deleteVolumeRezumat1 = (id: string) =>
+  axios.delete<Volume>(`/volumes/${id}/rezumat1`).then(res => res.data);
+
+const deleteVolumeRezumat2 = (id: string) =>
+  axios.delete<Volume>(`/volumes/${id}/rezumat2`).then(res => res.data);
 
 const VolumePage = () => {
   const { isLoggedIn } = useAuth();
@@ -208,6 +240,80 @@ const VolumePage = () => {
     updatePdfMutation({ id: parseInt(volumeId), pdf: pdfList[0] });
   };
 
+  const [isChangeRezumateModalOpen, setIsChangeRezumateModalOpen] =
+    useState(false);
+
+  const {
+    fileList: rezumat1List,
+    resetFileList: resetRezumat1List,
+    uploadFileProps: uploadRezumat1Props,
+  } = useFileUpload(FileType.PDF);
+
+  const {
+    fileList: rezumat2List,
+    resetFileList: resetRezumat2List,
+    uploadFileProps: uploadRezumat2Props,
+  } = useFileUpload(FileType.PDF);
+
+  const showChangeRezumateModal = () => {
+    setIsChangeRezumateModalOpen(true);
+  };
+
+  const handleCancelForEditRezumate = () => {
+    setIsChangeRezumateModalOpen(false);
+    resetRezumat1List();
+    resetRezumat2List();
+  };
+
+  const { mutate: updateRezumateMutation, isPending: isUpdateRezumatePending } =
+    useMutation({
+      mutationFn: updateRezumate,
+      onError: () => toast.error('Nu s-au putut încărca rezumatele!'),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [`volume/${volumeId}`],
+        });
+        setIsChangeRezumateModalOpen(false);
+        resetRezumat1List();
+        resetRezumat2List();
+        toast.success('Rezumatele au fost actualizate cu succes.');
+      },
+    });
+
+  const onSubmitRezumate = () => {
+    updateRezumateMutation({
+      id: parseInt(volumeId, 10),
+      rezumat1: rezumat1List[0],
+      rezumat2: rezumat2List[0],
+    });
+  };
+
+  const { mutate: deleteRez1Mutation, isPending: isDeletingRez1 } = useMutation(
+    {
+      mutationFn: () => deleteVolumeRezumat1(volumeId),
+      onError: () => toast.error('Nu s-a putut șterge rezumatul în franceză.'),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [`volume/${volumeId}`],
+        });
+        toast.success('Rezumatul în franceză a fost șters.');
+      },
+    }
+  );
+
+  const { mutate: deleteRez2Mutation, isPending: isDeletingRez2 } = useMutation(
+    {
+      mutationFn: () => deleteVolumeRezumat2(volumeId),
+      onError: () => toast.error('Nu s-a putut șterge rezumatul în engleză.'),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [`volume/${volumeId}`],
+        });
+        toast.success('Rezumatul în engleză a fost șters.');
+      },
+    }
+  );
+
   return (
     <div>
       {isLoading ? (
@@ -317,6 +423,40 @@ const VolumePage = () => {
           </Modal>
 
           <Modal
+            title="Încarcă rezumate PDF (franceză / engleză, opțional)"
+            open={isChangeRezumateModalOpen}
+            onCancel={handleCancelForEditRezumate}
+            footer={[
+              <Button key="back" onClick={handleCancelForEditRezumate}>
+                Renunță
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                loading={isUpdateRezumatePending}
+                disabled={isEmpty(rezumat1List) && isEmpty(rezumat2List)}
+                onClick={onSubmitRezumate}>
+                Salvează
+              </Button>,
+            ]}>
+            <Space
+              direction="vertical"
+              size="middle"
+              style={{ display: 'flex' }}>
+              <Upload {...uploadRezumat1Props}>
+                <Button icon={<UploadOutlined />}>
+                  Selectează PDF — rezumat în franceză
+                </Button>
+              </Upload>
+              <Upload {...uploadRezumat2Props}>
+                <Button icon={<UploadOutlined />}>
+                  Selectează PDF — rezumat în engleză
+                </Button>
+              </Upload>
+            </Space>
+          </Modal>
+
+          <Modal
             title="Modifică tematica volumului"
             open={isTematicaModalOpen}
             onCancel={() => setIsTematicaModalOpen(false)}
@@ -408,6 +548,126 @@ const VolumePage = () => {
                   </Button>
                 )}
               </div>
+
+              {(isLoggedIn ||
+                Boolean(volume.rezumatPdf1) ||
+                Boolean(volume.rezumatPdf2)) && (
+                <div className="volumeUrl">
+                  <span className="label">Rezumate</span>
+                  {!isLoggedIn ? (
+                    <>
+                      {volume.rezumatPdf1 ? (
+                        <a
+                          href={
+                            BASE_URL + `/files/volumes/${volume.rezumatPdf1}`
+                          }
+                          className="url"
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          Rezumate în franceză
+                        </a>
+                      ) : null}
+                      {volume.rezumatPdf2 ? (
+                        <a
+                          href={
+                            BASE_URL + `/files/volumes/${volume.rezumatPdf2}`
+                          }
+                          className="url"
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          Rezumate în engleză
+                        </a>
+                      ) : null}
+                    </>
+                  ) : (
+                    <>
+                      {(volume.rezumatPdf1 || isLoggedIn) && (
+                        <div className="rezumat-slot">
+                          {volume.rezumatPdf1 ? (
+                            <>
+                              <a
+                                href={
+                                  BASE_URL +
+                                  `/files/volumes/${volume.rezumatPdf1}`
+                                }
+                                className="url"
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                Rezumate în franceză
+                              </a>
+                              <span className="rezumat-slot__badge">
+                                PDF încărcat
+                              </span>
+                              <Popconfirm
+                                title="Ștergi rezumatul în franceză?"
+                                description="Fișierul va fi eliminat de pe server."
+                                okText="Da"
+                                cancelText="Nu"
+                                onConfirm={() => deleteRez1Mutation()}>
+                                <Button
+                                  danger
+                                  size="small"
+                                  loading={isDeletingRez1}>
+                                  Șterge
+                                </Button>
+                              </Popconfirm>
+                            </>
+                          ) : (
+                            <span className="rezumat-slot__empty">
+                              Nu e încărcat
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      {(volume.rezumatPdf2 || isLoggedIn) && (
+                        <div className="rezumat-slot">
+                          {volume.rezumatPdf2 ? (
+                            <>
+                              <a
+                                href={
+                                  BASE_URL +
+                                  `/files/volumes/${volume.rezumatPdf2}`
+                                }
+                                className="url"
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                Rezumate în engleză
+                              </a>
+                              <span className="rezumat-slot__badge">
+                                PDF încărcat
+                              </span>
+                              <Popconfirm
+                                title="Ștergi rezumatul în engleză?"
+                                description="Fișierul va fi eliminat de pe server."
+                                okText="Da"
+                                cancelText="Nu"
+                                onConfirm={() => deleteRez2Mutation()}>
+                                <Button
+                                  danger
+                                  size="small"
+                                  loading={isDeletingRez2}>
+                                  Șterge
+                                </Button>
+                              </Popconfirm>
+                            </>
+                          ) : (
+                            <span className="rezumat-slot__empty">
+                              Nu e încărcat
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      <Button
+                        type="primary"
+                        size="large"
+                        icon={<PlusOutlined />}
+                        onClick={showChangeRezumateModal}>
+                        Încarcă rezumate
+                      </Button>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
             <div className="right">
               {isLoggedIn && (
@@ -447,7 +707,7 @@ const VolumePage = () => {
   );
 };
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/volumes/$volumeId'
+  '/research_/publications_/dialogue-francophones_/volumes/$volumeId'
 )({
   component: VolumePage,
 });

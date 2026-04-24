@@ -85,7 +85,7 @@ const OrgPartCieft = () => {
 };
 
 export const Route = createFileRoute(
-  '/events/conferences/cieft/current-year/organizers-and-partners/'
+  '/events_/conferences_/cieft_/current-year_/organizers-and-partners/'
 )({
   component: OrgPartCieft,
 });

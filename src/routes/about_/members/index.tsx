@@ -2,7 +2,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../-components/KBanner/KBanner';
 import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
 import { KAddMemberModal } from '../../-components/KAddMemberModal/KAddMemberModal.tsx';
-import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { Spin } from 'antd';
 import { useState } from 'react';
@@ -17,7 +16,6 @@ const getMembers = () =>
   axios.get<MemberIndex[]>('/members').then(res => res.data);
 
 const MembersPage = () => {
-  const { t } = useTranslation();
   const { isLoggedIn } = useAuth();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +40,7 @@ const MembersPage = () => {
 
   return (
     <div>
-      <KBanner label={t('MEMBRI')} />
+      <KBanner label="Membri" />
       <div className={styles.pageContainer}>
         <div className={styles.section}>
           {isLoggedIn && (
@@ -174,7 +172,7 @@ const MembersPage = () => {
   );
 };
 
-export const Route = createFileRoute('/about/members/')({
+export const Route = createFileRoute('/about_/members/')({
   component: MembersPage,
 });
 

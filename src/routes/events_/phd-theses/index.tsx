@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../-components/KBanner/KBanner.tsx';
 import styles from './PhdThesisPage.module.css';
 import axios from 'axios';
@@ -14,7 +15,6 @@ import {
   UploadProps,
 } from 'antd';
 import { isEmpty } from 'lodash-es';
-import { createFileRoute } from '@tanstack/react-router';
 import { KAddButton } from '../../-components/KAddButton/KAddButton.tsx';
 import { useState } from 'react';
 import { useAuth } from '../../../hooks/useAuth.ts';
@@ -452,7 +452,7 @@ const PhdThesisPage = () => {
   );
 };
 
-export const Route = createFileRoute('/events/phd-theses/')({
+export const Route = createFileRoute('/events_/phd-theses/')({
   component: PhdThesisPage,
 });
 

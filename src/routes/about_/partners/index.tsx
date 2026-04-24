@@ -162,7 +162,7 @@ const PartneringPage = () => {
   );
 };
 
-export const Route = createFileRoute('/about/partners/')({
+export const Route = createFileRoute('/about_/partners/')({
   component: PartneringPage,
 });
 

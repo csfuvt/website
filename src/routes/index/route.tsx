@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 import styles from './styles.module.css';
 import { KMovingBanner } from '../-components/KMovingBanner/KMovingBanner.tsx';
 import axios from 'axios';

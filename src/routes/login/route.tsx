@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
+import { redirect, useNavigate, createFileRoute } from '@tanstack/react-router';
 import styles from './LogInPage.module.css';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';

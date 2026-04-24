@@ -76,7 +76,7 @@ const PostersCIEFT = () => {
 };
 
 export const Route = createFileRoute(
-  '/events/conferences/cieft/current-year/events/'
+  '/events_/conferences_/cieft_/current-year_/events/'
 )({
   component: PostersCIEFT,
 });
