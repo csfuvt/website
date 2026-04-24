@@ -15,7 +15,7 @@ const getCalls = () =>
     .then(res => res.data);
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/calls/past/'
+  '/research_/publications_/dialogue-francophones_/calls_/past/'
 )({
   component: Calls,
 });

@@ -4,7 +4,7 @@ import './styles.css';
 import { KBanner } from '../../../../-components/KBanner/KBanner.tsx';
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/editorial-policy/'
+  '/research_/publications_/dialogue-francophones_/editorial-policy/'
 )({
   component: () => (
     <div>

@@ -721,7 +721,7 @@ const ComiteteTest = () => {
 };
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/committees/'
+  '/research_/publications_/dialogue-francophones_/committees/'
 )({
   component: ComiteteTest,
 });

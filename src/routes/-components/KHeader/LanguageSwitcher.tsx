@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import {
   applySiteLanguage,
-  getTranslateTargetFromCookie,
+  getSiteTranslateLang,
   type SiteTranslateLang,
-} from '../../../googleTranslate.ts';
+} from '../../../siteTranslation.ts';
 import './LanguageSwitcher.css';
 
 const OPTIONS: { id: SiteTranslateLang; label: string }[] = [
@@ -13,7 +13,7 @@ const OPTIONS: { id: SiteTranslateLang; label: string }[] = [
 ];
 
 export function LanguageSwitcher() {
-  const initial = useMemo(() => getTranslateTargetFromCookie(), []);
+  const initial = useMemo(() => getSiteTranslateLang(), []);
   const [active, setActive] = useState<SiteTranslateLang>(initial);
 
   const onSelect = (lang: SiteTranslateLang) => {

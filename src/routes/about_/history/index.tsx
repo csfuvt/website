@@ -57,7 +57,7 @@ const HistoryPage = () => {
   );
 };
 
-export const Route = createFileRoute('/about/history/')({
+export const Route = createFileRoute('/about_/history/')({
   component: HistoryPage,
 });
 

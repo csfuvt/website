@@ -76,7 +76,7 @@ const PostersCOLOCVIU = () => {
 };
 
 export const Route = createFileRoute(
-  '/events/conferences/francophones-studies/current-year/events/'
+  '/events_/conferences_/francophones-studies_/current-year_/events/'
 )({
   component: PostersCOLOCVIU,
 });

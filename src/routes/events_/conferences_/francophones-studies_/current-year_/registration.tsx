@@ -6,7 +6,7 @@ import WordsCounter from '../../../../-components/WordsCounter/WordsCounter';
 import { BASE_URL } from '../../../../../constants.ts';
 
 export const Route = createFileRoute(
-  '/events/conferences/francophones-studies/current-year/registration'
+  '/events_/conferences_/francophones-studies_/current-year_/registration'
 )({
   component: RegistrationPage,
 });

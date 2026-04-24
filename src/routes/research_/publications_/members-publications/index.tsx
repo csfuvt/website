@@ -1,9 +1,9 @@
+import { createFileRoute } from '@tanstack/react-router';
 import styles from './MemberPublicationPage.module.css';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Input, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash-es';
-import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -398,7 +398,7 @@ const MemberPublicationPage = () => {
 };
 
 export const Route = createFileRoute(
-  '/research/publications/members-publications/'
+  '/research_/publications_/members-publications/'
 )({
   component: MemberPublicationPage,
 });

@@ -221,7 +221,7 @@ export const RegistrationPage = () => {
 };
 
 export const Route = createFileRoute(
-  '/events/conferences/cieft/current-year/registration'
+  '/events_/conferences_/cieft_/current-year_/registration'
 )({
   component: RegistrationPage,
 });

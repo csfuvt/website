@@ -141,7 +141,7 @@ const DescriptionAndObjectivesPage = () => {
   );
 };
 
-export const Route = createFileRoute('/about/description-and-objectives/')({
+export const Route = createFileRoute('/about_/description-and-objectives/')({
   component: DescriptionAndObjectivesPage,
 });
 

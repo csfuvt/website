@@ -223,7 +223,7 @@ export const RegistrationPage = () => {
 };
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/registration/registration'
+  '/research_/publications_/dialogue-francophones_/registration/registration'
 )({
   component: RegistrationPage,
 });

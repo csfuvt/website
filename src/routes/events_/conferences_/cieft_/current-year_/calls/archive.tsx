@@ -100,7 +100,7 @@ export const getLatestCall = () =>
     .then(res => res.data);
 
 export const Route = createFileRoute(
-  '/events/conferences/cieft/current-year/calls/archive'
+  '/events_/conferences_/cieft_/current-year_/calls/archive'
 )({
   component: Calls,
 });

@@ -496,7 +496,7 @@ const ComiteteTest = () => {
 };
 
 export const Route = createFileRoute(
-  '/events/conferences/cieft/current-year/scientific-committee/'
+  '/events_/conferences_/cieft_/current-year_/scientific-committee/'
 )({
   component: ComiteteTest,
 });

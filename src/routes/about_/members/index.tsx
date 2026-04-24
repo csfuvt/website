@@ -172,7 +172,7 @@ const MembersPage = () => {
   );
 };
 
-export const Route = createFileRoute('/about/members/')({
+export const Route = createFileRoute('/about_/members/')({
   component: MembersPage,
 });
 

@@ -291,12 +291,12 @@ const VolumePage = () => {
   const { mutate: deleteRez1Mutation, isPending: isDeletingRez1 } = useMutation(
     {
       mutationFn: () => deleteVolumeRezumat1(volumeId),
-      onError: () => toast.error('Nu s-a putut șterge rezumatul 1.'),
+      onError: () => toast.error('Nu s-a putut șterge rezumatul în franceză.'),
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
-        toast.success('Rezumatul 1 a fost șters.');
+        toast.success('Rezumatul în franceză a fost șters.');
       },
     }
   );
@@ -304,12 +304,12 @@ const VolumePage = () => {
   const { mutate: deleteRez2Mutation, isPending: isDeletingRez2 } = useMutation(
     {
       mutationFn: () => deleteVolumeRezumat2(volumeId),
-      onError: () => toast.error('Nu s-a putut șterge rezumatul 2.'),
+      onError: () => toast.error('Nu s-a putut șterge rezumatul în engleză.'),
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [`volume/${volumeId}`],
         });
-        toast.success('Rezumatul 2 a fost șters.');
+        toast.success('Rezumatul în engleză a fost șters.');
       },
     }
   );
@@ -423,7 +423,7 @@ const VolumePage = () => {
           </Modal>
 
           <Modal
-            title="Încarcă rezumate (PDF, opțional)"
+            title="Încarcă rezumate PDF (franceză / engleză, opțional)"
             open={isChangeRezumateModalOpen}
             onCancel={handleCancelForEditRezumate}
             footer={[
@@ -445,12 +445,12 @@ const VolumePage = () => {
               style={{ display: 'flex' }}>
               <Upload {...uploadRezumat1Props}>
                 <Button icon={<UploadOutlined />}>
-                  Selectează PDF — rezumat 1
+                  Selectează PDF — rezumat în franceză
                 </Button>
               </Upload>
               <Upload {...uploadRezumat2Props}>
                 <Button icon={<UploadOutlined />}>
-                  Selectează PDF — rezumat 2
+                  Selectează PDF — rezumat în engleză
                 </Button>
               </Upload>
             </Space>
@@ -564,7 +564,7 @@ const VolumePage = () => {
                           className="url"
                           target="_blank"
                           rel="noopener noreferrer">
-                          Către rezumatul 1
+                          Rezumate în franceză
                         </a>
                       ) : null}
                       {volume.rezumatPdf2 ? (
@@ -575,7 +575,7 @@ const VolumePage = () => {
                           className="url"
                           target="_blank"
                           rel="noopener noreferrer">
-                          Către rezumatul 2
+                          Rezumate în engleză
                         </a>
                       ) : null}
                     </>
@@ -583,7 +583,6 @@ const VolumePage = () => {
                     <>
                       {(volume.rezumatPdf1 || isLoggedIn) && (
                         <div className="rezumat-slot">
-                          <span className="rezumat-slot__title">Rezumat 1</span>
                           {volume.rezumatPdf1 ? (
                             <>
                               <a
@@ -594,13 +593,13 @@ const VolumePage = () => {
                                 className="url"
                                 target="_blank"
                                 rel="noopener noreferrer">
-                                Către rezumatul 1
+                                Rezumate în franceză
                               </a>
                               <span className="rezumat-slot__badge">
                                 PDF încărcat
                               </span>
                               <Popconfirm
-                                title="Ștergi rezumatul 1?"
+                                title="Ștergi rezumatul în franceză?"
                                 description="Fișierul va fi eliminat de pe server."
                                 okText="Da"
                                 cancelText="Nu"
@@ -622,7 +621,6 @@ const VolumePage = () => {
                       )}
                       {(volume.rezumatPdf2 || isLoggedIn) && (
                         <div className="rezumat-slot">
-                          <span className="rezumat-slot__title">Rezumat 2</span>
                           {volume.rezumatPdf2 ? (
                             <>
                               <a
@@ -633,13 +631,13 @@ const VolumePage = () => {
                                 className="url"
                                 target="_blank"
                                 rel="noopener noreferrer">
-                                Către rezumatul 2
+                                Rezumate în engleză
                               </a>
                               <span className="rezumat-slot__badge">
                                 PDF încărcat
                               </span>
                               <Popconfirm
-                                title="Ștergi rezumatul 2?"
+                                title="Ștergi rezumatul în engleză?"
                                 description="Fișierul va fi eliminat de pe server."
                                 okText="Da"
                                 cancelText="Nu"
@@ -709,7 +707,7 @@ const VolumePage = () => {
   );
 };
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/volumes/$volumeId'
+  '/research_/publications_/dialogue-francophones_/volumes/$volumeId'
 )({
   component: VolumePage,
 });

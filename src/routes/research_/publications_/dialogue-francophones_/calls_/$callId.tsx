@@ -13,7 +13,7 @@ const getCallById = (id: string) =>
   axios.get<CallType>(`/contribution-calls/${id}`).then(res => res.data);
 
 export const Route = createFileRoute(
-  '/research/publications/dialogue-francophones/calls/$callId'
+  '/research_/publications_/dialogue-francophones_/calls_/$callId'
 )({
   component: Call,
 });

@@ -80,7 +80,7 @@ const TranslationPage = () => {
   );
 };
 
-export const Route = createFileRoute('/research/publications/translations/')({
+export const Route = createFileRoute('/research_/publications_/translations/')({
   component: TranslationPage,
 });
 
