@@ -65,3 +65,35 @@
   flex-direction: column;
   gap:20px;
 }
+
+.rezumat-slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.rezumat-slot__title {
+  font-weight: 600;
+  color: var(--primary);
+  min-width: 5.5rem;
+}
+
+.rezumat-slot__badge {
+  font-size: 0.8rem;
+  color: #237804;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.rezumat-slot__empty {
+  font-size: 0.9rem;
+  color: #8c8c8c;
+}
+
+.rezumat-slot a.url {
+  color: var(--primary);
+  font-size: 1rem;
+}

@@ -81,3 +81,69 @@ body.ant-scrolling-effect {
     width: 98px;
     height: 107px;
 }
+
+/* Google Website Translator: ascunde UI-ul implicit (selectorul e în navbar).
+   NU suprascriem position/top pe body — KFooter.css folosește body { position: relative }
+   pentru footer absolut; position: static !important rupea acel layout. */
+iframe.skiptranslate,
+.goog-te-banner-frame {
+    display: none !important;
+}
+
+.goog-te-gadget {
+    font-size: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+#google_translate_element {
+    pointer-events: none;
+}
+
+/* Fără tooltip/balon la hover (text original, evaluare Google Translate) */
+#goog-gt-tt,
+.goog-tooltip,
+.goog-te-balloon-frame {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Fără evidențiere la hover pe bucățile traduse (<font>, .goog-text-highlight) */
+.goog-text-highlight,
+.goog-text-highlight:hover {
+    background-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border: none !important;
+}
+
+html.translated-ltr font,
+html.translated-rtl font,
+body.translated-ltr font,
+body.translated-rtl font {
+    background-color: transparent !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+
+html.translated-ltr font:hover,
+html.translated-rtl font:hover,
+body.translated-ltr font:hover,
+body.translated-rtl font:hover {
+    background-color: transparent !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+
+/* Unele versiuni pun translated-ltr pe un strămoș, nu pe html */
+.translated-ltr font,
+.translated-rtl font,
+.translated-ltr font:hover,
+.translated-rtl font:hover {
+    background-color: transparent !important;
+    background: none !important;
+    box-shadow: none !important;
+}

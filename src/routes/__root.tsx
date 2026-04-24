@@ -1,12 +1,13 @@
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { KFooter } from './-components/KFooter/KFooter.tsx';
-//import { Header } from './-components/KHeader/Header.jsx';
 import Header from './-components/KHeader/Header.tsx';
+import { GoogleTranslateInit } from './-components/KHeader/GoogleTranslateInit.tsx';
 import { AuthContextProps } from '../auth.context.tsx';
 
 export const Route = createRootRouteWithContext<AuthContextProps>()({
   component: () => (
     <>
+      <GoogleTranslateInit />
       <Header />
       <Outlet />
       <KFooter />
