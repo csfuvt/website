@@ -3,6 +3,7 @@ export interface Volume {
   title: string;
   cover: string;
   pdf: string;
+  volumePdf?: string | null;
   rezumatPdf1?: string | null;
   rezumatPdf2?: string | null;
   tematica: string;
