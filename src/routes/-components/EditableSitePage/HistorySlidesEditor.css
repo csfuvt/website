@@ -1,0 +1,119 @@
+.history-slides-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.history-preview-layout__editor .history-slides-editor {
+  padding: 0;
+}
+
+.history-slides-editor__section .ant-card-head-title {
+  font-weight: 600;
+}
+
+.history-slides-editor__field {
+  margin-bottom: 20px;
+}
+
+.history-slides-editor__field label,
+.history-slides-editor__paragraphs > label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.history-slides-editor__paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.history-slides-editor__paragraph-block {
+  padding: 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.history-slides-editor__paragraph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #666;
+}
+
+.history-edit-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px 128px;
+  background: #f5f8fc;
+  border-bottom: 1px solid #e0e6ef;
+}
+
+.history-edit-toolbar__hint {
+  margin-right: auto;
+  color: #555;
+  font-size: 14px;
+}
+
+.history-preview-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  padding: 32px 128px 64px;
+  box-sizing: border-box;
+}
+
+.history-preview-layout__image {
+  flex-shrink: 0;
+  width: 280px;
+  max-width: 40%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.history-preview-layout__editor {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .history-edit-toolbar,
+  .history-preview-layout {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .history-edit-toolbar,
+  .history-preview-layout {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .history-preview-layout {
+    flex-direction: column;
+  }
+
+  .history-preview-layout__image {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .history-edit-toolbar,
+  .history-preview-layout {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

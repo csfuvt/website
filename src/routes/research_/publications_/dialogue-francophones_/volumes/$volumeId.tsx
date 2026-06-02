@@ -59,6 +59,24 @@ const updateCover = async ({
   return res.data;
 };
 
+const updateVolumeFullPdf = async ({
+  id,
+  volumePdf,
+}: {
+  id: number;
+  volumePdf: UploadFile;
+}) => {
+  const formData = new FormData();
+  formData.append('volumePdf', volumePdf as AntDFileType);
+  const res = await axios.post<Volume>(`/volumes/${id}/volume-pdf`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return res.data;
+};
+
+const deleteVolumeFullPdf = (id: string) =>
+  axios.delete<Volume>(`/volumes/${id}/volume-pdf`).then(res => res.data);
+
 const updatePdf = async ({ id, pdf }: { id: number; pdf: UploadFile }) => {
   const formData = new FormData();
   formData.append('pdf', pdf as AntDFileType);
@@ -204,6 +222,59 @@ const VolumePage = () => {
   const onSubmitCover = () => {
     updateCoverMutation({ id: parseInt(volumeId), cover: coverList[0] });
   };
+
+  const [isChangeVolumePdfModalOpen, setIsChangeVolumePdfModalOpen] =
+    useState(false);
+
+  const showChangeVolumePdfModal = () => {
+    setIsChangeVolumePdfModalOpen(true);
+  };
+
+  const {
+    fileList: volumePdfList,
+    resetFileList: resetVolumePdfList,
+    uploadFileProps: uploadVolumePdfProps,
+  } = useFileUpload(FileType.PDF);
+
+  const handleCancelForEditVolumePdf = () => {
+    setIsChangeVolumePdfModalOpen(false);
+    resetVolumePdfList();
+  };
+
+  const {
+    mutate: updateVolumeFullPdfMutation,
+    isPending: isUpdateVolumeFullPdfPending,
+  } = useMutation({
+    mutationFn: updateVolumeFullPdf,
+    onError: () => toast.error('Nu s-a putut încărca PDF-ul volumului!'),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [`volume/${volumeId}`],
+      });
+      setIsChangeVolumePdfModalOpen(false);
+      resetVolumePdfList();
+      toast.success('PDF-ul volumului a fost încărcat cu succes.');
+    },
+  });
+
+  const onSubmitVolumePdf = () => {
+    updateVolumeFullPdfMutation({
+      id: parseInt(volumeId),
+      volumePdf: volumePdfList[0],
+    });
+  };
+
+  const { mutate: deleteVolumePdfMutation, isPending: isDeletingVolumePdf } =
+    useMutation({
+      mutationFn: () => deleteVolumeFullPdf(volumeId),
+      onError: () => toast.error('Nu s-a putut șterge PDF-ul volumului.'),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [`volume/${volumeId}`],
+        });
+        toast.success('PDF-ul volumului a fost șters.');
+      },
+    });
 
   const [isChangePdfModalOpen, setIsChangePdfModalOpen] = useState(false);
 
@@ -394,6 +465,35 @@ const VolumePage = () => {
             </Space>
           </Modal>
           <Modal
+            title="Încarcă PDF-ul volumului complet"
+            open={isChangeVolumePdfModalOpen}
+            onCancel={handleCancelForEditVolumePdf}
+            footer={[
+              <Button key="back" onClick={handleCancelForEditVolumePdf}>
+                Renunță
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                loading={isUpdateVolumeFullPdfPending}
+                disabled={isEmpty(volumePdfList)}
+                onClick={onSubmitVolumePdf}>
+                Salvează
+              </Button>,
+            ]}>
+            <Space
+              direction="vertical"
+              size="middle"
+              style={{ display: 'flex' }}>
+              <Upload {...uploadVolumePdfProps}>
+                <Button icon={<UploadOutlined />}>
+                  Selectează PDF — volum complet
+                </Button>
+              </Upload>
+            </Space>
+          </Modal>
+
+          <Modal
             title="Schimbă sumarul volumului"
             open={isChangePdfModalOpen}
             onCancel={handleCancelForEditPdf}
@@ -501,6 +601,51 @@ const VolumePage = () => {
                   </Button>
                 )}
               </div>
+
+              {(isLoggedIn || volume.volumePdf) && (
+                <div className="volumeUrl">
+                  <span className="label">Volum</span>
+                  {volume.volumePdf ? (
+                    <a
+                      href={BASE_URL + `/files/volumes/${volume.volumePdf}`}
+                      className="url"
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      Click pentru a vizualiza
+                    </a>
+                  ) : (
+                    <span className="rezumat-slot__empty">Nu e încărcat</span>
+                  )}
+                  {isLoggedIn && (
+                    <>
+                      {volume.volumePdf && (
+                        <Popconfirm
+                          title="Ștergi PDF-ul volumului complet?"
+                          description="Fișierul va fi eliminat de pe server."
+                          okText="Da"
+                          cancelText="Nu"
+                          onConfirm={() => deleteVolumePdfMutation()}>
+                          <Button
+                            danger
+                            size="small"
+                            loading={isDeletingVolumePdf}>
+                            Șterge
+                          </Button>
+                        </Popconfirm>
+                      )}
+                      <Button
+                        type="primary"
+                        size="large"
+                        icon={<PlusOutlined />}
+                        onClick={showChangeVolumePdfModal}>
+                        {volume.volumePdf
+                          ? 'Modifică volumul'
+                          : 'Încarcă volumul'}
+                      </Button>
+                    </>
+                  )}
+                </div>
+              )}
 
               {(isLoggedIn || volume.tematica) && (
                 <div className="volumeUrl">

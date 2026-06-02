@@ -25,7 +25,7 @@ export const KSliderRight = ({
   };
 
   const prevSlide = () => {
-    setCurrentSlide(prev => -(prev - 1) % slides.length);
+    setCurrentSlide(prev => (prev - 1 + slides.length) % slides.length);
   };
   return (
     <div className="sliderRight">
@@ -37,7 +37,14 @@ export const KSliderRight = ({
             <div className="paragraphRight">
               {slides[currentSlide].paragraphs.map((line, index) => (
                 <div key={index} className="lineRight">
-                  <p className="linePRight">{line}</p>
+                  {typeof line === 'string' ? (
+                    <p
+                      className="linePRight"
+                      dangerouslySetInnerHTML={{ __html: line }}
+                    />
+                  ) : (
+                    <p className="linePRight">{line}</p>
+                  )}
                 </div>
               ))}
             </div>

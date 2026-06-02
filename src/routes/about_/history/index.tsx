@@ -1,57 +1,167 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { KBanner } from '../../-components/KBanner/KBanner';
-// import { useTranslation } from 'react-i18next';
 import { KSliderRight } from '../../-components/KSliderRight/KSliderRight';
-
 import istoric1 from '../../../../public/Despre_noi/istoric1.jpg';
+import { useAuth } from '../../../hooks/useAuth.ts';
+import { useSitePage } from '../../../hooks/useSitePage.ts';
+import { Button, Spin } from 'antd';
+import { EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  HistorySlide,
+  HistorySlidesEditor,
+} from '../../-components/EditableSitePage/HistorySlidesEditor.tsx';
+import '../../-components/EditableSitePage/sitePageContent.css';
+import '../../-components/EditableSitePage/HistorySlidesEditor.css';
+
+const HISTORY_SLUG = 'about-history';
+
+export type HistorySlidesContent = {
+  slides: HistorySlide[];
+};
+
+const parseHistoryContent = (content: string): HistorySlidesContent => {
+  try {
+    const parsed = JSON.parse(content) as HistorySlidesContent;
+    if (Array.isArray(parsed?.slides)) {
+      return {
+        slides: parsed.slides.map(s => ({
+          title: s.title ?? '',
+          paragraphs:
+            Array.isArray(s.paragraphs) && s.paragraphs.length
+              ? s.paragraphs
+              : [''],
+        })),
+      };
+    }
+  } catch {
+    /* fallback */
+  }
+  return { slides: [] };
+};
+
+const normalizeForSave = (slides: HistorySlide[]): HistorySlide[] =>
+  slides
+    .map(slide => ({
+      title: slide.title.trim(),
+      paragraphs: slide.paragraphs.map(p => p.trim()).filter(Boolean),
+    }))
+    .filter(slide => slide.paragraphs.length > 0);
 
 const HistoryPage = () => {
-  // const { t } = useTranslation();
-  const slides = [
-    {
-      title: '',
-      paragraphs: [
-        'Centrul de Studii Francofone, având drept obiect cercetarea în domeniul francofoniei, a fost creat în 1994 la iniţiativa Prof. univ. dr. Margareta Gyurcsik şi reuneşte cercetători şi cadre didactice din Colectivul de Limba franceză de la Facultatea de Litere, Istorie, Filosofie şi Teologie, Universitatea de Vest din Timişoara.',
-        'Domeniul francofoniei este înţeles în sens larg prin explorarea literaturilor din arii geografice diverse (Canada, Maghreb, Africa subsahariană etc.), incluzând literatura franceză contemporană. De asemenea, programele de cercetare şi publicaţiile Centrului acordă constant atenţie contribuţiilor româneşti: literatura scriitorilor români francofoni, traducerea literară din şi în limba franceză, autotraducerea, precum şi aportul cercetării româneşti la exegeza şi istoriografia în curs de constituire a literaturilor francofone.',
-      ],
-    },
-    {
-      title: '',
-      paragraphs: [
-        'Centrul a avut şi are un rol federator, propunând teme de investigaţie şi puncte de joncţiune pentru cercetări diverse, care pun în valoare specializări ştiinţifice şi opţiuni metodologice variate.',
-        'Centrul contribuie substanţial la configurarea şi derularea programelor de studiu ale Catedrei de Limbi Romanice prin includerea domeniului literar francofon atât în ciclul de licenţă, cât mai ales în cele de masterat şi doctorat.',
-      ],
-    },
-    {
-      title: '',
-      paragraphs: [
-        <>
-          {
-            'Din 1995, Centrul publică revista de literatură francofonă contemporană '
-          }
-          <i>Dialogues francophones</i>
-          {'. Începând cu anul 2009, numerele au devenit tematice.'}
-        </>,
-        <>
-          {
-            'Din 2004, Centrul organizează anual un colocviu de studii francofone, intitulat iniţial '
-          }
-          <i>Contributions roumaines à la francophonie</i>
-          {
-            ', apoi, din 2010, Colloque International d’Études Francophones à Timişoara (CIEFT). Lucrările sunt publicate în volume intitulate '
-          }
-          <i> Agapes francophones.'</i>
-        </>,
-        'Centrul a iniţiat o serie de proiecte, în domenii variate: studii literare, traducere, lingvistică, didactica limbii franceze ca limbă străină.',
-      ],
-    },
-  ];
+  const { isLoggedIn } = useAuth();
+  const { data, isLoading, isError, saveContent, isSaving } =
+    useSitePage(HISTORY_SLUG);
+
+  const slidesContent = useMemo(
+    () => (data ? parseHistoryContent(data.content) : { slides: [] }),
+    [data]
+  );
+
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [draftSlides, setDraftSlides] = useState<HistorySlide[]>([]);
+
+  useEffect(() => {
+    if (!isEditMode && slidesContent.slides.length) {
+      setDraftSlides(
+        slidesContent.slides.map(s => ({
+          title: s.title,
+          paragraphs: [...s.paragraphs],
+        }))
+      );
+    }
+  }, [slidesContent, isEditMode]);
+
+  const enterEditMode = () => {
+    setDraftSlides(
+      slidesContent.slides.map(s => ({
+        title: s.title,
+        paragraphs: [...s.paragraphs],
+      }))
+    );
+    setIsEditMode(true);
+  };
+
+  const cancelEdit = () => {
+    setDraftSlides(
+      slidesContent.slides.map(s => ({
+        title: s.title,
+        paragraphs: [...s.paragraphs],
+      }))
+    );
+    setIsEditMode(false);
+  };
+
+  const handleSave = async () => {
+    const normalized = normalizeForSave(draftSlides);
+    if (!normalized.length) return;
+    await saveContent(JSON.stringify({ slides: normalized }));
+    setIsEditMode(false);
+  };
 
   return (
     <div>
       <KBanner label={'ISTORIC'} />
+
+      {isLoggedIn && (
+        <div className="history-edit-toolbar">
+          {isEditMode ? (
+            <>
+              <span className="history-edit-toolbar__hint">
+                Modifică secțiunile și paragrafele — sliderul afișează câte o
+                secțiune pe slide.
+              </span>
+              <Button icon={<EyeOutlined />} onClick={cancelEdit}>
+                Renunță
+              </Button>
+              <Button
+                type="primary"
+                loading={isSaving}
+                onClick={handleSave}
+                disabled={!normalizeForSave(draftSlides).length}>
+                Salvează
+              </Button>
+            </>
+          ) : (
+            <Button
+              type="primary"
+              size="large"
+              icon={<EditOutlined />}
+              onClick={enterEditMode}>
+              Modifică conținutul
+            </Button>
+          )}
+        </div>
+      )}
+
       <div className="content">
-        <KSliderRight slides={slides} image imageUrl={istoric1} />
+        {isLoading ? (
+          <div className="flex">
+            <Spin />
+          </div>
+        ) : isError ? (
+          <span>Pagina nu poate fi afișată momentan. Reveniți mai târziu!</span>
+        ) : isEditMode ? (
+          <div className="history-preview-layout">
+            <img
+              src={istoric1}
+              alt="Istoric CSF"
+              className="history-preview-layout__image"
+            />
+            <div className="history-preview-layout__editor">
+              <HistorySlidesEditor
+                slides={draftSlides}
+                onChange={setDraftSlides}
+              />
+            </div>
+          </div>
+        ) : slidesContent.slides.length > 0 ? (
+          <KSliderRight
+            slides={slidesContent.slides}
+            image
+            imageUrl={istoric1}
+          />
+        ) : null}
       </div>
     </div>
   );
