@@ -1,40 +1,130 @@
 import { KBanner } from '../../../../../-components/KBanner/KBanner.tsx';
-import { KSlider } from '../../../../../-components/KSlider/KSlider.tsx';
 import './styles.css';
-import Image from './../../../../../../assets/img.png';
+import { useAuth } from '../../../../../../hooks/useAuth.ts';
+import { useSitePage } from '../../../../../../hooks/useSitePage.ts';
+import { Button, Spin } from 'antd';
+import { EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  HistorySlide,
+  HistorySlidesEditor,
+} from '../../../../../-components/EditableSitePage/HistorySlidesEditor.tsx';
+import { StackedSectionsView } from '../../../../../-components/EditableSitePage/StackedSectionsView.tsx';
+import {
+  normalizeStackedSections,
+  parseStackedSectionsContent,
+  serializeStackedSections,
+} from '../../../../../-components/EditableSitePage/stacked-sections.model.ts';
+import '../../../../../-components/EditableSitePage/sitePageContent.css';
+import '../../../../../-components/EditableSitePage/HistorySlidesEditor.css';
+
+const DIALOGUES_ABOUT_SLUG = 'dialogue-francophones-about';
 
 export const DialoguesFrancophonesAboutPage = () => {
-  const slides = [
-    {
-      title: 'Despre noi',
-      paragraphs: [
-        <text>
-          Creată în 1995, la iniţiativa Prof.dr.univ. Margareta Gyurcsik,
-          revista <i>Dialogues francophones</i>, publicaţie a Centrului de
-          Studii Francofone de la Catedra de Limbi romanice a Universităţii de
-          Vest din Timişoara, este consacrată literaturii francofone
-          contemporane.
-        </text>,
-        <text>
-          Revista <i>Dialogues francophones</i> îşi propune să evidenţieze
-          conexiunile literaturii francofone cu teoria literară şi literatura
-          comparată.
-        </text>,
-      ],
-    },
-    {
-      title: 'Despre noi',
-      paragraphs: [
-        'Redactată integral în limba franceză, revista publică articole ale cercetătorilor francofoni din Europa, America de Nord (Canada şi SUA), Maghreb şi Africa Subsahariană şi se bucură de o difuzare preponderent internaţională.',
-        'Volumele, cu caracter pluridisciplinar, cuprind articole, secţiuni tematice, recenzii, interviuri cu scriitori sau specialişti din domeniul francofoniei literare.',
-      ],
-    },
-  ];
+  const { isLoggedIn } = useAuth();
+  const { data, isLoading, isError, saveContent, isSaving } =
+    useSitePage(DIALOGUES_ABOUT_SLUG);
+
+  const sectionsContent = useMemo(
+    () => (data ? parseStackedSectionsContent(data.content) : { slides: [] }),
+    [data]
+  );
+
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [draftSlides, setDraftSlides] = useState<HistorySlide[]>([]);
+
+  useEffect(() => {
+    if (!isEditMode && sectionsContent.slides.length) {
+      setDraftSlides(
+        sectionsContent.slides.map(s => ({
+          title: s.title,
+          paragraphs: [...s.paragraphs],
+        }))
+      );
+    }
+  }, [sectionsContent, isEditMode]);
+
+  const enterEditMode = () => {
+    setDraftSlides(
+      sectionsContent.slides.map(s => ({
+        title: s.title,
+        paragraphs: [...s.paragraphs],
+      }))
+    );
+    setIsEditMode(true);
+  };
+
+  const cancelEdit = () => {
+    setDraftSlides(
+      sectionsContent.slides.map(s => ({
+        title: s.title,
+        paragraphs: [...s.paragraphs],
+      }))
+    );
+    setIsEditMode(false);
+  };
+
+  const handleSave = async () => {
+    const normalized = normalizeStackedSections(draftSlides);
+    if (!normalized.length) return;
+    await saveContent(serializeStackedSections(normalized));
+    setIsEditMode(false);
+  };
+
+  const canSave = normalizeStackedSections(draftSlides).length > 0;
+
   return (
     <div>
       <KBanner label="Dialogues francophones - Despre noi" />
-      <div className="content">
-        <KSlider slides={slides} image imageUrl={Image} />
+
+      {isLoggedIn && (
+        <div className="history-edit-toolbar">
+          {isEditMode ? (
+            <>
+              <span className="history-edit-toolbar__hint">
+                Secțiunile apar una sub alta pe pagină. Adaugă paragrafe sau
+                secțiuni noi după nevoie.
+              </span>
+              <Button icon={<EyeOutlined />} onClick={cancelEdit}>
+                Renunță
+              </Button>
+              <Button
+                type="primary"
+                loading={isSaving}
+                onClick={handleSave}
+                disabled={!canSave}>
+                Salvează
+              </Button>
+            </>
+          ) : (
+            <Button
+              type="primary"
+              size="large"
+              icon={<EditOutlined />}
+              onClick={enterEditMode}>
+              Modifică conținutul
+            </Button>
+          )}
+        </div>
+      )}
+
+      <div className="content content--stacked">
+        {isLoading ? (
+          <div className="flex">
+            <Spin />
+          </div>
+        ) : isError ? (
+          <span>Pagina nu poate fi afișată momentan. Reveniți mai târziu!</span>
+        ) : isEditMode ? (
+          <div className="dialogues-about-edit">
+            <HistorySlidesEditor
+              slides={draftSlides}
+              onChange={setDraftSlides}
+            />
+          </div>
+        ) : sectionsContent.slides.length > 0 ? (
+          <StackedSectionsView slides={sectionsContent.slides} />
+        ) : null}
       </div>
     </div>
   );

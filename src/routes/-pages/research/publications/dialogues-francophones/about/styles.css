@@ -11,6 +11,16 @@
   background-color: var(--white);
 }
 
+.content--stacked {
+  align-items: stretch;
+}
+
+.dialogues-about-edit {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 
 @media (max-width: 1024px) {
   .content {
